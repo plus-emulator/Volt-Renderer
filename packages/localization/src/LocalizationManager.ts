@@ -292,10 +292,9 @@ export class LocalizationManager implements ILocalizationManager
 
         let desc = this.fixBadLocalization(this.getExistingKey(keys));
 
-        const limit = this.getBadgePointLimit(key);
-
-        if(limit > -1) desc = desc.replace('%limit%', limit.toString());
-
+        // The official getBadgeDesc registers "limit" from an int lookup of the badge point limits (BadgePointLimits, 1231),
+        // so a badge without a limit shows 0 rather than the raw placeholder.
+        desc = desc.replace('%limit%', (this._badgePointLimits.get(key) ?? 0).toString());
         desc = desc.replace('%roman%', this.getRomanNumeral(badge.level));
 
         return desc;
