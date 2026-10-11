@@ -19287,6 +19287,14 @@
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
     },
     {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2282,
+      "symbol": "MOVE_ENTITY_IN_FLAT",
+      "path": "packages/communication/src/messages/outgoing/room/engine/MoveEntityInFlatMessageComposer.ts",
+      "reason": "AIR MoveEntityInFlat (rentable bot move and rotate); PlusEMU reads it, the linked Java emulator has no reader"
+    },
+    {
       "direction": "server_to_client",
       "side": "typescript",
       "header": 5003,
@@ -20539,7 +20547,7 @@
     {
       "name": "PET_MOVE",
       "direction": "client_to_server",
-      "header": 65430,
+      "header": 636,
       "java": {
         "symbol": "MovePetEvent",
         "className": "MovePetEvent",
