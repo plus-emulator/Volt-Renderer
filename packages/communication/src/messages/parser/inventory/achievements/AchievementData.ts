@@ -25,10 +25,12 @@ export class AchievementData
     private _subCategory: string;
     private _levelCount: number;
     private _displayMethod: number;
-    private _state: number = AchievementData.STATE_ENABLED;
+    private _state: number;
 
     private _unseen: number = 0;
 
+    // The official AchievementData (WIN63-202609161723 package_92.class_3624) reads every field below, ending with the
+    // state short, for each entry of Achievements (1487) and for AchievementProgressed (1049).
     constructor(wrapper: IMessageDataWrapper)
     {
         if(!wrapper) throw new Error('invalid_parser');
@@ -46,6 +48,7 @@ export class AchievementData
         this._subCategory = wrapper.readString();
         this._levelCount = wrapper.readInt();
         this._displayMethod = wrapper.readInt();
+        this._state = wrapper.readShort();
     }
 
     public get achievementId(): number
@@ -131,11 +134,6 @@ export class AchievementData
     public get state(): number
     {
         return this._state;
-    }
-
-    public set state(state: number)
-    {
-        this._state = state;
     }
 
     public get progress(): number
