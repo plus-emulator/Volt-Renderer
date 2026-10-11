@@ -1,5 +1,7 @@
 export class IncomingHeader
 {
+    public static WIRED_CHEST_REWARD = 9346;
+    public static WIRED_CHEST_SETTINGS_ACK = 9347;
     public static WIRED_VARIABLE_INSPECTION_DATA = 9483;
     public static WIRED_USER_VARIABLES_DATA_64 = 9480;
     public static WIRED_VARIABLE_HOLDERS_64 = 9481;

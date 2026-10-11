@@ -1,5 +1,5 @@
 import { IMessageDataWrapper } from '@octane/api';
-import { readWiredSignedLong } from './WiredVariableData';
+import { readWiredInt64 } from './WiredInt64';
 
 /** How one variable fx is drawn; statuses point at it by `configId` (the fx box's item id). */
 export interface IWiredVariableFxConfig
@@ -15,8 +15,8 @@ export interface IWiredVariableFxConfig
     colorId: number;
     widthId: number;
     rendererId: number;
-    defaultMinValue: number;
-    defaultMaxValue: number;
+    defaultMinValue: bigint | number;
+    defaultMaxValue: bigint | number;
     extra: Record<string, string>;
 }
 
@@ -28,9 +28,9 @@ export interface IWiredVariableFxStatus
     initialize: boolean;
     userEntity: boolean;
     entityId: number;
-    value: number;
-    overrideMinValue: number | null;
-    overrideMaxValue: number | null;
+    value: bigint | number;
+    overrideMinValue: bigint | number | null;
+    overrideMaxValue: bigint | number | null;
     extra: Record<string, string>;
 }
 
@@ -77,8 +77,8 @@ export function readWiredVariableFxConfig(wrapper: IMessageDataWrapper): IWiredV
         colorId: wrapper.readInt(),
         widthId: wrapper.readInt(),
         rendererId: wrapper.readInt(),
-        defaultMinValue: readWiredSignedLong(wrapper),
-        defaultMaxValue: readWiredSignedLong(wrapper),
+        defaultMinValue: readWiredInt64(wrapper),
+        defaultMaxValue: readWiredInt64(wrapper),
         extra: readWiredVariableFxExtra(wrapper)
     };
 }
@@ -92,10 +92,10 @@ export function readWiredVariableFxStatus(wrapper: IMessageDataWrapper): IWiredV
     const initialize = wrapper.readBoolean();
     const userEntity = wrapper.readBoolean();
     const entityId = wrapper.readInt();
-    const value = readWiredSignedLong(wrapper);
+    const value = readWiredInt64(wrapper);
     const hasOverrides = wrapper.readBoolean();
-    const overrideMinValue = hasOverrides ? readWiredSignedLong(wrapper) : null;
-    const overrideMaxValue = hasOverrides ? readWiredSignedLong(wrapper) : null;
+    const overrideMinValue = hasOverrides ? readWiredInt64(wrapper) : null;
+    const overrideMaxValue = hasOverrides ? readWiredInt64(wrapper) : null;
     const extra = readWiredVariableFxExtra(wrapper);
 
     return {

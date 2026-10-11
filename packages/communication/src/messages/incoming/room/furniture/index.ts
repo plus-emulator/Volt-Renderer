@@ -20,6 +20,8 @@ export * from './RentableSpaceStatusMessageEvent';
 export * from './RequestSpamWallPostItMessageEvent';
 export * from './ChestOpenEvent';
 export * from './ChestDataEvent';
+export * from './WiredChestRewardEvent';
+export * from './WiredChestSettingsAckEvent';
 export * from './ChestFurniChunkEvent';
 export * from './ChestFurniDeltaEvent';
 export * from './ChestLogEvent';

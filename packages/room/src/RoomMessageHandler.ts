@@ -8,7 +8,7 @@ import { GetRoomEngine } from './GetRoomEngine';
 import { RoomVariableEnum } from './RoomVariableEnum';
 import { ObjectMoveUpdateMessage, ObjectRoomMapUpdateMessage } from './messages';
 import { RoomPlaneParser } from './object/RoomPlaneParser';
-import { FurnitureStackingHeightMap, LegacyWallGeometry } from './utils';
+import { FurnitureStackingHeightMap } from './utils';
 
 const ROOM_OWN_OBJECT_ID = -1;
 
@@ -247,7 +247,9 @@ export class RoomMessageHandler
 
         if(!roomMap) return;
 
-        this._roomEngine.createRoomInstance(this._currentRoomId, roomMap);
+        const initialCamera = parser.hasInitialCamera ? new Vector3d(parser.cameraX, parser.cameraY, parser.cameraZ) : null;
+
+        this._roomEngine.createRoomInstance(this._currentRoomId, roomMap, initialCamera);
     }
 
     public applyFloorModelLocally(modelString: string, wallHeight: number, scale: boolean = true): boolean
@@ -380,7 +382,7 @@ export class RoomMessageHandler
         this._planeParser.initializeFromTileData(parser.wallHeight);
         this._planeParser.setTileHeight(Math.floor(doorX), Math.floor(doorY), (doorZ + this._planeParser.wallHeight));
 
-        wallGeometry.scale = LegacyWallGeometry.DEFAULT_SCALE;
+        wallGeometry.scale = parser.scale;
         wallGeometry.initialize(width, height, this._planeParser.floorHeight);
 
         let heightIterator = (parser.height - 1);
@@ -585,6 +587,27 @@ export class RoomMessageHandler
             }
         }
 
+        if(parser.wallItemMovements?.length)
+        {
+            const wallGeometry = this._roomEngine.getLegacyWallGeometry(this._currentRoomId);
+
+            if(wallGeometry)
+            {
+                for(const movement of parser.wallItemMovements)
+                {
+                    const values = movement.values;
+                    const direction = movement.enabled ? 'r' : 'l';
+                    const source = wallGeometry.getLocation(values[0], values[1], values[2], values[3], direction);
+                    const target = wallGeometry.getLocation(values[4], values[5], values[6], values[7], direction);
+
+                    if(!source || !target) continue;
+
+                    this._roomEngine.updateRoomObjectWallLocation(this._currentRoomId, movement.id,
+                        this.roundWiredWallLocation(source), this.roundWiredWallLocation(target), values[8]);
+                }
+            }
+        }
+
         if(parser.userDirectionUpdates?.length)
         {
             for(const update of parser.userDirectionUpdates)
@@ -594,6 +617,21 @@ export class RoomMessageHandler
                 this.applyWiredUserDirectionUpdate(update);
             }
         }
+    }
+
+    private roundWiredWallLocation(location: IVector3D): IVector3D
+    {
+        const geometry = this._roomEngine.getRoomInstanceGeometry(this._currentRoomId);
+        const screen = geometry?.getScreenPosition(location);
+        const raised = geometry?.getScreenPosition(new Vector3d(location.x, location.y, location.z + 0.01));
+
+        if(!screen || !raised) return location;
+
+        const pixelsPerHeight = (screen.y - raised.y) * 100;
+
+        if(!Number.isFinite(pixelsPerHeight) || pixelsPerHeight === 0) return location;
+
+        return new Vector3d(location.x, location.y, location.z + ((screen.y - Math.round(screen.y)) / pixelsPerHeight));
     }
 
     private applyRollingUnitMovement(movement: ObjectRolling): void

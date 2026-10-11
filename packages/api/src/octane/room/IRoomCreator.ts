@@ -1,5 +1,5 @@
 import { CanonicalWiredMovement } from './object/RoomObjectVariable';
-import { IRoomInstance, IRoomObjectController } from '../../room';
+import { IRoomGeometry, IRoomInstance, IRoomObjectController } from '../../room';
 import { IVector3D } from '../../utils';
 import { IObjectData, IRoomMapData } from './object';
 import { IFurnitureStackingHeightMap, ILegacyWallGeometry } from './utils';
@@ -8,12 +8,13 @@ export interface IRoomCreator
 {
     destroyRoom(id: number): void;
     getRoomInstance(roomId: number): IRoomInstance;
+    getRoomInstanceGeometry(roomId: number, canvasId?: number): IRoomGeometry;
     updateRoomInstancePlaneVisibility(roomId: number, wallVisible: boolean, floorVisible?: boolean): boolean;
     updateRoomInstancePlaneThickness(roomId: number, wallThickness: number, floorThickness: number): boolean;
     updateRoomInstancePlaneType(roomId: number, floorType?: string, wallType?: string, landscapeType?: string, forceUpdate?: boolean): boolean;
     updateAreaHide(roomId: number, furniId: number, on: boolean, rootX: number, rootY: number, width: number, length: number, invert: boolean): boolean;
     removeRoomInstance(roomId: number): void;
-    createRoomInstance(roomId: number, roomMap: IRoomMapData): void;
+    createRoomInstance(roomId: number, roomMap: IRoomMapData, initialCamera?: IVector3D): void;
     setRoomSessionOwnUser(roomId: number, objectId: number): void;
     setRoomInstanceModelName(roomId: number, name: string): void;
     getFurnitureStackingHeightMap(roomId: number): IFurnitureStackingHeightMap;
@@ -32,6 +33,7 @@ export interface IRoomCreator
     removeRoomObjectWall(roomId: number, objectId: number, userId?: number): void;
     updateRoomObjectFloor(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, data: IObjectData, extra?: number): boolean;
     updateRoomObjectWall(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, extra?: string): boolean;
+    updateRoomObjectWallLocation(roomId: number, objectId: number, location: IVector3D, targetLocation?: IVector3D, duration?: number): boolean;
     updateRoomObjectWallItemData(roomId: number, objectId: number, data: string): boolean;
     updateRoomObjectFloorHeight(roomId: number, objectId: number, height: number): boolean;
     updateRoomObjectFloorExpiration(roomId: number, objectId: number, expires: number): boolean;

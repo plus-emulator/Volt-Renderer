@@ -1,4 +1,4 @@
-import { WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
+import { WiredChestRewardEvent, WiredChestSettingsAckEvent, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
 import { IMessageConfiguration } from '@octane/api';
@@ -533,6 +533,8 @@ export class OctaneMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.ITEM_DIMMER_SETTINGS, RoomDimmerPresetsEvent);
         this._events.set(IncomingHeader.BUILD_HEIGHT_AVAILABLE, BuildHeightAvailableEvent);
         this._events.set(IncomingHeader.CHEST_DATA, ChestDataEvent);
+        this._events.set(IncomingHeader.WIRED_CHEST_REWARD, WiredChestRewardEvent);
+        this._events.set(IncomingHeader.WIRED_CHEST_SETTINGS_ACK, WiredChestSettingsAckEvent);
         this._events.set(IncomingHeader.CHEST_OPEN, ChestOpenEvent);
         this._events.set(IncomingHeader.CHEST_FURNI_CHUNK, ChestFurniChunkEvent);
         this._events.set(IncomingHeader.CHEST_FURNI_DELTA, ChestFurniDeltaEvent);

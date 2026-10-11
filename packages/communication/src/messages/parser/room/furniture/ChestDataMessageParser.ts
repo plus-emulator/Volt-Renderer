@@ -53,6 +53,9 @@ export class ChestDataMessageParser implements IMessageParser
     private _starterChest: boolean = false;
     private _previewMode: number = 0;
     private _previewAmount: number = 1;
+    private _canWithdraw: boolean = false;
+    private _canDeposit: boolean = false;
+    private _canLock: boolean = false;
 
     public flush(): boolean
     {
@@ -83,12 +86,18 @@ export class ChestDataMessageParser implements IMessageParser
         this._starterChest = false;
         this._previewMode = 0;
         this._previewAmount = 1;
+        this._canWithdraw = false;
+        this._canDeposit = false;
+        this._canLock = false;
 
         return true;
     }
 
     public parse(wrapper: IMessageDataWrapper): boolean
     {
+        this._canWithdraw = false;
+        this._canDeposit = false;
+        this._canLock = false;
         this._itemId = wrapper.readInt();
         this._name = wrapper.readString();
         this._description = wrapper.readString();
@@ -178,6 +187,12 @@ export class ChestDataMessageParser implements IMessageParser
         if(!wrapper.bytesAvailable) return true;
 
         this._previewAmount = wrapper.readInt();
+
+        if(wrapper.remainingBytes !== 3) return false;
+
+        this._canWithdraw = wrapper.readBoolean();
+        this._canDeposit = wrapper.readBoolean();
+        this._canLock = wrapper.readBoolean();
 
         return true;
     }
@@ -293,4 +308,8 @@ export class ChestDataMessageParser implements IMessageParser
     {
         return this._starterChest;
     }
+
+    public get canWithdraw(): boolean { return this._canWithdraw; }
+    public get canDeposit(): boolean { return this._canDeposit; }
+    public get canLock(): boolean { return this._canLock; }
 }

@@ -20,6 +20,8 @@ export * from './RentableSpaceStatusMessageParser';
 export * from './RequestSpamWallPostItMessageParser';
 export * from './ChestOpenMessageParser';
 export * from './ChestDataMessageParser';
+export * from './WiredChestRewardMessageParser';
+export * from './WiredChestSettingsAckParser';
 export * from './ChestFurniChunkMessageParser';
 export * from './ChestFurniDeltaMessageParser';
 export * from './ChestFurniStoredItemParser';

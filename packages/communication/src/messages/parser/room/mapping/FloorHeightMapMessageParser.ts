@@ -22,6 +22,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
     private _wallHeight: number;
     private _scale: number;
     private _areaHides: FloorHeightMapAreaHide[];
+    private _hasInitialCamera: boolean;
     private _cameraX: number;
     private _cameraY: number;
     private _cameraZ: number;
@@ -36,6 +37,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
         this._scale = 64;
         this._model = null;
         this._areaHides = [];
+        this._hasInitialCamera = false;
         this._cameraX = 0;
         this._cameraY = 0;
         this._cameraZ = 0;
@@ -54,6 +56,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
         if(!this.parseExplicitly(model, wallHeight, scale)) return false;
 
         this._areaHides = [];
+        this._hasInitialCamera = false;
         this._cameraX = 0;
         this._cameraY = 0;
         this._cameraZ = 0;
@@ -78,6 +81,7 @@ export class FloorHeightMapMessageParser implements IMessageParser
         this._cameraX = wrapper.readInt();
         this._cameraY = wrapper.readInt();
         this._cameraZ = wrapper.readFloat();
+        this._hasInitialCamera = true;
 
         return true;
     }
@@ -223,6 +227,11 @@ export class FloorHeightMapMessageParser implements IMessageParser
     public get cameraX(): number
     {
         return this._cameraX;
+    }
+
+    public get hasInitialCamera(): boolean
+    {
+        return this._hasInitialCamera;
     }
 
     public get cameraY(): number
