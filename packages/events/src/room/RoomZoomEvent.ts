@@ -1,4 +1,5 @@
-﻿import { RoomEngineEvent } from './RoomEngineEvent';
+﻿import { PointData } from 'pixi.js';
+import { RoomEngineEvent } from './RoomEngineEvent';
 
 export class RoomZoomEvent extends RoomEngineEvent
 {
@@ -6,13 +7,16 @@ export class RoomZoomEvent extends RoomEngineEvent
 
     private _level: number;
     private _isFlipForced: boolean;
+    private _point: PointData;
 
-    constructor(roomId: number, level: number, isFlipForced: boolean = false)
+    /** `point` is the canvas position to zoom around (AIR ctrl+alt+click); null zooms around the centre. */
+    constructor(roomId: number, level: number, isFlipForced: boolean = false, point: PointData = null)
     {
         super(RoomZoomEvent.ROOM_ZOOM, roomId);
 
         this._level = level;
         this._isFlipForced = isFlipForced;
+        this._point = point;
     }
 
     public get level(): number
@@ -23,5 +27,10 @@ export class RoomZoomEvent extends RoomEngineEvent
     public get isFlipForced(): boolean
     {
         return this._isFlipForced;
+    }
+
+    public get point(): PointData
+    {
+        return this._point;
     }
 }

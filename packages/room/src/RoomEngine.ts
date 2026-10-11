@@ -1,7 +1,7 @@
 import { IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '@volt/communication';
 import { GetConfiguration } from '@volt/configuration';
-import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
+import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomZoomEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
 import { GetRoomSessionManager, GetSessionDataManager } from '@volt/session';
 import { GetTexturePool, GetTickerTime, VoltLogger, NumberBank, TextureUtils, Vector3d } from '@volt/utils';
 import { Container, Matrix, Point, PointData, Rectangle, RenderTexture, Sprite, Texture, Ticker } from 'pixi.js';
@@ -848,6 +848,25 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
     public isPlayingGame(): boolean
     {
         return this.isRoomIdPlayingGame(this._activeRoomId);
+    }
+
+    /** AIR `setFreeFurniMovementsMode`: ConfigurationItemStates lets anyone in the room move furni. */
+    public setFreeFurniMovementsMode(roomId: number, enabled: boolean): void
+    {
+        const roomInstance = this.getRoomInstance(roomId);
+
+        if(!roomInstance) return;
+
+        roomInstance.model.setValue(RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE, (enabled ? 1 : 0));
+    }
+
+    public get activeRoomHasFreeFurniMovementsMode(): boolean
+    {
+        const roomInstance = this.getRoomInstance(this._activeRoomId);
+
+        if(!roomInstance) return false;
+
+        return (roomInstance.model.getValue<number>(RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE) > 0);
     }
 
     public update(ticker: Ticker): void
@@ -2531,6 +2550,15 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         if(!canvas) return;
 
+        // AIR handleRoomCanvasMouseEvent: ctrl+alt+click zooms in at the pointer and
+        // ctrl+alt+shift+click zooms out; the click goes no further.
+        if((type === MouseEventType.MOUSE_CLICK) && ctrlKey && altKey)
+        {
+            this.zoomActiveRoomFromClick(canvasId, canvas, x, y, shiftKey);
+
+            return;
+        }
+
         const overlay = this.getRenderingCanvasOverlay(canvas);
         const sprite = this.getOverlayIconSprite(overlay, RoomEngine.OBJECT_ICON_SPRITE);
 
@@ -2581,6 +2609,24 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         this._activeRoomActiveCanvasMouseY = y;
     }
 
+    /**
+     * AIR doubles the canvas scale (below 1x it goes straight to 1x) or halves it with
+     * shift. The step is handed to the client as a zoom level so it switches the room
+     * geometry the same way its zoom buttons do.
+     */
+    private zoomActiveRoomFromClick(canvasId: number, canvas: IRoomRenderingCanvas, x: number, y: number, zoomOut: boolean): void
+    {
+        if(!GetConfiguration().getValue('room.zoom.enabled', true)) return;
+
+        const geometry = this.getRoomInstanceGeometry(this._activeRoomId, canvasId);
+        const geometryRatio = (geometry && (geometry.scale > 0)) ? (geometry.scale / RoomGeometry.SCALE_ZOOMED_IN) : 1;
+        const scale = (canvas.scale * geometryRatio);
+        const level = ((scale < 1) ? 0 : (Math.round(Math.log2(scale)) + 1));
+        const nextLevel = (zoomOut ? Math.max(0, (level - 1)) : ((level < 1) ? 1 : (level + 1)));
+
+        GetEventDispatcher().dispatchEvent(new RoomZoomEvent(this._activeRoomId, nextLevel, false, new Point(x, y)));
+    }
+
     private handleRoomDragging(canvas: IRoomRenderingCanvas, x: number, y: number, type: string, altKey: boolean, ctrlKey: boolean, shiftKey: boolean): boolean
     {
         if(this._roomObjectEventHandler.getGameInputHandler(this._activeRoomId)) return false;
@@ -2613,6 +2659,12 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         if(type === MouseEventType.MOUSE_DOWN)
         {
+            // A press starts a new gesture. A drag whose release never reached the room
+            // must not leave the room following the pointer or swallow the next click,
+            // which a modifier press (no drag) would otherwise not reset.
+            this._activeRoomIsDragged = false;
+            this._activeRoomWasDragged = false;
+
             if(!altKey && !ctrlKey && !shiftKey && !this.isDecorating)
             {
                 if(this._roomAllowsDragging)
@@ -2750,7 +2802,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
     {
         if(!this._roomObjectEventHandler) return false;
 
-        this._roomObjectEventHandler.modifyRoomObject(this._activeRoomId, objectId, category, operation);
+        return this._roomObjectEventHandler.modifyRoomObject(this._activeRoomId, objectId, category, operation);
     }
 
     public rotateActiveObjectPreview(positive: boolean): boolean

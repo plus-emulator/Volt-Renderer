@@ -49,4 +49,5 @@ export interface IRoomCreator
     getPetTypeId(figure: string): number;
     refreshTileObjectMap(roomId: number, source: string): void;
     setRoomEngineGameMode(roomId: number, isPlaying: boolean): void;
+    setFreeFurniMovementsMode(roomId: number, enabled: boolean): void;
 }
