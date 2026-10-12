@@ -56,7 +56,8 @@ export class ExtendedForumData extends ForumData
         return this._moderatePermissions;
     }
 
-    public get hasReadPermissionError(): boolean
+    /** class_3173.canRead: the forum may be read when the server gave no read permission error. */
+    public get canRead(): boolean
     {
         return (this._readPermissionError.length === 0);
     }
@@ -66,17 +67,20 @@ export class ExtendedForumData extends ForumData
         return true;
     }
 
-    public get hasPostMessagePermissionError(): boolean
+    /** class_3173.canPostMessage: no post message permission error. */
+    public get canPostMessage(): boolean
     {
         return (this._postMessagePermissionError.length === 0);
     }
 
-    public get hasPostThreadPermissionError(): boolean
+    /** class_3173.canPostThread: no post thread permission error. */
+    public get canPostThread(): boolean
     {
         return (this._postThreadPermissionError.length === 0);
     }
 
-    public get hasModeratePermissionError(): boolean
+    /** class_3173.canModerate: no moderate permission error. */
+    public get canModerate(): boolean
     {
         return (this._moderatePermissionError.length === 0);
     }
@@ -86,7 +90,7 @@ export class ExtendedForumData extends ForumData
         return this._canChangeSettings;
     }
 
-    public get isStaf(): boolean
+    public get isStaff(): boolean
     {
         return this._isStaff;
     }
