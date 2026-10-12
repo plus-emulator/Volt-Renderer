@@ -14,9 +14,11 @@ export class AchievementLevelUpData
     private _achievementID: number;
     private _category: string;
     private _showDialogToUser: boolean;
-    private _ownerCount: number = 0;
-    private _badgeRarityId: number = 0;
+    private _ownerCount: number;
+    private _badgeRarityId: number;
 
+    // The official AchievementLevelUpData (WIN63-202609161723 package_53.class_3440) reads all fourteen fields of
+    // AchievementUnlocked (2028), the owner count and badge rarity included.
     constructor(wrapper: IMessageDataWrapper)
     {
         this._type = wrapper.readInt();
@@ -31,9 +33,6 @@ export class AchievementLevelUpData
         this._removedBadgeCode = wrapper.readString();
         this._category = wrapper.readString();
         this._showDialogToUser = wrapper.readBoolean();
-
-        if(!wrapper.bytesAvailable) return;
-
         this._ownerCount = wrapper.readInt();
         this._badgeRarityId = wrapper.readInt();
     }

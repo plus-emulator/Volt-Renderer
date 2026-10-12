@@ -21102,7 +21102,7 @@
         "className": "AchievementsParser",
         "path": "packages/communication/src/messages/parser/inventory/achievements/AchievementsParser.ts"
       },
-      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in ForStatement inside parse"
+      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Packet fields delegated to external constructor AchievementData inside parse"
     },
     {
       "name": "GROUP_FORUM_UPDATE_MESSAGE",
