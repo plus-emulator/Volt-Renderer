@@ -19,8 +19,9 @@ export class FriendNotificationParser implements IMessageParser
     {
         if(!wrapper) return false;
 
+        // AIR (WIN63-202609161723-93809945): string avatarId, int typeCode, string message.
+        this._avatarId = parseInt(wrapper.readString(), 10);
         this._typeCode = wrapper.readInt();
-        this._avatarId = wrapper.readInt();
         this._message = wrapper.readString();
 
         return true;
