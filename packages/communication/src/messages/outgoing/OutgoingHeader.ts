@@ -8,6 +8,7 @@ export class OutgoingHeader
     public static BOT_PICKUP = 2638;
     public static BOT_PLACE = 2612;
     public static BOT_SKILL_SAVE = 3027;
+    public static MOVE_ENTITY_IN_FLAT = 2282;
     public static GET_CLUB_OFFERS = 985;
     public static GET_CLUB_GIFT_INFO = 890;
     public static GET_CATALOG_INDEX = 1090;
@@ -168,7 +169,7 @@ export class OutgoingHeader
     public static PET_PLACE = 2233;
     public static PET_RESPECT = 2136;
     public static PET_RIDE = 883;
-    public static PET_MOVE = 65430;
+    public static PET_MOVE = 636;
     public static PET_OPEN_PACKAGE = 2812;
     public static PET_SELECTED = 1037;
     public static PETS_BREED = 2286;

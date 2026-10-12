@@ -93,6 +93,8 @@ export interface IRoomEngine
     readonly activeRoomId: number;
     readonly selectedAvatarId: number;
     readonly isDecorating: boolean;
+    /** AIR: the room's ConfigurationItemStates let every visitor move furni. */
+    readonly activeRoomHasFreeFurniMovementsMode: boolean;
     moveBlocked: boolean;
     isAreaSelectionMode(): boolean;
     whereYouClickIsWhereYouGo(): boolean;

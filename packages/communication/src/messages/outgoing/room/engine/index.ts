@@ -6,6 +6,7 @@ export * from './ClickUserMessageComposer';
 export * from './CompostPlantMessageComposer';
 export * from './GetItemDataComposer';
 export * from './HarvestPetMessageComposer';
+export * from './MoveEntityInFlatMessageComposer';
 export * from './PetMessageComposer';
 export * from './PetMoveComposer';
 export * from './PetPlaceComposer';

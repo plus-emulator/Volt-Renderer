@@ -1,5 +1,5 @@
 import { AvatarGuideStatus, IConnection, IMessageEvent, IRoomCreator, IRoomObjectController, IRoomObject, IVector3D, LegacyDataType, ObjectRolling, PetType, RoomObjectCategory, RoomObjectType, RoomObjectUserType, RoomObjectVariable } from '@volt/api';
-import { AreaHideMessageEvent, ConfInvisStateMessageEvent, DiceValueMessageEvent, FloorHeightMapEvent, FurnitureAliasesComposer, FurnitureAliasesEvent, FurnitureDataEvent, FurnitureFloorAddEvent, FurnitureFloorDataParser, FurnitureFloorEvent, FurnitureFloorRemoveEvent, FurnitureFloorUpdateEvent, FurnitureWallAddEvent, FurnitureWallDataParser, FurnitureWallEvent, FurnitureWallRemoveEvent, FurnitureWallUpdateEvent, GetCommunication, GetRoomEntryDataMessageComposer, GuideSessionEndedMessageEvent, GuideSessionErrorMessageEvent, GuideSessionStartedMessageEvent, IgnoreResultEvent, ItemDataUpdateMessageEvent, ObjectsDataUpdateEvent, ObjectsRollingEvent, OneWayDoorStatusMessageEvent, PetExperienceEvent, PetFigureUpdateEvent, RoomEntryTileMessageEvent, RoomEntryTileMessageParser, RoomHeightMapEvent, RoomHeightMapUpdateEvent, RoomPaintEvent, RoomReadyMessageEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitDanceEvent, RoomUnitEffectEvent, RoomUnitEvent, RoomUnitExpressionEvent, RoomUseHabbiconEvent, RoomUnitHandItemEvent, RoomUnitIdleEvent, RoomUnitInfoEvent, RoomUnitNumberEvent, RoomUnitRemoveEvent, RoomUnitStatusEvent, RoomUnitStatusMessage, RoomUnitTypingEvent, RoomVisualizationSettingsEvent, UserInfoEvent, WiredFurniMoveStyleEvent, WiredFurniMoveStyleParser, WiredFurniMovementData, WiredMovementsEvent, WiredUserDirectionUpdateData, WiredUserMovementData, YouArePlayingGameEvent } from '@volt/communication';
+import { AreaHideMessageEvent, ConfigurationItemStatesEvent, ConfInvisStateMessageEvent, DiceValueMessageEvent, FloorHeightMapEvent, FurnitureAliasesComposer, FurnitureAliasesEvent, FurnitureDataEvent, FurnitureFloorAddEvent, FurnitureFloorDataParser, FurnitureFloorEvent, FurnitureFloorRemoveEvent, FurnitureFloorUpdateEvent, FurnitureWallAddEvent, FurnitureWallDataParser, FurnitureWallEvent, FurnitureWallRemoveEvent, FurnitureWallUpdateEvent, GetCommunication, GetRoomEntryDataMessageComposer, GuideSessionEndedMessageEvent, GuideSessionErrorMessageEvent, GuideSessionStartedMessageEvent, IgnoreResultEvent, ItemDataUpdateMessageEvent, ObjectsDataUpdateEvent, ObjectsRollingEvent, OneWayDoorStatusMessageEvent, PetExperienceEvent, PetFigureUpdateEvent, RoomEntryTileMessageEvent, RoomEntryTileMessageParser, RoomHeightMapEvent, RoomHeightMapUpdateEvent, RoomPaintEvent, RoomReadyMessageEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitDanceEvent, RoomUnitEffectEvent, RoomUnitEvent, RoomUnitExpressionEvent, RoomUseHabbiconEvent, RoomUnitHandItemEvent, RoomUnitIdleEvent, RoomUnitInfoEvent, RoomUnitNumberEvent, RoomUnitRemoveEvent, RoomUnitStatusEvent, RoomUnitStatusMessage, RoomUnitTypingEvent, RoomVisualizationSettingsEvent, UserInfoEvent, WiredFurniMoveStyleEvent, WiredFurniMoveStyleParser, WiredFurniMovementData, WiredMovementsEvent, WiredUserDirectionUpdateData, WiredUserMovementData, YouArePlayingGameEvent } from '@volt/communication';
 import { GetRoomSessionManager, GetSessionDataManager } from '@volt/session';
 import { Vector3d } from '@volt/utils';
 import { FloorHeightMapMessageParser } from '@volt/communication';
@@ -87,6 +87,7 @@ export class RoomMessageHandler
             new OneWayDoorStatusMessageEvent(this.onOneWayDoorStatusMessageEvent.bind(this)),
             new AreaHideMessageEvent(this.onAreaHideMessageEvent.bind(this)),
             new ConfInvisStateMessageEvent(this.onConfInvisStateMessageEvent.bind(this)),
+            new ConfigurationItemStatesEvent(this.onConfigurationItemStatesEvent.bind(this)),
             new RoomUnitDanceEvent(this.onRoomUnitDanceEvent.bind(this)),
             new RoomUnitEffectEvent(this.onRoomUnitEffectEvent.bind(this)),
             new RoomUnitEvent(this.onRoomUnitEvent.bind(this)),
@@ -1795,6 +1796,18 @@ export class RoomMessageHandler
         if(!parser) return;
 
         this._roomEngine.updateRoomObjectUserAction(this._currentRoomId, parser.roomIndex, RoomObjectVariable.FIGURE_GAINED_EXPERIENCE, parser.gainedExperience);
+    }
+
+    // AIR onConfigurationItemStates forwards the free furni movement flag to the room engine.
+    private onConfigurationItemStatesEvent(event: ConfigurationItemStatesEvent): void
+    {
+        if(!event || !this._roomEngine) return;
+
+        const parser = event.getParser();
+
+        if(!parser) return;
+
+        this._roomEngine.setFreeFurniMovementsMode(this._currentRoomId, parser.freeFurniMovementsEnabled);
     }
 
     private onYouArePlayingGameEvent(event: YouArePlayingGameEvent): void
