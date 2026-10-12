@@ -1,8 +1,7 @@
 import { IMessageDataWrapper } from '@octane/api';
 
 /**
- * One wired variable definition as the official AIR 13 client reads it
- * (`package_215.WiredVariable`).
+ * One October AIR variable record (`package_223.WiredVariable`).
  */
 export interface IWiredVariableData
 {
@@ -19,7 +18,10 @@ export interface IWiredVariableData
     isInvisible: boolean;
     canReadCreationTime: boolean;
     canReadLastUpdateTime: boolean;
+    requiresExecutionContext: boolean;
     textConnector: { key: number; value: string }[] | null;
+    hasTextConnectorFallback: boolean;
+    textConnectorFallback: string | null;
 }
 
 /** Reads the official `WiredVariable` block from the wrapper. */
@@ -36,10 +38,13 @@ export function parseWiredVariableData(wrapper: IMessageDataWrapper): IWiredVari
     const canWriteValue = wrapper.readBoolean();
     const canInterceptChanges = wrapper.readBoolean();
     const isInvisible = wrapper.readBoolean();
+    const requiresExecutionContext = wrapper.readBoolean();
     const canReadCreationTime = wrapper.readBoolean();
     const canReadLastUpdateTime = wrapper.readBoolean();
 
     let textConnector: { key: number; value: string }[] = null;
+    let hasTextConnectorFallback = false;
+    let textConnectorFallback: string = null;
 
     if(wrapper.readBoolean())
     {
@@ -54,6 +59,9 @@ export function parseWiredVariableData(wrapper: IMessageDataWrapper): IWiredVari
 
             textConnector.push({ key, value });
         }
+
+        hasTextConnectorFallback = wrapper.readBoolean();
+        if(hasTextConnectorFallback) textConnectorFallback = wrapper.readString();
     }
 
     return {
@@ -70,7 +78,10 @@ export function parseWiredVariableData(wrapper: IMessageDataWrapper): IWiredVari
         isInvisible,
         canReadCreationTime,
         canReadLastUpdateTime,
-        textConnector
+        requiresExecutionContext,
+        textConnector,
+        hasTextConnectorFallback,
+        textConnectorFallback
     };
 }
 

@@ -4,11 +4,13 @@ export class FurnitureWallRemoveParser implements IMessageParser
 {
     private _itemId: number;
     private _userId: number;
+    private _byInvisibleFurniManager: boolean;
 
     public flush(): boolean
     {
         this._itemId = 0;
         this._userId = 0;
+        this._byInvisibleFurniManager = false;
 
         return true;
     }
@@ -19,6 +21,7 @@ export class FurnitureWallRemoveParser implements IMessageParser
 
         this._itemId = parseInt(wrapper.readString());
         this._userId = wrapper.readInt();
+        this._byInvisibleFurniManager = wrapper.readBoolean();
 
         return true;
     }
@@ -31,5 +34,10 @@ export class FurnitureWallRemoveParser implements IMessageParser
     public get userId(): number
     {
         return this._userId;
+    }
+
+    public get byInvisibleFurniManager(): boolean
+    {
+        return this._byInvisibleFurniManager;
     }
 }

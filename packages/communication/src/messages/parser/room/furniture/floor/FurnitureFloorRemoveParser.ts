@@ -6,6 +6,7 @@ export class FurnitureFloorRemoveParser implements IMessageParser
     private _isExpired: boolean;
     private _userId: number;
     private _delay: number;
+    private _byInvisibleFurniManager: boolean;
 
     public flush(): boolean
     {
@@ -13,6 +14,7 @@ export class FurnitureFloorRemoveParser implements IMessageParser
         this._isExpired = true;
         this._userId = 0;
         this._delay = 0;
+        this._byInvisibleFurniManager = false;
 
         return true;
     }
@@ -25,6 +27,7 @@ export class FurnitureFloorRemoveParser implements IMessageParser
         this._isExpired = wrapper.readBoolean();
         this._userId = wrapper.readInt();
         this._delay = wrapper.readInt();
+        this._byInvisibleFurniManager = wrapper.readBoolean();
 
         return true;
     }
@@ -47,5 +50,10 @@ export class FurnitureFloorRemoveParser implements IMessageParser
     public get delay(): number
     {
         return this._delay;
+    }
+
+    public get byInvisibleFurniManager(): boolean
+    {
+        return this._byInvisibleFurniManager;
     }
 }
