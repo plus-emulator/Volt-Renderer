@@ -9,6 +9,7 @@ export * from './FurnitureAliasesComposer';
 export * from './FurnitureGroupInfoComposer';
 export * from './FurniturePickupAllComposer';
 export * from './FurniturePickupComposer';
+export * from './RecolorFurnitureComposer';
 export * from './FurniturePlaceComposer';
 export * from './FurniturePlacePaintComposer';
 export * from './RoomRemoveBackgroundComposer';

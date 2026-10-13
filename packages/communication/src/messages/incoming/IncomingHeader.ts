@@ -650,6 +650,8 @@ export class IncomingHeader
     public static OFFICIAL_ROOMS = 3345;
     // AIR 13 batched room / inventory removals and wall-item state batch.
     public static OBJECT_REMOVE_MULTIPLE = 2197;
+    // October AIR furniture recolor update (package_71.class_4153), official id.
+    public static FURNI_RECOLOR_UPDATE = 3469;
     public static ITEM_REMOVE_MULTIPLE = 3839;
     public static FURNI_LIST_REMOVE_MULTIPLE = 65487;
     public static OBJECT_REMOVE_CONFIRM = 3498;

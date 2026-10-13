@@ -7,6 +7,7 @@ export * from './FurniRentOrBuyoutOfferMessageEvent';
 export * from './FurnitureAliasesEvent';
 export * from './FurnitureDataEvent';
 export * from './FurnitureStackHeightEvent';
+export * from './FurniRecolorUpdateEvent';
 export * from './GroupFurniContextMenuInfoMessageEvent';
 export * from './HanditemBlockStateMessageEvent';
 export * from './ItemDataUpdateMessageEvent';

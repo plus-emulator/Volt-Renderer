@@ -709,6 +709,8 @@ export class OutgoingHeader
     public static DISCORD_UPDATE_PREFERENCES = 65445;
     // AIR 13 self donation tool (client -> server), official id.
     public static SELF_DONATION = 65452;
+    // October AIR RecolorFurniture (package_100.class_2402), official id.
+    public static RECOLOR_FURNITURE = 3047;
     public static HOUSEKEEPING_GET_ROLES = 9130;
     public static HOUSEKEEPING_GET_ROLE_MEMBERS = 9131;
     public static HOUSEKEEPING_GET_USER_OVERRIDES = 9132;

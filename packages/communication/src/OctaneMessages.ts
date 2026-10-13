@@ -11,7 +11,7 @@ import { UserSettingsOnlineIndicatorComposer } from './messages/outgoing/user/se
 import { WiredMenuSettingsComposer } from './messages/outgoing/roomevents/WiredMenuSettingsComposer';
 import { RequestOfflineMessagesComposer } from './messages/outgoing/friendlist/RequestOfflineMessagesComposer';
 import { HotelViewLandingEvent, HotelViewLandingRequestComposer, HotelViewLandingSaveComposer, HotelViewLandingSaveSceneComposer, HotelViewLandingVoteComposer, HotelViewLandingResetVotesComposer } from './messages';
-import { RoomQueueStatusEvent, YouAreNotSpectatorMessageEvent, ConfigurationItemStatesEvent, SpecialRoomEventEvent, SpecialSystemChatEvent, ObjectRemoveMultipleEvent, ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveConfirmEvent, FurnitureListRemoveMultipleEvent, OfficialRoomsEvent } from './messages';
+import { FurniRecolorUpdateEvent, RecolorFurnitureComposer, RoomQueueStatusEvent, YouAreNotSpectatorMessageEvent, ConfigurationItemStatesEvent, SpecialRoomEventEvent, SpecialSystemChatEvent, ObjectRemoveMultipleEvent, ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveConfirmEvent, FurnitureListRemoveMultipleEvent, OfficialRoomsEvent } from './messages';
 import { RoomUseHabbiconEvent, TriggerHabbiconComposer } from './messages';
 import { UserHabbiconsEvent, UserHabbiconStatusChangedEvent, HabbiconInfoEvent, HabbiconShopDataEvent, GetHabbiconShopDataComposer, GetHabbiconInfoComposer, BuyHabbiconComposer, BuyHabbiconCollectionComposer, ClaimHabbiconComposer, FavoriteHabbiconComposer, UnfavoriteHabbiconComposer } from './messages';
 import { AddCustomFilterWordMessageComposer, CustomFilterResultEvent, GetCustomFilterMessageComposer, ModifyCustomFilterResultEvent, RemoveCustomFilterWordMessageComposer } from './messages';
@@ -562,6 +562,7 @@ export class OctaneMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.SPECIAL_ROOM_EVENT, SpecialRoomEventEvent);
         this._events.set(IncomingHeader.SPECIAL_SYSTEM_CHAT, SpecialSystemChatEvent);
         this._events.set(IncomingHeader.OBJECT_REMOVE_MULTIPLE, ObjectRemoveMultipleEvent);
+        this._events.set(IncomingHeader.FURNI_RECOLOR_UPDATE, FurniRecolorUpdateEvent);
         this._events.set(IncomingHeader.ITEM_REMOVE_MULTIPLE, ItemRemoveMultipleEvent);
         this._events.set(IncomingHeader.ITEMS_STATE_UPDATE, ItemsStateUpdateEvent);
         this._events.set(IncomingHeader.OBJECT_REMOVE_CONFIRM, ObjectRemoveConfirmEvent);
@@ -1267,6 +1268,7 @@ export class OctaneMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.FURNITURE_ALIASES, FurnitureAliasesComposer);
         this._composers.set(OutgoingHeader.FURNITURE_GROUP_INFO, FurnitureGroupInfoComposer);
         this._composers.set(OutgoingHeader.FURNITURE_PICKUP, FurniturePickupComposer);
+        this._composers.set(OutgoingHeader.RECOLOR_FURNITURE, RecolorFurnitureComposer);
         this._composers.set(OutgoingHeader.FURNITURE_PICKUP_ALL, FurniturePickupAllComposer);
         this._composers.set(OutgoingHeader.FURNITURE_PLACE, FurniturePlaceComposer);
         this._composers.set(OutgoingHeader.ITEM_PAINT, FurniturePlacePaintComposer);

@@ -7,6 +7,7 @@ export * from './FurniRentOrBuyoutOfferMessageParser';
 export * from './FurnitureAliasesParser';
 export * from './FurnitureDataParser';
 export * from './FurnitureStackHeightParser';
+export * from './FurniRecolorUpdateParser';
 export * from './GroupFurniContextMenuInfoMessageParser';
 export * from './HanditemBlockStateMessageParser';
 export * from './ItemDataUpdateMessageParser';
