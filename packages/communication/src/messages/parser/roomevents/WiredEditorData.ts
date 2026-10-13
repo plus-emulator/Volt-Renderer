@@ -34,11 +34,12 @@ export type WiredEditorContext =
     | { type: 3; variable: IWiredVariableData; value: number }
     | { type: 4; shared: { roomId: number; roomName: string; variable: IWiredVariableData }[] }
     | { type: 5; variables: IWiredVariableData[] }
-    | { type: 6; placeholders: { roomId: number; roomName: string; name: string }[] };
+    | { type: 6; placeholders: { roomId: number; roomName: string; name: string }[] }
+    | { type: 7; placeholderNames: string[]; capturerNames: string[] };
 
 export function readWiredContexts(wrapper: IMessageDataWrapper): WiredEditorContext[]
 {
-    return Array.from({ length: readWiredCount(wrapper, 7) }, () =>
+    return Array.from({ length: readWiredCount(wrapper, 9) }, () =>
     {
         const type = wrapper.readInt();
         switch(type)
@@ -62,6 +63,13 @@ export function readWiredContexts(wrapper: IMessageDataWrapper): WiredEditorCont
             {
                 const placeholders = Array.from({ length: readWiredCount(wrapper) }, () => ({ roomId: wrapper.readInt(), roomName: wrapper.readString(), name: wrapper.readString() }));
                 return { type, placeholders };
+            }
+            // The message editors' text placeholders: the names "add placeholder" offers, then the stack's capturers.
+            case 7:
+            {
+                const placeholderNames = Array.from({ length: readWiredCount(wrapper) }, () => wrapper.readString());
+                const capturerNames = Array.from({ length: readWiredCount(wrapper) }, () => wrapper.readString());
+                return { type, placeholderNames, capturerNames };
             }
             default: throw new Error('Unsupported Wired context');
         }

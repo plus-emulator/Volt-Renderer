@@ -8,7 +8,9 @@ export class RoomUnitChatParser implements IMessageParser
     private _bubble: number;
     private _urls: string[];
     private _messageLength: number;
+    private _receiverRoomIndex: number;
     private _bubbleWidthOverride: number;
+    private _hideUsername: boolean;
 
     public flush(): boolean
     {
@@ -18,7 +20,9 @@ export class RoomUnitChatParser implements IMessageParser
         this._bubble = 0;
         this._urls = [];
         this._messageLength = 0;
+        this._receiverRoomIndex = -1;
         this._bubbleWidthOverride = -1;
+        this._hideUsername = false;
 
         return true;
     }
@@ -35,8 +39,11 @@ export class RoomUnitChatParser implements IMessageParser
         this.parseUrls(wrapper);
 
         this._messageLength = wrapper.readInt();
-        // A wired message may carry a bubble width of its own; -1 leaves the room setting in charge.
+        // The October tail, each field optional: the receiver's room index (whispers), a wired bubble width
+        // (-1 leaves the room setting in charge) and whether the bubble hides the speaker's name.
+        this._receiverRoomIndex = (wrapper.bytesAvailable ? wrapper.readInt() : -1);
         this._bubbleWidthOverride = (wrapper.bytesAvailable ? wrapper.readInt() : -1);
+        this._hideUsername = (wrapper.bytesAvailable ? wrapper.readBoolean() : false);
 
         return true;
     }
@@ -89,8 +96,18 @@ export class RoomUnitChatParser implements IMessageParser
         return this._messageLength;
     }
 
+    public get receiverRoomIndex(): number
+    {
+        return this._receiverRoomIndex;
+    }
+
     public get bubbleWidthOverride(): number
     {
         return this._bubbleWidthOverride;
+    }
+
+    public get hideUsername(): boolean
+    {
+        return this._hideUsername;
     }
 }

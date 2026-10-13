@@ -28,8 +28,9 @@ export class RoomSessionChatEvent extends RoomSessionEvent
     private _extraParam: number;
     private _style: number;
     private _bubbleWidthOverride: number;
+    private _hideUsername: boolean;
 
-    constructor(type: string, session: IRoomSession, objectId: number, message: string, chatType: number, style: number = 0, links: string[] = null, extraParam: number = -1, bubbleWidthOverride: number = -1)
+    constructor(type: string, session: IRoomSession, objectId: number, message: string, chatType: number, style: number = 0, links: string[] = null, extraParam: number = -1, bubbleWidthOverride: number = -1, hideUsername: boolean = false)
     {
         super(type, session);
 
@@ -40,6 +41,7 @@ export class RoomSessionChatEvent extends RoomSessionEvent
         this._extraParam = extraParam;
         this._style = style;
         this._bubbleWidthOverride = bubbleWidthOverride;
+        this._hideUsername = hideUsername;
     }
 
     public get objectId(): number
@@ -76,5 +78,11 @@ export class RoomSessionChatEvent extends RoomSessionEvent
     public get bubbleWidthOverride(): number
     {
         return this._bubbleWidthOverride;
+    }
+
+    /** True when the bubble hides the speaker's name (a wired bot talk with "hide bot name"). */
+    public get hideUsername(): boolean
+    {
+        return this._hideUsername;
     }
 }
