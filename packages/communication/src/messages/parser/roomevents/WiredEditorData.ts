@@ -34,11 +34,23 @@ export type WiredEditorContext =
     | { type: 3; variable: IWiredVariableData; value: number }
     | { type: 4; shared: { roomId: number; roomName: string; variable: IWiredVariableData }[] }
     | { type: 5; variables: IWiredVariableData[] }
-    | { type: 6; placeholders: { roomId: number; roomName: string; name: string }[] };
+    | { type: 6; placeholders: { roomId: number; roomName: string; name: string }[] }
+    | { type: 7; placeholderNames: string[]; capturerNames: string[] }
+    | { type: 8; overlayInstanceId: number; physicalTileX: number; physicalTileY: number; totalCandidateCount: number; choices: IWiredLeaderboardChoice[] };
+
+/** `package_127.VariableLeaderboardChoice`. */
+export interface IWiredLeaderboardChoice
+{
+    variableId: string;
+    technicalName: string;
+    persistent: boolean;
+    hasValue: boolean;
+    applicableLevelUpCount: number;
+}
 
 export function readWiredContexts(wrapper: IMessageDataWrapper): WiredEditorContext[]
 {
-    return Array.from({ length: readWiredCount(wrapper, 7) }, () =>
+    return Array.from({ length: readWiredCount(wrapper, 9) }, () =>
     {
         const type = wrapper.readInt();
         switch(type)
@@ -62,6 +74,29 @@ export function readWiredContexts(wrapper: IMessageDataWrapper): WiredEditorCont
             {
                 const placeholders = Array.from({ length: readWiredCount(wrapper) }, () => ({ roomId: wrapper.readInt(), roomName: wrapper.readString(), name: wrapper.readString() }));
                 return { type, placeholders };
+            }
+            case 7:
+            {
+                // package_127.TextPlaceholders: placeholder names, then capturer names.
+                const placeholderNames = Array.from({ length: readWiredCount(wrapper) }, () => wrapper.readString());
+                const capturerNames = Array.from({ length: readWiredCount(wrapper) }, () => wrapper.readString());
+                return { type, placeholderNames, capturerNames };
+            }
+            case 8:
+            {
+                // package_127.VariableLeaderboardContext.
+                const overlayInstanceId = wrapper.readInt();
+                const physicalTileX = wrapper.readInt();
+                const physicalTileY = wrapper.readInt();
+                const totalCandidateCount = wrapper.readInt();
+                const choices = Array.from({ length: readWiredCount(wrapper) }, () => ({
+                    variableId: wrapper.readString(),
+                    technicalName: wrapper.readString(),
+                    persistent: wrapper.readBoolean(),
+                    hasValue: wrapper.readBoolean(),
+                    applicableLevelUpCount: wrapper.readInt()
+                }));
+                return { type, overlayInstanceId, physicalTileX, physicalTileY, totalCandidateCount, choices };
             }
             default: throw new Error('Unsupported Wired context');
         }
