@@ -10006,7 +10006,7 @@
       "fields": [
         {
           "kind": "scalar",
-          "type": "int",
+          "type": "byte",
           "name": "count"
         }
       ]
@@ -20637,6 +20637,14 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
+      "header": 3047,
+      "symbol": "RECOLOR_FURNITURE",
+      "path": "packages/communication/src/messages/outgoing/room/furniture/RecolorFurnitureComposer.ts",
+      "reason": "Header is registered only by the Octane Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
       "header": 3076,
       "symbol": "SET_PHONE_NUMBER_VERIFICATION_STATUS",
       "path": "packages/communication/src/messages/outgoing/gifts/SetPhoneNumberVerificationStatusMessageComposer.ts",
@@ -20976,6 +20984,14 @@
       "header": 2071,
       "symbol": "GAME2_FRIENDS_LEADERBOARD",
       "path": "packages/communication/src/messages/parser/game/score/Game2LeaderboardParser.ts",
+      "reason": "Header is registered only by the Octane Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3469,
+      "symbol": "FURNI_RECOLOR_UPDATE",
+      "path": "packages/communication/src/messages/parser/room/furniture/FurniRecolorUpdateParser.ts",
       "reason": "Header is registered only by the Octane Renderer packet registry"
     },
     {
