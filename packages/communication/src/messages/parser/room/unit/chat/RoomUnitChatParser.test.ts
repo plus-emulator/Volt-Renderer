@@ -62,6 +62,7 @@ describe('RoomUnitChatParser bubble width override', () =>
     it('reads the override the wired asked for from the tail of the packet', () =>
     {
         const writer = chatPacket();
+        writer.writeInt(-1);
         writer.writeInt(2);
         const parser = new RoomUnitChatParser();
 
@@ -73,6 +74,7 @@ describe('RoomUnitChatParser bubble width override', () =>
     {
         const parser = new RoomUnitChatParser();
         const writer = chatPacket();
+        writer.writeInt(-1);
         writer.writeInt(0);
         parser.parse(wrapper(writer));
         parser.flush();
