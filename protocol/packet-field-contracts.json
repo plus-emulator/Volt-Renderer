@@ -19511,6 +19511,190 @@
       "symbol": "WIRED_VARIABLE_INSPECTION_DATA",
       "path": "packages/communication/src/messages/parser/roomevents/WiredVariableInspectionDataParser.ts",
       "reason": "PlusEMU WiredVariableInspectionDataComposer is the declared companion; this manifest has no verified Java field contract for that pair; TypeScript analyzer: Data-dependent packet operations in IfStatement inside parse"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 309,
+      "symbol": "WIRED_LINK_CREATE_NETWORK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkCreateNetworkComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1436,
+      "symbol": "WIRED_LABEL_SAVE_SETTINGS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLabelSaveSettingsComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2425,
+      "symbol": "WIRED_LINK_SAVE_SELECTION",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkSaveSelectionComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2438,
+      "symbol": "VARIABLE_LEADERBOARD_SUBSCRIBE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/VariableLeaderboardSubscribeComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2839,
+      "symbol": "WIRED_LABEL_SAVE_TEXT",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLabelSaveTextComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2882,
+      "symbol": "WIRED_LINK_REQUEST_CONFIG",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkRequestConfigComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2978,
+      "symbol": "WIRED_LINK_DELETE_NETWORK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkDeleteNetworkComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3197,
+      "symbol": "WIRED_LINK_GET_CONNECTIONS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkGetConnectionsComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3467,
+      "symbol": "WIRED_LINK_RENAME_NETWORK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkRenameNetworkComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3631,
+      "symbol": "WIRED_VARIABLE_SHARE_SYNCHRONIZE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredVariableShareSynchronizeComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3667,
+      "symbol": "WIRED_LABEL_SAVE_REGION",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLabelSaveRegionComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 536,
+      "symbol": "WIRED_USER_TRANSPARENCY",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniTransparencyParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 656,
+      "symbol": "WIRED_LABELS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLabelsParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 778,
+      "symbol": "WIRED_LINK_CONFIGURATION",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkConfigurationParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 830,
+      "symbol": "WIRED_LINK_CONNECTIONS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkConnectionsParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 995,
+      "symbol": "VARIABLE_LEADERBOARD_CHUNK",
+      "path": "packages/communication/src/messages/parser/roomevents/VariableLeaderboardChunkParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1240,
+      "symbol": "WIRED_LABELS_UPDATE",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLabelsUpdateParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1284,
+      "symbol": "VARIABLE_LEADERBOARD_SNAPSHOT",
+      "path": "packages/communication/src/messages/parser/roomevents/VariableLeaderboardSnapshotParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1586,
+      "symbol": "WIRED_LINK_OPERATION_RESULT",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkOperationResultParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1949,
+      "symbol": "WIRED_LINK_NETWORK_INVALIDATED",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkNetworkInvalidatedParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2161,
+      "symbol": "WIRED_LINK_OPEN",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkOpenParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2218,
+      "symbol": "WIRED_FURNI_HIGHLIGHT",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniHighlightParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3710,
+      "symbol": "WIRED_FURNI_TRANSPARENCY",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniTransparencyParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
     }
   ],
   "exemptions": [
