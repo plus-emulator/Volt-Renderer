@@ -23,8 +23,6 @@ export class OutgoingHeader
     public static CATALOG_PURCHASE_GIFT = 1950;
     public static GET_PRODUCT_OFFER = 336;
     public static CLIENT_LATENCY = 1768;
-    public static CLIENT_LATENCY_MEASURE = 96;
-    public static CLIENT_POLICY = 26979;
     public static CLIENT_PONG = 3743;
     public static CLIENT_TOOLBAR_TOGGLE = 270;
     public static CLIENT_VARIABLES = 155;
@@ -123,6 +121,8 @@ export class OutgoingHeader
     public static CHEST_DEPOSIT_INVENTORY_ITEM = 9325;
     public static CHEST_WITHDRAW_ALL_FURNI = 9326;
     public static CHEST_OPEN = 9327;
+    // WIRED_CHEST_ROOM_LOGS, WIRED_CHEST_TRANSACTION_DETAILS and WIRED_USER_INSPECT_MOVE .. WIRED_ARRAY_INSPECTION_UPDATE are
+    // Volt-only; PlusEMU reserves the ids (CustomPacketRanges.ReservedClientPackets) but has no handler for them yet.
     public static WIRED_CHEST_ROOM_LOGS = 9328;
     public static WIRED_CHEST_LOCK = 9329;
     // 9330-9333 belong to the Trax editor; the chests tab continues at 9334.

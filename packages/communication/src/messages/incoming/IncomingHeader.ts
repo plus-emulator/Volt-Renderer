@@ -32,7 +32,7 @@ export class IncomingHeader
     public static BUNDLE_DISCOUNT_RULESET = 3991;
     public static FIRST_LOGIN_OF_DAY = 2892;
     public static FURNITURE_ALIASES = 2319;
-    public static FURNITURE_DATA = 65495;
+    public static FURNITURE_DATA = 1456; // ObjectDataUpdate, class_2387 -> parser class_3883 (new 374)
     public static FURNITURE_FLOOR = 1354;
     public static FURNITURE_FLOOR_ADD = 559;
     public static FURNITURE_FLOOR_REMOVE = 996;
@@ -198,7 +198,6 @@ export class IncomingHeader
     public static ROOM_MUTED = 2905;
     public static ROOM_MUTE_USER = 908;
     public static ROOM_PAINT = 780;
-    public static ROOM_PROMOTION = 2274;
     public static ROOM_QUEUE_STATUS = 1549;
     public static ROOM_RIGHTS = 399;
     public static ROOM_RIGHTS_CLEAR = 3085;
@@ -312,7 +311,7 @@ export class IncomingHeader
     // class_3459 WiredUserVisualizationState (WIRED_USER_VISUALIZATION_STATE); outgoing 2901 is USER_MOTTO.
     public static WIRED_ENVIRONMENT = 3583;
     public static WIRED_CLICK_SETTINGS = 1136;
-    public static WIRED_LOG_PAGE = 65414;
+    public static WIRED_LOG_PAGE = 1028; // WiredRoomLogs, class_3640 -> parser class_4087 / WiredLogPage (new 32)
     public static WIRED_ALL_VARIABLES_HASH = 2585;
     public static WIRED_ALL_VARIABLES_DIFF = 2364;
     public static WIRED_CLICK_USER_RESPONSE = 202;
