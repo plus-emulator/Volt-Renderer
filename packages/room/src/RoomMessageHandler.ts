@@ -1,12 +1,13 @@
 import { AvatarGuideStatus, IConnection, IMessageEvent, IRoomCreator, IRoomObjectController, IRoomObject, IVector3D, LegacyDataType, ObjectRolling, PetType, RoomObjectCategory, RoomObjectType, RoomObjectUserType, RoomObjectVariable } from '@volt/api';
-import { AreaHideMessageEvent, ConfigurationItemStatesEvent, ConfInvisStateMessageEvent, DiceValueMessageEvent, FloorHeightMapEvent, FurnitureAliasesComposer, FurnitureAliasesEvent, FurnitureDataEvent, FurnitureFloorAddEvent, FurnitureFloorDataParser, FurnitureFloorEvent, FurnitureFloorRemoveEvent, FurnitureFloorUpdateEvent, FurnitureWallAddEvent, FurnitureWallDataParser, FurnitureWallEvent, FurnitureWallRemoveEvent, FurnitureWallUpdateEvent, GetCommunication, GetRoomEntryDataMessageComposer, GuideSessionEndedMessageEvent, GuideSessionErrorMessageEvent, GuideSessionStartedMessageEvent, IgnoreResultEvent, ItemDataUpdateMessageEvent, ObjectsDataUpdateEvent, ObjectsRollingEvent, OneWayDoorStatusMessageEvent, PetExperienceEvent, PetFigureUpdateEvent, RoomEntryTileMessageEvent, RoomEntryTileMessageParser, RoomHeightMapEvent, RoomHeightMapUpdateEvent, RoomPaintEvent, RoomReadyMessageEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitDanceEvent, RoomUnitEffectEvent, RoomUnitEvent, RoomUnitExpressionEvent, RoomUseHabbiconEvent, RoomUnitHandItemEvent, RoomUnitIdleEvent, RoomUnitInfoEvent, RoomUnitNumberEvent, RoomUnitRemoveEvent, RoomUnitStatusEvent, RoomUnitStatusMessage, RoomUnitTypingEvent, RoomVisualizationSettingsEvent, UserInfoEvent, WiredFurniMoveStyleEvent, WiredFurniMoveStyleParser, WiredFurniMovementData, WiredMovementsEvent, WiredUserDirectionUpdateData, WiredUserMovementData, YouArePlayingGameEvent } from '@volt/communication';
+import { AreaHideMessageEvent, ConfigurationItemStatesEvent, ConfInvisStateMessageEvent, DiceValueMessageEvent, FloorHeightMapEvent, FurnitureAliasesComposer, FurnitureAliasesEvent, FurnitureDataEvent, FurnitureFloorAddEvent, FurnitureFloorDataParser, FurnitureFloorEvent, FurnitureFloorRemoveEvent, FurnitureFloorUpdateEvent, FurnitureWallAddEvent, FurnitureWallDataParser, FurnitureWallEvent, FurnitureWallRemoveEvent, FurnitureWallUpdateEvent, GetCommunication, GetRoomEntryDataMessageComposer, GuideSessionEndedMessageEvent, GuideSessionErrorMessageEvent, GuideSessionStartedMessageEvent, IgnoreResultEvent, ItemDataUpdateMessageEvent, ObjectsDataUpdateEvent, ObjectsRollingEvent, OneWayDoorStatusMessageEvent, PetExperienceEvent, PetFigureUpdateEvent, RoomEntryTileMessageEvent, RoomEntryTileMessageParser, RoomHeightMapEvent, RoomHeightMapUpdateEvent, RoomPaintEvent, RoomReadyMessageEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitDanceEvent, RoomUnitEffectEvent, RoomUnitEvent, RoomUnitExpressionEvent, RoomUseHabbiconEvent, RoomUnitHandItemEvent, RoomUnitIdleEvent, RoomUnitInfoEvent, RoomUnitNumberEvent, RoomUnitRemoveEvent, RoomUnitStatusEvent, RoomUnitStatusMessage, RoomUnitTypingEvent, RoomVisualizationSettingsEvent, UserInfoEvent, WiredFurniHighlightEvent, WiredFurniMoveStyleEvent, WiredFurniMoveStyleParser, WiredFurniMovementData, WiredFurniTransparencyEvent, WiredMovementsEvent, WiredUserDirectionUpdateData, WiredUserMovementData, WiredUserTransparencyEvent, YouArePlayingGameEvent } from '@volt/communication';
+import { GetEventDispatcher, RoomEngineObjectEvent } from '@volt/events';
 import { GetRoomSessionManager, GetSessionDataManager } from '@volt/session';
 import { Vector3d } from '@volt/utils';
 import { FloorHeightMapMessageParser } from '@volt/communication';
 import { ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveMultipleEvent } from '@volt/communication';
 import { GetRoomEngine } from './GetRoomEngine';
 import { RoomVariableEnum } from './RoomVariableEnum';
-import { ObjectMoveUpdateMessage, ObjectRoomMapUpdateMessage } from './messages';
+import { ObjectFurnitureHighlightUpdateMessage, ObjectFurnitureTransparencyUpdateMessage, ObjectMoveUpdateMessage, ObjectRoomMapUpdateMessage, RoomObjectUpdateMessage } from './messages';
 import { RoomPlaneParser } from './object/RoomPlaneParser';
 import { FurnitureStackingHeightMap } from './utils';
 
@@ -33,6 +34,8 @@ export class RoomMessageHandler
     private _planeParser = new RoomPlaneParser();
     private _latestEntryTileEvent: RoomEntryTileMessageEvent = null;
     private _messageEvents: IMessageEvent[] = [];
+    private _pendingWiredEffects = new Map<string, Map<string, RoomObjectUpdateMessage>>();
+    private _onWiredEffectObjectAddedBound = this.onWiredEffectObjectAdded.bind(this);
     private _activeWiredUserMovements = new Map<number, { expiresAt: number, sourceX: number, sourceY: number, sourceZ: number, targetX: number, targetY: number, targetZ: number }>();
     private _activeRoomUserWalks = new Map<number, { startedAt: number, targetX: number, targetY: number, targetZ: number, duration: number }>();
     private _jumpingUnitIds = new Set<number>();
@@ -54,6 +57,7 @@ export class RoomMessageHandler
     {
         this._connection = GetCommunication().connection;
         this._roomEngine = GetRoomEngine();
+        if(GetEventDispatcher()) GetEventDispatcher().addEventListener(RoomEngineObjectEvent.ADDED, this._onWiredEffectObjectAddedBound);
         this._messageEvents = [
             new UserInfoEvent(this.onUserInfoEvent.bind(this)),
             new RoomReadyMessageEvent(this.onRoomReadyMessageEvent.bind(this)),
@@ -66,6 +70,9 @@ export class RoomMessageHandler
             new ObjectsRollingEvent(this.onRoomRollingEvent.bind(this)),
             new WiredMovementsEvent(this.onWiredMovementsEvent.bind(this)),
             new WiredFurniMoveStyleEvent(this.onWiredFurniMoveStyleEvent.bind(this)),
+            new WiredFurniTransparencyEvent(this.onWiredFurniTransparencyEvent.bind(this)),
+            new WiredUserTransparencyEvent(this.onWiredUserTransparencyEvent.bind(this)),
+            new WiredFurniHighlightEvent(this.onWiredFurniHighlightEvent.bind(this)),
             new ObjectsDataUpdateEvent(this.onObjectsDataUpdateEvent.bind(this)),
             new FurnitureAliasesEvent(this.onFurnitureAliasesEvent.bind(this)),
             new FurnitureFloorAddEvent(this.onFurnitureFloorAddEvent.bind(this)),
@@ -128,9 +135,11 @@ export class RoomMessageHandler
 
         this._messageEvents = [];
         this._connection = null;
+        if(GetEventDispatcher()) GetEventDispatcher().removeEventListener(RoomEngineObjectEvent.ADDED, this._onWiredEffectObjectAddedBound);
         this._roomEngine = null;
         this._latestEntryTileEvent = null;
         this._activeWiredUserMovements.clear();
+        this._pendingWiredEffects.clear();
         this._activeRoomUserWalks.clear();
         this._jumpingUnitIds.clear();
         this._roomUnitIndexByIdentity.clear();
@@ -156,6 +165,7 @@ export class RoomMessageHandler
         this._currentRoomId = id;
         this._latestEntryTileEvent = null;
         this._activeWiredUserMovements.clear();
+        this._pendingWiredEffects.clear();
         this._activeRoomUserWalks.clear();
         this._jumpingUnitIds.clear();
         this._roomUnitIndexByIdentity.clear();
@@ -171,6 +181,7 @@ export class RoomMessageHandler
         this._currentRoomId = 0;
         this._latestEntryTileEvent = null;
         this._activeWiredUserMovements.clear();
+        this._pendingWiredEffects.clear();
         this._activeRoomUserWalks.clear();
         this._jumpingUnitIds.clear();
         this._roomUnitIndexByIdentity.clear();
@@ -526,6 +537,114 @@ export class RoomMessageHandler
         {
             this.applyRollingUnitMovement(unitRollData);
         }
+    }
+
+    private onWiredFurniTransparencyEvent(event: WiredFurniTransparencyEvent): void
+    {
+        if(!(event instanceof WiredFurniTransparencyEvent) || !event.connection || !this._roomEngine) return;
+
+        const parser = event.getParser();
+
+        if(!parser || !parser.ids.length) return;
+
+        const message = new ObjectFurnitureTransparencyUpdateMessage(parser.transparency, parser.allowClickThrough, parser.easingMode);
+
+        for(const id of parser.ids)
+        {
+            // AIR class_56.as L306-314: negative ids are wall items (category 20), others floor items (category 10).
+            this.applyWiredEffect((id < 0) ? RoomObjectCategory.WALL : RoomObjectCategory.FLOOR, Math.abs(id), 'transparency', message);
+        }
+    }
+
+    private onWiredUserTransparencyEvent(event: WiredUserTransparencyEvent): void
+    {
+        if(!(event instanceof WiredUserTransparencyEvent) || !event.connection || !this._roomEngine) return;
+
+        const parser = event.getParser();
+
+        if(!parser || !parser.ids.length) return;
+
+        const message = new ObjectFurnitureTransparencyUpdateMessage(parser.transparency, parser.allowClickThrough, parser.easingMode);
+
+        for(const id of parser.ids) this.applyWiredEffect(RoomObjectCategory.UNIT, id, 'transparency', message);
+    }
+
+    private onWiredFurniHighlightEvent(event: WiredFurniHighlightEvent): void
+    {
+        if(!(event instanceof WiredFurniHighlightEvent) || !event.connection || !this._roomEngine) return;
+
+        const parser = event.getParser();
+
+        if(!parser || !parser.furniIds.length) return;
+
+        const message = new ObjectFurnitureHighlightUpdateMessage(parser.highlightType, parser.strength, parser.color, parser.animationMode, parser.easingMode);
+
+        for(const id of parser.furniIds)
+        {
+            this.applyWiredEffect((id < 0) ? RoomObjectCategory.WALL : RoomObjectCategory.FLOOR, Math.abs(id), 'highlight', message);
+        }
+    }
+
+    // AIR class_56.as L2978-3092: objects that are not ready yet keep the last wired effect and get it when they are added.
+    private applyWiredEffect(category: number, objectId: number, kind: string, message: RoomObjectUpdateMessage): void
+    {
+        const object = this._roomEngine.getRoomObject(this._currentRoomId, objectId, category);
+
+        if(object)
+        {
+            this.clearPendingWiredEffect(category, objectId, kind);
+            object.processUpdateMessage(message);
+
+            return;
+        }
+
+        const key = this.getWiredEffectKey(category, objectId);
+        let pending = this._pendingWiredEffects.get(key);
+
+        if(!pending)
+        {
+            pending = new Map<string, RoomObjectUpdateMessage>();
+            this._pendingWiredEffects.set(key, pending);
+        }
+
+        pending.set(kind, message);
+    }
+
+    private clearPendingWiredEffect(category: number, objectId: number, kind: string): void
+    {
+        const key = this.getWiredEffectKey(category, objectId);
+        const pending = this._pendingWiredEffects.get(key);
+
+        if(!pending) return;
+
+        pending.delete(kind);
+
+        if(!pending.size) this._pendingWiredEffects.delete(key);
+    }
+
+    private getWiredEffectKey(category: number, objectId: number): string
+    {
+        return `${this._currentRoomId}:${category}:${objectId}`;
+    }
+
+    private onWiredEffectObjectAdded(event: RoomEngineObjectEvent): void
+    {
+        if(!event || event.type !== RoomEngineObjectEvent.ADDED || !this._roomEngine) return;
+
+        if(event.roomId !== this._currentRoomId) return;
+
+        const key = this.getWiredEffectKey(event.category, event.objectId);
+        const pending = this._pendingWiredEffects.get(key);
+
+        if(!pending) return;
+
+        const object = this._roomEngine.getRoomObject(this._currentRoomId, event.objectId, event.category);
+
+        if(!object) return;
+
+        this._pendingWiredEffects.delete(key);
+
+        for(const message of pending.values()) object.processUpdateMessage(message);
     }
 
     private onWiredFurniMoveStyleEvent(event: WiredFurniMoveStyleEvent): void
