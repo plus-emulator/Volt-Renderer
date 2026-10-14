@@ -198,7 +198,6 @@ export class IncomingHeader
     public static ROOM_MUTED = 2905;
     public static ROOM_MUTE_USER = 908;
     public static ROOM_PAINT = 780;
-    public static ROOM_PROMOTION = 2274;
     public static ROOM_QUEUE_STATUS = 1549;
     public static ROOM_RIGHTS = 399;
     public static ROOM_RIGHTS_CLEAR = 3085;

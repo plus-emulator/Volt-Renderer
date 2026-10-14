@@ -7,6 +7,51 @@
     },
     "ranges": [
       {
+        "name": "client_extensions_client",
+        "direction": "client_to_server",
+        "start": 4080,
+        "end": 4099,
+        "origin": "custom",
+        "feature": "client_extensions",
+        "stability": "stable"
+      },
+      {
+        "name": "room_extras_client",
+        "direction": "client_to_server",
+        "start": 6200,
+        "end": 6299,
+        "origin": "custom",
+        "feature": "room_extras",
+        "stability": "stable"
+      },
+      {
+        "name": "client_extensions_server",
+        "direction": "server_to_client",
+        "start": 4050,
+        "end": 4099,
+        "origin": "custom",
+        "feature": "client_extensions",
+        "stability": "stable"
+      },
+      {
+        "name": "room_tools_server",
+        "direction": "server_to_client",
+        "start": 5100,
+        "end": 5199,
+        "origin": "custom",
+        "feature": "room_tools",
+        "stability": "stable"
+      },
+      {
+        "name": "room_extras_server",
+        "direction": "server_to_client",
+        "start": 5200,
+        "end": 5299,
+        "origin": "custom",
+        "feature": "room_extras",
+        "stability": "stable"
+      },
+      {
         "name": "messenger_client",
         "direction": "client_to_server",
         "start": 4900,
