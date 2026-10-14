@@ -1,0 +1,185 @@
+{
+  "scope": "Native contract editor only. Static extracted source comparison; not live hotel verification.",
+  "activeBuild": "WIN63-202610121709-785561319",
+  "comparisonBuild": "WIN63-202610131318-860371703",
+  "sourceRoots": {
+    "october12": "/home/krypton/habbo-wired-runtime-20261012/protocol/current-source-sol-r1/decompiled/scripts",
+    "october13": "/home/krypton/habbo-wired-runtime-20261012/protocol/current-source-r75/decompiled/scripts"
+  },
+  "comparison": "Full source text identical after LF normalization and consistent per-file first-occurrence renaming of obfuscated var_<digits>/const_<digits> identifiers. No other text removed or changed.",
+  "messages": [
+    {
+      "name": "open",
+      "direction": "in",
+      "class": "package_99.class_3713",
+      "october12": 3833,
+      "october13": 241
+    },
+    {
+      "name": "contents",
+      "direction": "in",
+      "class": "package_99.class_2398",
+      "october12": 2796,
+      "october13": 2057
+    },
+    {
+      "name": "updateResult",
+      "direction": "in",
+      "class": "package_99.class_3001",
+      "october12": 72,
+      "october13": 2687
+    },
+    {
+      "name": "getContents",
+      "direction": "out",
+      "class": "package_193.class_3888",
+      "october12": 3415,
+      "october13": 3170
+    },
+    {
+      "name": "update",
+      "direction": "out",
+      "class": "package_193.class_3028",
+      "october12": 2559,
+      "october13": 413
+    }
+  ],
+  "sources": [
+    {
+      "path": "package_193/class_3888.as",
+      "october12Sha256": "7943092b86f54ca84f95f68d38bac34ec2a66d3f83318265926443deeb0562dd",
+      "october13Sha256": "cb37847f78afe09d7e7bd6ff8cde2cc2d9e34671074073a564ceac1d2036ccd9",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "fad649e406af7977c4c0dd06553183057b0179c7ee837a6ee36d5f17a2400869"
+    },
+    {
+      "path": "package_193/class_3028.as",
+      "october12Sha256": "9ce2a745c214bb11b5c5fb283526ca459a08adf74a713b53e29e9371f8f4872d",
+      "october13Sha256": "804f493cf6c004df683afcff4b927faf552539e298f84a72df6b587e64aaaae8",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "3b4c86098ac1ff6f4978f2615731960c9536dc36103f6ef5b2fc82197f21cd82"
+    },
+    {
+      "path": "package_99/class_3713.as",
+      "october12Sha256": "c3d0b98a9477a89b0c4712bb7f8381f725920d9cb400c4af5fe278094f4c3bb9",
+      "october13Sha256": "c3d0b98a9477a89b0c4712bb7f8381f725920d9cb400c4af5fe278094f4c3bb9",
+      "byteIdentical": true,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "a26a8c01bb4b2044c0e49b20513eaad65d0d5616fd69412652c441a40a50a396"
+    },
+    {
+      "path": "package_99/class_2398.as",
+      "october12Sha256": "adc4d0876cc8098e32ac053bc02180be6a2bfbe684648d792dce7c68cc7f3df8",
+      "october13Sha256": "adc4d0876cc8098e32ac053bc02180be6a2bfbe684648d792dce7c68cc7f3df8",
+      "byteIdentical": true,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "a3750b86446d39c7b922226eab8eb3d4689d2f9c79824ec359bc7f79db757411"
+    },
+    {
+      "path": "package_99/class_3001.as",
+      "october12Sha256": "3683ecc6c2f24d5320d2fe73e44c594244d93bc17edd210b41bb67ede8659b85",
+      "october13Sha256": "3683ecc6c2f24d5320d2fe73e44c594244d93bc17edd210b41bb67ede8659b85",
+      "byteIdentical": true,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "c38020d30e00863963bdcc7f41f9676a5a6017bfec958ee9e28ee2598f7a9991"
+    },
+    {
+      "path": "package_131/class_3264.as",
+      "october12Sha256": "275426c936a847f25f482753a4094cf7ab3e9a0936617867adf861e2e211494a",
+      "october13Sha256": "ab558894a1b691819ccadb386dbebf09020d56b14df3c23f62a6123a2d4148f6",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "2cf7ccff6cac7621616f03a1dcef40a3c05b10530e7f828dc9306f114548bd82"
+    },
+    {
+      "path": "package_131/class_2536.as",
+      "october12Sha256": "0c9ea2ec404db50e32a36e29eed536a88faee1d7806465c694f97cefdb5c308f",
+      "october13Sha256": "745a86c74f66e0e876a50b37ed449d3d1ef63f9b14ed31d2a96a51043696caa9",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "23042d9103f92b0b9e61c2a7ee393f6a008d9840f1eb362c413bb3d981291aef"
+    },
+    {
+      "path": "package_131/class_3554.as",
+      "october12Sha256": "a8db5b59682f0a5e9468d2b1e3c2c036181a3cacb03ca57ffcf19ab4cf5c926d",
+      "october13Sha256": "436bf1308bcba3e555ca5ee5c1acb5e5fe829bfcaa6b021bb20b42e4378ec6c8",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "23c1639defcd8f139508a3ce8359cfea99c6b60943ad7d6fa2bb0f1bac515f45"
+    },
+    {
+      "path": "package_231/TradeRequirementNode.as",
+      "october12Sha256": "33f0a9565cbe2e7adc194401867d5d657c8706dddc40600fa22814b447441b27",
+      "october13Sha256": "424deb5718c9322b1384cb8bed7157a40906ac71fa9741e498aaf6f1de30b942",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "493c623ba0506e5aba07b333c7bc8cf5ec63ae2204bca167e69b1cc4f69373dd"
+    },
+    {
+      "path": "package_198/ChestItemType.as",
+      "october12Sha256": "bb11215cbc51c2771dfbd7df0e0fd17690b348d4ddc44f7f412c2c669dc18b40",
+      "october13Sha256": "bd629db6fb3ac79d32dc4a96c74e880eaf45c091f54797b25449dd45afdcdc9f",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "d559eaef9d02998fba8bd7ba7417134c462d9bbe3c3846e56fded3ae9d5d63c9"
+    },
+    {
+      "path": "com/sulake/habbo/communication/messages/parser/userdefinedroomevents/wiredtrading/trade/requirements/rules/TradeRequirementRule.as",
+      "october12Sha256": "a254d8903b7a291e301be3f8e261cf5c28c02f0d493a987f64661ab6121e61e4",
+      "october13Sha256": "a254d8903b7a291e301be3f8e261cf5c28c02f0d493a987f64661ab6121e61e4",
+      "byteIdentical": true,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "7d81b31e1834caca1462e1550f2da37662a18a418074b09ed505acc6c7e169fd"
+    },
+    {
+      "path": "com/sulake/habbo/communication/messages/parser/userdefinedroomevents/wiredtrading/trade/requirements/rules/TradeRequirementRulesDefinition.as",
+      "october12Sha256": "da6eb32ed69a28339c92006e695c199c19e117fa4143365792091b6b3d35a39e",
+      "october13Sha256": "f742088eadeb1d50b44d8f7793eb8d85457e6ce3910e723558d7922f6e669d78",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "502e42ddce7653e342b80f11c79a2974ad87bae48890f285315959e3f6415552"
+    },
+    {
+      "path": "com/sulake/habbo/roomevents/wired_trading/contracts/WiredContractController.as",
+      "october12Sha256": "acda302e23a81fef8e1cc0df6141fe144440465444f6f774257635a30a00c41b",
+      "october13Sha256": "289211bee84e48c16b56ddd2b70e1cdfba680afe101b25fcd27cdc5b016ee07f",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "5aec5070142b593fdb12f26884b8aefcd4a19daef3e3e9c692d47f7cf765be78"
+    },
+    {
+      "path": "com/sulake/habbo/roomevents/wired_trading/contracts/subcontrollers/util/AbstractContract.as",
+      "october12Sha256": "db2176d9b9ce0bc0e5ce95da9efbc8f18cb188238e0597c83696eed32c4946ed",
+      "october13Sha256": "d1a2ae3b6dc4466e4710edce845c73edbdda810612806e06cd8a8d205b8d89e9",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "b449aa9a872dc9ebe9cd650c4349f82695a8dcf29d3d431f206292af3e3dda1b"
+    },
+    {
+      "path": "com/sulake/habbo/roomevents/wired_trading/contracts/subcontrollers/PaymentContract.as",
+      "october12Sha256": "2006105e758efa7de6320910d54f3b4c2bb8db77d872efcaeadeac8e2405289d",
+      "october13Sha256": "fc3aa79ce7fb467b9c6bf6f10747f9273361959c9eb59b64a05bb7b1b134ddff",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "31ebb02fb5cf52367287c32ae88276c52dc19b2a6eac1b8c01012e87a3f7fbf3"
+    },
+    {
+      "path": "com/sulake/habbo/roomevents/wired_trading/contracts/subcontrollers/TradeContract.as",
+      "october12Sha256": "f5ce529119d318e2a8c664833f48cd0d4b19e8715e3a1c31c072699a3923a4cb",
+      "october13Sha256": "ad299c6f6b4b8ccacf74b3538de91f64f45e016c27236f34dfbf680d975a76d6",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "e22c1e8a3b01194c268909df3a43abba7313f7500bdd8f63e5f02efd7d38e313"
+    },
+    {
+      "path": "com/sulake/habbo/roomevents/wired_trading/contracts/subcontrollers/RewardContract.as",
+      "october12Sha256": "e2b22098a3052c1f749dc23f551ec472a162bf9f37dc5960a4117308a964aadd",
+      "october13Sha256": "0684176790ae6424288297c2d490d08bec4f12d89c6742e31b13f615e547b2b9",
+      "byteIdentical": false,
+      "equalAfterConsistentObfuscatedSymbolRenaming": true,
+      "normalizedSha256": "3e55b5b2f55c2ca07fe9b2338256cc2a742c9a27c8b7570646b6ebabfb6e1ef3"
+    }
+  ]
+}

@@ -57,3 +57,8 @@ export * from './WiredLinkOperationResultParser';
 export * from './WiredLinkConnectionsParser';
 export * from './WiredLinkNetworkInvalidatedParser';
 export * from './WiredVisualizationStateParser';
+
+export * from './WiredContractData';
+export * from './WiredContractOpenParser';
+export * from './WiredContractContentsParser';
+export * from './WiredContractUpdateResultParser';

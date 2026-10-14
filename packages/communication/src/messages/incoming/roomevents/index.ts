@@ -46,3 +46,7 @@ export * from './WiredLinkNetworkInvalidatedEvent';
 export * from './WiredUserHighlightEvent';
 export * from './WiredFurniVisualizationStateEvent';
 export * from './WiredUserVisualizationStateEvent';
+
+export * from './WiredContractOpenEvent';
+export * from './WiredContractContentsEvent';
+export * from './WiredContractUpdateResultEvent';
