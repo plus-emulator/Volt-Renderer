@@ -1,3 +1,4 @@
+import { BumpTextureContentVersion } from './TextureContentVersion';
 import { AutoDetectOptions, Renderer, Texture, autoDetectRenderer } from 'pixi.js';
 
 let renderer: Renderer = null;
@@ -97,6 +98,14 @@ const patchResizeSkip = (r: Renderer): void =>
 export const PrepareRenderer = async (options: Partial<AutoDetectOptions>): Promise<Renderer> =>
 {
     renderer = await autoDetectRenderer(options);
+
+    const render = renderer.render.bind(renderer);
+    renderer.render = ((options: any, ...args: any[]) =>
+    {
+        const result = render(options, ...args);
+        if(options?.target) BumpTextureContentVersion(options.target);
+        return result;
+    }) as typeof renderer.render;
 
     renderer.events?.destroy();
 

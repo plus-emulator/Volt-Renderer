@@ -8,10 +8,12 @@ declare global
 		VoltDevTools?:
 		{
             roomEngine: RoomEngine;
+            setPlaneRenderMode: (mode: 'bake' | 'direct') => void;
 		};
 	}
 }
 
 window.VoltDevTools = {
-    roomEngine: GetRoomEngine()
+    roomEngine: GetRoomEngine(),
+    setPlaneRenderMode: mode => GetRoomEngine().setPlaneRenderMode(mode === 'direct')
 };

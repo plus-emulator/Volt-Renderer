@@ -148,6 +148,8 @@ export class RoomGeometry implements IRoomGeometry
         {
             return;
         }
+        if(this._dir && this._dir.x === direction.x && this._dir.y === direction.y && this._dir.z === direction.z) return;
+
         const isFirstAssignment = (this._dir == null);
         if(isFirstAssignment)
         {

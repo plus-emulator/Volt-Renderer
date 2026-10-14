@@ -29,7 +29,9 @@ export class AssetManager implements IAssetManager
 {
     private _textures: Map<string, Texture> = new Map();
     private _collections: Map<string, IGraphicAssetCollection> = new Map();
-    private _missingAssetNames: Set<string> = new Set();
+    private _assetIndex: Map<string, Set<GraphicAssetCollection>> = new Map();
+    private _collectionOrder: WeakMap<GraphicAssetCollection, number> = new WeakMap();
+    private _nextCollectionOrder: number = 0;
     private _imageResources: Map<string, LoadedImageResource> = new Map();
 
     constructor(private readonly _dependencies: AssetManagerDependencies = DEFAULT_DEPENDENCIES)
@@ -56,22 +58,35 @@ export class AssetManager implements IAssetManager
     {
         if(!name) return null;
 
-        if(this._missingAssetNames.has(name)) return null;
+        const candidates = this._assetIndex.get(name);
+        if(!candidates) return null;
 
-        for(const collection of this._collections.values())
+        let first: GraphicAssetCollection = null;
+        let firstOrder = Infinity;
+        for(const collection of candidates)
         {
-            if(!collection) continue;
-
-            const existing = collection.getAsset(name);
-
-            if(!existing) continue;
-
-            return existing;
+            if(this._collections.get(collection.name) !== collection) continue;
+            const order = this._collectionOrder.get(collection);
+            if(order >= firstOrder) continue;
+            first = collection;
+            firstOrder = order;
         }
+        return first?.getAsset(name) ?? null;
+    }
 
-        this._missingAssetNames.add(name);
-
-        return null;
+    private assetChanged(collection: GraphicAssetCollection, name: string, added: boolean): void
+    {
+        let candidates = this._assetIndex.get(name);
+        if(added)
+        {
+            if(!candidates) this._assetIndex.set(name, candidates = new Set());
+            candidates.add(collection);
+        }
+        else if(candidates)
+        {
+            candidates.delete(collection);
+            if(!candidates.size) this._assetIndex.delete(name);
+        }
     }
 
     public addAssetToCollection(collectionName: string, assetName: string, texture: Texture, override: boolean = true): boolean
@@ -98,9 +113,16 @@ export class AssetManager implements IAssetManager
 
         for(const [name, texture] of collection.textures.entries()) this.setTexture(name, texture);
 
+        const replaced = this._collections.get(collection.name) as GraphicAssetCollection;
+        this._collectionOrder.set(collection, replaced ? this._collectionOrder.get(replaced) : this._nextCollectionOrder++);
+        if(replaced)
+        {
+            replaced.onAssetChanged = null;
+            for(const name of replaced.assetNames) this.assetChanged(replaced, name, false);
+        }
         this._collections.set(collection.name, collection);
-
-        if(this._missingAssetNames.size > 0) this._missingAssetNames.clear();
+        for(const name of collection.assetNames) this.assetChanged(collection, name, true);
+        collection.onAssetChanged = (name, added) => this.assetChanged(collection, name, added);
 
         return collection;
     }

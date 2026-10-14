@@ -3,8 +3,8 @@ import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessage
 import { GetConfiguration } from '@volt/configuration';
 import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomZoomEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
 import { GetRoomSessionManager, GetSessionDataManager } from '@volt/session';
-import { GetTexturePool, GetTickerTime, VoltLogger, NumberBank, TextureUtils, Vector3d } from '@volt/utils';
-import { Container, Matrix, Point, PointData, Rectangle, RenderTexture, Sprite, Texture, Ticker } from 'pixi.js';
+import { GetRenderer, GetTexturePool, GetTickerTime, VoltLogger, NumberBank, TextureUtils, Vector3d } from '@volt/utils';
+import { WebGLRenderer, Container, Matrix, Point, PointData, Rectangle, RenderTexture, Sprite, Texture, Ticker } from 'pixi.js';
 import { DEFAULT_WIRED_CLICK_SETTINGS, normalizeWiredClickSettings, WiredClickSettings } from './utils/WiredClickSettings';
 import { GetRoomContentLoader } from './GetRoomContentLoader';
 import { GetRoomManager } from './GetRoomManager';
@@ -17,7 +17,7 @@ import { RoomObjectEventHandler } from './RoomObjectEventHandler';
 import { buildRoomObjectImageKey, DisposableTexture, RoomObjectImageCache, SharedImageResult } from './RoomObjectImageCache';
 import { RoomVariableEnum } from './RoomVariableEnum';
 import { ObjectAvatarCarryObjectUpdateMessage, ObjectAvatarChatUpdateMessage, ObjectAvatarDanceUpdateMessage, ObjectAvatarEffectUpdateMessage, ObjectAvatarExperienceUpdateMessage, ObjectAvatarExpressionUpdateMessage, ObjectAvatarFigureUpdateMessage, ObjectAvatarFlatControlUpdateMessage, ObjectAvatarGestureUpdateMessage, ObjectAvatarGuideStatusUpdateMessage, ObjectAvatarHabbiconUpdateMessage, ObjectAvatarMutedUpdateMessage, ObjectAvatarOwnMessage, ObjectAvatarPetGestureUpdateMessage, ObjectAvatarPlayerValueUpdateMessage, ObjectAvatarPlayingGameUpdateMessage, ObjectAvatarPostureUpdateMessage, ObjectAvatarSignUpdateMessage, ObjectAvatarSleepUpdateMessage, ObjectAvatarTypingUpdateMessage, ObjectAvatarUpdateMessage, ObjectAvatarUseObjectUpdateMessage, ObjectDataUpdateMessage, ObjectGroupBadgeUpdateMessage, ObjectHeightUpdateMessage, ObjectItemDataUpdateMessage, ObjectModelDataUpdateMessage, ObjectMoveUpdateMessage, ObjectRoomColorUpdateMessage, ObjectRoomFloorHoleUpdateMessage, ObjectRoomMaskUpdateMessage, ObjectRoomPlanePropertyUpdateMessage, ObjectRoomPlaneVisibilityUpdateMessage, ObjectRoomUpdateMessage, ObjectStateUpdateMessage, RoomObjectUpdateMessage } from './messages';
-import { RoomLogic, RoomMapData } from './object';
+import { RoomLogic, RoomMapData, RoomPlane, RoomVisualization } from './object';
 import { RoomRenderer } from './renderer';
 import { RoomAreaSelectionManager, RoomCamera, RoomData, RoomEnterEffect, RoomFurnitureData, RoomGeometry, RoomInstanceData, RoomObjectBadgeImageAssetListener } from './utils';
 
@@ -81,6 +81,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
     public async init(): Promise<void>
     {
+        this.setPlaneRenderMode(GetConfiguration().getValue<boolean>('room.planes.direct', true));
         GetRoomObjectLogicFactory().registerEventFunction(event => this.processRoomObjectEvent(event));
 
         this._roomSessionEventCallback = (event: RoomSessionEvent) => this.onRoomSessionEvent(event);
@@ -844,6 +845,24 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         }
     }
 
+    public setPlaneRenderMode(direct: boolean): void
+    {
+        // Direct planes use GLSL ES 3.0. Keep the bake on WebGL1 or other backends.
+        RoomPlane.DIRECT_DRAW = direct && (GetRenderer() as WebGLRenderer)?.context?.webGLVersion === 2;
+
+        if(!this._roomManager) return;
+
+        for(const instance of this._roomManager.rooms.values())
+        {
+            for(const object of instance.getRoomObjectsForCategory(RoomObjectCategory.ROOM))
+            {
+                const visualization = object?.visualization;
+
+                if(visualization instanceof RoomVisualization) visualization.rebuildPlanes();
+            }
+        }
+    }
+
     public isRoomIdPlayingGame(roomId: number): boolean
     {
         const roomInstance = this.getRoomInstance(roomId);
@@ -887,6 +906,8 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         RoomEnterEffect.turnVisualizationOn();
 
         this.processPendingFurniture();
+
+        GetTexturePool().flushReleased();
 
         this._roomManager.update(time, update);
 
