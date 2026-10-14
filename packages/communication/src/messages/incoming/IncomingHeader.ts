@@ -7,7 +7,7 @@ export class IncomingHeader
     public static WIRED_VARIABLE_HOLDERS_64 = 9481;
     public static WIRED_VARIABLE_HOLDERS_PAGE_64 = 9482;
     // These packets do not belong to this revision, so these are custom packet ids
-    public static AREA_HIDE = 6001;
+    public static AREA_HIDE = 496;
 
     // Original packets
     public static ACHIEVEMENT_LIST = 3985;
@@ -310,7 +310,7 @@ export class IncomingHeader
     public static WIRED_ARRAY_INSPECTION_DATA = 5111;
     // AIR 13 wired leftovers. 420 (WiredClickUserResponse) and 2901 (WiredUserVariablesPage)
     // are already GROUP_LIST / PET_INFO here, so those two take custom ids instead.
-    public static WIRED_ENVIRONMENT = 347;
+    public static WIRED_ENVIRONMENT = 3583;
     public static WIRED_CLICK_SETTINGS = 1136;
     public static WIRED_LOG_PAGE = 65414;
     public static WIRED_ALL_VARIABLES_HASH = 2585;

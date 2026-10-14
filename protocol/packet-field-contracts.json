@@ -21325,7 +21325,7 @@
     {
       "name": "WIRED_ENVIRONMENT",
       "direction": "server_to_client",
-      "header": 347,
+      "header": 3583,
       "java": {
         "symbol": "WiredEnvironmentComposer",
         "className": "WiredEnvironmentComposer",
@@ -24493,7 +24493,7 @@
     {
       "name": "AREA_HIDE",
       "direction": "server_to_client",
-      "header": 6001,
+      "header": 496,
       "java": {
         "symbol": "AreaHideComposer",
         "className": "AreaHideComposer",
