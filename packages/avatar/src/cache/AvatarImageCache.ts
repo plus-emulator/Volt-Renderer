@@ -1,7 +1,7 @@
 import { AvatarDirectionAngle, AvatarFigurePartType, AvatarScaleType, GeometryType, IActiveActionData, IAvatarImage, IGraphicAsset } from '@volt/api';
 import { GraphicAsset } from '@volt/assets';
-import { GetRenderer, GetTexturePool, GetTickerTime } from '@volt/utils';
-import { Container, Matrix, Point, Rectangle, RenderTexture, Sprite, Texture } from 'pixi.js';
+import { GetTickerTime } from '@volt/utils';
+import { Container, Matrix, Point, Rectangle, Sprite, Texture } from 'pixi.js';
 import { AvatarImageBodyPartContainer } from '../AvatarImageBodyPartContainer';
 import { AvatarImagePartContainer } from '../AvatarImagePartContainer';
 import { AvatarStructure } from '../AvatarStructure';
@@ -12,6 +12,7 @@ import { AvatarImageActionCache } from './AvatarImageActionCache';
 import { AvatarImageBodyPartCache } from './AvatarImageBodyPartCache';
 import { AvatarImageDirectionCache } from './AvatarImageDirectionCache';
 import { ImageData } from './ImageData';
+import { AvatarScaleTextureCache } from './AvatarScaleTextureCache';
 
 export class AvatarImageCache
 {
@@ -64,7 +65,7 @@ export class AvatarImageCache
             {
                 if(!asset) continue;
 
-                if(asset.texture instanceof RenderTexture) GetTexturePool().putTexture(asset.texture);
+                AvatarScaleTextureCache.release(asset.texture);
 
                 asset.recycle();
             }
@@ -480,24 +481,11 @@ export class AvatarImageCache
 
         if(!source || !source.source) return null;
 
-        const renderer = GetRenderer();
+        const texture = AvatarScaleTextureCache.acquire(source);
 
-        if(!renderer) return null;
+        if(!texture) return null;
 
-        const halfWidth = Math.max(1, Math.round(largeAsset.width / 2));
-        const halfHeight = Math.max(1, Math.round(largeAsset.height / 2));
-
-        const renderTexture = GetTexturePool().getTexture(halfWidth, halfHeight);
-        const sprite = new Sprite(source);
-
-        sprite.width = halfWidth;
-        sprite.height = halfHeight;
-
-        renderer.render({ container: sprite, target: renderTexture, clear: true });
-
-        sprite.destroy();
-
-        const fallback = GraphicAsset.createAsset((largeName + '_shfallback'), null, renderTexture, Math.round(largeAsset.x / 2), Math.round(largeAsset.y / 2), largeAsset.flipH, largeAsset.flipV, largeAsset.usesPalette);
+        const fallback = GraphicAsset.createAsset((largeName + '_shfallback'), null, texture, Math.round(largeAsset.x / 2), Math.round(largeAsset.y / 2), largeAsset.flipH, largeAsset.flipV, largeAsset.usesPalette);
 
         this._fallbackAssets.set(largeName, fallback);
 

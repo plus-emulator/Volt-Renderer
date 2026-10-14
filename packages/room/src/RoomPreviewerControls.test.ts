@@ -346,3 +346,19 @@ describe('RoomPreviewer catalog controls', () =>
         expect(roomEngine.setRoomInstanceRenderingCanvasScale).toHaveBeenLastCalledWith(77, RoomPreviewer.PREVIEW_CANVAS_ID, 1);
     });
 });
+
+
+describe('RoomPreviewer disposal', () =>
+{
+    it('destroys the engine-owned room and releases its canvas once', () =>
+    {
+        const { previewer, roomEngine } = makePreviewer();
+        const destroyRoom = vi.fn();
+        Object.assign(roomEngine, { destroyRoom, removeRoomObjectFloor: vi.fn(), removeRoomObjectWall: vi.fn(), removeRoomObjectUser: vi.fn() });
+        Object.assign(previewer, { onRoomObjectAdded: () => {}, onRoomInitializedonRoomInitialized: () => {} });
+        previewer.dispose();
+        previewer.dispose();
+        expect(destroyRoom).toHaveBeenCalledExactlyOnceWith(77);
+        expect(previewer.isRoomEngineReady).toBe(false);
+    });
+});

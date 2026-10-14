@@ -82,7 +82,12 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
     {
         if(this._disposed) return;
 
+        // Shared geometry holds effect-added parts keyed by this image.
+        this._structure?.removeDynamicItems(this);
         this._structure = null;
+        this._effectListener = null;
+        this._effectManager = null;
+        this._sortedActions = null;
         this._assets = null;
         this._mainAction = null;
         this._figure = null;

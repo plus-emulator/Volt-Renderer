@@ -1,5 +1,7 @@
-import { GetRenderer, GetTexturePool } from '@volt/utils';
+import { GetRenderer, GetTexturePool, GetTextureContentVersion } from '@volt/utils';
 import { Container, ImageSource, Renderer, Sprite, Texture, TextureSource } from 'pixi.js';
+
+import { AvatarScaleTextureCache } from './AvatarScaleTextureCache';
 
 export type AvatarFrameTexture = {
     texture: Texture;
@@ -181,7 +183,9 @@ export class AvatarFrameTextureCache
                 ((typeof HTMLImageElement !== 'undefined' && resource instanceof HTMLImageElement) ||
                 (typeof ImageBitmap !== 'undefined' && resource instanceof ImageBitmap));
 
-            if(!staticImage && texture !== Texture.EMPTY && texture !== Texture.WHITE) return false;
+            const immutableFallback = AvatarScaleTextureCache.isImmutable(texture);
+            if(!staticImage && !immutableFallback && texture !== Texture.EMPTY && texture !== Texture.WHITE) return false;
+            if(immutableFallback) composition.push('small-fallback', GetTextureContentVersion(source));
 
             const uvs = texture.uvs;
             const bounds = texture.orig;

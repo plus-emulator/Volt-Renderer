@@ -88,6 +88,9 @@ export class RoomPreviewer
         this.reset(true);
         this._previewCapabilityListeners.clear();
 
+        // reset() removes the object, but the engine still owns the room and its canvas.
+        if(this.isRoomEngineReady) this._roomEngine.destroyRoom(this._previewRoomId);
+
         if(this.isRoomEngineReady && GetEventDispatcher())
         {
             GetEventDispatcher().removeEventListener(RoomEngineObjectEvent.ADDED, this.onRoomObjectAdded);
@@ -108,6 +111,8 @@ export class RoomPreviewer
 
             this._planeParser = null;
         }
+
+        this._roomEngine = null;
     }
 
     private createRoomForPreview(): void
@@ -1103,7 +1108,7 @@ export class RoomPreviewer
 
     public get isRoomEngineReady(): boolean
     {
-        return true;
+        return !!this._roomEngine;
     }
 
     public get roomId(): number
