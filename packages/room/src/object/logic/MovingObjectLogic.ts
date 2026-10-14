@@ -199,6 +199,19 @@ export class MovingObjectLogic extends RoomObjectLogicBase
 
             if(this._canonicalWired && message.location)
             {
+                // An idle user status confirms the logical endpoint before its
+                // Wired animation gets there. Keep the visual move running;
+                // actual walking targets and relocations still replace it.
+                if(this._canonicalWired.canonicalWired.animationType !== undefined
+                    && this.isInterpolating()
+                    && this.matchesLocation(message.location, this._canonicalWired.targetLocation)
+                    && this.matchesLocation(message.location, message.targetLocation))
+                {
+                    if(this.object && message.direction) this.object.setDirection(message.direction);
+
+                    return;
+                }
+
                 this.resetInterpolationState();
                 this._updateInterval = MovingObjectLogic.DEFAULT_UPDATE_INTERVAL;
             }
@@ -263,12 +276,32 @@ export class MovingObjectLogic extends RoomObjectLogicBase
 
     private processCanonicalMove(message: ObjectMoveUpdateMessage): void
     {
+        // Consecutive flat avatar slides may overlap (e.g. 200ms pulses with
+        // 300ms animations). Continue from the displayed position instead of
+        // snapping to the previous logical endpoint on every packet. Keep
+        // the supplied duration/target, and leave jumps and furni trajectories
+        // authoritative rather than blending their curves or overshoot.
+        const continueGlide = this.object && this._canonicalWired && this.isInterpolating()
+            && message.isSlide && this._canonicalWired.isSlide
+            && message.canonicalWired.animationType !== undefined
+            && this._canonicalWired.canonicalWired.animationType !== undefined
+            && !this._canonicalCurve && !(message.canonicalWired.jumpPower ?? message.canonicalWired.curveStrength)
+            && !message.canonicalWired.overshootTimeMs && !this._canonicalWired.canonicalWired.overshootTimeMs
+            && this.matchesLocation(message.location, this._canonicalWired.targetLocation);
+        const start = new Vector3d();
+
+        start.assign(continueGlide ? this.object.getLocation() : message.location);
         this.resetInterpolationState();
         this._canonicalWired = message;
         this._canonicalCurve = message.canonicalWired.jumpPower ?? message.canonicalWired.curveStrength ?? 0;
 
-        super.processUpdateMessage(message);
-        this._location.assign(message.location);
+        if(this.object)
+        {
+            this.object.setLocation(start);
+            this.object.setDirection(message.direction);
+        }
+
+        this._location.assign(start);
         this._locationDelta.assign(message.targetLocation);
         this._locationDelta.subtract(this._location);
         const duration = Math.max(1, message.duration);
