@@ -42,3 +42,18 @@ export * from './WiredVariableHoldersPage64Parser';
 export * from './WiredVariableInspectionDataParser';
 
 export * from './WiredNativeVariableData';
+export * from './WiredFurniTransparencyParser';
+export * from './WiredFurniHighlightParser';
+export * from './VariableLeaderboardData';
+export * from './VariableLeaderboardSnapshotParser';
+export * from './VariableLeaderboardChunkParser';
+export * from './WiredLabelData';
+export * from './WiredLabelsParser';
+export * from './WiredLabelsUpdateParser';
+export * from './WiredLinkData';
+export * from './WiredLinkOpenParser';
+export * from './WiredLinkConfigurationParser';
+export * from './WiredLinkOperationResultParser';
+export * from './WiredLinkConnectionsParser';
+export * from './WiredLinkNetworkInvalidatedParser';
+export * from './WiredVisualizationStateParser';

@@ -308,8 +308,8 @@ export class IncomingHeader
     public static WIRED_FURNI_OPACITY = 5109;
     public static WIRED_FURNI_MOVE_STYLE = 5110;
     public static WIRED_ARRAY_INSPECTION_DATA = 5111;
-    // AIR 13 wired leftovers. 420 (WiredClickUserResponse) and 2901 (WiredUserVariablesPage)
-    // are already GROUP_LIST / PET_INFO here, so those two take custom ids instead.
+    // AIR 13 wired leftovers. 420 (WiredClickUserResponse) takes a custom id. Incoming 2901 is
+    // class_3459 WiredUserVisualizationState (WIRED_USER_VISUALIZATION_STATE); outgoing 2901 is USER_MOTTO.
     public static WIRED_ENVIRONMENT = 3583;
     public static WIRED_CLICK_SETTINGS = 1136;
     public static WIRED_LOG_PAGE = 65414;
@@ -632,11 +632,12 @@ export class IncomingHeader
     // AIR 13 Discord preferences; official id 1600 is taken by GENERIC_ERROR, so 9472.
     public static DISCORD_PREFERENCES = 2260;
     // Wired variable fx (server -> client): the drawn configs, their removal, the values to draw
-    // and the values that went away. Custom ids in the reserved 94xx block.
-    public static WIRED_VARIABLE_FX_CONFIGS = 9473;
-    public static WIRED_VARIABLE_FX_CONFIGS_REMOVED = 9474;
-    public static WIRED_VARIABLE_FX_STATUS = 9475;
-    public static WIRED_VARIABLE_FX_STATUS_REMOVED = 9476;
+    // and the values that went away, on the official build 202610121709 ids (class_2593 / class_3245 /
+    // class_2741 / class_2530; build 202610131318 uses 2205 / 364 / 2372 / 214).
+    public static WIRED_VARIABLE_FX_CONFIGS = 3340;
+    public static WIRED_VARIABLE_FX_CONFIGS_REMOVED = 1418;
+    public static WIRED_VARIABLE_FX_STATUS = 1943;
+    public static WIRED_VARIABLE_FX_STATUS_REMOVED = 2532;
     public static WIRED_WEB_API_KEY_RESULT = 467;
     // AIR 13 treasure hunt (server -> client). Official 1631 is taken by UNIT_EXPRESSION,
     // so the first-winner packet uses the reserved custom id 9485; the other two are official.
@@ -645,4 +646,20 @@ export class IncomingHeader
     public static TREASURE_HUNT_UPDATE = 2031;
     // AIR 13 self donation tool result (server -> client), official id.
     public static SELF_DONATION_RESULT = 1892;
+    // October AIR new wired runtime (WIN63-202610131318 classes), on build 202610121709 ids.
+    public static WIRED_FURNI_TRANSPARENCY = 3710;
+    public static WIRED_USER_TRANSPARENCY = 536;
+    public static WIRED_FURNI_HIGHLIGHT = 2218;
+    public static VARIABLE_LEADERBOARD_SNAPSHOT = 1284;
+    public static VARIABLE_LEADERBOARD_CHUNK = 995;
+    public static WIRED_LABELS = 656;
+    public static WIRED_LABELS_UPDATE = 1240;
+    public static WIRED_LINK_OPEN = 2161;
+    public static WIRED_LINK_CONFIGURATION = 778;
+    public static WIRED_LINK_OPERATION_RESULT = 1586;
+    public static WIRED_LINK_CONNECTIONS = 830;
+    public static WIRED_LINK_NETWORK_INVALIDATED = 1949;
+    public static WIRED_USER_HIGHLIGHT = 2552;
+    public static WIRED_FURNI_VISUALIZATION_STATE = 3355;
+    public static WIRED_USER_VISUALIZATION_STATE = 2901;
 }

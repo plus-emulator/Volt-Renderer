@@ -4,6 +4,7 @@ import { BLEND_MODES, Filter, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
 import { ColorData, LayerData } from '../data';
 import { FurnitureVisualizationData } from './FurnitureVisualizationData';
+import { WiredHighlightFilterCache } from '../WiredHighlightFilters';
 import { composeFurnitureAlphaMultiplier, furnitureAlphaTolerance } from './WiredOpacityVisualizationPolicy';
 
 export class FurnitureVisualization extends RoomObjectSpriteVisualization
@@ -47,6 +48,7 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
     private _needsLookThroughUpdate: boolean;
     private _wiredClickThrough: boolean;
     private _hideInvisibleLayers: boolean;
+    private _wiredHighlight: WiredHighlightFilterCache = new WiredHighlightFilterCache();
 
     constructor()
     {
@@ -248,13 +250,15 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 
         let alphaMultiplier = model.getValue<number>(RoomObjectVariable.FURNITURE_ALPHA_MULTIPLIER);
         const wiredOpacity = model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_OPACITY);
+        const wiredTransparency = model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_TRANSPARENCY);
+        const wiredVisibility = isNaN(wiredTransparency) ? 1 : (1 - (Math.max(0, Math.min(100, wiredTransparency)) / 100));
         const wiredClickThrough = (model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_CLICK_THROUGH) === 1);
         const hiddenByConfInvisControl = (model.getValue<number>(RoomObjectVariable.FURNITURE_CONF_INVIS_HIDDEN) === 1);
         const hiddenByAreaHideControl = (model.getValue<number>(RoomObjectVariable.FURNITURE_AREA_HIDE_HIDDEN) === 1);
         const hideInvisibleLayers = (model.getValue<number>(RoomObjectVariable.FURNITURE_INVISIBLE_LAYER) > 0);
 
         if(isNaN(alphaMultiplier)) alphaMultiplier = 1;
-        alphaMultiplier = composeFurnitureAlphaMultiplier(alphaMultiplier, wiredOpacity, hiddenByConfInvisControl || hiddenByAreaHideControl);
+        alphaMultiplier = composeFurnitureAlphaMultiplier(alphaMultiplier, (isNaN(wiredOpacity) ? 1 : wiredOpacity) * wiredVisibility, hiddenByConfInvisControl || hiddenByAreaHideControl);
 
         if((this._alphaMultiplier !== alphaMultiplier) || (this._wiredClickThrough !== wiredClickThrough))
         {
@@ -269,6 +273,12 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
             this._hideInvisibleLayers = hideInvisibleLayers;
             this._alphaChanged = true;
         }
+
+        const highlightType = model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_HIGHLIGHT_TYPE);
+        const highlightStrength = model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_HIGHLIGHT_STRENGTH);
+        const highlightColor = model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_HIGHLIGHT_COLOR);
+
+        this._wiredHighlight.update(isNaN(highlightType) ? 0 : highlightType, highlightStrength, isNaN(highlightColor) ? 0xFFFFFF : highlightColor);
 
         this.updateModelCounter = model.updateCounter;
 
@@ -369,14 +379,19 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
                 sprite.clickHandling = this._clickHandling;
 
                 const currentFilters = sprite.filters;
+                const highlightFilters = (layerId !== this._shadowLayerIndex) ? this._wiredHighlight.filters : null;
+                const baseFilters = highlightFilters ? [...this._filters, ...highlightFilters] : this._filters;
 
-                if((currentFilters && currentFilters.length) || this._filters.length)
+                if((currentFilters && currentFilters.length) || baseFilters.length)
                 {
                     // Chooser and wired selection highlights belong to the sprite, not to the furni's own filters.
                     const overlayFilters = (currentFilters || []).filter(f => (f instanceof ChooserSelectionFilter) || (f instanceof WiredFilter));
 
-                    if(!overlayFilters.length) sprite.filters = this._filters;
-                    else if(!this.hasFilters(currentFilters, overlayFilters)) sprite.filters = [...this._filters, ...overlayFilters];
+                    if(!overlayFilters.length)
+                    {
+                        if(!this.sameFilters(currentFilters, baseFilters)) sprite.filters = baseFilters;
+                    }
+                    else if(!this.hasFilters(currentFilters, baseFilters, overlayFilters)) sprite.filters = [...baseFilters, ...overlayFilters];
                 }
             }
             else
@@ -407,11 +422,25 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
 
     // Whether `filters` already is the furni's own filters followed by the overlays, so an animated
     // furni keeps one array instead of a new one every frame.
-    private hasFilters(filters: Filter[], overlayFilters: Filter[]): boolean
+    private hasFilters(filters: Filter[], baseFilters: Filter[], overlayFilters: Filter[]): boolean
     {
-        if(filters.length !== (this._filters.length + overlayFilters.length)) return false;
+        if(filters.length !== (baseFilters.length + overlayFilters.length)) return false;
 
-        return this._filters.every((filter, index) => (filters[index] === filter));
+        return baseFilters.every((filter, index) => (filters[index] === filter));
+    }
+
+    private sameFilters(filters: Filter[], nextFilters: Filter[]): boolean
+    {
+        const length = filters ? filters.length : 0;
+
+        if(length !== nextFilters.length) return false;
+
+        for(let index = 0; index < length; index++)
+        {
+            if(filters[index] !== nextFilters[index]) return false;
+        }
+
+        return true;
     }
 
     private resetSprite(sprite: IRoomObjectSprite): void

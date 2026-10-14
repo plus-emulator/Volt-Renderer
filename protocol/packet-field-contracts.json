@@ -7211,33 +7211,6 @@
       ]
     },
     {
-      "name": "FURNITURE_PICKUP",
-      "direction": "client_to_server",
-      "header": 58,
-      "java": {
-        "symbol": "RoomPickupItemEvent",
-        "className": "RoomPickupItemEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/RoomPickupItemEvent.java"
-      },
-      "typescript": {
-        "symbol": "FURNITURE_PICKUP",
-        "className": "FurniturePickupComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/FurniturePickupComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
-        }
-      ]
-    },
-    {
       "name": "ROOM_MUTE_USER",
       "direction": "client_to_server",
       "header": 3007,
@@ -19511,9 +19484,233 @@
       "symbol": "WIRED_VARIABLE_INSPECTION_DATA",
       "path": "packages/communication/src/messages/parser/roomevents/WiredVariableInspectionDataParser.ts",
       "reason": "PlusEMU WiredVariableInspectionDataComposer is the declared companion; this manifest has no verified Java field contract for that pair; TypeScript analyzer: Data-dependent packet operations in IfStatement inside parse"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 309,
+      "symbol": "WIRED_LINK_CREATE_NETWORK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkCreateNetworkComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1436,
+      "symbol": "WIRED_LABEL_SAVE_SETTINGS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLabelSaveSettingsComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2425,
+      "symbol": "WIRED_LINK_SAVE_SELECTION",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkSaveSelectionComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2438,
+      "symbol": "VARIABLE_LEADERBOARD_SUBSCRIBE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/VariableLeaderboardSubscribeComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2839,
+      "symbol": "WIRED_LABEL_SAVE_TEXT",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLabelSaveTextComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2882,
+      "symbol": "WIRED_LINK_REQUEST_CONFIG",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkRequestConfigComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2978,
+      "symbol": "WIRED_LINK_DELETE_NETWORK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkDeleteNetworkComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3197,
+      "symbol": "WIRED_LINK_GET_CONNECTIONS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkGetConnectionsComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3467,
+      "symbol": "WIRED_LINK_RENAME_NETWORK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLinkRenameNetworkComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3631,
+      "symbol": "WIRED_VARIABLE_SHARE_SYNCHRONIZE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredVariableShareSynchronizeComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3667,
+      "symbol": "WIRED_LABEL_SAVE_REGION",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredLabelSaveRegionComposer.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 536,
+      "symbol": "WIRED_USER_TRANSPARENCY",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniTransparencyParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 656,
+      "symbol": "WIRED_LABELS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLabelsParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 778,
+      "symbol": "WIRED_LINK_CONFIGURATION",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkConfigurationParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 830,
+      "symbol": "WIRED_LINK_CONNECTIONS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkConnectionsParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 995,
+      "symbol": "VARIABLE_LEADERBOARD_CHUNK",
+      "path": "packages/communication/src/messages/parser/roomevents/VariableLeaderboardChunkParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1240,
+      "symbol": "WIRED_LABELS_UPDATE",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLabelsUpdateParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1284,
+      "symbol": "VARIABLE_LEADERBOARD_SNAPSHOT",
+      "path": "packages/communication/src/messages/parser/roomevents/VariableLeaderboardSnapshotParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1586,
+      "symbol": "WIRED_LINK_OPERATION_RESULT",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkOperationResultParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1949,
+      "symbol": "WIRED_LINK_NETWORK_INVALIDATED",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkNetworkInvalidatedParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2161,
+      "symbol": "WIRED_LINK_OPEN",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredLinkOpenParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2218,
+      "symbol": "WIRED_FURNI_HIGHLIGHT",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniHighlightParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3710,
+      "symbol": "WIRED_FURNI_TRANSPARENCY",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniTransparencyParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2552,
+      "symbol": "WIRED_USER_HIGHLIGHT",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniHighlightParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2901,
+      "symbol": "WIRED_USER_VISUALIZATION_STATE",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredVisualizationStateParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3355,
+      "symbol": "WIRED_FURNI_VISUALIZATION_STATE",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredVisualizationStateParser.ts",
+      "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
     }
   ],
   "exemptions": [
+    {
+      "name": "FURNITURE_PICKUP",
+      "direction": "client_to_server",
+      "header": 58,
+      "java": {
+        "symbol": "RoomPickupItemEvent",
+        "className": "RoomPickupItemEvent",
+        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/RoomPickupItemEvent.java"
+      },
+      "typescript": {
+        "symbol": "FURNITURE_PICKUP",
+        "className": "FurniturePickupComposer",
+        "path": "packages/communication/src/messages/outgoing/room/furniture/FurniturePickupComposer.ts"
+      },
+      "reason": "TypeScript analyzer: Outgoing composer message array cannot be resolved statically (the confirmed flag of AIR package_66/class_3322 is written only for the pickup confirmed after ObjectRemoveConfirm)"
+    },
     {
       "name": "PICK_ISSUES",
       "direction": "client_to_server",
@@ -24861,7 +25058,7 @@
     {
       "name": "WIRED_VARIABLE_FX_CONFIGS",
       "direction": "server_to_client",
-      "header": 9473,
+      "header": 3340,
       "java": {
         "symbol": "WiredVariableFxConfigsComposer",
         "className": "WiredVariableFxConfigsComposer",
@@ -24877,7 +25074,7 @@
     {
       "name": "WIRED_VARIABLE_FX_CONFIGS_REMOVED",
       "direction": "server_to_client",
-      "header": 9474,
+      "header": 1418,
       "java": {
         "symbol": "WiredVariableFxConfigsRemovedComposer",
         "className": "WiredVariableFxConfigsRemovedComposer",
@@ -24893,7 +25090,7 @@
     {
       "name": "WIRED_VARIABLE_FX_STATUS",
       "direction": "server_to_client",
-      "header": 9475,
+      "header": 1943,
       "java": {
         "symbol": "WiredVariableFxStatusComposer",
         "className": "WiredVariableFxStatusComposer",
@@ -24909,7 +25106,7 @@
     {
       "name": "WIRED_VARIABLE_FX_STATUS_REMOVED",
       "direction": "server_to_client",
-      "header": 9476,
+      "header": 2532,
       "java": {
         "symbol": "WiredVariableFxStatusRemovedComposer",
         "className": "WiredVariableFxStatusRemovedComposer",
@@ -25387,7 +25584,7 @@
       {"direction":"server_to_client","header":1385,"sourceClass":"class_3564","sourcePath":"decompiled/scripts/package_159/class_3564.as","sourceSha256":"befac0f2b6fddd77891f9ef75f9b7a1dcd84c0cdcf44b4cfdda4ef4e11e815da","mapLine":1296,"reportedName":"ForumThreads","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ThreadsListDataComposer"],"typescript":["GROUP_FORUM_THREADS"]}},
       {"direction":"server_to_client","header":1391,"sourceClass":"class_3882","sourcePath":"decompiled/scripts/package_42/class_3882.as","sourceSha256":"509a901df3213d6daa77839d2022b576c050cc98cde5c1ea6e22af4b1e7bbaff","mapLine":1297,"reportedName":"HabbiconInfo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["HabbiconInfoComposer"],"typescript":["HABBICON_INFO"]}},
       {"direction":"server_to_client","header":1397,"sourceClass":"WeeklyCompetitiveLeaderboardEvent","sourcePath":"decompiled/scripts/package_109/WeeklyCompetitiveLeaderboardEvent.as","sourceSha256":"8282d96e88b3948893bfdf0bea9093d1d8d56e82c9792fcda58347bc692dec0b","mapLine":1298,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game3WeeklyLeaderboardComposer"],"typescript":["WEEKLY_COMPETITIVE_LEADERBOARD"]}},
-      {"direction":"server_to_client","header":1418,"sourceClass":"class_3245","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3245.as","sourceSha256":"08f699d6cc3c97aaa8d847402218e31acd7b0b0a892446dea3f3d1d1c1f9a772","mapLine":1299,"reportedName":"VariableFxConfigsRemoved","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1418,"sourceClass":"class_3245","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3245.as","sourceSha256":"08f699d6cc3c97aaa8d847402218e31acd7b0b0a892446dea3f3d1d1c1f9a772","mapLine":1299,"reportedName":"VariableFxConfigsRemoved","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredVariableFxConfigsRemovedComposer"],"typescript":["WIRED_VARIABLE_FX_CONFIGS_REMOVED"]}},
       {"direction":"server_to_client","header":1419,"sourceClass":"class_3087","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3087.as","sourceSha256":"ee0f401a4d3f6e1a556dd82c452fd830dbb8bfb1c87bc70bc81c9cfdc8028497","mapLine":1300,"reportedName":"WiredFurniCondition","namingSource":"Sulek","canonicalName":"WiredFurniCondition","canonicalStatus":"semantic-verified","localBindings":{"csharp":["WiredConditionConfigComposer"],"typescript":["WIRED_CONDITION"]}},
       {"direction":"server_to_client","header":1422,"sourceClass":"class_3238","sourcePath":"decompiled/scripts/package_11/class_3238.as","sourceSha256":"04aaa04b5c52a24640186aedbecf67893aca1eb73bdf60edfcab9b8e95c1db6c","mapLine":1302,"reportedName":"PetBreedingResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PET_BREEDING_RESULT"]}},
       {"direction":"server_to_client","header":1425,"sourceClass":"class_3125","sourcePath":"decompiled/scripts/package_50/class_3125.as","sourceSha256":"5dc5c4be1a7d8df5aec9fbe79ab3c41b2416ac8520bce3a95540ea4bf44015a1","mapLine":1303,"reportedName":"ModeratorCaution","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MODERATION_CAUTION"]}},
@@ -25469,7 +25666,7 @@
       {"direction":"server_to_client","header":1914,"sourceClass":"class_2973","sourcePath":"decompiled/scripts/package_134/class_2973.as","sourceSha256":"250243608dbdf3cd04d2e4025aad1352fd5e51350c0581fab2d8dd56b6f871ce","mapLine":1386,"reportedName":"RoomOccupiedTiles","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomOccupiedTilesComposer"],"typescript":["ROOM_MODEL_BLOCKED_TILES"]}},
       {"direction":"server_to_client","header":1937,"sourceClass":"class_2921","sourcePath":"decompiled/scripts/package_50/class_2921.as","sourceSha256":"e9d776a09127aafd5baefe4b6dfb64232e58cbed3c8bb678e4a2629ce559b3c6","mapLine":1387,"reportedName":"BanInfo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["USER_BAN_INFO"]}},
       {"direction":"server_to_client","header":1938,"sourceClass":"class_3266","sourcePath":"decompiled/scripts/package_87/class_3266.as","sourceSha256":"08f0b362128f0b0753c2e616a6f35fa3235f914795d6dceb57d8eb8118ee7a23","mapLine":1388,"reportedName":"GoToBreedingNestFailure","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PET_GO_TO_BREEDING_NEST_FAILURE"]}},
-      {"direction":"server_to_client","header":1943,"sourceClass":"class_2741","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2741.as","sourceSha256":"d37dcf493304667988e87c3efd73fe9959bdad785f8ce9045fa5e0c341306023","mapLine":1390,"reportedName":"VariableFxStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1943,"sourceClass":"class_2741","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2741.as","sourceSha256":"d37dcf493304667988e87c3efd73fe9959bdad785f8ce9045fa5e0c341306023","mapLine":1390,"reportedName":"VariableFxStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredVariableFxStatusComposer"],"typescript":["WIRED_VARIABLE_FX_STATUS"]}},
       {"direction":"server_to_client","header":1949,"sourceClass":"class_2356","sourcePath":"decompiled/scripts/package_82/class_2356.as","sourceSha256":"efda34974b668c89cb92a04397187d0781bd1d760dadfeadc56890f67a11aca3","mapLine":1391,"reportedName":"_-h1g","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":1957,"sourceClass":"class_3655","sourcePath":"decompiled/scripts/package_141/class_3655.as","sourceSha256":"13382e35e1a6243f01e1f91ebed9a7e614819c8acd506d56358e2d8f331d3a69","mapLine":1392,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":1963,"sourceClass":"class_2129","sourcePath":"decompiled/scripts/package_64/class_2129.as","sourceSha256":"53f68792e35760af2ba758aede9658df932008ceb3f6149fe63ee9f2a5d27d78","mapLine":1393,"reportedName":"RoomEntryInfo","namingSource":"Sulek","canonicalName":"RoomEntryInfo","canonicalStatus":"semantic-verified","localBindings":{"csharp":["RoomEntryInfoComposer"],"typescript":["ROOM_INFO_OWNER"]}},
@@ -25554,7 +25751,7 @@
       {"direction":"server_to_client","header":2512,"sourceClass":"class_2080","sourcePath":"decompiled/scripts/package_1/class_2080.as","sourceSha256":"7ce2b11678a45ed9f224d107d61c0c4a0a546a8188ae0bc275b9c42d07b26a78","mapLine":1479,"reportedName":"NoobnessLevel","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["NOOBNESS_LEVEL"]}},
       {"direction":"server_to_client","header":2519,"sourceClass":"class_3797","sourcePath":"decompiled/scripts/package_21/class_3797.as","sourceSha256":"cf00e7f21ad8fb07bdb0cf86b2dde9611b82e4ebfea6d139aeb6673ec4b503f4","mapLine":1480,"reportedName":"RoomAdError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ROOM_AD_ERROR"]}},
       {"direction":"server_to_client","header":2521,"sourceClass":"class_3601","sourcePath":"decompiled/scripts/package_155/class_3601.as","sourceSha256":"158b8a3492ab61f99bd9606cea81aaf9312320b9af0fe10068e19fa8ce31fd4f","mapLine":1481,"reportedName":"PollOffer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PollOfferComposer"],"typescript":["POLL_OFFER"]}},
-      {"direction":"server_to_client","header":2532,"sourceClass":"class_2530","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2530.as","sourceSha256":"48ad1b73ab03af67e255bd72560551a6a477c9e12636fc20a0c741e9c62d053c","mapLine":1482,"reportedName":"VariableFxStatusRemoved","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2532,"sourceClass":"class_2530","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2530.as","sourceSha256":"48ad1b73ab03af67e255bd72560551a6a477c9e12636fc20a0c741e9c62d053c","mapLine":1482,"reportedName":"VariableFxStatusRemoved","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredVariableFxStatusRemovedComposer"],"typescript":["WIRED_VARIABLE_FX_STATUS_REMOVED"]}},
       {"direction":"server_to_client","header":2533,"sourceClass":"class_3604","sourcePath":"decompiled/scripts/package_1/class_3604.as","sourceSha256":"eb01c688b40136d116d868afffc556e514f5c244be8b56b385b4a8074ff891f8","mapLine":1483,"reportedName":"UniqueMachineID","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2537,"sourceClass":"class_3741","sourcePath":"decompiled/scripts/package_141/class_3741.as","sourceSha256":"2944136286f5b327cbb2bf5913d00a308bcf7274f2eaaa51bb9b4a0358c47606","mapLine":1484,"reportedName":"TradingConfirmation","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["TradingCompleteComposer"],"typescript":["TRADE_CONFIRMATION"]}},
       {"direction":"server_to_client","header":2540,"sourceClass":"class_2171","sourcePath":"decompiled/scripts/package_5/class_2171.as","sourceSha256":"b4efb8c6ca32d19b49bb663a12f425edf8e644584617908d5c0f4666a57cda66","mapLine":1485,"reportedName":"CatalogPage","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CatalogPageComposer"],"typescript":["CATALOG_PAGE"]}},
@@ -25673,7 +25870,7 @@
       {"direction":"server_to_client","header":3303,"sourceClass":"class_3356","sourcePath":"decompiled/scripts/package_52/class_3356.as","sourceSha256":"cf131fa0dfee14cf04a36e022295318b2987a5134e42186573cdbaf3a7e189e8","mapLine":1607,"reportedName":"CategoriesWithVisitorCount","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CATEGORIES_WITH_VISITOR_COUNT"]}},
       {"direction":"server_to_client","header":3319,"sourceClass":"class_2206","sourcePath":"decompiled/scripts/package_20/class_2206.as","sourceSha256":"290bd0366a9a4a2eedc3063bb4d9b0c8338c38b922cddf3ac646cc6e0f8f21e1","mapLine":1608,"reportedName":"RoomInviteError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MESSENGER_INVITE_ERROR"]}},
       {"direction":"server_to_client","header":3332,"sourceClass":"class_2374","sourcePath":"decompiled/scripts/package_87/class_2374.as","sourceSha256":"737d8a5a89cecbfc5513376fc488ad13f74fde529a9442cc6ca5e98383e06959","mapLine":1610,"reportedName":"PetRemovedFromInventory","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["USER_PET_REMOVE"]}},
-      {"direction":"server_to_client","header":3340,"sourceClass":"class_2593","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2593.as","sourceSha256":"0a66034dc4a2692d469e08d3a4e12ae50694d6568798a5ef5097d357b8d642fe","mapLine":1611,"reportedName":"VariableFxConfigs","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3340,"sourceClass":"class_2593","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2593.as","sourceSha256":"0a66034dc4a2692d469e08d3a4e12ae50694d6568798a5ef5097d357b8d642fe","mapLine":1611,"reportedName":"VariableFxConfigs","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredVariableFxConfigsComposer"],"typescript":["WIRED_VARIABLE_FX_CONFIGS"]}},
       {"direction":"server_to_client","header":3344,"sourceClass":"class_3205","sourcePath":"decompiled/scripts/package_203/class_3205.as","sourceSha256":"a8c51a5e6b44b48077654d7d44d4bbf42c666f74b4098c0ec8cf1243d42576db","mapLine":1612,"reportedName":"FigureSetIds","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FigureSetIdsComposer"],"typescript":["USER_CLOTHING"]}},
       {"direction":"server_to_client","header":3345,"sourceClass":"class_3497","sourcePath":"decompiled/scripts/package_52/class_3497.as","sourceSha256":"0371d48f82aafee79bc0dbe162677ce30d312683f739aa0c65ab6e3d04183033","mapLine":1613,"reportedName":"OfficialRooms","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["OFFICIAL_ROOMS"]}},
       {"direction":"server_to_client","header":3355,"sourceClass":"class_3560","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3560.as","sourceSha256":"f0cc175e6e633fc250cf5cdfe3789b8948af176ed1a746228ea2485f511b62b5","mapLine":1614,"reportedName":"_-TD","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
