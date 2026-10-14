@@ -632,11 +632,12 @@ export class IncomingHeader
     // AIR 13 Discord preferences; official id 1600 is taken by GENERIC_ERROR, so 9472.
     public static DISCORD_PREFERENCES = 2260;
     // Wired variable fx (server -> client): the drawn configs, their removal, the values to draw
-    // and the values that went away. Custom ids in the reserved 94xx block.
-    public static WIRED_VARIABLE_FX_CONFIGS = 9473;
-    public static WIRED_VARIABLE_FX_CONFIGS_REMOVED = 9474;
-    public static WIRED_VARIABLE_FX_STATUS = 9475;
-    public static WIRED_VARIABLE_FX_STATUS_REMOVED = 9476;
+    // and the values that went away, on the official build 202610121709 ids (class_2593 / class_3245 /
+    // class_2741 / class_2530; build 202610131318 uses 2205 / 364 / 2372 / 214).
+    public static WIRED_VARIABLE_FX_CONFIGS = 3340;
+    public static WIRED_VARIABLE_FX_CONFIGS_REMOVED = 1418;
+    public static WIRED_VARIABLE_FX_STATUS = 1943;
+    public static WIRED_VARIABLE_FX_STATUS_REMOVED = 2532;
     public static WIRED_WEB_API_KEY_RESULT = 467;
     // AIR 13 treasure hunt (server -> client). Official 1631 is taken by UNIT_EXPRESSION,
     // so the first-winner packet uses the reserved custom id 9485; the other two are official.
