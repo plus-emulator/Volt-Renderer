@@ -76,6 +76,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
     private _skipFurnitureCreationForNextFrame: boolean = false;
     private _mouseCursorUpdate: boolean = false;
     private _badgeListenerObjects: Map<string, RoomObjectBadgeImageAssetListener[]> = new Map();
+    private _badgeImageReadyCallback: (event: BadgeImageReadyEvent) => void = null;
     private _areaSelectionManager: IRoomAreaSelectionManager = new RoomAreaSelectionManager(this);
     private _roomSessionEventCallback: (event: RoomSessionEvent) => void = null;
 
@@ -145,6 +146,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         this._imageCallbacks.clear();
         this._thumbnailCallbacks.clear();
         this._badgeListenerObjects.clear();
+        this.removeIdleBadgeImageListener();
         this.clearRoomObjectImageCache();
     }
 
@@ -193,6 +195,8 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         {
             this._roomManager && this._roomManager.removeRoomInstance(this.getRoomId(roomId));
         }
+
+        this.pruneBadgeImageListeners();
 
         const existing = this._roomInstanceDatas.get(roomId);
 
@@ -1978,6 +1982,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         if(!instance) return null;
 
         instance.removeRoomObject(objectId, category);
+        this.pruneBadgeImageListeners();
 
         if(GetEventDispatcher()) GetEventDispatcher().dispatchEvent(new RoomEngineObjectEvent(RoomEngineObjectEvent.REMOVED, roomId, objectId, category));
     }
@@ -2510,6 +2515,29 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         if(roomObject.logic) roomObject.logic.processUpdateMessage(new ObjectDataUpdateMessage(stateIndex, objectData));
     }
 
+    private removeIdleBadgeImageListener(): void
+    {
+        if(this._badgeListenerObjects.size || !this._badgeImageReadyCallback) return;
+
+        GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, this._badgeImageReadyCallback);
+        this._badgeImageReadyCallback = null;
+    }
+
+    private pruneBadgeImageListeners(): void
+    {
+        if(!this._badgeListenerObjects) return;
+
+        for(const [badgeId, listeners] of this._badgeListenerObjects)
+        {
+            const live = listeners.filter(listener => !!listener.object?.logic);
+
+            if(live.length) this._badgeListenerObjects.set(badgeId, live);
+            else this._badgeListenerObjects.delete(badgeId);
+        }
+
+        this.removeIdleBadgeImageListener();
+    }
+
     public loadRoomObjectBadgeImage(roomId: number, objectId: number, objectCategory: number, badgeId: string, groupBadge: boolean = true): void
     {
         let roomObject: IRoomObjectController = null;
@@ -2527,6 +2555,9 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         if(!roomObject || !roomObject.logic) return;
 
+        // Temporary image objects may have been disposed directly by the room instance.
+        this.pruneBadgeImageListeners();
+
         let badgeName = (groupBadge) ? this._sessionDataManager.loadGroupBadgeImage(badgeId) : this._sessionDataManager.loadBadgeImage(badgeId);
 
         if(!badgeName)
@@ -2535,9 +2566,9 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
             if(!this._badgeListenerObjects) this._badgeListenerObjects = new Map();
 
-            if(!this._badgeListenerObjects.size)
+            if(!this._badgeImageReadyCallback)
             {
-                const onBadgeImageReadyEvent = (event: BadgeImageReadyEvent) =>
+                this._badgeImageReadyCallback = (event: BadgeImageReadyEvent) =>
                 {
                     const listeners = this._badgeListenerObjects && this._badgeListenerObjects.get(event.badgeId);
 
@@ -2545,7 +2576,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
                     for(const listener of listeners)
                     {
-                        if(!listener) continue;
+                        if(!listener?.object?.logic) continue;
 
                         this.putBadgeInObjectAssets(listener.object, event.badgeId, listener.groupBadge);
 
@@ -2556,13 +2587,10 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
                     this._badgeListenerObjects.delete(event.badgeId);
 
-                    if(!this._badgeListenerObjects.size)
-                    {
-                        GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
-                    }
+                    this.removeIdleBadgeImageListener();
                 };
 
-                GetEventDispatcher().addEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
+                GetEventDispatcher().addEventListener(BadgeImageReadyEvent.IMAGE_READY, this._badgeImageReadyCallback);
             }
 
             let listeners = this._badgeListenerObjects.get(badgeId);
