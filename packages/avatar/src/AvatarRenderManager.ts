@@ -34,10 +34,7 @@ export class AvatarRenderManager implements IAvatarRenderManager
         this._structure?.initGeometry(HabboAvatarGeometry.geometry);
         this._structure?.initPartSets(HabboAvatarPartSets.partSets);
 
-        await this.loadActions();
-
         this._structure?.initAnimation(HabboAvatarAnimations.animations);
-        await this.loadFigureData();
 
         this._aliasCollection.init();
 
@@ -46,8 +43,13 @@ export class AvatarRenderManager implements IAvatarRenderManager
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_ASSET_LOADED, this._aliasResetCallback);
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_EFFECT_LOADED, this._aliasResetCallback);
 
-        await this._avatarAssetDownloadManager.init();
-        await this._effectAssetDownloadManager.init();
+        // These populate independent structures; no avatar can be created until init resolves.
+        await Promise.all([
+            this.loadActions(),
+            this.loadFigureData(),
+            this._avatarAssetDownloadManager.init(),
+            this._effectAssetDownloadManager.init()
+        ]);
     }
 
     public dispose(): void
