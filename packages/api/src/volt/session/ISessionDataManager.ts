@@ -9,7 +9,7 @@ import { IClientAccessListsSnapshot } from './IClientAccessListsSnapshot';
 
 export interface ISessionDataManager
 {
-    init(): Promise<void>;
+    init(localizationReady?: Promise<void>): Promise<void>;
     getClientAccessListsSnapshot(): IClientAccessListsSnapshot;
     getAllFurnitureData(): IFurnitureData[];
     mergeFurnitureDataFromUrl(url: string): Promise<IFurnitureData[]>;

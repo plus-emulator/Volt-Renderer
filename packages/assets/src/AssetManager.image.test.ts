@@ -26,6 +26,28 @@ const createManager = (overrides: Record<string, unknown> = {}) =>
 
 describe('AssetManager modern image loading', () =>
 {
+    it.each(['room', 'floor_editor'])('decodes %s images concurrently and defines the collection only after all complete', async name =>
+    {
+        const completions: (() => void)[] = [];
+        const collection = { textures: new Map(), define: vi.fn() };
+        const { manager, dependencies } = createManager({
+            loadImageResource: vi.fn(() => new Promise(resolve => completions.push(() => resolve(createResource()))))
+        });
+        vi.spyOn(manager as any, 'createCollection').mockReturnValue(collection);
+        const loading = name === 'room' ? (manager as any).loadLocalRoom() : (manager as any).loadLocalAsset(name);
+
+        await vi.waitFor(() => expect(completions.length).toBeGreaterThan(1));
+        const count = completions.length;
+        completions.slice(1).forEach(complete => complete());
+        await Promise.resolve();
+        expect(collection.define).not.toHaveBeenCalled();
+        completions[0]();
+        await loading;
+        expect(dependencies.loadImageResource).toHaveBeenCalledTimes(count);
+        expect(collection.define).toHaveBeenCalledTimes(1);
+        expect(collection.textures.size).toBeGreaterThanOrEqual(count);
+    });
+
     it('routes a direct WebP URL with query parameters through the central image loader', async () =>
     {
         const resource = createResource();
