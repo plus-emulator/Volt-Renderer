@@ -43,3 +43,6 @@ export * from './WiredLinkConfigurationEvent';
 export * from './WiredLinkOperationResultEvent';
 export * from './WiredLinkConnectionsEvent';
 export * from './WiredLinkNetworkInvalidatedEvent';
+export * from './WiredUserHighlightEvent';
+export * from './WiredFurniVisualizationStateEvent';
+export * from './WiredUserVisualizationStateEvent';

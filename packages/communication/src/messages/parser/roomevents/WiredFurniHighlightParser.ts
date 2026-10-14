@@ -71,3 +71,12 @@ export class WiredFurniHighlightParser implements IMessageParser
         return this._easingMode;
     }
 }
+
+/** The user variant, class_2412 in WIN63-202610131318 (parse L37-57): the same body with room unit indices. */
+export class WiredUserHighlightParser extends WiredFurniHighlightParser
+{
+    public get roomIndices(): number[]
+    {
+        return this.furniIds;
+    }
+}

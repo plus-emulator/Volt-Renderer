@@ -308,8 +308,8 @@ export class IncomingHeader
     public static WIRED_FURNI_OPACITY = 5109;
     public static WIRED_FURNI_MOVE_STYLE = 5110;
     public static WIRED_ARRAY_INSPECTION_DATA = 5111;
-    // AIR 13 wired leftovers. 420 (WiredClickUserResponse) and 2901 (WiredUserVariablesPage)
-    // are already GROUP_LIST / PET_INFO here, so those two take custom ids instead.
+    // AIR 13 wired leftovers. 420 (WiredClickUserResponse) takes a custom id. Incoming 2901 is
+    // class_3459 WiredUserVisualizationState (WIRED_USER_VISUALIZATION_STATE); outgoing 2901 is USER_MOTTO.
     public static WIRED_ENVIRONMENT = 3583;
     public static WIRED_CLICK_SETTINGS = 1136;
     public static WIRED_LOG_PAGE = 65414;
@@ -658,4 +658,7 @@ export class IncomingHeader
     public static WIRED_LINK_OPERATION_RESULT = 1586;
     public static WIRED_LINK_CONNECTIONS = 830;
     public static WIRED_LINK_NETWORK_INVALIDATED = 1949;
+    public static WIRED_USER_HIGHLIGHT = 2552;
+    public static WIRED_FURNI_VISUALIZATION_STATE = 3355;
+    public static WIRED_USER_VISUALIZATION_STATE = 2901;
 }

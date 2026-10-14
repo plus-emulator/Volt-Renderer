@@ -2,6 +2,7 @@ import { WiredChestRewardEvent, WiredChestSettingsAckEvent, WiredVariableInspect
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
 import { WiredFurniTransparencyEvent, WiredUserTransparencyEvent, WiredFurniHighlightEvent, VariableLeaderboardSnapshotEvent, VariableLeaderboardChunkEvent, WiredLabelsEvent, WiredLabelsUpdateEvent, WiredLinkOpenEvent, WiredLinkConfigurationEvent, WiredLinkOperationResultEvent, WiredLinkConnectionsEvent, WiredLinkNetworkInvalidatedEvent, WiredVariableShareSynchronizeComposer, VariableLeaderboardSubscribeComposer, WiredLabelSaveTextComposer, WiredLabelSaveSettingsComposer, WiredLabelSaveRegionComposer, WiredLinkRequestConfigComposer, WiredLinkSaveSelectionComposer, WiredLinkCreateNetworkComposer, WiredLinkRenameNetworkComposer, WiredLinkDeleteNetworkComposer, WiredLinkGetConnectionsComposer } from './messages';
+import { WiredFurniVisualizationStateEvent, WiredUserHighlightEvent, WiredUserVisualizationStateEvent } from './messages';
 import { IMessageConfiguration } from '@volt/api';
 import { AllowedChatStylesMessageEvent, CreatableRoomModelsMessageEvent } from './messages';
 import { GoToBreedingNestFailureEvent, GroupMemberUpdateEvent, GroupMembersRefreshEvent } from './messages';
@@ -653,6 +654,9 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.WIRED_LINK_OPERATION_RESULT, WiredLinkOperationResultEvent);
         this._events.set(IncomingHeader.WIRED_LINK_CONNECTIONS, WiredLinkConnectionsEvent);
         this._events.set(IncomingHeader.WIRED_LINK_NETWORK_INVALIDATED, WiredLinkNetworkInvalidatedEvent);
+        this._events.set(IncomingHeader.WIRED_USER_HIGHLIGHT, WiredUserHighlightEvent);
+        this._events.set(IncomingHeader.WIRED_FURNI_VISUALIZATION_STATE, WiredFurniVisualizationStateEvent);
+        this._events.set(IncomingHeader.WIRED_USER_VISUALIZATION_STATE, WiredUserVisualizationStateEvent);
         this._events.set(IncomingHeader.CONF_INVIS_STATE, ConfInvisStateMessageEvent);
         this._events.set(IncomingHeader.HANDITEM_BLOCK_STATE, HanditemBlockStateMessageEvent);
 
