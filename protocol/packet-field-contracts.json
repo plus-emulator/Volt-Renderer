@@ -7211,33 +7211,6 @@
       ]
     },
     {
-      "name": "FURNITURE_PICKUP",
-      "direction": "client_to_server",
-      "header": 58,
-      "java": {
-        "symbol": "RoomPickupItemEvent",
-        "className": "RoomPickupItemEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/RoomPickupItemEvent.java"
-      },
-      "typescript": {
-        "symbol": "FURNITURE_PICKUP",
-        "className": "FurniturePickupComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/FurniturePickupComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
-        }
-      ]
-    },
-    {
       "name": "ROOM_MUTE_USER",
       "direction": "client_to_server",
       "header": 3007,
@@ -19722,6 +19695,22 @@
     }
   ],
   "exemptions": [
+    {
+      "name": "FURNITURE_PICKUP",
+      "direction": "client_to_server",
+      "header": 58,
+      "java": {
+        "symbol": "RoomPickupItemEvent",
+        "className": "RoomPickupItemEvent",
+        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/RoomPickupItemEvent.java"
+      },
+      "typescript": {
+        "symbol": "FURNITURE_PICKUP",
+        "className": "FurniturePickupComposer",
+        "path": "packages/communication/src/messages/outgoing/room/furniture/FurniturePickupComposer.ts"
+      },
+      "reason": "TypeScript analyzer: Outgoing composer message array cannot be resolved statically (the confirmed flag of AIR package_66/class_3322 is written only for the pickup confirmed after ObjectRemoveConfirm)"
+    },
     {
       "name": "PICK_ISSUES",
       "direction": "client_to_server",
