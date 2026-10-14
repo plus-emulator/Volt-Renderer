@@ -11,6 +11,8 @@ import { AvatarImageCache } from './cache';
 import { AvatarFrameTexture, AvatarFrameTextureCache } from './cache/AvatarFrameTextureCache';
 import { AvatarCanvas } from './structure';
 
+type PreparedAvatarPart = { image: Container; x: number; y: number };
+
 export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 {
     private static CHANNELS_EQUAL: string = 'CHANNELS_EQUAL';
@@ -57,6 +59,9 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
     private _transientBodyParts: AvatarImageBodyPartContainer[] = [];
     private _sharedFrame: AvatarFrameTexture = null;
     private _activeSetType: string = null;
+    // At most eight non-owning hints per image; only the active frame borrows GPU storage.
+    private _compositions: Map<string, WeakRef<AvatarFrameTexture>> = new Map();
+    private _compositionRevision: number = -1;
 
     constructor(
         private _structure: AvatarStructure,
@@ -95,6 +100,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
         this._actions = null;
 
         this.releaseActiveTexture();
+        this._compositions.clear();
         this._frameTextures = null;
 
         if(this._cache)
@@ -215,48 +221,42 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
         return this._cachedBodyParts;
     }
 
-    private buildAvatarContainer(avatarCanvas: AvatarCanvas, setType: string): Container
+    private prepareBodyParts(avatarCanvas: AvatarCanvas, setType: string): PreparedAvatarPart[]
     {
         const bodyParts = this.getBodyParts(setType, this._mainAction.definition.geometryType, this._mainDirection);
-        const container = new Container();
+        const parts: PreparedAvatarPart[] = [];
 
         this._transientBodyParts.length = 0;
 
-        let partCount = (bodyParts.length - 1);
-
-        while(partCount >= 0)
+        for(let index = bodyParts.length - 1; index >= 0; index--)
         {
-            const set = bodyParts[partCount];
-            const part = this._cache.getImageContainer(set, this._frameCounter);
+            const part = this._cache.getImageContainer(bodyParts[index], this._frameCounter);
 
-            if(part)
-            {
-                const partCacheContainer = part.image;
+            if(!part) continue;
+            if(!part.isCacheable) this._transientBodyParts.push(part);
+            if(!part.image) continue;
 
-                if(partCacheContainer)
-                {
-                    const partContainer = new Container();
+            const point = part.regPoint;
 
-                    partContainer.addChild(partCacheContainer);
+            parts.push({ image: part.image,
+                x: Math.floor(point.x + avatarCanvas.offset.x + avatarCanvas.regPoint.x),
+                y: Math.floor(point.y + avatarCanvas.offset.y + avatarCanvas.regPoint.y) });
+        }
 
-                    const point = part.regPoint.clone();
+        return parts;
+    }
 
-                    point.x += avatarCanvas.offset.x;
-                    point.y += avatarCanvas.offset.y;
+    private buildAvatarContainer(avatarCanvas: AvatarCanvas, setType: string, parts = this.prepareBodyParts(avatarCanvas, setType)): Container
+    {
+        const container = new Container();
 
-                    point.x += avatarCanvas.regPoint.x;
-                    point.y += avatarCanvas.regPoint.y;
+        for(const part of parts)
+        {
+            const wrapper = new Container();
 
-                    partContainer.x = Math.floor(point.x);
-                    partContainer.y = Math.floor(point.y);
-
-                    container.addChild(partContainer);
-
-                    if(!part.isCacheable) this._transientBodyParts.push(part);
-                }
-            }
-
-            partCount--;
+            wrapper.addChild(part.image);
+            wrapper.position.set(part.x, part.y);
+            container.addChild(wrapper);
         }
 
         if(this._avatarSpriteData)
@@ -280,6 +280,15 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
     public processAsTexture(setType: string, hightlight: boolean): Texture
     {
+        const revision = AvatarFrameTextureCache.revision;
+
+        if(this._compositionRevision !== revision)
+        {
+            this._compositions.clear();
+            this._compositionRevision = revision;
+            this._changes = true;
+        }
+
         if(!this._changes && this._activeSetType === setType && (!this._sharedFrame || this._sharedFrame.cached)) return this._activeTexture;
 
         if(!this._mainAction) return null;
@@ -290,9 +299,36 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
         if(!avatarCanvas) return null;
 
-        const container = this.buildAvatarContainer(avatarCanvas, setType);
+        const parts = this.prepareBodyParts(avatarCanvas, setType);
+        // Cached body-part trees are immutable until disposed/replaced. Their placement is
+        // resolved afresh, including effect offsets, head turns and each part's animation cycle.
+        // Asset/UV/sampling updates invalidate every hint; filters and transient parts bypass it.
+        let key: string = null;
 
-        if(!container) return null;
+        if(this._frameTextures && !this._avatarSpriteData && !this._transientBodyParts.length)
+        {
+            key = `${avatarCanvas.width},${avatarCanvas.height}`;
+
+            for(const part of parts) key += `|${part.image.uid},${part.x},${part.y}`;
+
+            const hint = this._compositions.get(key);
+            const cached = this._frameTextures.acquireCached(hint?.deref());
+
+            if(cached)
+            {
+                this._compositions.delete(key);
+                this._compositions.set(key, hint);
+                this.releaseActiveTexture();
+                this._sharedFrame = cached;
+                this._activeTexture = cached.texture;
+                this._changes = false;
+                this._activeSetType = setType;
+
+                return this._activeTexture;
+            }
+        }
+
+        const container = this.buildAvatarContainer(avatarCanvas, setType, parts);
 
         try
         {
@@ -303,6 +339,14 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
                 this.releaseActiveTexture();
                 this._sharedFrame = sharedFrame;
                 this._activeTexture = sharedFrame.texture;
+
+                if(key !== null)
+                {
+                    this._compositions.delete(key);
+                    this._compositions.set(key, new WeakRef(sharedFrame));
+
+                    if(this._compositions.size > 8) this._compositions.delete(this._compositions.keys().next().value);
+                }
             }
             else
             {
