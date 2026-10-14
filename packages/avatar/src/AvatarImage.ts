@@ -60,7 +60,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
     private _sharedFrame: AvatarFrameTexture = null;
     private _activeSetType: string = null;
     // At most eight non-owning hints per image; only the active frame borrows GPU storage.
-    private _compositions: Map<string, AvatarFrameTexture> = new Map();
+    private _compositions: Map<string, WeakRef<AvatarFrameTexture>> = new Map();
     private _compositionRevision: number = -1;
 
     constructor(
@@ -311,12 +311,13 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
 
             for(const part of parts) key += `|${part.image.uid},${part.x},${part.y}`;
 
-            const cached = this._frameTextures.acquireCached(this._compositions.get(key));
+            const hint = this._compositions.get(key);
+            const cached = this._frameTextures.acquireCached(hint?.deref());
 
             if(cached)
             {
                 this._compositions.delete(key);
-                this._compositions.set(key, cached);
+                this._compositions.set(key, hint);
                 this.releaseActiveTexture();
                 this._sharedFrame = cached;
                 this._activeTexture = cached.texture;
@@ -342,7 +343,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener
                 if(key !== null)
                 {
                     this._compositions.delete(key);
-                    this._compositions.set(key, sharedFrame);
+                    this._compositions.set(key, new WeakRef(sharedFrame));
 
                     if(this._compositions.size > 8) this._compositions.delete(this._compositions.keys().next().value);
                 }
