@@ -1,6 +1,7 @@
 import { WiredChestRewardEvent, WiredChestSettingsAckEvent, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
+import { WiredFurniTransparencyEvent, WiredUserTransparencyEvent, WiredFurniHighlightEvent, VariableLeaderboardSnapshotEvent, VariableLeaderboardChunkEvent, WiredLabelsEvent, WiredLabelsUpdateEvent, WiredLinkOpenEvent, WiredLinkConfigurationEvent, WiredLinkOperationResultEvent, WiredLinkConnectionsEvent, WiredLinkNetworkInvalidatedEvent, WiredVariableShareSynchronizeComposer, VariableLeaderboardSubscribeComposer, WiredLabelSaveTextComposer, WiredLabelSaveSettingsComposer, WiredLabelSaveRegionComposer, WiredLinkRequestConfigComposer, WiredLinkSaveSelectionComposer, WiredLinkCreateNetworkComposer, WiredLinkRenameNetworkComposer, WiredLinkDeleteNetworkComposer, WiredLinkGetConnectionsComposer } from './messages';
 import { IMessageConfiguration } from '@volt/api';
 import { AllowedChatStylesMessageEvent, CreatableRoomModelsMessageEvent } from './messages';
 import { GoToBreedingNestFailureEvent, GroupMemberUpdateEvent, GroupMembersRefreshEvent } from './messages';
@@ -640,6 +641,18 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.WIRED_VARIABLE_FX_STATUS, WiredVariableFxStatusEvent);
         this._events.set(IncomingHeader.WIRED_VARIABLE_FX_STATUS_REMOVED, WiredVariableFxStatusRemovedEvent);
         this._events.set(IncomingHeader.WIRED_WEB_API_KEY_RESULT, WiredWebApiKeyResultEvent);
+        this._events.set(IncomingHeader.WIRED_FURNI_TRANSPARENCY, WiredFurniTransparencyEvent);
+        this._events.set(IncomingHeader.WIRED_USER_TRANSPARENCY, WiredUserTransparencyEvent);
+        this._events.set(IncomingHeader.WIRED_FURNI_HIGHLIGHT, WiredFurniHighlightEvent);
+        this._events.set(IncomingHeader.VARIABLE_LEADERBOARD_SNAPSHOT, VariableLeaderboardSnapshotEvent);
+        this._events.set(IncomingHeader.VARIABLE_LEADERBOARD_CHUNK, VariableLeaderboardChunkEvent);
+        this._events.set(IncomingHeader.WIRED_LABELS, WiredLabelsEvent);
+        this._events.set(IncomingHeader.WIRED_LABELS_UPDATE, WiredLabelsUpdateEvent);
+        this._events.set(IncomingHeader.WIRED_LINK_OPEN, WiredLinkOpenEvent);
+        this._events.set(IncomingHeader.WIRED_LINK_CONFIGURATION, WiredLinkConfigurationEvent);
+        this._events.set(IncomingHeader.WIRED_LINK_OPERATION_RESULT, WiredLinkOperationResultEvent);
+        this._events.set(IncomingHeader.WIRED_LINK_CONNECTIONS, WiredLinkConnectionsEvent);
+        this._events.set(IncomingHeader.WIRED_LINK_NETWORK_INVALIDATED, WiredLinkNetworkInvalidatedEvent);
         this._events.set(IncomingHeader.CONF_INVIS_STATE, ConfInvisStateMessageEvent);
         this._events.set(IncomingHeader.HANDITEM_BLOCK_STATE, HanditemBlockStateMessageEvent);
 
@@ -1319,6 +1332,17 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HASHES, WiredVariableHashesComposer);
         this._composers.set(OutgoingHeader.WIRED_ALL_VARIABLES_REQUEST, WiredAllVariablesRequestComposer);
         this._composers.set(OutgoingHeader.WIRED_GENERATE_WEB_API_KEY, WiredGenerateWebApiKeyComposer);
+        this._composers.set(OutgoingHeader.WIRED_VARIABLE_SHARE_SYNCHRONIZE, WiredVariableShareSynchronizeComposer);
+        this._composers.set(OutgoingHeader.VARIABLE_LEADERBOARD_SUBSCRIBE, VariableLeaderboardSubscribeComposer);
+        this._composers.set(OutgoingHeader.WIRED_LABEL_SAVE_TEXT, WiredLabelSaveTextComposer);
+        this._composers.set(OutgoingHeader.WIRED_LABEL_SAVE_SETTINGS, WiredLabelSaveSettingsComposer);
+        this._composers.set(OutgoingHeader.WIRED_LABEL_SAVE_REGION, WiredLabelSaveRegionComposer);
+        this._composers.set(OutgoingHeader.WIRED_LINK_REQUEST_CONFIG, WiredLinkRequestConfigComposer);
+        this._composers.set(OutgoingHeader.WIRED_LINK_SAVE_SELECTION, WiredLinkSaveSelectionComposer);
+        this._composers.set(OutgoingHeader.WIRED_LINK_CREATE_NETWORK, WiredLinkCreateNetworkComposer);
+        this._composers.set(OutgoingHeader.WIRED_LINK_RENAME_NETWORK, WiredLinkRenameNetworkComposer);
+        this._composers.set(OutgoingHeader.WIRED_LINK_DELETE_NETWORK, WiredLinkDeleteNetworkComposer);
+        this._composers.set(OutgoingHeader.WIRED_LINK_GET_CONNECTIONS, WiredLinkGetConnectionsComposer);
         this._composers.set(OutgoingHeader.WIRED_OPEN, OpenMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_ACTION_SAVE, UpdateActionMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_SELECTOR_SAVE, UpdateSelectorMessageComposer);

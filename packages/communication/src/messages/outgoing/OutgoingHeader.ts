@@ -637,4 +637,16 @@ export class OutgoingHeader
     public static SELF_DONATION = 65452;
     // October AIR RecolorFurniture (package_100.class_2402), official id.
     public static RECOLOR_FURNITURE = 3047;
+    // October AIR new wired editors and widgets (WIN63-202610131318 classes), on build 202610121709 ids.
+    public static WIRED_VARIABLE_SHARE_SYNCHRONIZE = 3631;
+    public static VARIABLE_LEADERBOARD_SUBSCRIBE = 2438;
+    public static WIRED_LABEL_SAVE_TEXT = 2839;
+    public static WIRED_LABEL_SAVE_SETTINGS = 1436;
+    public static WIRED_LABEL_SAVE_REGION = 3667;
+    public static WIRED_LINK_REQUEST_CONFIG = 2882;
+    public static WIRED_LINK_SAVE_SELECTION = 2425;
+    public static WIRED_LINK_CREATE_NETWORK = 309;
+    public static WIRED_LINK_RENAME_NETWORK = 3467;
+    public static WIRED_LINK_DELETE_NETWORK = 2978;
+    public static WIRED_LINK_GET_CONNECTIONS = 3197;
 }

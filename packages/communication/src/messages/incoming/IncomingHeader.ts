@@ -645,4 +645,17 @@ export class IncomingHeader
     public static TREASURE_HUNT_UPDATE = 2031;
     // AIR 13 self donation tool result (server -> client), official id.
     public static SELF_DONATION_RESULT = 1892;
+    // October AIR new wired runtime (WIN63-202610131318 classes), on build 202610121709 ids.
+    public static WIRED_FURNI_TRANSPARENCY = 3710;
+    public static WIRED_USER_TRANSPARENCY = 536;
+    public static WIRED_FURNI_HIGHLIGHT = 2218;
+    public static VARIABLE_LEADERBOARD_SNAPSHOT = 1284;
+    public static VARIABLE_LEADERBOARD_CHUNK = 995;
+    public static WIRED_LABELS = 656;
+    public static WIRED_LABELS_UPDATE = 1240;
+    public static WIRED_LINK_OPEN = 2161;
+    public static WIRED_LINK_CONFIGURATION = 778;
+    public static WIRED_LINK_OPERATION_RESULT = 1586;
+    public static WIRED_LINK_CONNECTIONS = 830;
+    public static WIRED_LINK_NETWORK_INVALIDATED = 1949;
 }
