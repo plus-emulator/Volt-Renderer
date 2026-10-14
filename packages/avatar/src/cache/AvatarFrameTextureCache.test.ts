@@ -32,6 +32,36 @@ vi.mock('@volt/utils', async importOriginal => ({
 let textures: Texture[];
 let containers: Container[];
 
+describe('avatar boot dependencies', () =>
+{
+    it('starts all four data loaders together and waits for every mandatory library', async () =>
+    {
+        const manager = new AvatarRenderManager();
+        const pending = Array.from({ length: 4 }, () =>
+        {
+            let resolve: () => void;
+            const promise = new Promise<void>(ready => { resolve = ready; });
+            return { promise, resolve };
+        });
+        const loaders = [
+            vi.spyOn(manager as any, 'loadActions').mockReturnValue(pending[0].promise),
+            vi.spyOn(manager as any, 'loadFigureData').mockReturnValue(pending[1].promise),
+            vi.spyOn((manager as any)._avatarAssetDownloadManager, 'init').mockReturnValue(pending[2].promise),
+            vi.spyOn((manager as any)._effectAssetDownloadManager, 'init').mockReturnValue(pending[3].promise)
+        ];
+        const ready = vi.fn();
+        const loading = manager.init().then(ready);
+        loaders.forEach(loader => expect(loader).toHaveBeenCalledTimes(1));
+        pending.slice(0, 3).forEach(item => item.resolve());
+        await Promise.resolve();
+        expect(ready).not.toHaveBeenCalled();
+        pending[3].resolve();
+        await loading;
+        expect(ready).toHaveBeenCalledTimes(1);
+        manager.dispose();
+    });
+});
+
 const imageTexture = () =>
 {
     const image = new Image(8, 12);

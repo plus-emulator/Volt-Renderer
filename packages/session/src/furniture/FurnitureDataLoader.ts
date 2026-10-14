@@ -16,7 +16,7 @@ export class FurnitureDataLoader
     }
 
     /** Loads the furnidata; the boot load asks for the version the client was started with. */
-    public async init(versioned: boolean = false): Promise<void>
+    public async init(versioned: boolean = false, localizationReady?: Promise<void>): Promise<void>
     {
         const url = GetFurnitureDataUrl(versioned);
 
@@ -26,7 +26,8 @@ export class FurnitureDataLoader
 
         try
         {
-            responseData = await loadGamedata(url);
+            // Fetch immediately, but apply furniture text overrides after base localization.
+            [responseData] = await Promise.all([loadGamedata(url), localizationReady]);
         }
         catch (err)
         {
