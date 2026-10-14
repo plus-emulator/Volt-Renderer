@@ -5,6 +5,7 @@ import { AvatarScaleTextureCache } from './AvatarScaleTextureCache';
 
 export type AvatarFrameTexture = {
     texture: Texture;
+    key: string;
     references: number;
     cached: boolean;
     bytes: number;
@@ -13,6 +14,14 @@ export type AvatarFrameTexture = {
 // Outputs are immutable while cached or borrowed. Only unborrowed frames can be recycled.
 export class AvatarFrameTextureCache
 {
+    private static _revision: number = 0;
+    private static _trackedTextures: WeakSet<Texture> = new WeakSet();
+
+    public static get revision(): number
+    {
+        return this._revision;
+    }
+
     private static _sourceVersions: WeakMap<TextureSource, { value: number }> = new WeakMap();
 
     private _frames: Map<string, AvatarFrameTexture> = new Map();
@@ -24,10 +33,8 @@ export class AvatarFrameTextureCache
     constructor(private _maxEntries: number = 2048, private _maxBytes: number = 96 * 1024 * 1024)
     {}
 
-    public acquire(container: Container, width: number, height: number): AvatarFrameTexture
+    private syncRenderer(): void
     {
-        if(this._disposed) return null;
-
         const renderer = GetRenderer();
 
         if(renderer !== this._renderer)
@@ -37,6 +44,29 @@ export class AvatarFrameTextureCache
             this._renderer = renderer;
             this._renderer?.runners.contextChange?.add(this);
         }
+    }
+
+    // A memo is a non-owning hint: eviction and context loss can invalidate it at any time.
+    public acquireCached(frame: AvatarFrameTexture): AvatarFrameTexture
+    {
+        if(this._disposed || !frame) return null;
+
+        this.syncRenderer();
+
+        if(!frame.cached || this._frames.get(frame.key) !== frame) return null;
+
+        this._frames.delete(frame.key);
+        this._frames.set(frame.key, frame);
+        frame.references++;
+
+        return frame;
+    }
+
+    public acquire(container: Container, width: number, height: number): AvatarFrameTexture
+    {
+        if(this._disposed) return null;
+
+        this.syncRenderer();
 
         const composition: (number | string)[] = [width, height];
 
@@ -82,7 +112,7 @@ export class AvatarFrameTextureCache
             throw error;
         }
 
-        const frame: AvatarFrameTexture = { texture, references: 1, cached: true, bytes };
+        const frame: AvatarFrameTexture = { texture, key, references: 1, cached: true, bytes };
 
         this._frames.set(key, frame);
         this._bytes += bytes;
@@ -187,6 +217,16 @@ export class AvatarFrameTextureCache
             if(!staticImage && !immutableFallback && texture !== Texture.EMPTY && texture !== Texture.WHITE) return false;
             if(immutableFallback) composition.push('small-fallback', GetTextureContentVersion(source));
 
+            if(!AvatarFrameTextureCache._trackedTextures.has(texture))
+            {
+                AvatarFrameTextureCache._trackedTextures.add(texture);
+                // Listeners capture no avatar/cache and live only as long as the asset.
+                const changed = () => AvatarFrameTextureCache._revision++;
+
+                texture.on('update', changed);
+                texture.on('destroy', changed);
+            }
+
             const uvs = texture.uvs;
             const bounds = texture.orig;
             const trim = texture.trim;
@@ -221,12 +261,17 @@ export class AvatarFrameTextureCache
 
             // The source owns these callbacks; they retain only this tiny revision record,
             // never a cache or avatar. The WeakMap does not keep unloaded assets alive.
-            const changed = () => version.value++;
+            const changed = () =>
+            {
+                version.value++;
+                AvatarFrameTextureCache._revision++;
+            };
 
             source.on('update', changed);
             source.on('resize', changed);
             source.on('styleChange', changed);
             source.on('change', changed);
+            source.on('destroy', changed);
         }
 
         return version.value;
