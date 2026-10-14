@@ -12,6 +12,7 @@ import { IObjectData, IRoomMapData } from './object';
 export interface IRoomEngine
 {
     init(): Promise<void>;
+    destroyRoom(roomId: number): void;
     setActiveRoomId(roomId: number): void;
     createRoomInstance(roomId: number, roomMap: IRoomMapData, initialCamera?: IVector3D): void;
     initializeRoomCamera(roomId: number, canvasId: number): void;

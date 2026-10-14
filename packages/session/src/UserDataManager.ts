@@ -121,6 +121,7 @@ export class UserDataManager implements IUserDataManager
         const existingType = this._userDataByType.get(existing.type);
 
         if(existingType) existingType.delete(existing.webID);
+        if(existing.type === UserDataManager.TYPE_USER) this._userBadges.delete(existing.webID);
 
         this.invalidateRoomUserListSnapshot();
     }

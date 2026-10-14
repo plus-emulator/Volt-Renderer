@@ -1,6 +1,7 @@
 import { AvatarAction, AvatarSetType, IActionDefinition, IPartColor } from '@volt/api';
 import { CanvasSource, ColorMatrixFilter, Container, ImageSource, Point, Rectangle, RenderTexture, Sprite, Texture } from 'pixi.js';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { GraphicAsset } from '@volt/assets';
 import { AvatarFigureContainer } from '../AvatarFigureContainer';
 import { AvatarImage } from '../AvatarImage';
 import { AvatarImageBodyPartContainer } from '../AvatarImageBodyPartContainer';
@@ -511,5 +512,56 @@ describe('AvatarImage shared output integration', () =>
         expect(warm.passes).toBe(0);
         expect(warm.allocations).toBe(0);
         cache.dispose();
+    });
+});
+
+
+describe('avatar effect lifetime', () =>
+{
+    it('removes the shared geometry reference when an image is disposed', () =>
+    {
+        const avatar = avatarFixture()();
+        const internals = avatar as any;
+        const retained = new Set([avatar]);
+        const structure = internals._structure;
+        structure.removeDynamicItems = (image: AvatarImage) => retained.delete(image);
+        internals._effectListener = { resetEffect: vi.fn() };
+        avatar.dispose();
+        avatar.dispose();
+        expect(retained.size).toBe(0);
+        expect(internals._effectListener).toBeNull();
+        expect(internals._effectManager).toBeNull();
+    });
+});
+
+
+describe('small avatar atlas fallback', () =>
+{
+    it('shares one small fallback and one finished frame across 1000 bots', () =>
+    {
+        const source = imageTexture();
+        const asset = GraphicAsset.createAsset('h_std_ch_1_2_0', null, source, 5, 9);
+        const aliases = { getAsset: () => asset } as unknown as AssetAliasCollection;
+        const caches = Array.from({ length: 1000 }, () => new AvatarImageCache(null, null, aliases, 'sh'));
+        const views = caches.map(cache => (cache as any).getSmallScaleFallbackAsset('std', 'ch', '1', 2, 0));
+        expect(new Set(views.map(view => view.texture)).size).toBe(1);
+        expect(views[0].texture.source).not.toBe(source.source);
+        expect([views[0].width, views[0].height, views[0].x, views[0].y]).toEqual([4, 6, 3, 5]);
+        expect(rendering.passes).toBe(1);
+        expect(rendering.allocations).toBe(0);
+        const frames = new AvatarFrameTextureCache();
+        const borrowed = views.map(view => frames.acquire(composition(view.texture), 32, 55));
+        expect(new Set(borrowed.map(frame => frame.texture)).size).toBe(1);
+        expect(rendering.passes).toBe(2);
+        const fallback = views[0].texture;
+        caches[0].dispose();
+        expect(views[1].texture.destroyed).toBe(false);
+        for(const cache of caches.slice(1)) cache.dispose();
+        expect(fallback.destroyed).toBe(true);
+        expect(source.destroyed).toBe(false);
+        expect(source.source.destroyed).toBe(false);
+        for(const frame of borrowed) frames.release(frame);
+        frames.dispose();
+        asset.recycle();
     });
 });
