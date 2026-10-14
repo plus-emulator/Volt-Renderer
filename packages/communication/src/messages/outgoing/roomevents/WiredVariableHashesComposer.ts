@@ -19,6 +19,15 @@ export class WiredVariableHashesComposer implements IMessageComposer<(string | n
     constructor(hashes: IWiredVariableHash[])
     {
         const entries = hashes ?? [];
+        if(entries.length > 4096) throw new RangeError('Too many catalog hashes');
+        const ids = new Set<string>();
+        for(const entry of entries)
+        {
+            if(!entry.variableId || entry.variableId.length > 64 || ids.has(entry.variableId)
+                || !Number.isInteger(entry.hash) || entry.hash < -2147483648 || entry.hash > 2147483647)
+                throw new RangeError('Invalid catalog hash');
+            ids.add(entry.variableId);
+        }
 
         this._data = [ entries.length ];
 
@@ -31,7 +40,7 @@ export class WiredVariableHashesComposer implements IMessageComposer<(string | n
 
     public getMessageArray(): (string | number)[]
     {
-        return this._data;
+        return [...this._data];
     }
 
     public dispose(): void

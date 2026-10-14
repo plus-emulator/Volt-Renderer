@@ -1,3 +1,6 @@
+import { WiredChestRewardEvent, WiredChestSettingsAckEvent, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
+import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
+import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
 import { IMessageConfiguration } from '@volt/api';
 import { AllowedChatStylesMessageEvent, CreatableRoomModelsMessageEvent } from './messages';
 import { GoToBreedingNestFailureEvent, GroupMemberUpdateEvent, GroupMembersRefreshEvent } from './messages';
@@ -8,7 +11,7 @@ import { UserSettingsOnlineIndicatorComposer } from './messages/outgoing/user/se
 import { WiredMenuSettingsComposer } from './messages/outgoing/roomevents/WiredMenuSettingsComposer';
 import { RequestOfflineMessagesComposer } from './messages/outgoing/friendlist/RequestOfflineMessagesComposer';
 
-import { RoomQueueStatusEvent, YouAreNotSpectatorMessageEvent, ConfigurationItemStatesEvent, SpecialRoomEventEvent, SpecialSystemChatEvent, ObjectRemoveMultipleEvent, ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveConfirmEvent, FurnitureListRemoveMultipleEvent, OfficialRoomsEvent } from './messages';
+import { FurniRecolorUpdateEvent, RecolorFurnitureComposer, RoomQueueStatusEvent, YouAreNotSpectatorMessageEvent, ConfigurationItemStatesEvent, SpecialRoomEventEvent, SpecialSystemChatEvent, ObjectRemoveMultipleEvent, ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveConfirmEvent, FurnitureListRemoveMultipleEvent, OfficialRoomsEvent } from './messages';
 import { RoomUseHabbiconEvent, TriggerHabbiconComposer } from './messages';
 import { UserHabbiconsEvent, UserHabbiconStatusChangedEvent, HabbiconInfoEvent, HabbiconShopDataEvent, GetHabbiconShopDataComposer, GetHabbiconInfoComposer, BuyHabbiconComposer, BuyHabbiconCollectionComposer, ClaimHabbiconComposer, FavoriteHabbiconComposer, UnfavoriteHabbiconComposer } from './messages';
 import { AddCustomFilterWordMessageComposer, CustomFilterResultEvent, GetCustomFilterMessageComposer, ModifyCustomFilterResultEvent, RemoveCustomFilterWordMessageComposer } from './messages';
@@ -512,6 +515,8 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.ITEM_DIMMER_SETTINGS, RoomDimmerPresetsEvent);
         this._events.set(IncomingHeader.BUILD_HEIGHT_AVAILABLE, BuildHeightAvailableEvent);
         this._events.set(IncomingHeader.CHEST_DATA, ChestDataEvent);
+        this._events.set(IncomingHeader.WIRED_CHEST_REWARD, WiredChestRewardEvent);
+        this._events.set(IncomingHeader.WIRED_CHEST_SETTINGS_ACK, WiredChestSettingsAckEvent);
         this._events.set(IncomingHeader.CHEST_OPEN, ChestOpenEvent);
         this._events.set(IncomingHeader.CHEST_FURNI_CHUNK, ChestFurniChunkEvent);
         this._events.set(IncomingHeader.CHEST_FURNI_DELTA, ChestFurniDeltaEvent);
@@ -539,6 +544,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.SPECIAL_ROOM_EVENT, SpecialRoomEventEvent);
         this._events.set(IncomingHeader.SPECIAL_SYSTEM_CHAT, SpecialSystemChatEvent);
         this._events.set(IncomingHeader.OBJECT_REMOVE_MULTIPLE, ObjectRemoveMultipleEvent);
+        this._events.set(IncomingHeader.FURNI_RECOLOR_UPDATE, FurniRecolorUpdateEvent);
         this._events.set(IncomingHeader.ITEM_REMOVE_MULTIPLE, ItemRemoveMultipleEvent);
         this._events.set(IncomingHeader.ITEMS_STATE_UPDATE, ItemsStateUpdateEvent);
         this._events.set(IncomingHeader.OBJECT_REMOVE_CONFIRM, ObjectRemoveConfirmEvent);
@@ -604,11 +610,18 @@ export class VoltMessages implements IMessageConfiguration
 
         // ROOM EVENTS
         this._events.set(IncomingHeader.WIRED_ACTION, WiredFurniActionEvent);
+        this._events.set(IncomingHeader.WIRED_SELECTOR, WiredFurniSelectorEvent);
+        this._events.set(IncomingHeader.WIRED_ADDON, WiredFurniAddonEvent);
+        this._events.set(IncomingHeader.WIRED_VARIABLE, WiredFurniVariableEvent);
         this._events.set(IncomingHeader.WIRED_CONDITION, WiredFurniConditionEvent);
         this._events.set(IncomingHeader.WIRED_TRIGGER, WiredFurniTriggerEvent);
         this._events.set(IncomingHeader.WIRED_OPEN, WiredOpenEvent);
         this._events.set(IncomingHeader.WIRED_MONITOR_DATA, WiredMonitorDataEvent);
         this._events.set(IncomingHeader.WIRED_ROOM_SETTINGS_DATA, WiredRoomSettingsDataEvent);
+        this._events.set(IncomingHeader.WIRED_VARIABLE_INSPECTION_DATA, WiredVariableInspectionDataEvent);
+        this._events.set(IncomingHeader.WIRED_USER_VARIABLES_DATA_64, WiredUserVariablesData64Event);
+        this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_64, WiredVariableHolders64Event);
+        this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_PAGE_64, WiredVariableHoldersPage64Event);
         this._events.set(IncomingHeader.WIRED_USER_VARIABLES_DATA, WiredUserVariablesDataEvent);
         this._events.set(IncomingHeader.WIRED_FURNI_RUNTIME_STATE, WiredFurniRuntimeStateEvent);
         this._events.set(IncomingHeader.WIRED_FURNI_OPACITY, WiredFurniOpacityEvent);
@@ -1188,6 +1201,7 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.FURNITURE_ALIASES, FurnitureAliasesComposer);
         this._composers.set(OutgoingHeader.FURNITURE_GROUP_INFO, FurnitureGroupInfoComposer);
         this._composers.set(OutgoingHeader.FURNITURE_PICKUP, FurniturePickupComposer);
+        this._composers.set(OutgoingHeader.RECOLOR_FURNITURE, RecolorFurnitureComposer);
         this._composers.set(OutgoingHeader.FURNITURE_PICKUP_ALL, FurniturePickupAllComposer);
         this._composers.set(OutgoingHeader.FURNITURE_PLACE, FurniturePlaceComposer);
         this._composers.set(OutgoingHeader.ITEM_PAINT, FurniturePlacePaintComposer);
@@ -1282,6 +1296,12 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_MONITOR_REQUEST, WiredMonitorRequestComposer);
         this._composers.set(OutgoingHeader.WIRED_ROOM_SETTINGS_REQUEST, WiredRoomSettingsRequestComposer);
         this._composers.set(OutgoingHeader.WIRED_ROOM_SETTINGS_SAVE, WiredRoomSettingsSaveComposer);
+        this._composers.set(OutgoingHeader.WIRED_USER_VARIABLES_REQUEST_64, WiredUserVariablesRequest64Composer);
+        this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_REQUEST_64, WiredVariableHoldersRequest64Composer);
+        this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_PAGE_64, WiredVariableHoldersPage64Composer);
+        this._composers.set(OutgoingHeader.WIRED_VARIABLE_INSPECTION_REQUEST, WiredVariableInspectionRequestComposer);
+        this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_UPDATE_64, WiredUserVariableUpdate64Composer);
+        this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_MANAGE_64, WiredUserVariableManage64Composer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLES_REQUEST, WiredUserVariablesRequestComposer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_UPDATE, WiredUserVariableUpdateComposer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_MANAGE, WiredUserVariableManageComposer);
@@ -1301,6 +1321,9 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_GENERATE_WEB_API_KEY, WiredGenerateWebApiKeyComposer);
         this._composers.set(OutgoingHeader.WIRED_OPEN, OpenMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_ACTION_SAVE, UpdateActionMessageComposer);
+        this._composers.set(OutgoingHeader.WIRED_SELECTOR_SAVE, UpdateSelectorMessageComposer);
+        this._composers.set(OutgoingHeader.WIRED_ADDON_SAVE, UpdateAddonMessageComposer);
+        this._composers.set(OutgoingHeader.WIRED_VARIABLE_SAVE, UpdateVariableMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_CONDITION_SAVE, UpdateConditionMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_TRIGGER_SAVE, UpdateTriggerMessageComposer);
         this._composers.set(OutgoingHeader.ROOM_MUTE, RoomMuteComposer);

@@ -1,21 +1,14 @@
 import { IMessageDataWrapper, IMessageParser, ObjectRolling } from '@volt/api';
 import { Vector3d } from '@volt/utils';
 
-function parseLocaleFloat(value: string): number
-{
-    if(!value) return 0;
-
-    return parseFloat(value.replace(',', '.'));
-}
-
 function parseDirection(value: number): number
 {
-    return ((((value % 8) + 8) % 8) * 45);
+    return (value % 8) * 45;
 }
 
 export class WiredUserMovementData extends ObjectRolling
 {
-    constructor(id: number, location: Vector3d, targetLocation: Vector3d, movementType: string, private _bodyDirection: number, private _headDirection: number, private _duration: number)
+    constructor(id: number, location: Vector3d, targetLocation: Vector3d, movementType: string, private _bodyDirection: number, private _headDirection: number, private _duration: number, private _animationType: number, private _jumpPower?: number)
     {
         super(id, location, targetLocation, movementType);
     }
@@ -34,11 +27,21 @@ export class WiredUserMovementData extends ObjectRolling
     {
         return this._duration;
     }
+
+    public get animationType(): number
+    {
+        return this._animationType;
+    }
+
+    public get jumpPower(): number | undefined
+    {
+        return this._jumpPower;
+    }
 }
 
 export class WiredFurniMovementData extends ObjectRolling
 {
-    constructor(id: number, location: Vector3d, targetLocation: Vector3d, private _rotation: number, private _duration: number, private _elapsed: number, private _anchorType: number, private _anchorId: number)
+    constructor(id: number, location: Vector3d, targetLocation: Vector3d, private _rotation: number, private _duration: number, private _overshootTimeMs?: number, private _curveStrength?: number)
     {
         super(id, location, targetLocation, ObjectRolling.SLIDE);
     }
@@ -53,19 +56,14 @@ export class WiredFurniMovementData extends ObjectRolling
         return this._duration;
     }
 
-    public get elapsed(): number
+    public get overshootTimeMs(): number | undefined
     {
-        return this._elapsed;
+        return this._overshootTimeMs;
     }
 
-    public get anchorType(): number
+    public get curveStrength(): number | undefined
     {
-        return this._anchorType;
-    }
-
-    public get anchorId(): number
-    {
-        return this._anchorId;
+        return this._curveStrength;
     }
 }
 
@@ -132,9 +130,29 @@ export class WiredMovementsParser implements IMessageParser
 
     public parse(wrapper: IMessageDataWrapper): boolean
     {
+        this.flush();
+
         if(!wrapper) return false;
 
+        try
+        {
+            if(this.parseMovements(wrapper) && !wrapper.bytesAvailable) return true;
+        }
+        catch
+        {
+            // A truncated body must never leave a partially applicable batch.
+        }
+
+        this.flush();
+
+        return false;
+    }
+
+    private parseMovements(wrapper: IMessageDataWrapper): boolean
+    {
         let totalMovements = wrapper.readInt();
+
+        if(totalMovements < 0) return false;
 
         while(totalMovements > 0)
         {
@@ -148,13 +166,17 @@ export class WiredMovementsParser implements IMessageParser
                     const fromY = wrapper.readInt();
                     const toX = wrapper.readInt();
                     const toY = wrapper.readInt();
-                    const fromZ = parseLocaleFloat(wrapper.readString());
-                    const toZ = parseLocaleFloat(wrapper.readString());
+                    const fromZ = Number(wrapper.readString());
+                    const toZ = Number(wrapper.readString());
                     const id = wrapper.readInt();
                     const animationType = wrapper.readInt();
+                    const duration = wrapper.readInt();
                     const bodyDirection = parseDirection(wrapper.readInt());
                     const headDirection = parseDirection(wrapper.readInt());
-                    const duration = wrapper.readInt();
+                    const jumpPower = wrapper.readBoolean() ? wrapper.readInt() : undefined;
+
+                    if(![ fromZ, toZ, duration, jumpPower ?? 0 ].every(Number.isFinite)) return false;
+
                     const movementType = (animationType === 0) ? ObjectRolling.MOVE : ObjectRolling.SLIDE;
 
                     this._userMovements.push(new WiredUserMovementData(
@@ -164,7 +186,9 @@ export class WiredMovementsParser implements IMessageParser
                         movementType,
                         bodyDirection,
                         headDirection,
-                        duration));
+                        duration,
+                        animationType,
+                        jumpPower));
                     break;
                 }
                 case 1:
@@ -173,14 +197,15 @@ export class WiredMovementsParser implements IMessageParser
                     const fromY = wrapper.readInt();
                     const toX = wrapper.readInt();
                     const toY = wrapper.readInt();
-                    const fromZ = parseLocaleFloat(wrapper.readString());
-                    const toZ = parseLocaleFloat(wrapper.readString());
+                    const fromZ = Number(wrapper.readString());
+                    const toZ = Number(wrapper.readString());
                     const id = wrapper.readInt();
-                    const rotation = wrapper.readInt();
                     const duration = wrapper.readInt();
-                    const elapsed = wrapper.readInt();
-                    const anchorType = wrapper.readInt();
-                    const anchorId = wrapper.readInt();
+                    const rotation = parseDirection(wrapper.readInt());
+                    const overshootTimeMs = wrapper.readBoolean() ? wrapper.readInt() : undefined;
+                    const curveStrength = wrapper.readBoolean() ? wrapper.readInt() : undefined;
+
+                    if(![ fromZ, toZ, duration, overshootTimeMs ?? 0, curveStrength ?? 0 ].every(Number.isFinite)) return false;
 
                     this._furniMovements.push(new WiredFurniMovementData(
                         id,
@@ -188,9 +213,8 @@ export class WiredMovementsParser implements IMessageParser
                         new Vector3d(toX, toY, toZ),
                         rotation,
                         duration,
-                        elapsed,
-                        anchorType,
-                        anchorId));
+                        overshootTimeMs,
+                        curveStrength));
                     break;
                 }
                 case 2:
@@ -213,8 +237,8 @@ export class WiredMovementsParser implements IMessageParser
                 case 3:
                 {
                     const id = wrapper.readInt();
-                    const headDirection = parseDirection(wrapper.readInt());
                     const bodyDirection = parseDirection(wrapper.readInt());
+                    const headDirection = parseDirection(wrapper.readInt());
 
                     this._userDirectionUpdates.push(new WiredUserDirectionUpdateData(id, headDirection, bodyDirection));
                     break;

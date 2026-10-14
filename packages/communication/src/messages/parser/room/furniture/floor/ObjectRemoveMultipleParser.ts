@@ -1,19 +1,21 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
 /**
- * Official `class_2853` (`ObjectRemoveMultiple`, 1451): `int count [ int id ]
- * int pickerId`. `class_1902.onObjectRemoveMultiple` disposes every floor
+ * October `class_2976` (`ObjectRemoveMultiple`, 2197): `int count [ int id ]
+ * int pickerId, boolean byInvisibleFurniManager`. The handler disposes every floor
  * object and refreshes the tile object map once.
  */
 export class ObjectRemoveMultipleParser implements IMessageParser
 {
     private _ids: number[];
     private _pickerId: number;
+    private _byInvisibleFurniManager: boolean;
 
     public flush(): boolean
     {
         this._ids = [];
         this._pickerId = 0;
+        this._byInvisibleFurniManager = false;
 
         return true;
     }
@@ -34,6 +36,7 @@ export class ObjectRemoveMultipleParser implements IMessageParser
         }
 
         this._pickerId = wrapper.readInt();
+        this._byInvisibleFurniManager = wrapper.readBoolean();
 
         return true;
     }
@@ -46,5 +49,10 @@ export class ObjectRemoveMultipleParser implements IMessageParser
     public get pickerId(): number
     {
         return this._pickerId;
+    }
+
+    public get byInvisibleFurniManager(): boolean
+    {
+        return this._byInvisibleFurniManager;
     }
 }

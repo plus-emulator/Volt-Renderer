@@ -2,9 +2,9 @@ import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 import { readWiredLong } from './WiredVariableData';
 
 /** `package_226.WiredVariableStorageParameter` without the leading variable id. */
-export interface IWiredVariableStorage
+export interface IWiredVariableStorage<T extends number | bigint = number>
 {
-    value: number;
+    value: T;
     creationTime: number;
     creationTimeStr: string;
     lastUpdateTime: number;
@@ -12,23 +12,28 @@ export interface IWiredVariableStorage
 }
 
 /** `package_226.WiredUserVariablesElement`. */
-export interface IWiredVariableHolder
+export interface IWiredVariableHolder<T extends number | bigint = number>
 {
     entityType: number;
     entityId: number;
     entityName: string;
-    storage: IWiredVariableStorage;
+    storage: IWiredVariableStorage<T>;
 }
 
-export class WiredVariableHoldersPageParser implements IMessageParser
+export class WiredVariableHoldersPageParser<T extends number | bigint = number> implements IMessageParser
 {
     private _variableId: string;
     private _totalEntries: number;
     private _currentPage: number;
     private _amount: number;
-    private _elements: IWiredVariableHolder[];
+    private _elements: IWiredVariableHolder<T>[];
     private _userTypeFilter: number;
     private _sortTypeFilter: number;
+
+    protected readScalarValue(wrapper: IMessageDataWrapper): T
+    {
+        return wrapper.readInt() as T;
+    }
 
     public flush(): boolean
     {
@@ -54,6 +59,7 @@ export class WiredVariableHoldersPageParser implements IMessageParser
         this._elements = [];
 
         const totalElements = wrapper.readInt();
+        if(totalElements < 0) return false;
 
         for(let i = 0; i < totalElements; i++)
         {
@@ -66,7 +72,7 @@ export class WiredVariableHoldersPageParser implements IMessageParser
                 entityId,
                 entityName,
                 storage: {
-                    value: wrapper.readInt(),
+                    value: this.readScalarValue(wrapper),
                     creationTime: readWiredLong(wrapper),
                     creationTimeStr: wrapper.readString(),
                     lastUpdateTime: readWiredLong(wrapper),
@@ -101,7 +107,7 @@ export class WiredVariableHoldersPageParser implements IMessageParser
         return this._amount;
     }
 
-    public get elements(): IWiredVariableHolder[]
+    public get elements(): IWiredVariableHolder<T>[]
     {
         return this._elements;
     }

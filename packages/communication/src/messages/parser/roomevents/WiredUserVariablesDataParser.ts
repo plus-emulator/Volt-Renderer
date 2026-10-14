@@ -38,18 +38,18 @@ export interface IWiredUserVariableDefinitionData extends IWiredArrayVariableMet
     name: string;
 }
 
-export interface IWiredUserVariableAssignmentData
+export interface IWiredUserVariableAssignmentData<T extends number | bigint = number>
 {
     createdAt: number;
     hasValue: boolean;
     updatedAt: number;
-    value: number | null;
+    value: T | null;
     variableItemId: number;
 }
 
-export interface IWiredUserVariablesUserData
+export interface IWiredUserVariablesUserData<T extends number | bigint = number>
 {
-    assignments: IWiredUserVariableAssignmentData[];
+    assignments: IWiredUserVariableAssignmentData<T>[];
     userId: number;
 }
 
@@ -63,9 +63,9 @@ export interface IWiredFurniVariableDefinitionData extends IWiredArrayVariableMe
     name: string;
 }
 
-export interface IWiredUserVariablesFurniData
+export interface IWiredUserVariablesFurniData<T extends number | bigint = number>
 {
-    assignments: IWiredUserVariableAssignmentData[];
+    assignments: IWiredUserVariableAssignmentData<T>[];
     furniId: number;
 }
 
@@ -79,12 +79,12 @@ export interface IWiredRoomVariableDefinitionData extends IWiredArrayVariableMet
     name: string;
 }
 
-export interface IWiredRoomVariableAssignmentData
+export interface IWiredRoomVariableAssignmentData<T extends number | bigint = number>
 {
     createdAt: number;
     hasValue: boolean;
     updatedAt: number;
-    value: number | null;
+    value: T | null;
     variableItemId: number;
 }
 
@@ -98,16 +98,21 @@ export interface IWiredContextVariableDefinitionData extends IWiredArrayVariable
     name: string;
 }
 
-export class WiredUserVariablesDataParser implements IMessageParser
+export class WiredUserVariablesDataParser<T extends number | bigint = number> implements IMessageParser
 {
     private _roomId: number;
     private _definitions: IWiredUserVariableDefinitionData[];
-    private _users: IWiredUserVariablesUserData[];
+    private _users: IWiredUserVariablesUserData<T>[];
     private _furniDefinitions: IWiredFurniVariableDefinitionData[];
-    private _furnis: IWiredUserVariablesFurniData[];
+    private _furnis: IWiredUserVariablesFurniData<T>[];
     private _roomDefinitions: IWiredRoomVariableDefinitionData[];
-    private _roomAssignments: IWiredRoomVariableAssignmentData[];
+    private _roomAssignments: IWiredRoomVariableAssignmentData<T>[];
     private _contextDefinitions: IWiredContextVariableDefinitionData[];
+
+    protected readScalarValue(wrapper: IMessageDataWrapper): T
+    {
+        return wrapper.readInt() as T;
+    }
 
     public flush(): boolean
     {
@@ -130,6 +135,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         this._roomId = wrapper.readInt();
 
         let totalDefinitions = wrapper.readInt();
+        if(totalDefinitions < 0) return false;
 
         this._definitions = [];
         this._users = [];
@@ -154,18 +160,20 @@ export class WiredUserVariablesDataParser implements IMessageParser
         }
 
         let totalUsers = wrapper.readInt();
+        if(totalUsers < 0) return false;
 
         while(totalUsers > 0)
         {
             const userId = wrapper.readInt();
             let totalAssignments = wrapper.readInt();
-            const assignments: IWiredUserVariableAssignmentData[] = [];
+            if(totalAssignments < 0) return false;
+            const assignments: IWiredUserVariableAssignmentData<T>[] = [];
 
             while(totalAssignments > 0)
             {
                 const variableItemId = wrapper.readInt();
                 const hasValue = wrapper.readBoolean();
-                const rawValue = wrapper.readInt();
+                const rawValue = this.readScalarValue(wrapper);
                 const createdAt = wrapper.readInt();
                 const updatedAt = wrapper.readInt();
 
@@ -185,6 +193,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         }
 
         let totalFurniDefinitions = wrapper.readInt();
+        if(totalFurniDefinitions < 0) return false;
 
         while(totalFurniDefinitions > 0)
         {
@@ -201,18 +210,20 @@ export class WiredUserVariablesDataParser implements IMessageParser
         }
 
         let totalFurnis = wrapper.readInt();
+        if(totalFurnis < 0) return false;
 
         while(totalFurnis > 0)
         {
             const furniId = wrapper.readInt();
             let totalAssignments = wrapper.readInt();
-            const assignments: IWiredUserVariableAssignmentData[] = [];
+            if(totalAssignments < 0) return false;
+            const assignments: IWiredUserVariableAssignmentData<T>[] = [];
 
             while(totalAssignments > 0)
             {
                 const variableItemId = wrapper.readInt();
                 const hasValue = wrapper.readBoolean();
-                const rawValue = wrapper.readInt();
+                const rawValue = this.readScalarValue(wrapper);
                 const createdAt = wrapper.readInt();
                 const updatedAt = wrapper.readInt();
 
@@ -232,6 +243,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         }
 
         let totalRoomDefinitions = wrapper.readInt();
+        if(totalRoomDefinitions < 0) return false;
 
         while(totalRoomDefinitions > 0)
         {
@@ -248,12 +260,13 @@ export class WiredUserVariablesDataParser implements IMessageParser
         }
 
         let totalRoomAssignments = wrapper.readInt();
+        if(totalRoomAssignments < 0) return false;
 
         while(totalRoomAssignments > 0)
         {
             const variableItemId = wrapper.readInt();
             const hasValue = wrapper.readBoolean();
-            const rawValue = wrapper.readInt();
+            const rawValue = this.readScalarValue(wrapper);
             const createdAt = wrapper.readInt();
             const updatedAt = wrapper.readInt();
 
@@ -269,6 +282,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         }
 
         let totalContextDefinitions = wrapper.readInt();
+        if(totalContextDefinitions < 0) return false;
 
         while(totalContextDefinitions > 0)
         {
@@ -357,7 +371,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         return this._definitions;
     }
 
-    public get users(): IWiredUserVariablesUserData[]
+    public get users(): IWiredUserVariablesUserData<T>[]
     {
         return this._users;
     }
@@ -367,7 +381,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         return this._furniDefinitions;
     }
 
-    public get furnis(): IWiredUserVariablesFurniData[]
+    public get furnis(): IWiredUserVariablesFurniData<T>[]
     {
         return this._furnis;
     }
@@ -377,7 +391,7 @@ export class WiredUserVariablesDataParser implements IMessageParser
         return this._roomDefinitions;
     }
 
-    public get roomAssignments(): IWiredRoomVariableAssignmentData[]
+    public get roomAssignments(): IWiredRoomVariableAssignmentData<T>[]
     {
         return this._roomAssignments;
     }

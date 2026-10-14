@@ -1,4 +1,5 @@
-import { IRoomInstance, IRoomObjectController } from '../../room';
+import { CanonicalWiredMovement } from './object/RoomObjectVariable';
+import { IRoomGeometry, IRoomInstance, IRoomObjectController } from '../../room';
 import { IVector3D } from '../../utils';
 import { IObjectData, IRoomMapData } from './object';
 import { IFurnitureStackingHeightMap, ILegacyWallGeometry } from './utils';
@@ -7,12 +8,13 @@ export interface IRoomCreator
 {
     destroyRoom(id: number): void;
     getRoomInstance(roomId: number): IRoomInstance;
+    getRoomInstanceGeometry(roomId: number, canvasId?: number): IRoomGeometry;
     updateRoomInstancePlaneVisibility(roomId: number, wallVisible: boolean, floorVisible?: boolean): boolean;
     updateRoomInstancePlaneThickness(roomId: number, wallThickness: number, floorThickness: number): boolean;
     updateRoomInstancePlaneType(roomId: number, floorType?: string, wallType?: string, landscapeType?: string, forceUpdate?: boolean): boolean;
     updateAreaHide(roomId: number, furniId: number, on: boolean, rootX: number, rootY: number, width: number, length: number, invert: boolean): boolean;
     removeRoomInstance(roomId: number): void;
-    createRoomInstance(roomId: number, roomMap: IRoomMapData): void;
+    createRoomInstance(roomId: number, roomMap: IRoomMapData, initialCamera?: IVector3D): void;
     setRoomSessionOwnUser(roomId: number, objectId: number): void;
     setRoomInstanceModelName(roomId: number, name: string): void;
     getFurnitureStackingHeightMap(roomId: number): IFurnitureStackingHeightMap;
@@ -31,13 +33,14 @@ export interface IRoomCreator
     removeRoomObjectWall(roomId: number, objectId: number, userId?: number): void;
     updateRoomObjectFloor(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, data: IObjectData, extra?: number): boolean;
     updateRoomObjectWall(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, extra?: string): boolean;
+    updateRoomObjectWallLocation(roomId: number, objectId: number, location: IVector3D, targetLocation?: IVector3D, duration?: number): boolean;
     updateRoomObjectWallItemData(roomId: number, objectId: number, data: string): boolean;
     updateRoomObjectFloorHeight(roomId: number, objectId: number, height: number): boolean;
     updateRoomObjectFloorExpiration(roomId: number, objectId: number, expires: number): boolean;
     updateRoomObjectWallExpiration(roomId: number, objectId: number, expires: number): boolean;
-    rollRoomObjectFloor(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, duration?: number, direction?: IVector3D, elapsed?: number, anchorObject?: IRoomObjectController, anchorOffset?: IVector3D): void;
+    rollRoomObjectFloor(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, duration?: number, direction?: IVector3D, elapsed?: number, anchorObject?: IRoomObjectController, anchorOffset?: IVector3D, canonicalWired?: CanonicalWiredMovement): void;
     addRoomObjectUser(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, headDirection: number, type: number, figure: string): boolean;
-    updateRoomObjectUserLocation(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, canStandUp?: boolean, baseY?: number, direction?: IVector3D, headDirection?: number, skipLocationFix?: boolean, isSlide?: boolean, duration?: number): boolean;
+    updateRoomObjectUserLocation(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, canStandUp?: boolean, baseY?: number, direction?: IVector3D, headDirection?: number, skipLocationFix?: boolean, isSlide?: boolean, duration?: number, canonicalWired?: CanonicalWiredMovement): boolean;
     updateRoomObjectUserAction(roomId: number, objectId: number, action: string, value: number, parameter?: string): boolean;
     updateRoomObjectUserFigure(roomId: number, objectId: number, figure: string, gender?: string, subType?: string, isRiding?: boolean): boolean;
     updateRoomObjectUserFlatControl(roomId: number, objectId: number, level: string): boolean;

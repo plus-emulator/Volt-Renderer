@@ -16,9 +16,16 @@ export class WiredFurniTriggerParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        this._definition = new TriggerDefinition(wrapper);
-
-        return true;
+        try
+        {
+            this._definition = new TriggerDefinition(wrapper);
+            return true;
+        }
+        catch
+        {
+            this._definition = null;
+            return false;
+        }
     }
 
     public get definition(): TriggerDefinition

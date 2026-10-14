@@ -2,7 +2,7 @@
 import { AvatarAction, IRoomGeometry, IRoomObjectModel, IVector3D, MouseEventType, RoomObjectUserType, RoomObjectVariable } from '@volt/api';
 import { RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomObjectMoveEvent, RoomSpriteMouseEvent } from '@volt/events';
 import { GetTickerTime, Vector3d } from '@volt/utils';
-import { ObjectAvatarCarryObjectUpdateMessage, ObjectAvatarChatUpdateMessage, ObjectAvatarDanceUpdateMessage, ObjectAvatarEffectUpdateMessage, ObjectAvatarExpressionUpdateMessage, ObjectAvatarFigureUpdateMessage, ObjectAvatarFlatControlUpdateMessage, ObjectAvatarGestureUpdateMessage, ObjectAvatarHabbiconUpdateMessage, ObjectAvatarMutedUpdateMessage, ObjectAvatarOwnMessage, ObjectAvatarPlayerValueUpdateMessage, ObjectAvatarPlayingGameUpdateMessage, ObjectAvatarPostureUpdateMessage, ObjectAvatarSelectedMessage, ObjectAvatarSignUpdateMessage, ObjectAvatarSleepUpdateMessage, ObjectAvatarTypingUpdateMessage, ObjectAvatarUpdateMessage, ObjectAvatarUseObjectUpdateMessage, RoomObjectUpdateMessage } from '../../messages';
+import { ObjectAvatarCarryObjectUpdateMessage, ObjectAvatarChatUpdateMessage, ObjectAvatarDanceUpdateMessage, ObjectAvatarEffectUpdateMessage, ObjectAvatarExpressionUpdateMessage, ObjectAvatarFigureUpdateMessage, ObjectAvatarFlatControlUpdateMessage, ObjectAvatarGestureUpdateMessage, ObjectAvatarHabbiconUpdateMessage, ObjectAvatarMutedUpdateMessage, ObjectAvatarOwnMessage, ObjectAvatarPlayerValueUpdateMessage, ObjectAvatarPlayingGameUpdateMessage, ObjectAvatarPostureUpdateMessage, ObjectAvatarSelectedMessage, ObjectAvatarSignUpdateMessage, ObjectAvatarSleepUpdateMessage, ObjectAvatarTypingUpdateMessage, ObjectAvatarUpdateMessage, ObjectAvatarUseObjectUpdateMessage, ObjectMoveUpdateMessage, RoomObjectUpdateMessage } from '../../messages';
 import { HabbiconAssetManager } from '../visualization/avatar/additions/HabbiconAssetManager';
 import { MovingObjectLogic } from './MovingObjectLogic';
 
@@ -252,6 +252,10 @@ export class AvatarLogic extends MovingObjectLogic
     {
         if(!message || !this.object) return;
 
+        if(message instanceof ObjectAvatarUpdateMessage && message.canonicalWired
+            && (!ObjectMoveUpdateMessage.validCanonical(message.location, message.targetLocation,
+                message.direction, message.duration, message.canonicalWired) || !Number.isFinite(message.headDirection))) return;
+
         super.processUpdateMessage(message);
 
         const model = this.object && this.object.model;
@@ -298,6 +302,11 @@ export class AvatarLogic extends MovingObjectLogic
 
         if(message instanceof ObjectAvatarUpdateMessage)
         {
+            if(message.canonicalWired?.jumpPower !== undefined)
+            {
+                model.setValue(RoomObjectVariable.FIGURE_JUMPING_POWER, message.canonicalWired.jumpPower);
+            }
+
             model.setValue(RoomObjectVariable.HEAD_DIRECTION, message.headDirection);
             model.setValue(RoomObjectVariable.FIGURE_CAN_STAND_UP, message.canStandUp);
             model.setValue(RoomObjectVariable.FIGURE_VERTICAL_OFFSET, message.baseY);

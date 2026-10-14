@@ -1,8 +1,17 @@
+export interface CanonicalWiredMovement
+{
+    readonly animationType?: number;
+    readonly jumpPower?: number;
+    readonly overshootTimeMs?: number;
+    readonly curveStrength?: number;
+}
+
 export class RoomObjectVariable
 {
     public static OBJECT_ROOM_ID: string = 'object_room_id';
     public static OBJECT_ACCURATE_Z_VALUE: string = 'object_accurate_z_value';
     public static TILE_CURSOR_HEIGHT: string = 'tile_cursor_height';
+    public static FIGURE_JUMPING_POWER: string = 'figure_jumping_power';
     public static FIGURE: string = 'figure';
     public static GENDER: string = 'gender';
     public static OWN_USER: string = 'own_user';

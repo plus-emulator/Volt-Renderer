@@ -1,21 +1,10 @@
-import { IMessageComposer } from '@volt/api';
+import { WiredSaveMessageComposer } from './WiredSaveMessageComposer';
 
-export class UpdateActionMessageComposer implements IMessageComposer<unknown[]>
+export class UpdateActionMessageComposer extends WiredSaveMessageComposer
 {
-    private _data: unknown[];
-
-    constructor(id: number, ints: number[], string: string, stuffs: number[], delay: number, selectionCode: number)
+    constructor(id: number, ints: number[], text: string, primary: number[], delay: number,
+        furniSources: number[], userSources: number[], variableIds: string[], secondary: number[])
     {
-        this._data = [id, ints.length, ...ints, string, stuffs.length, ...stuffs, delay, selectionCode];
-    }
-
-    public getMessageArray()
-    {
-        return this._data;
-    }
-
-    public dispose(): void
-    {
-        return;
+        super(id, ints, text, primary, [delay], furniSources, userSources, variableIds, secondary);
     }
 }

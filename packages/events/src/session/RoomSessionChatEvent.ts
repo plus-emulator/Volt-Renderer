@@ -28,8 +28,10 @@ export class RoomSessionChatEvent extends RoomSessionEvent
     private _extraParam: number;
     private _style: number;
     private _bubbleWidthOverride: number;
+    private _hideUsername: boolean;
+    private _location: { x: number; y: number };
 
-    constructor(type: string, session: IRoomSession, objectId: number, message: string, chatType: number, style: number = 0, links: string[] = null, extraParam: number = -1, bubbleWidthOverride: number = -1)
+    constructor(type: string, session: IRoomSession, objectId: number, message: string, chatType: number, style: number = 0, links: string[] = null, extraParam: number = -1, bubbleWidthOverride: number = -1, hideUsername: boolean = false, location: { x: number; y: number } = null)
     {
         super(type, session);
 
@@ -40,6 +42,8 @@ export class RoomSessionChatEvent extends RoomSessionEvent
         this._extraParam = extraParam;
         this._style = style;
         this._bubbleWidthOverride = bubbleWidthOverride;
+        this._hideUsername = hideUsername;
+        this._location = location;
     }
 
     public get objectId(): number
@@ -76,5 +80,15 @@ export class RoomSessionChatEvent extends RoomSessionEvent
     public get bubbleWidthOverride(): number
     {
         return this._bubbleWidthOverride;
+    }
+
+    public get hideUsername(): boolean
+    {
+        return this._hideUsername;
+    }
+
+    public get location(): { x: number; y: number }
+    {
+        return this._location;
     }
 }

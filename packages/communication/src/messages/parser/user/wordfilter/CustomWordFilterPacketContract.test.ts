@@ -26,24 +26,24 @@ class TestWrapper
     }
 }
 
-/** September 16 AIR class_2036: composers 2078 / 2171 / 3651, events 2338 / 1585. */
+/** AIR WIN63-202610121709 class_2049: composers 3395 / 498 / 3468, events 2589 / 2365 (Sulek-reported GetCustomFilter, AddToCustomFilter, RemoveFromCustomFilter, GetCustomFilterResult, ModifyCustomFilterResult). */
 describe('personal word filter packet contract', () =>
 {
     it('uses the official headers and registers every request and response', () =>
     {
         const messages = new VoltMessages();
 
-        expect(OutgoingHeader.GET_CUSTOM_FILTER).toBe(2078);
-        expect(OutgoingHeader.ADD_CUSTOM_FILTER_WORD).toBe(2171);
-        expect(OutgoingHeader.REMOVE_CUSTOM_FILTER_WORD).toBe(3651);
-        expect(IncomingHeader.CUSTOM_FILTER_RESULT).toBe(2338);
-        expect(IncomingHeader.MODIFY_CUSTOM_FILTER_RESULT).toBe(1585);
+        expect(OutgoingHeader.GET_CUSTOM_FILTER).toBe(3395);
+        expect(OutgoingHeader.ADD_CUSTOM_FILTER_WORD).toBe(498);
+        expect(OutgoingHeader.REMOVE_CUSTOM_FILTER_WORD).toBe(3468);
+        expect(IncomingHeader.CUSTOM_FILTER_RESULT).toBe(2589);
+        expect(IncomingHeader.MODIFY_CUSTOM_FILTER_RESULT).toBe(2365);
 
-        expect(messages.composers.get(2078)).toBe(GetCustomFilterMessageComposer);
-        expect(messages.composers.get(2171)).toBe(AddCustomFilterWordMessageComposer);
-        expect(messages.composers.get(3651)).toBe(RemoveCustomFilterWordMessageComposer);
-        expect(messages.events.get(2338)).toBe(CustomFilterResultEvent);
-        expect(messages.events.get(1585)).toBe(ModifyCustomFilterResultEvent);
+        expect(messages.composers.get(3395)).toBe(GetCustomFilterMessageComposer);
+        expect(messages.composers.get(498)).toBe(AddCustomFilterWordMessageComposer);
+        expect(messages.composers.get(3468)).toBe(RemoveCustomFilterWordMessageComposer);
+        expect(messages.events.get(2589)).toBe(CustomFilterResultEvent);
+        expect(messages.events.get(2365)).toBe(ModifyCustomFilterResultEvent);
     });
 
     it('serializes the request bodies as the official composers do', () =>

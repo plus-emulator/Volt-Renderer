@@ -16,9 +16,16 @@ export class WiredFurniActionParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        this._definition = new WiredActionDefinition(wrapper);
-
-        return true;
+        try
+        {
+            this._definition = new WiredActionDefinition(wrapper);
+            return true;
+        }
+        catch
+        {
+            this._definition = null;
+            return false;
+        }
     }
 
     public get definition(): WiredActionDefinition

@@ -62,17 +62,25 @@ describe('RoomUnitChatParser bubble width override', () =>
     it('reads the override the wired asked for from the tail of the packet', () =>
     {
         const writer = chatPacket();
+        writer.writeInt(-1);
         writer.writeInt(2);
+        writer.writeByte(1);
+        writer.writeInt(3);
+        writer.writeInt(4);
         const parser = new RoomUnitChatParser();
 
         expect(parser.parse(wrapper(writer))).toBe(true);
+        expect(parser.receiverRoomIndex).toBe(-1);
         expect(parser.bubbleWidthOverride).toBe(2);
+        expect(parser.hideUsername).toBe(true);
+        expect(parser.location).toEqual({ x: 3, y: 4 });
     });
 
     it('forgets the override between packets', () =>
     {
         const parser = new RoomUnitChatParser();
         const writer = chatPacket();
+        writer.writeInt(-1);
         writer.writeInt(0);
         parser.parse(wrapper(writer));
         parser.flush();

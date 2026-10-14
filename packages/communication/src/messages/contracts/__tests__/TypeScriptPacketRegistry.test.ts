@@ -19,7 +19,7 @@ describe('TypeScript packet registry', () =>
         const registry = TypeScriptPacketRegistry.discover(resolve('packages/communication/src'));
 
         expect(registry.active.length).toBeGreaterThan(900);
-        expect(registry.active.some(packet => packet.header === 3589)).toBe(true);
+        expect(registry.active.some(packet => packet.header === 3733)).toBe(true);
     });
 
     it('discovers registered events, their parsers, and outgoing composers', () =>

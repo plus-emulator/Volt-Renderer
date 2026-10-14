@@ -1,5 +1,5 @@
 import { IRoomObjectController, IRoomObjectModel, IRoomObjectUpdateMessage, IVector3D, RoomObjectVariable } from '@volt/api';
-import { Vector3d } from '@volt/utils';
+import { GetTickerTime, Vector3d } from '@volt/utils';
 import { ObjectMoveUpdateMessage } from '../../messages';
 import { RoomObjectLogicBase } from './RoomObjectLogicBase';
 
@@ -22,6 +22,9 @@ export class MovingObjectLogic extends RoomObjectLogicBase
     private static SLIDE_CHAIN_BUFFER: number = 100;
     private static SLIDE_PERIOD_MIN: number = 100;
     private static SLIDE_PERIOD_MAX: number = 4000;
+
+    private _canonicalWired: ObjectMoveUpdateMessage = null;
+    private _canonicalCurve: number = 0;
 
     private _liftAmount: number;
 
@@ -118,9 +121,11 @@ export class MovingObjectLogic extends RoomObjectLogicBase
                 const progress = difference / this._updateInterval;
 
                 vector.assign(this._locationDelta);
-                vector.multiply(this.easeProgress(progress, model));
+                vector.multiply(this._canonicalWired ? progress : this.easeProgress(progress, model));
                 vector.add(this._location);
-                vector.z += MovingObjectLogic.jumpLift(progress, model);
+                vector.z += this._canonicalWired
+                    ? (this._canonicalCurve / 100) * (this._locationDelta.length / 4) * 4 * progress * (1 - progress)
+                    : MovingObjectLogic.jumpLift(progress, model);
             }
             else
             {
@@ -160,7 +165,7 @@ export class MovingObjectLogic extends RoomObjectLogicBase
                 }
 
                 // A chained hop still to come was sent with the same hint; it keeps it.
-                if(!this._queuedMoveMessages.length) this.clearMoveStyle();
+                if(!this._canonicalWired && !this._queuedMoveMessages.length) this.clearMoveStyle();
             }
         }
 
@@ -182,6 +187,22 @@ export class MovingObjectLogic extends RoomObjectLogicBase
 
         if(message instanceof ObjectMoveUpdateMessage)
         {
+            if(message.canonicalWired)
+            {
+                if(!ObjectMoveUpdateMessage.validCanonical(message.location, message.targetLocation,
+                    message.direction, message.duration, message.canonicalWired)) return;
+
+                this.processCanonicalMove(message);
+
+                return;
+            }
+
+            if(this._canonicalWired && message.location)
+            {
+                this.resetInterpolationState();
+                this._updateInterval = MovingObjectLogic.DEFAULT_UPDATE_INTERVAL;
+            }
+
             if(this.shouldApplyInstantMoveMessage(message))
             {
                 super.processUpdateMessage(message);
@@ -238,6 +259,33 @@ export class MovingObjectLogic extends RoomObjectLogicBase
         if(message.location) this._location.assign(message.location);
 
         if(message instanceof ObjectMoveUpdateMessage) return this.processMoveMessage(message);
+    }
+
+    private processCanonicalMove(message: ObjectMoveUpdateMessage): void
+    {
+        this.resetInterpolationState();
+        this._canonicalWired = message;
+        this._canonicalCurve = message.canonicalWired.jumpPower ?? message.canonicalWired.curveStrength ?? 0;
+
+        super.processUpdateMessage(message);
+        this._location.assign(message.location);
+        this._locationDelta.assign(message.targetLocation);
+        this._locationDelta.subtract(this._location);
+        const duration = Math.max(1, message.duration);
+        const overshoot = message.canonicalWired.overshootTimeMs;
+        const adjusted = duration + (overshoot ?? 0);
+        this._updateInterval = duration;
+
+        // Native signed overshoot can produce a zero/negative interval. Refuse that
+        // adjustment while retaining the valid move at its supplied base duration.
+        if(overshoot !== undefined && Number.isInteger(adjusted) && adjusted > 0 && adjusted <= 2147483647)
+        {
+            this._locationDelta.x *= adjusted / duration;
+            this._locationDelta.y *= adjusted / duration;
+            this._updateInterval = adjusted;
+        }
+
+        this._changeTime = this._lastUpdateTime > 0 ? this._lastUpdateTime : GetTickerTime();
     }
 
     private getMovementEndLocation(): IVector3D
@@ -419,6 +467,8 @@ export class MovingObjectLogic extends RoomObjectLogicBase
 
     private resetInterpolationState(): void
     {
+        this._canonicalWired = null;
+        this._canonicalCurve = 0;
         this._hopping = false;
         this._landing = null;
         this._locationDelta.x = 0;

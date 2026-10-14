@@ -1,5 +1,6 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
-import { IWiredVariableData, parseWiredVariableData } from './WiredVariableData';
+import { IWiredVariableData } from './WiredVariableData';
+import { nativeCatalogAtEnd, parseNativeWiredVariable, readNativeCatalogBoolean, readNativeCatalogCount, readNativeCatalogId } from './WiredNativeVariableData';
 
 /** One entry of the official `addedOrUpdated` dictionary: the variable and its hash. */
 export interface IWiredVariableDiffEntry
@@ -27,28 +28,44 @@ export class WiredAllVariablesDiffParser implements IMessageParser
 
     public parse(wrapper: IMessageDataWrapper): boolean
     {
-        if(!wrapper) return false;
-
-        this._allVariablesHash = wrapper.readInt();
-        this._isLastChunk = wrapper.readBoolean();
-        this._removedVariables = [];
-
-        const totalRemoved = wrapper.readInt();
-
-        for(let i = 0; i < totalRemoved; i++) this._removedVariables.push(wrapper.readString());
-
-        this._addedOrUpdated = [];
-
-        const totalUpdated = wrapper.readInt();
-
-        for(let i = 0; i < totalUpdated; i++)
+        this.flush();
+        try
         {
+            if(!wrapper) return false;
             const hash = wrapper.readInt();
-
-            this._addedOrUpdated.push({ hash, variable: parseWiredVariableData(wrapper) });
+            const last = readNativeCatalogBoolean(wrapper);
+            const removed: string[] = [];
+            const ids = new Set<string>();
+            const totalRemoved = readNativeCatalogCount(wrapper);
+            for(let index = 0; index < totalRemoved; index++)
+            {
+                const id = readNativeCatalogId(wrapper);
+                if(ids.has(id)) return false;
+                ids.add(id);
+                removed.push(id);
+            }
+            const added: IWiredVariableDiffEntry[] = [];
+            const totalUpdated = readNativeCatalogCount(wrapper, 100);
+            for(let index = 0; index < totalUpdated; index++)
+            {
+                const entryHash = wrapper.readInt();
+                const variable = parseNativeWiredVariable(wrapper);
+                if(ids.has(variable.variableId)) return false;
+                ids.add(variable.variableId);
+                added.push(Object.freeze({ hash: entryHash, variable }));
+            }
+            if(!nativeCatalogAtEnd(wrapper)) return false;
+            this._allVariablesHash = hash;
+            this._isLastChunk = last;
+            this._removedVariables = Object.freeze(removed) as unknown as string[];
+            this._addedOrUpdated = Object.freeze(added) as unknown as IWiredVariableDiffEntry[];
+            return true;
         }
-
-        return true;
+        catch
+        {
+            this.flush();
+            return false;
+        }
     }
 
     public get allVariablesHash(): number

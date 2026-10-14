@@ -16,9 +16,16 @@ export class WiredFurniConditionParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        this._definition = new ConditionDefinition(wrapper);
-
-        return true;
+        try
+        {
+            this._definition = new ConditionDefinition(wrapper);
+            return true;
+        }
+        catch
+        {
+            this._definition = null;
+            return false;
+        }
     }
 
     public get definition(): ConditionDefinition

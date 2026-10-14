@@ -1,18 +1,20 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
 /**
- * Official `class_2992` (`ItemRemoveMultiple`, 2204): `int count [ int itemId ]
- * int pickerId`, the wall-item twin of `ObjectRemoveMultiple`.
+ * October `class_3121` (`ItemRemoveMultiple`, 3839): `int count [ int itemId ]
+ * int pickerId, boolean byInvisibleFurniManager`, the wall-item twin of `ObjectRemoveMultiple`.
  */
 export class ItemRemoveMultipleParser implements IMessageParser
 {
     private _itemIds: number[];
     private _pickerId: number;
+    private _byInvisibleFurniManager: boolean;
 
     public flush(): boolean
     {
         this._itemIds = [];
         this._pickerId = 0;
+        this._byInvisibleFurniManager = false;
 
         return true;
     }
@@ -33,6 +35,7 @@ export class ItemRemoveMultipleParser implements IMessageParser
         }
 
         this._pickerId = wrapper.readInt();
+        this._byInvisibleFurniManager = wrapper.readBoolean();
 
         return true;
     }
@@ -45,5 +48,10 @@ export class ItemRemoveMultipleParser implements IMessageParser
     public get pickerId(): number
     {
         return this._pickerId;
+    }
+
+    public get byInvisibleFurniManager(): boolean
+    {
+        return this._byInvisibleFurniManager;
     }
 }

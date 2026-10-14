@@ -82,8 +82,8 @@ describe('WiredVariableFxConfigsParser', () =>
             colorId: 1,
             widthId: 0,
             rendererId: 7,
-            defaultMinValue: -5,
-            defaultMaxValue: 0x100000005,
+            defaultMinValue: -5n,
+            defaultMaxValue: 0x100000005n,
             extra: { segments: '4' }
         });
     });
@@ -140,7 +140,7 @@ describe('WiredVariableFxStatusParser', () =>
             initialize: true,
             userEntity: true,
             entityId: 9,
-            value: 60,
+            value: 60n,
             overrideMinValue: null,
             overrideMaxValue: null,
             extra: {}
@@ -151,9 +151,9 @@ describe('WiredVariableFxStatusParser', () =>
             initialize: false,
             userEntity: false,
             entityId: 0x01020305,
-            value: -5,
-            overrideMinValue: 1,
-            overrideMaxValue: 200,
+            value: -5n,
+            overrideMinValue: 1n,
+            overrideMaxValue: 200n,
             extra: { current_level: '3' }
         });
         expect(wiredVariableFxStatusKey(parser.statuses[1])).toBe('7|furni:3|f|16909061');

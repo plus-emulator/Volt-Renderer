@@ -9,6 +9,9 @@ export class RoomUnitChatParser implements IMessageParser
     private _urls: string[];
     private _messageLength: number;
     private _bubbleWidthOverride: number;
+    private _receiverRoomIndex: number;
+    private _hideUsername: boolean;
+    private _location: { x: number; y: number } = null;
 
     public flush(): boolean
     {
@@ -19,6 +22,9 @@ export class RoomUnitChatParser implements IMessageParser
         this._urls = [];
         this._messageLength = 0;
         this._bubbleWidthOverride = -1;
+        this._receiverRoomIndex = -1;
+        this._hideUsername = false;
+        this._location = null;
 
         return true;
     }
@@ -35,8 +41,13 @@ export class RoomUnitChatParser implements IMessageParser
         this.parseUrls(wrapper);
 
         this._messageLength = wrapper.readInt();
-        // A wired message may carry a bubble width of its own; -1 leaves the room setting in charge.
+        // Optional tail, each field only while bytes remain (official chat parser order): receiver room
+        // index, a bubble width of its own (-1 leaves the room setting in charge), hide-username flag,
+        // and an explicit bubble location.
+        this._receiverRoomIndex = (wrapper.bytesAvailable ? wrapper.readInt() : -1);
         this._bubbleWidthOverride = (wrapper.bytesAvailable ? wrapper.readInt() : -1);
+        this._hideUsername = (wrapper.bytesAvailable ? wrapper.readBoolean() : false);
+        this._location = (wrapper.bytesAvailable ? { x: wrapper.readInt(), y: wrapper.readInt() } : null);
 
         return true;
     }
@@ -92,5 +103,22 @@ export class RoomUnitChatParser implements IMessageParser
     public get bubbleWidthOverride(): number
     {
         return this._bubbleWidthOverride;
+    }
+
+    public get receiverRoomIndex(): number
+    {
+        return this._receiverRoomIndex;
+    }
+
+    /** True when the bubble must not show the "name: " prefix (a bot box set to hide the bot name). */
+    public get hideUsername(): boolean
+    {
+        return this._hideUsername;
+    }
+
+    /** Where the bubble appears instead of over the speaker, or null. */
+    public get location(): { x: number; y: number }
+    {
+        return this._location;
     }
 }

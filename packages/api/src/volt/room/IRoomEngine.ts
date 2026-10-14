@@ -1,3 +1,4 @@
+import { CanonicalWiredMovement } from './object/RoomObjectVariable';
 import { Container, Point, PointData, Rectangle, RenderTexture, Texture } from 'pixi.js';
 import { IRoomGeometry, IRoomManager, IRoomObject, IRoomObjectController, IRoomRenderingCanvas } from '../../room';
 import { IVector3D } from '../../utils';
@@ -12,7 +13,8 @@ export interface IRoomEngine
 {
     init(): Promise<void>;
     setActiveRoomId(roomId: number): void;
-    createRoomInstance(roomId: number, roomMap: IRoomMapData): void;
+    createRoomInstance(roomId: number, roomMap: IRoomMapData, initialCamera?: IVector3D): void;
+    initializeRoomCamera(roomId: number, canvasId: number): void;
     getRoomInstanceDisplay(roomId: number, id: number, width: number, height: number, scale: number): Container;
     // `isFlipForced` toggles the 180 degree room flip instead of zooming;
     // `isAnimated` passes a fractional scale through without snapping it.
@@ -47,9 +49,9 @@ export interface IRoomEngine
     getFurnitureFloorIcon(typeId: number, listener: IGetImageListener, extras?: string, objectData?: IObjectData): IImageResult;
     getFurnitureWallIconUrl(typeId: number, extra?: string): string;
     getFurnitureWallIcon(typeId: number, listener: IGetImageListener, extras?: string): IImageResult;
-    updateRoomObjectWallLocation(roomId: number, objectId: number, location: IVector3D): boolean;
+    updateRoomObjectWallLocation(roomId: number, objectId: number, location: IVector3D, targetLocation?: IVector3D, duration?: number): boolean;
     addRoomObjectUser(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, headDirection: number, type: number, figure: string): boolean;
-    updateRoomObjectUserLocation(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, canStandUp?: boolean, baseY?: number, direction?: IVector3D, headDirection?: number, skipLocationFix?: boolean, isSlide?: boolean, duration?: number): boolean;
+    updateRoomObjectUserLocation(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, canStandUp?: boolean, baseY?: number, direction?: IVector3D, headDirection?: number, skipLocationFix?: boolean, isSlide?: boolean, duration?: number, canonicalWired?: CanonicalWiredMovement): boolean;
     addFurnitureFloor(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra?: number, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, synchronized?: boolean, realRoomObject?: boolean, sizeZ?: number, allowStack?: boolean, allowSit?: boolean, allowLay?: boolean, allowWalk?: boolean, dimensionsX?: number, dimensionsY?: number, teleportTargetId?: number): boolean;
     addFurnitureFloorByTypeName(roomId: number, id: number, typeName: string, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra?: number, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, synchronized?: boolean, realRoomObject?: boolean, sizeZ?: number, allowStack?: boolean, allowSit?: boolean, allowLay?: boolean, allowWalk?: boolean, dimensionsX?: number, dimensionsY?: number, teleportTargetId?: number): boolean;
     addFurnitureWall(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, extra: string, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, realRoomObject?: boolean, allowStack?: boolean, allowSit?: boolean, allowLay?: boolean, allowWalk?: boolean, dimensionsX?: number, dimensionsY?: number, teleportTargetId?: number): boolean;
