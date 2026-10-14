@@ -28,8 +28,7 @@ export class AvatarScaleTextureCache
 
             const texture = RenderTexture.create({
                 width: Math.max(1, Math.round(source.orig.width / 2)),
-                height: Math.max(1, Math.round(source.orig.height / 2)),
-                scaleMode: 'nearest'
+                height: Math.max(1, Math.round(source.orig.height / 2))
             });
             entry = { source, texture, references: 0 };
 
