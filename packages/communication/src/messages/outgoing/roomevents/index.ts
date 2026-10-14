@@ -44,3 +44,6 @@ export * from './WiredLinkRenameNetworkComposer';
 export * from './WiredLinkDeleteNetworkComposer';
 export * from './WiredLinkGetConnectionsComposer';
 export * from './WiredLabelSaveRegionComposer';
+
+export * from './GetWiredContractContentsComposer';
+export * from './UpdateWiredContractComposer';
