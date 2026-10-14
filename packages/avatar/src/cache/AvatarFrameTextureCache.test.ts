@@ -298,6 +298,110 @@ const avatarFixture = (manager: AvatarRenderManager = null, effectFilter: ColorM
 
 describe('AvatarImage shared output integration', () =>
 {
+    it('reuses a warmed walk cycle without constructing or hashing sprite trees', () =>
+    {
+        const cache = new AvatarFrameTextureCache();
+        const avatar = avatarFixture()(cache);
+
+        for(let frame = 0; frame < 4; frame++)
+        {
+            avatar.processAsTexture(AvatarSetType.FULL, false);
+            avatar.updateAnimationByFrames(1);
+        }
+
+        const build = vi.spyOn(avatar as any, 'buildAvatarContainer');
+        const acquire = vi.spyOn(cache, 'acquire');
+
+        for(let frame = 0; frame < 20; frame++)
+        {
+            avatar.processAsTexture(AvatarSetType.FULL, false);
+            avatar.updateAnimationByFrames(1);
+        }
+
+        expect(build).not.toHaveBeenCalled();
+        expect(acquire).not.toHaveBeenCalled();
+        expect(rendering.passes).toBe(4);
+        expect(Array.from((cache as any)._frames.values()).map((frame: any) => frame.references).sort()).toEqual([0, 0, 0, 1]);
+        avatar.dispose();
+        cache.dispose();
+    });
+
+    it.each(['source', 'UVs', 'sampling'])('invalidates warmed composition hints after %s changes', change =>
+    {
+        const cache = new AvatarFrameTextureCache();
+        const avatar = avatarFixture()(cache);
+        const original = avatar.processAsTexture(AvatarSetType.FULL, false);
+        const sources = textures.filter(texture => texture.source instanceof ImageSource);
+
+        for(const texture of sources)
+        {
+            if(change === 'source') texture.source.update();
+            if(change === 'UVs')
+            {
+                texture.frame.x++;
+                texture.update();
+            }
+            if(change === 'sampling')
+            {
+                texture.source.scaleMode = texture.source.scaleMode === 'nearest' ? 'linear' : 'nearest';
+                texture.source.style.update();
+            }
+        }
+
+        // Even an idle avatar must notice an updated asset.
+        expect(avatar.processAsTexture(AvatarSetType.FULL, false)).not.toBe(original);
+        expect(rendering.passes).toBe(2);
+        avatar.dispose();
+        cache.dispose();
+    });
+
+    it('does not pin hinted frames against the global budget or reuse an evicted output', () =>
+    {
+        const cache = new AvatarFrameTextureCache(2);
+        const avatar = avatarFixture()(cache);
+        const first = avatar.processAsTexture(AvatarSetType.FULL, false);
+
+        avatar.updateAnimationByFrames(1);
+        avatar.processAsTexture(AvatarSetType.FULL, false);
+        avatar.updateAnimationByFrames(1);
+        avatar.processAsTexture(AvatarSetType.FULL, false);
+        expect(pool.putTexture).toHaveBeenCalledWith(first);
+        avatar.resetAnimationFrameCounter();
+        expect(avatar.processAsTexture(AvatarSetType.FULL, false)).not.toBe(first);
+        expect((cache as any)._frames.size).toBe(2);
+        expect(rendering.passes).toBe(4);
+        avatar.dispose();
+        cache.dispose();
+    });
+
+    it('keys current part placement and bounds composition hints across direction changes', () =>
+    {
+        const cache = new AvatarFrameTextureCache();
+        const avatar = avatarFixture()(cache);
+        const internals = avatar as any;
+        const original = avatar.processAsTexture(AvatarSetType.FULL, false);
+        const offset = vi.spyOn(internals._structure, 'getFrameBodyPartOffset').mockReturnValue(new Point(3, 7));
+
+        avatar.updateAnimationByFrames(4);
+        expect(avatar.processAsTexture(AvatarSetType.FULL, false)).not.toBe(original);
+        offset.mockRestore();
+
+        for(let direction = 0; direction < 8; direction++)
+        {
+            avatar.setDirection(AvatarSetType.FULL, direction);
+            for(let frame = 0; frame < 4; frame++)
+            {
+                avatar.updateAnimationByFrames(1);
+                avatar.processAsTexture(AvatarSetType.FULL, false);
+            }
+        }
+
+        expect(internals._compositions.size).toBe(8);
+        avatar.dispose();
+        expect(internals._compositions.size).toBe(0);
+        cache.dispose();
+    });
+
     it('preserves frame, figure tint, head/body direction, posture dimensions and set selection', () =>
     {
         const create = avatarFixture();
