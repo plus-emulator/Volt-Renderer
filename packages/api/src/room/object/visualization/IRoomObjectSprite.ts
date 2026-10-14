@@ -1,4 +1,5 @@
 import { BLEND_MODES, Filter, Texture } from 'pixi.js';
+import { IRoomPlaneDrawData } from './IRoomPlaneDrawData';
 
 export interface IRoomObjectSprite
 {
@@ -31,4 +32,6 @@ export interface IRoomObjectSprite
     filters: Filter[];
     updateCounter: number;
     skipMouseHandling: boolean;
+    // Room planes: drawn from this instead of texture, which stays Texture.EMPTY.
+    planeDrawData: IRoomPlaneDrawData;
 }

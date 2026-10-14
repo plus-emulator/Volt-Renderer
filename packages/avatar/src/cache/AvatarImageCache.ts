@@ -251,6 +251,8 @@ export class AvatarImageCache
             actionCache.updateDirectionCache(direction, directionCache);
         }
 
+        if(!directionCache.getPartList().length) return null;
+
         if(!this._hasAnimatedContent)
         {
             for(const part of directionCache.getPartList())

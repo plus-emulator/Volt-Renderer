@@ -8,3 +8,5 @@ export * from './RoomVisualizationData';
 export * from './TileCursorVisualization';
 export * from './mask';
 export * from './utils';
+
+export * from './RoomPlaneDrawData';

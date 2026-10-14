@@ -596,24 +596,27 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
             const spriteX = ((x + sprite.offsetX) + this._screenOffsetX);
             const spriteY = ((y + sprite.offsetY) + this._screenOffsetY);
+            // A plane drawn from its tile has an EMPTY texture; its size is the draw data's.
+            const width = (sprite.planeDrawData ? sprite.width : texture.width);
+            const height = (sprite.planeDrawData ? sprite.height : texture.height);
 
             if(sprite.flipH)
             {
-                const checkX = ((x + (-(texture.width + (-(sprite.offsetX))))) + this._screenOffsetX);
+                const checkX = ((x + (-(width + (-(sprite.offsetX))))) + this._screenOffsetX);
 
-                if(!this.isSpriteVisible(checkX, spriteY, texture.width, texture.height)) continue;
+                if(!this.isSpriteVisible(checkX, spriteY, width, height)) continue;
             }
 
             else if(sprite.flipV)
             {
-                const checkY = ((y + (-(texture.height + (-(sprite.offsetY))))) + this._screenOffsetY);
+                const checkY = ((y + (-(height + (-(sprite.offsetY))))) + this._screenOffsetY);
 
-                if(!this.isSpriteVisible(spriteX, checkY, texture.width, texture.height)) continue;
+                if(!this.isSpriteVisible(spriteX, checkY, width, height)) continue;
             }
 
             else
             {
-                if(!this.isSpriteVisible(spriteX, spriteY, texture.width, texture.height)) continue;
+                if(!this.isSpriteVisible(spriteX, spriteY, width, height)) continue;
             }
 
             let sortableSprite = sortableCache.getSprite(spriteCount);
@@ -732,6 +735,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             extendedSprite.updateHighlight();
         }
 
+        extendedSprite.setPlaneDrawData(objectSprite.planeDrawData);
         extendedSprite.validateHighlight();
 
         extendedSprite.x = Math.round(sprite.x);
@@ -764,6 +768,8 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             textureSet = true;
         }
 
+        extendedSprite.setPlaneDrawData(null);
+
         if(extendedSprite.children.length) extendedSprite.removeChildren();
 
         extendedSprite.tag = sprite.tag;
@@ -782,6 +788,8 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
         extendedSprite.setFilters(sprite.filters);
 
         if(!textureSet) extendedSprite.setTexture(sprite.texture);
+
+        extendedSprite.setPlaneDrawData(sprite.planeDrawData);
 
         // A pooled sprite keeps its previous scale, so set it like the update path does.
         const magnitude = (sprite.scale && (sprite.scale > 0)) ? sprite.scale : 1;
@@ -866,6 +874,8 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
         if(!destroy)
         {
+            sprite.setPlaneDrawData(null);
+            sprite.setFilters(null);
             sprite.setTexture(null);
         }
         else

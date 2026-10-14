@@ -1,7 +1,10 @@
-import { AlphaTolerance } from '@volt/api';
+import { AlphaTolerance, IRoomPlaneDrawData } from '@volt/api';
 import { GetRenderer, TextureUtils } from '@volt/utils';
 import { DestroyOptions, Filter, Point, Sprite, Texture, TextureSource, WebGLRenderer, WebGPURenderer } from 'pixi.js';
 import { IWiredHighlight, WiredHighlightCache } from './WiredHighlightCache';
+
+import { RoomPlaneDisplay } from './RoomPlaneDisplay';
+import { RoomPlaneContainsPoint } from './RoomPlaneHitTest';
 
 const BYTES_PER_PIXEL = 4;
 
@@ -12,6 +15,7 @@ export class ExtendedSprite extends Sprite
     // listener list on every off(). One listener per texture keeps each sprite's watch O(1).
     private static TEXTURE_SPRITES: WeakMap<Texture, Set<ExtendedSprite>> = new WeakMap();
 
+    private _planeDisplay: RoomPlaneDisplay = null;
     private _offsetX: number = 0;
     private _offsetY: number = 0;
     private _tag: string = '';
@@ -269,6 +273,7 @@ export class ExtendedSprite extends Sprite
 
     public override destroy(options?: DestroyOptions): void
     {
+        this.setPlaneDrawData(null);
         if(super.texture) ExtendedSprite.unwatchTexture(super.texture, this);
 
         if(this._highlight)
@@ -281,8 +286,35 @@ export class ExtendedSprite extends Sprite
         super.destroy(options);
     }
 
+    public setPlaneDrawData(data: IRoomPlaneDrawData): void
+    {
+        if(!data)
+        {
+            if(this._planeDisplay)
+            {
+                this._planeDisplay.destroy();
+
+                this._planeDisplay = null;
+            }
+
+            return;
+        }
+
+        if(!this._planeDisplay)
+        {
+            this.allowChildren = true;
+            this._planeDisplay = new RoomPlaneDisplay();
+
+            this.addChild(this._planeDisplay);
+        }
+
+        this._planeDisplay.setData(data);
+    }
+
     public containsPoint(point: Point): boolean
     {
+        if(point && this._planeDisplay) return RoomPlaneContainsPoint(this._planeDisplay.data, point.x * this.scale.x, point.y * this.scale.y, this.alphaTolerance);
+
         const texture = this.sourceTexture;
 
         if(!point || (this.alphaTolerance > 255) || !texture || (texture === Texture.EMPTY)) return false;

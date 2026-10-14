@@ -16,7 +16,7 @@
     "@volt/configuration": "1.0.0",
     "@volt/events": "1.0.0",
     "@volt/session": "1.0.0",
-    "pixi.js": "^8.21.0"
+    "pixi.js": "^8.22.0"
   },
   "devDependencies": {
     "typescript": "^6.0.3"

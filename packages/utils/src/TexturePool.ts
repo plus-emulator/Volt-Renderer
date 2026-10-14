@@ -7,6 +7,9 @@ export class TexturePool
     private static SWEEP_INTERVAL_MS: number = 1000;
     private static MAX_POOL_BYTES: number = 64 * 1024 * 1024;
 
+    private _released: { texture: Texture, destroySource: boolean }[] = [];
+    private _releasedNext: { texture: Texture, destroySource: boolean }[] = [];
+
     private _textures: { [index: string]: { [index: string]: Texture[] } } = {};
     private _pooledAt: WeakMap<Texture, number> = new WeakMap();
     private _totalTextures: number = 0;
@@ -183,6 +186,31 @@ export class TexturePool
 
         return (width * height * 4);
     }
+
+    public releaseTexture(texture: Texture, destroySource: boolean): void
+    {
+        if(!texture || texture.destroyed) return;
+
+        delete texture.source?.hitMap;
+        delete texture.source?.hitMapDirty;
+
+        this._releasedNext.push({ texture, destroySource });
+    }
+
+    public flushReleased(): void
+    {
+        if(this._released.length)
+        {
+            for(const { texture, destroySource } of this._released)
+            {
+                if(!texture.destroyed) texture.destroy(destroySource);
+            }
+        }
+
+        this._released = this._releasedNext;
+        this._releasedNext = [];
+    }
+
 
     public get textures(): { [index: string]: { [index: string]: Texture[] } }
     {

@@ -31,3 +31,5 @@ export * from './TextureUtils';
 export * from './Vector3d';
 export * from './filters';
 export * from './motion';
+
+export * from './TextureContentVersion';

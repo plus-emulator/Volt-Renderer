@@ -50,7 +50,8 @@ export class PlaneMaskFilter extends Filter
             void main(void) {
                 vec4 c = texture(uTexture, vTextureCoord);
 
-                if(c.r == 0.0 && c.g == 0.0 && c.b == 0.0) {
+                // Ignore interpolation noise that would quantize to black in the RGBA8 target.
+                if(all(lessThan(c.rgb, vec3(0.5 / 255.0)))) {
                     finalColor = vec4(0.0, 0.0, 0.0, 0.0);
                 } else {
                     finalColor = c;
