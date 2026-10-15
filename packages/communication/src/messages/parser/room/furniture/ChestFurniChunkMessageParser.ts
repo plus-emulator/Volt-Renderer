@@ -1,7 +1,10 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 import { ChestFurniStoredItemParser, IChestFurniStoredItem } from './ChestFurniStoredItemParser';
 
-/** Furni-chest storage chunk (official Sebahew wire shape, header 9322). */
+/**
+ * One fragment of a furni chest's contents: int chestId, int totalFragments, int fragmentNo, int count, ChestStorage[].
+ * AIR WIN63-202610121709 id 44 (package_112/class_2610). Fragment 0 resets the list; the last fragment opens the chest.
+ */
 export class ChestFurniChunkMessageParser implements IMessageParser
 {
     private _chestId: number = 0;

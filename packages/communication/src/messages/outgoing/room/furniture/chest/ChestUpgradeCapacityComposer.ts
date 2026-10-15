@@ -1,15 +1,13 @@
 import { IMessageComposer } from '@volt/api';
 
-/**
- * Buys extra wired chest capacity. [itemId, quantity] (each unit = +5000, costs credits + diamonds).
- */
+/** Buy extra chest capacity: [chestId, amount]. AIR WIN63-202610121709 id 2964 (package_95/class_3721). */
 export class ChestUpgradeCapacityComposer implements IMessageComposer<ConstructorParameters<typeof ChestUpgradeCapacityComposer>>
 {
     private _data: ConstructorParameters<typeof ChestUpgradeCapacityComposer>;
 
-    constructor(itemId: number, quantity: number)
+    constructor(chestId: number, amount: number)
     {
-        this._data = [itemId, quantity];
+        this._data = [chestId, amount];
     }
 
     public getMessageArray()

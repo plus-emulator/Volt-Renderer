@@ -66,7 +66,8 @@ export interface PacketExemption
     name: string;
     direction: PacketDirection;
     header: number;
-    java: PacketEndpoint;
+    java?: PacketEndpoint;
+    csharp?: PacketEndpoint;
     typescript: PacketEndpoint;
     reason: string;
 }

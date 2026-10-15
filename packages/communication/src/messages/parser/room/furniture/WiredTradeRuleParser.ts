@@ -1,48 +1,21 @@
-import { IMessageDataWrapper } from '@volt/api';
+import { IWiredContractDefinition, IWiredContractNode, IWiredContractRule, readWiredContractDefinition, readWiredContractRule } from '../../roomevents/WiredContractData';
 
-export const WIRED_TRADE_NODE_CURRENCY = 0;
+/** TradeRequirementNode types (AIR package_231/TradeRequirementNode: byte type). */
+export const WIRED_TRADE_NODE_COINS = 0;
 export const WIRED_TRADE_NODE_FURNI = 1;
 
-/** One thing a contract asks for or hands back: a pile of coins, or a pile of one kind of furni. */
-export interface IWiredTradeNode
-{
-    kind: number;
-    currencyType: number;
-    wallItem: boolean;
-    spriteId: number;
-    amount: number;
-}
-
 /**
- * Nodes inside a rule are joined: all of them have to be met. Rules are alternatives: any one of
- * them will do. The requirements bubble renders that as `&` inside a rule and `or` between them.
+ * One thing a trade asks for or hands back: a pile of coins, or a pile of one kind of furni. Same wire shape as the
+ * contract editor's node (AIR TradeRequirementNode): byte type, int amount, if furni: bool wall, int typeId,
+ * string posterId.
  */
-export interface IWiredTradeRule
-{
-    nodes: IWiredTradeNode[];
-}
+export type IWiredTradeNode = IWiredContractNode;
 
-/**
- * A node is a fixed-width row -- both kinds carry every field -- so the reader never has to branch
- * mid-message to know how much is left.
- */
-export const readWiredTradeNode = (wrapper: IMessageDataWrapper): IWiredTradeNode =>
-{
-    const kind = wrapper.readInt();
-    const currencyType = wrapper.readInt();
-    const wallItem = wrapper.readBoolean();
-    const spriteId = wrapper.readInt();
-    const amount = wrapper.readInt();
+/** Nodes inside a rule are joined (all must be met); alternative rules are or-ed. */
+export type IWiredTradeRule = IWiredContractRule;
 
-    return { kind, currencyType, wallItem, spriteId, amount };
-};
+/** AIR TradeRequirementRulesDefinition: bool hasGive, [int n, rule[n]], bool hasGet, [rule]. */
+export type IWiredTradeRulesDefinition = IWiredContractDefinition;
 
-export const readWiredTradeRule = (wrapper: IMessageDataWrapper): IWiredTradeRule =>
-{
-    const nodes: IWiredTradeNode[] = [];
-    const count = wrapper.readInt();
-
-    for(let i = 0; i < count; i++) nodes.push(readWiredTradeNode(wrapper));
-
-    return { nodes };
-};
+export const readWiredTradeRule = readWiredContractRule;
+export const readWiredTradeRulesDefinition = readWiredContractDefinition;

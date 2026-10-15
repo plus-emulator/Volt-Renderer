@@ -1,6 +1,9 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
-/** Server ack that a chest open was accepted (official Syhytarer / 1174 wire shape). */
+/**
+ * The user used a chest furni: int chestId. AIR WIN63-202610121709 id 3966 (package_112/class_3066). The client
+ * answers with ChestOpen (1595), like AIR WiredChestController.onOpenChest.
+ */
 export class ChestOpenMessageParser implements IMessageParser
 {
     private _chestId: number = 0;

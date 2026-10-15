@@ -118,6 +118,22 @@ describe('packet contract manifest', () =>
         expect(() => parsePacketContractManifest(direction)).toThrow('invalid direction');
     });
 
+    it('accepts a C# backend endpoint on exemptions and rejects two backends', () =>
+    {
+        const csharp = { symbol: 'FixtureComposer', className: 'FixtureComposer', path: 'src/FixtureComposer.cs' };
+        const typescript = { symbol: 'FIXTURE', className: 'FixtureParser', path: 'src/FixtureParser.ts' };
+        const reason = 'TypeScript analyzer: rows are read by a delegated parser; wire is int id, Row[count]';
+        const input = validManifest();
+        input.exemptions.push({ name: 'FIXTURE', direction: 'server_to_client', header: 201, csharp, typescript, reason });
+
+        expect(parsePacketContractManifest(input).exemptions[0].csharp).toEqual(csharp);
+
+        const both = validManifest();
+        both.exemptions.push({ name: 'FIXTURE', direction: 'server_to_client', header: 201, csharp, java: csharp, typescript, reason });
+
+        expect(() => parsePacketContractManifest(both)).toThrow('exactly one backend endpoint');
+    });
+
     it('requires concrete exemption reasons', () =>
     {
         const input = validManifest();

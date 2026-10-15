@@ -1,11 +1,8 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Both halves of agreeing, told apart by one flag. [confirm].
- *
- * false is the first press: the player agrees and a short countdown starts, but nothing has changed
- * hands. true is the second, after the countdown, and that one settles. The split is what gives a
- * player the moment to notice an offer that moved under them.
+ * Accept the wired trade: [confirm]. AIR WIN63-202610121709 id 609 (package_186/class_3394, WiredTradingModel).
+ * false is the first press (starts the local countdown), true the confirmation after it.
  */
 export class WiredTradeAcceptComposer implements IMessageComposer<ConstructorParameters<typeof WiredTradeAcceptComposer>>
 {

@@ -268,7 +268,7 @@ const exemption = (input: unknown, context: string): PacketExemption =>
         name: nonEmptyString(value.name, `${ context }.name`),
         direction: direction(value.direction, context),
         header: wireHeader(value.header, `${ context }.header`),
-        java: endpoint(value.java, `${ context }.java`),
+        ...backendEndpoint(value, context),
         typescript: endpoint(value.typescript, `${ context }.typescript`),
         reason: concreteReason(value.reason, context)
     };
