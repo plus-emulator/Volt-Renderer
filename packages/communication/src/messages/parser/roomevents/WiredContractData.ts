@@ -17,11 +17,13 @@ export interface IWiredContractContents {
 }
 
 /** AIR TradeRequirementRule / TradeRequirementNode / ChestItemType: byte kind, int amount, optional furni tuple. */
-export function readWiredContractRule(wrapper: IMessageDataWrapper): IWiredContractRule {
+export function readWiredContractRule(wrapper: IMessageDataWrapper): IWiredContractRule
+{
     const count = wrapper.readInt();
     if(count < 0 || count > 5) throw new Error('Invalid contract node count');
     const nodes: IWiredContractNode[] = [];
-    for(let i = 0; i < count; i++) {
+    for(let i = 0; i < count; i++)
+    {
         const type = wrapper.readByte();
         if(type !== 0 && type !== 1) throw new Error('Invalid contract node type');
         const amount = wrapper.readInt();
@@ -32,9 +34,11 @@ export function readWiredContractRule(wrapper: IMessageDataWrapper): IWiredContr
 }
 
 /** AIR TradeRequirementRulesDefinition preserves absent rules separately from empty rules. */
-export function readWiredContractDefinition(wrapper: IMessageDataWrapper): IWiredContractDefinition {
+export function readWiredContractDefinition(wrapper: IMessageDataWrapper): IWiredContractDefinition
+{
     let youGiveRule: IWiredContractRule[] | null = null;
-    if(wrapper.readBoolean()) {
+    if(wrapper.readBoolean())
+    {
         const count = wrapper.readInt();
         if(count < 0 || count > 3) throw new Error('Invalid contract alternative count');
         youGiveRule = [];

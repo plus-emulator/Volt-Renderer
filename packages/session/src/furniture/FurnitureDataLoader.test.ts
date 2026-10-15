@@ -6,10 +6,15 @@ vi.mock('@volt/utils', () => ({ loadGamedata: data.load }));
 vi.mock('@volt/localization', () => ({ GetLocalizationManager: () => ({ setValue: (key: string, value: string) => data.texts.set(key, value) }) }));
 vi.mock('./FurnitureDataUrl', () => ({ GetFurnitureDataUrl: () => '/furniture.json' }));
 
-describe('furniture boot localization order', () => {
-    it('downloads before base texts finish, then applies furniture overrides last', async () => {
+describe('furniture boot localization order', () =>
+{
+    it('downloads before base texts finish, then applies furniture overrides last', async () =>
+    {
         let textsReady: () => void;
-        const localization = new Promise<void>(resolve => { textsReady = resolve; });
+        const localization = new Promise<void>(resolve =>
+        {
+            textsReady = resolve;
+        });
         data.load.mockResolvedValue({ roomitemtypes: { furnitype: [{ id: 1, classname: 'chair', name: 'Furniture name', description: 'Furniture description' }] } });
         const floor = new Map();
         const loader = new FurnitureDataLoader(floor, new Map());

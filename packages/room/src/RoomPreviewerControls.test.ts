@@ -355,7 +355,9 @@ describe('RoomPreviewer disposal', () =>
         const { previewer, roomEngine } = makePreviewer();
         const destroyRoom = vi.fn();
         Object.assign(roomEngine, { destroyRoom, removeRoomObjectFloor: vi.fn(), removeRoomObjectWall: vi.fn(), removeRoomObjectUser: vi.fn() });
-        Object.assign(previewer, { onRoomObjectAdded: () => {}, onRoomInitializedonRoomInitialized: () => {} });
+        Object.assign(previewer, { onRoomObjectAdded: () =>
+        {}, onRoomInitializedonRoomInitialized: () =>
+        {} });
         previewer.dispose();
         previewer.dispose();
         expect(destroyRoom).toHaveBeenCalledExactlyOnceWith(77);

@@ -19,7 +19,7 @@ const addPressureTile = (manager: RoomManager, roomId: string, dispatcher: Event
 
     logic.eventDispatcher = dispatcher;
     object.setLogic(logic);
-    logic.initialize({} as any);
+    logic.initialize({});
 
     return { room, object, logic };
 };
