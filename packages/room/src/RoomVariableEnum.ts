@@ -12,4 +12,5 @@
     public static AD_DISPLAY_DELAY: string = 'ad_display_delay';
     public static IS_PLAYING_GAME: string = 'is_playing_game';
     public static FREE_FURNI_MOVEMENTS_MODE: string = 'free_furni_movements_mode';
+    public static CHOOSER_DISABLED: string = 'chooser_disabled';
 }

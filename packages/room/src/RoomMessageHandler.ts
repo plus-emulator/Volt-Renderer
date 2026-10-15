@@ -1937,7 +1937,7 @@ export class RoomMessageHandler
         this._roomEngine.updateRoomObjectUserAction(this._currentRoomId, parser.roomIndex, RoomObjectVariable.FIGURE_GAINED_EXPERIENCE, parser.gainedExperience);
     }
 
-    // AIR onConfigurationItemStates forwards the free furni movement flag to the room engine.
+    // AIR onConfigurationItemStates forwards the chooser disabler and free furni movement flags to the room engine.
     private onConfigurationItemStatesEvent(event: ConfigurationItemStatesEvent): void
     {
         if(!event || !this._roomEngine) return;
@@ -1946,6 +1946,7 @@ export class RoomMessageHandler
 
         if(!parser) return;
 
+        this._roomEngine.setChooserDisabled(this._currentRoomId, parser.chooserDisabled);
         this._roomEngine.setFreeFurniMovementsMode(this._currentRoomId, parser.freeFurniMovementsEnabled);
     }
 

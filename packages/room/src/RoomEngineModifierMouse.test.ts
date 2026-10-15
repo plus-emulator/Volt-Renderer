@@ -159,3 +159,37 @@ describe('RoomEngine free furni movements mode', () =>
         expect(engine.activeRoomHasFreeFurniMovementsMode).toBe(false);
     });
 });
+
+describe('RoomEngine chooser disabled', () =>
+{
+    it('stores the ConfigurationItemStates chooser flag on the room instance', () =>
+    {
+        const values = new Map<string, number>();
+        const instance = { model: { getValue: (key: string) => values.get(key), setValue: (key: string, value: number) => values.set(key, value) } };
+        const engine = Object.create(RoomEngine.prototype) as RoomEngine;
+
+        Object.assign(engine, { _activeRoomId: ROOM_ID, getRoomInstance: (roomId: number) => ((roomId === ROOM_ID) ? instance : null) });
+
+        expect(engine.activeRoomHasChooserDisabled).toBe(false);
+
+        engine.setChooserDisabled(ROOM_ID, true);
+
+        expect(values.get(RoomVariableEnum.CHOOSER_DISABLED)).toBe(1);
+        expect(engine.activeRoomHasChooserDisabled).toBe(true);
+
+        engine.setChooserDisabled(ROOM_ID, false);
+
+        expect(values.get(RoomVariableEnum.CHOOSER_DISABLED)).toBe(0);
+        expect(engine.activeRoomHasChooserDisabled).toBe(false);
+    });
+
+    it('ignores rooms without an instance', () =>
+    {
+        const engine = Object.create(RoomEngine.prototype) as RoomEngine;
+
+        Object.assign(engine, { _activeRoomId: ROOM_ID, getRoomInstance: (): null => null });
+
+        expect(() => engine.setChooserDisabled(ROOM_ID, true)).not.toThrow();
+        expect(engine.activeRoomHasChooserDisabled).toBe(false);
+    });
+});

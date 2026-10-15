@@ -900,6 +900,25 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         return (roomInstance.model.getValue<number>(RoomVariableEnum.FREE_FURNI_MOVEMENTS_MODE) > 0);
     }
 
+    /** AIR `setChooserDisabled`: ConfigurationItemStates hides the `:chooser` user list from non-controllers. */
+    public setChooserDisabled(roomId: number, disabled: boolean): void
+    {
+        const roomInstance = this.getRoomInstance(roomId);
+
+        if(!roomInstance) return;
+
+        roomInstance.model.setValue(RoomVariableEnum.CHOOSER_DISABLED, (disabled ? 1 : 0));
+    }
+
+    public get activeRoomHasChooserDisabled(): boolean
+    {
+        const roomInstance = this.getRoomInstance(this._activeRoomId);
+
+        if(!roomInstance) return false;
+
+        return (roomInstance.model.getValue<number>(RoomVariableEnum.CHOOSER_DISABLED) > 0);
+    }
+
     public update(ticker: Ticker): void
     {
         if(!this._roomManager) return;

@@ -98,6 +98,8 @@ export interface IRoomEngine
     readonly isDecorating: boolean;
     /** AIR: the room's ConfigurationItemStates let every visitor move furni. */
     readonly activeRoomHasFreeFurniMovementsMode: boolean;
+    /** AIR: the room's ConfigurationItemStates disable the `:chooser` user list for non-controllers. */
+    readonly activeRoomHasChooserDisabled: boolean;
     moveBlocked: boolean;
     isAreaSelectionMode(): boolean;
     whereYouClickIsWhereYouGo(): boolean;
