@@ -53,4 +53,5 @@ export interface IRoomCreator
     refreshTileObjectMap(roomId: number, source: string): void;
     setRoomEngineGameMode(roomId: number, isPlaying: boolean): void;
     setFreeFurniMovementsMode(roomId: number, enabled: boolean): void;
+    setChooserDisabled(roomId: number, disabled: boolean): void;
 }
