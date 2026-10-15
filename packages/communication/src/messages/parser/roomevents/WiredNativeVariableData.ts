@@ -44,9 +44,12 @@ export function parseNativeWiredVariable(wrapper: IMessageDataWrapper): IWiredVa
     const canWriteValue = readNativeCatalogBoolean(wrapper);
     const canInterceptChanges = readNativeCatalogBoolean(wrapper);
     const isInvisible = readNativeCatalogBoolean(wrapper);
+    const requiresExecutionContext = readNativeCatalogBoolean(wrapper);
     const canReadCreationTime = readNativeCatalogBoolean(wrapper);
     const canReadLastUpdateTime = readNativeCatalogBoolean(wrapper);
     let textConnector: { key: number; value: string }[] = null;
+    let hasTextConnectorFallback = false;
+    let textConnectorFallback: string = null;
     if(readNativeCatalogBoolean(wrapper))
     {
         textConnector = [];
@@ -61,8 +64,11 @@ export function parseNativeWiredVariable(wrapper: IMessageDataWrapper): IWiredVa
             textConnector.push(Object.freeze({ key, value }));
         }
         Object.freeze(textConnector);
+        hasTextConnectorFallback = readNativeCatalogBoolean(wrapper);
+        if(hasTextConnectorFallback) textConnectorFallback = wrapper.readString();
     }
     return Object.freeze({ variableId, variableType, variableName, availabilityType, variableTarget,
         alwaysAvailable, canCreateAndDelete, hasValue, canWriteValue, canInterceptChanges, isInvisible,
-        canReadCreationTime, canReadLastUpdateTime, textConnector });
+        canReadCreationTime, canReadLastUpdateTime, requiresExecutionContext, textConnector,
+        hasTextConnectorFallback, textConnectorFallback });
 }

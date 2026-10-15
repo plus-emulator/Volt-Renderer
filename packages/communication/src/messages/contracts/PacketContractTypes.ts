@@ -126,8 +126,36 @@ export interface PacketRegistryPolicy
 export interface PacketContractManifest
 {
     schemaVersion: 2;
+    nativeAir?: NativeAirRegistry;
     registry: PacketRegistryPolicy;
     contracts: readonly PacketContract[];
     unpaired: readonly UnpairedPacket[];
     exemptions: readonly PacketExemption[];
+}
+
+export interface NativeAirIdentity
+{
+    direction: PacketDirection;
+    header: number;
+    sourceClass: string;
+    sourcePath: string;
+    sourceSha256: string;
+    mapLine: number;
+    reportedName: string | null;
+    namingSource: 'Sulek' | null;
+    canonicalName: string | null;
+    canonicalStatus: 'semantic-verified' | 'unknown';
+    localBindings: { csharp: readonly string[]; typescript: readonly string[] };
+}
+
+export interface NativeAirRegistry
+{
+    build: string;
+    swfSha256: string;
+    messageMapSha256: string;
+    auditSha256: string;
+    namingScope: string;
+    semanticScope: string;
+    packets: readonly NativeAirIdentity[];
+    identityFor(direction: PacketDirection, header: number): NativeAirIdentity | undefined;
 }

@@ -1,5 +1,7 @@
 import { readFileSync } from 'node:fs';
 import {
+    NativeAirIdentity,
+    NativeAirRegistry,
     PacketContract,
     PacketContractManifest,
     PacketDirection,
@@ -49,7 +51,65 @@ export const parsePacketContractManifest = (input: unknown): PacketContractManif
         if(!classified.has(key)) throw new TypeError(`alias header ${ alias.direction }:${ alias.header } is not classified`);
     }
 
-    return deepFreeze({ schemaVersion: 2, registry, contracts, unpaired, exemptions });
+    const nativeAir = root.nativeAir === undefined ? undefined : nativeAirRegistry(root.nativeAir);
+    return deepFreeze({ schemaVersion: 2, registry, contracts, unpaired, exemptions,
+        ...(nativeAir ? { nativeAir } : {}) });
+};
+
+const nativeAirRegistry = (input: unknown): NativeAirRegistry =>
+{
+    const root = object(input, 'nativeAir');
+    const byKey = new Map<string, NativeAirIdentity>();
+    const nullableName = (value: unknown, context: string): string | null =>
+        value === null ? null : nonEmptyString(value, context);
+    const hash = (value: unknown, context: string): string =>
+    {
+        const result = nonEmptyString(value, context);
+        if(!/^[a-f0-9]{64}$/.test(result)) throw new TypeError(`${ context } must be a SHA-256`);
+        return result;
+    };
+    const packets = array(root.packets, 'nativeAir.packets').map((input, index): NativeAirIdentity =>
+    {
+        const context = `nativeAir.packets[${ index }]`;
+        const value = object(input, context);
+        const bindings = object(value.localBindings, `${ context }.localBindings`);
+        const reportedName = nullableName(value.reportedName, `${ context }.reportedName`);
+        const canonicalName = nullableName(value.canonicalName, `${ context }.canonicalName`);
+        if(value.namingSource !== (reportedName === null ? null : 'Sulek'))
+            throw new TypeError(`${ context } has inconsistent reported-name provenance`);
+        if(value.canonicalStatus !== (canonicalName === null ? 'unknown' : 'semantic-verified'))
+            throw new TypeError(`${ context } has inconsistent canonical-name status`);
+        const packet: NativeAirIdentity = {
+            direction: direction(value.direction, context),
+            header: wireHeader(value.header, `${ context }.header`),
+            sourceClass: nonEmptyString(value.sourceClass, `${ context }.sourceClass`),
+            sourcePath: nonEmptyString(value.sourcePath, `${ context }.sourcePath`),
+            sourceSha256: hash(value.sourceSha256, `${ context }.sourceSha256`),
+            mapLine: positiveInteger(value.mapLine, `${ context }.mapLine`),
+            reportedName, namingSource: reportedName === null ? null : 'Sulek',
+            canonicalName, canonicalStatus: canonicalName === null ? 'unknown' : 'semantic-verified',
+            localBindings: {
+                csharp: array(bindings.csharp, `${ context }.localBindings.csharp`).map(symbol =>
+                    nonEmptyString(symbol, `${ context }.localBindings.csharp`)),
+                typescript: array(bindings.typescript, `${ context }.localBindings.typescript`).map(symbol =>
+                    nonEmptyString(symbol, `${ context }.localBindings.typescript`))
+            }
+        };
+        const key = `${ packet.direction }:${ packet.header }`;
+        if(byKey.has(key)) throw new TypeError(`duplicate native AIR identity ${ key }`);
+        byKey.set(key, packet);
+        return packet;
+    });
+    return {
+        build: nonEmptyString(root.build, 'nativeAir.build'),
+        swfSha256: hash(root.swfSha256, 'nativeAir.swfSha256'),
+        messageMapSha256: hash(root.messageMapSha256, 'nativeAir.messageMapSha256'),
+        auditSha256: hash(root.auditSha256, 'nativeAir.auditSha256'),
+        namingScope: nonEmptyString(root.namingScope, 'nativeAir.namingScope'),
+        semanticScope: nonEmptyString(root.semanticScope, 'nativeAir.semanticScope'),
+        packets,
+        identityFor: (direction, header) => byKey.get(`${ direction }:${ header }`)
+    };
 };
 
 const packetRegistry = (input: unknown): PacketRegistryPolicy =>
