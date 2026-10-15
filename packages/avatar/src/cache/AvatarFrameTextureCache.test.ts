@@ -40,7 +40,10 @@ describe('avatar boot dependencies', () =>
         const pending = Array.from({ length: 4 }, () =>
         {
             let resolve: () => void;
-            const promise = new Promise<void>(ready => { resolve = ready; });
+            const promise = new Promise<void>(ready =>
+            {
+                resolve = ready;
+            });
             return { promise, resolve };
         });
         const loaders = [

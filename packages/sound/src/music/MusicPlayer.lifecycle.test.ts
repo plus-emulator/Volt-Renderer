@@ -2,18 +2,25 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MusicPlayer } from './MusicPlayer';
 
 vi.mock('howler', () => ({ Howler: { stop: vi.fn(), _audioUnlocked: true }, Howl: vi.fn() }));
-vi.mock('@volt/events', () => ({ GetEventDispatcher: () => ({ dispatchEvent: vi.fn() }), SoundManagerEvent: class {} }));
+vi.mock('@volt/events', () => ({ GetEventDispatcher: () => ({ dispatchEvent: vi.fn() }), SoundManagerEvent: class
+{} }));
 
-const deferred = () => {
+const deferred = () =>
+{
     let resolve: () => void;
-    const promise = new Promise<void>(done => { resolve = done; });
+    const promise = new Promise<void>(done =>
+    {
+        resolve = done;
+    });
     return { promise, resolve: () => resolve() };
 };
 
 afterEach(() => vi.useRealTimers());
 
-describe('music playback lifetime', () => {
-    it.each(['preload', 'unlockAudio'])('does not restart a stopped song after %s completes', async stage => {
+describe('music playback lifetime', () =>
+{
+    it.each(['preload', 'unlockAudio'])('does not restart a stopped song after %s completes', async stage =>
+    {
         vi.useFakeTimers();
         const player = new MusicPlayer('');
         const pending = deferred();

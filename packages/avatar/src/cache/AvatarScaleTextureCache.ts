@@ -32,8 +32,14 @@ export class AvatarScaleTextureCache
             });
             entry = { source, texture, references: 0 };
 
-            try { this.draw(entry); }
-            catch(error) { texture.destroy(true); throw error; }
+            try
+            {
+                this.draw(entry);
+            }
+            catch (error)
+            {
+                texture.destroy(true); throw error;
+            }
 
             if(!this._sources.size)
             {
@@ -53,8 +59,14 @@ export class AvatarScaleTextureCache
         const sprite = new Sprite(entry.source);
         sprite.width = entry.texture.width;
         sprite.height = entry.texture.height;
-        try { GetRenderer().render({ container: sprite, target: entry.texture, clear: true }); }
-        finally { sprite.destroy(); }
+        try
+        {
+            GetRenderer().render({ container: sprite, target: entry.texture, clear: true });
+        }
+        finally
+        {
+            sprite.destroy();
+        }
     }
 
     public static contextChange(): void
