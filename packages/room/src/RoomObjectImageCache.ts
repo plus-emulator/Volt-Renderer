@@ -17,7 +17,7 @@ export class RoomObjectImageCacheEntry
 
     public getImage(): Promise<HTMLImageElement>
     {
-        if(!this._imagePromise)
+        if(this._imagePromise === null)
         {
             this._imagePromise = TextureUtils.generateImage(this.texture).then(image =>
             {
