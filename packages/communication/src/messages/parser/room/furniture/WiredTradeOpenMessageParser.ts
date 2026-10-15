@@ -1,5 +1,5 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
-import { IWiredTradeRule, readWiredTradeRulesDefinition } from './WiredTradeRuleParser';
+import { IWiredTradeRule, IWiredTradeRulesDefinition, readWiredTradeRulesDefinition } from './WiredTradeRuleParser';
 
 /** TradeRequirement types (AIR trade/requirements/TradeRequirement). */
 export const WIRED_TRADE_REQUIREMENT_ANY_COINS = 0;
@@ -63,7 +63,16 @@ export class WiredTradeOpenMessageParser implements IMessageParser
 
         if(this._requirementType === WIRED_TRADE_REQUIREMENT_RULES)
         {
-            const definition = readWiredTradeRulesDefinition(wrapper);
+            let definition: IWiredTradeRulesDefinition;
+
+            try
+            {
+                definition = readWiredTradeRulesDefinition(wrapper);
+            }
+            catch
+            {
+                return false;
+            }
 
             this._giveRules = definition.youGiveRule;
             this._getRule = definition.youGetRule;

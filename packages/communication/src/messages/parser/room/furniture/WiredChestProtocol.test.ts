@@ -215,6 +215,56 @@ describe('wired chest AIR protocol (build 202610121709 ids)', () =>
         expect([success.rewardText, success.openByDefault, success.hasRewardContents]).toEqual(['Well done', true, true]);
     });
 
+    it('reads reward and trade rules with more nodes and alternatives than the contract editor allows', () =>
+    {
+        /** int n, n furni nodes (AIR TradeRequirementRule has no node cap). */
+        const writeLongRule = (writer: BinaryWriter, count: number) =>
+        {
+            writer.writeInt(count);
+            for(let i = 0; i < count; i++) writer.writeByte(1).writeInt(i + 1).writeByte(0).writeInt(4000 + i).writeString('');
+        };
+
+        const reward = new BinaryWriter();
+        reward.writeInt(WIRED_TRANSACTION_SUCCESS_REWARD);
+        writeLongRule(reward, 7);
+        reward.writeString('Lots').writeByte(0);
+        const rewardWrapper = wrap(reward);
+        const success = new WiredTransactionSuccessMessageParser();
+        expect(success.parse(rewardWrapper)).toBe(true);
+        expect(rewardWrapper.bytesAvailable).toBe(false);
+        expect(success.rewardRule.nodes.map(node => node.itemType.typeId)).toEqual([4000, 4001, 4002, 4003, 4004, 4005, 4006]);
+        expect([success.rewardText, success.openByDefault]).toEqual(['Lots', false]);
+
+        const open = new BinaryWriter();
+        open.writeInt(WIRED_TRADE_REQUIREMENT_RULES).writeString('').writeString('generic');
+        open.writeByte(1).writeInt(4);
+        for(let i = 0; i < 4; i++) writeLongRule(open, 6);
+        open.writeByte(1);
+        writeLongRule(open, 8);
+        open.writeInt(0);
+        open.writeByte(0).writeByte(0).writeInt(30);
+        const openWrapper = wrap(open);
+        const openParser = new WiredTradeOpenMessageParser();
+        expect(openParser.parse(openWrapper)).toBe(true);
+        expect(openWrapper.bytesAvailable).toBe(false);
+        expect(openParser.giveRules.map(rule => rule.nodes.length)).toEqual([6, 6, 6, 6]);
+        expect(openParser.getRule.nodes).toHaveLength(8);
+        expect(openParser.timeoutSeconds).toBe(30);
+    });
+
+    it('refuses a rule count that cannot fit in the packet instead of looping', () =>
+    {
+        const reward = new BinaryWriter();
+        reward.writeInt(WIRED_TRANSACTION_SUCCESS_REWARD).writeInt(0x7fffffff).writeByte(0).writeInt(5);
+        const success = new WiredTransactionSuccessMessageParser();
+        expect(success.parse(wrap(reward))).toBe(false);
+        expect(success.hasRewardContents).toBe(false);
+
+        const open = new BinaryWriter();
+        open.writeInt(WIRED_TRADE_REQUIREMENT_RULES).writeString('').writeString('generic').writeByte(1).writeInt(-1);
+        expect(new WiredTradeOpenMessageParser().parse(wrap(open))).toBe(false);
+    });
+
     it('reads a trade open with a plain requirement', () =>
     {
         const writer = new BinaryWriter();

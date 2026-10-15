@@ -24789,7 +24789,7 @@
         "className": "WiredTradeOpenMessageParser",
         "path": "packages/communication/src/messages/parser/room/furniture/WiredTradeOpenMessageParser.ts"
       },
-      "reason": "TypeScript analyzer: TradeRequirement rules are read by the delegated readWiredContractDefinition behind a type branch; wire is TradeRequirement, bool showRequirementsImmediate, bool overridePreviousTrade, int timeoutSeconds (AIR WIN63-202610121709 id 84, package_192/class_3295)"
+      "reason": "TypeScript analyzer: TradeRequirement rules are read by the delegated readWiredTradeRulesDefinition behind a type branch; wire is TradeRequirement, bool showRequirementsImmediate, bool overridePreviousTrade, int timeoutSeconds (AIR WIN63-202610121709 id 84, package_192/class_3295)"
     },
     {
       "name": "WIRED_TRANSACTION_SUCCESS",
@@ -24805,7 +24805,7 @@
         "className": "WiredTransactionSuccessMessageParser",
         "path": "packages/communication/src/messages/parser/room/furniture/WiredTransactionSuccessMessageParser.ts"
       },
-      "reason": "TypeScript analyzer: the reward contents are read only for successType 2 when bytes remain, through the delegated readWiredContractRule; wire is int successType, [rule, string rewardText, bool openByDefault] (AIR WIN63-202610121709 id 125, package_196/class_3152)"
+      "reason": "TypeScript analyzer: the reward contents are read only for successType 2 when bytes remain, through the delegated readWiredTradeRule; wire is int successType, [rule, string rewardText, bool openByDefault] (AIR WIN63-202610121709 id 125, package_196/class_3152)"
     },
     {
       "name": "WIRED_TRADE_ITEMS",

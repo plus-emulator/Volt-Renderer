@@ -40,9 +40,18 @@ export class WiredTransactionSuccessMessageParser implements IMessageParser
 
         if(this._successType !== WIRED_TRANSACTION_SUCCESS_REWARD || !wrapper.bytesAvailable) return true;
 
-        this._rewardRule = readWiredTradeRule(wrapper);
-        this._rewardText = wrapper.readString();
-        this._openByDefault = wrapper.readBoolean();
+        try
+        {
+            this._rewardRule = readWiredTradeRule(wrapper);
+            this._rewardText = wrapper.readString();
+            this._openByDefault = wrapper.readBoolean();
+        }
+        catch
+        {
+            this._rewardRule = null;
+
+            return false;
+        }
 
         return true;
     }
