@@ -8684,61 +8684,24 @@
       ]
     },
     {
-      "name": "CHEST_DEPOSIT",
+      "name": "CHEST_WITHDRAW_COINS",
       "direction": "client_to_server",
-      "header": 9313,
-      "java": {
-        "symbol": "ChestDepositEvent",
-        "className": "ChestDepositEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestDepositEvent.java"
+      "header": 3731,
+      "csharp": {
+        "symbol": "ChestWithdrawCoinsEvent",
+        "className": "ChestWithdrawCoinsEvent",
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
-        "symbol": "CHEST_DEPOSIT",
-        "className": "ChestDepositComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestDepositComposer.ts"
+        "symbol": "CHEST_WITHDRAW_COINS",
+        "className": "ChestWithdrawCoinsComposer",
+        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestWithdrawCoinsComposer.ts"
       },
       "fields": [
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "currencyType"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "amount"
-        }
-      ]
-    },
-    {
-      "name": "CHEST_WITHDRAW",
-      "direction": "client_to_server",
-      "header": 9314,
-      "java": {
-        "symbol": "ChestWithdrawEvent",
-        "className": "ChestWithdrawEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestWithdrawEvent.java"
-      },
-      "typescript": {
-        "symbol": "CHEST_WITHDRAW",
-        "className": "ChestWithdrawComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestWithdrawComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "currencyType"
+          "name": "chestId"
         },
         {
           "kind": "scalar",
@@ -8750,11 +8713,11 @@
     {
       "name": "CHEST_SAVE_SETTINGS",
       "direction": "client_to_server",
-      "header": 9315,
-      "java": {
-        "symbol": "ChestSaveSettingsEvent",
-        "className": "ChestSaveSettingsEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestSaveSettingsEvent.java"
+      "header": 3274,
+      "csharp": {
+        "symbol": "ChestSavePreferencesEvent",
+        "className": "ChestSavePreferencesEvent",
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_SAVE_SETTINGS",
@@ -8765,7 +8728,7 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
+          "name": "chestId"
         },
         {
           "kind": "scalar",
@@ -8780,17 +8743,17 @@
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "accessOpen"
+          "name": "everyoneCanOpen"
         },
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "accessDonate"
+          "name": "everyoneCanDonate"
         },
         {
           "kind": "scalar",
           "type": "int",
-          "name": "appearanceState"
+          "name": "stateMode"
         },
         {
           "kind": "scalar",
@@ -8801,17 +8764,22 @@
           "kind": "scalar",
           "type": "int",
           "name": "previewAmount"
+        },
+        {
+          "kind": "scalar",
+          "type": "boolean",
+          "name": "wiredEnabled"
         }
       ]
     },
     {
       "name": "CHEST_SAVE_NOTIFICATIONS",
       "direction": "client_to_server",
-      "header": 9316,
-      "java": {
+      "header": 3937,
+      "csharp": {
         "symbol": "ChestSaveNotificationsEvent",
         "className": "ChestSaveNotificationsEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestSaveNotificationsEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_SAVE_NOTIFICATIONS",
@@ -8822,12 +8790,17 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
+          "name": "chestId"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "notifyMode"
         },
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "full"
+          "name": "chestFull"
         },
         {
           "kind": "scalar",
@@ -8837,33 +8810,28 @@
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "withdraw"
+          "name": "someoneWithdraws"
         },
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "empty"
+          "name": "chestEmpty"
         },
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "wired"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "mode"
+          "name": "wiredTransaction"
         }
       ]
     },
     {
       "name": "CHEST_UPGRADE_CAPACITY",
       "direction": "client_to_server",
-      "header": 9317,
-      "java": {
-        "symbol": "ChestUpgradeCapacityEvent",
-        "className": "ChestUpgradeCapacityEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestUpgradeCapacityEvent.java"
+      "header": 2964,
+      "csharp": {
+        "symbol": "ChestUpgradeEvent",
+        "className": "ChestUpgradeEvent",
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_UPGRADE_CAPACITY",
@@ -8874,12 +8842,12 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
+          "name": "chestId"
         },
         {
           "kind": "scalar",
           "type": "int",
-          "name": "quantity"
+          "name": "amount"
         }
       ]
     },
@@ -8908,11 +8876,11 @@
     {
       "name": "CHEST_WITHDRAW_FURNI",
       "direction": "client_to_server",
-      "header": 9320,
-      "java": {
+      "header": 715,
+      "csharp": {
         "symbol": "ChestWithdrawFurniEvent",
         "className": "ChestWithdrawFurniEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestWithdrawFurniEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_WITHDRAW_FURNI",
@@ -8923,12 +8891,12 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
+          "name": "chestId"
         },
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": "wallItem"
+          "name": "wall"
         },
         {
           "kind": "scalar",
@@ -8938,39 +8906,7 @@
         {
           "kind": "scalar",
           "type": "string",
-          "name": "legacyPosterId"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "amount"
-        }
-      ]
-    },
-    {
-      "name": "CHEST_DEPOSIT_FURNI",
-      "direction": "client_to_server",
-      "header": 9321,
-      "java": {
-        "symbol": "ChestDepositFurniEvent",
-        "className": "ChestDepositFurniEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestDepositFurniEvent.java"
-      },
-      "typescript": {
-        "symbol": "CHEST_DEPOSIT_FURNI",
-        "className": "ChestDepositFurniComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestDepositFurniComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "baseItemId"
+          "name": "posterId"
         },
         {
           "kind": "scalar",
@@ -8982,11 +8918,11 @@
     {
       "name": "CHEST_START_DEPOSIT",
       "direction": "client_to_server",
-      "header": 9324,
-      "java": {
+      "header": 3268,
+      "csharp": {
         "symbol": "ChestStartDepositEvent",
         "className": "ChestStartDepositEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestStartDepositEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_START_DEPOSIT",
@@ -8997,67 +8933,40 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "chestItemId"
+          "name": "chestId"
         }
       ]
     },
     {
-      "name": "CHEST_DEPOSIT_INVENTORY_ITEM",
+      "name": "CHEST_WITHDRAW_ALL",
       "direction": "client_to_server",
-      "header": 9325,
-      "java": {
-        "symbol": "ChestDepositInventoryItemEvent",
-        "className": "ChestDepositInventoryItemEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestDepositInventoryItemEvent.java"
+      "header": 57,
+      "csharp": {
+        "symbol": "ChestWithdrawAllEvent",
+        "className": "ChestWithdrawAllEvent",
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
-        "symbol": "CHEST_DEPOSIT_INVENTORY_ITEM",
-        "className": "ChestDepositInventoryItemComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestDepositInventoryItemComposer.ts"
+        "symbol": "CHEST_WITHDRAW_ALL",
+        "className": "ChestWithdrawAllComposer",
+        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestWithdrawAllComposer.ts"
       },
       "fields": [
         {
           "kind": "scalar",
           "type": "int",
-          "name": "chestItemId"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "inventoryItemId"
-        }
-      ]
-    },
-    {
-      "name": "CHEST_WITHDRAW_ALL_FURNI",
-      "direction": "client_to_server",
-      "header": 9326,
-      "java": {
-        "symbol": "ChestWithdrawAllFurniEvent",
-        "className": "ChestWithdrawAllFurniEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestWithdrawAllFurniEvent.java"
-      },
-      "typescript": {
-        "symbol": "CHEST_WITHDRAW_ALL_FURNI",
-        "className": "ChestWithdrawAllFurniComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestWithdrawAllFurniComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
+          "name": "chestId"
         }
       ]
     },
     {
       "name": "CHEST_OPEN",
       "direction": "client_to_server",
-      "header": 9327,
-      "java": {
+      "header": 1595,
+      "csharp": {
         "symbol": "ChestOpenEvent",
         "className": "ChestOpenEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestOpenEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_OPEN",
@@ -9068,7 +8977,7 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
+          "name": "chestId"
         }
       ]
     },
@@ -9112,11 +9021,11 @@
     {
       "name": "WIRED_CHEST_LOCK",
       "direction": "client_to_server",
-      "header": 9329,
-      "java": {
+      "header": 1323,
+      "csharp": {
         "symbol": "WiredChestLockEvent",
         "className": "WiredChestLockEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/WiredChestLockEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "WIRED_CHEST_LOCK",
@@ -9253,11 +9162,11 @@
     {
       "name": "WIRED_TRADE_ACCEPT",
       "direction": "client_to_server",
-      "header": 9336,
-      "java": {
-        "symbol": "WiredTradeAcceptEvent",
-        "className": "WiredTradeAcceptEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/WiredTradeAcceptEvent.java"
+      "header": 609,
+      "csharp": {
+        "symbol": "WiredChestAcceptEvent",
+        "className": "WiredChestAcceptEvent",
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "WIRED_TRADE_ACCEPT",
@@ -9291,11 +9200,11 @@
     {
       "name": "CHEST_SAVE_OPTIONS",
       "direction": "client_to_server",
-      "header": 9338,
-      "java": {
+      "header": 1211,
+      "csharp": {
         "symbol": "ChestSaveOptionsEvent",
         "className": "ChestSaveOptionsEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestSaveOptionsEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_SAVE_OPTIONS",
@@ -9306,7 +9215,7 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "itemId"
+          "name": "chestId"
         },
         {
           "kind": "scalar",
@@ -9328,11 +9237,11 @@
     {
       "name": "CHEST_CLOSE",
       "direction": "client_to_server",
-      "header": 9339,
-      "java": {
+      "header": 1154,
+      "csharp": {
         "symbol": "ChestCloseEvent",
         "className": "ChestCloseEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestCloseEvent.java"
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "CHEST_CLOSE",
@@ -9343,29 +9252,7 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": "item"
-        }
-      ]
-    },
-    {
-      "name": "CHEST_ENABLE_WIRED",
-      "direction": "client_to_server",
-      "header": 9345,
-      "java": {
-        "symbol": "ChestEnableWiredEvent",
-        "className": "ChestEnableWiredEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/ChestEnableWiredEvent.java"
-      },
-      "typescript": {
-        "symbol": "CHEST_ENABLE_WIRED",
-        "className": "ChestEnableWiredComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/ChestEnableWiredComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "item"
+          "name": "chestId"
         }
       ]
     },
@@ -17218,11 +17105,11 @@
     {
       "name": "CHEST_OPEN",
       "direction": "server_to_client",
-      "header": 9327,
-      "java": {
-        "symbol": "ChestOpenComposer",
-        "className": "ChestOpenComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/ChestOpenComposer.java"
+      "header": 3966,
+      "csharp": {
+        "symbol": "WiredChestOpenComposer",
+        "className": "WiredChestOpenComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
         "symbol": "CHEST_OPEN",
@@ -17233,39 +17120,110 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": ""
+          "name": "chestId"
         }
       ]
     },
     {
-      "name": "WIRED_CHEST_LOCK_STATE",
+      "name": "CHEST_SETTINGS_UPDATED",
       "direction": "server_to_client",
-      "header": 9329,
-      "java": {
-        "symbol": "WiredChestLockStateComposer",
-        "className": "WiredChestLockStateComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/WiredChestLockStateComposer.java"
+      "header": 2159,
+      "csharp": {
+        "symbol": "WiredChestSettingsUpdatedComposer",
+        "className": "WiredChestSettingsUpdatedComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
-        "symbol": "WIRED_CHEST_LOCK_STATE",
-        "className": "WiredChestLockStateMessageParser",
-        "path": "packages/communication/src/messages/parser/room/furniture/WiredChestLockStateMessageParser.ts"
+        "symbol": "CHEST_SETTINGS_UPDATED",
+        "className": "ChestSettingsUpdatedMessageParser",
+        "path": "packages/communication/src/messages/parser/room/furniture/ChestSettingsUpdatedMessageParser.ts"
       },
       "fields": [
         {
           "kind": "scalar",
-          "type": "boolean",
-          "name": ""
+          "type": "int",
+          "name": "chestId"
         },
         {
           "kind": "scalar",
           "type": "boolean",
-          "name": ""
+          "name": "isNotificationPreferences"
+        }
+      ]
+    },
+    {
+      "name": "CHEST_COINS",
+      "direction": "server_to_client",
+      "header": 988,
+      "csharp": {
+        "symbol": "WiredChestCoinsComposer",
+        "className": "WiredChestCoinsComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
+      },
+      "typescript": {
+        "symbol": "CHEST_COINS",
+        "className": "ChestCoinsMessageParser",
+        "path": "packages/communication/src/messages/parser/room/furniture/ChestCoinsMessageParser.ts"
+      },
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "chestId"
         },
         {
           "kind": "scalar",
           "type": "int",
-          "name": ""
+          "name": "coins"
+        },
+        {
+          "kind": "scalar",
+          "type": "boolean",
+          "name": "isUpdate"
+        }
+      ]
+    },
+    {
+      "name": "WIRED_TRANSACTION_FAIL",
+      "direction": "server_to_client",
+      "header": 1360,
+      "csharp": {
+        "symbol": "WiredTransactionFailComposer",
+        "className": "WiredTransactionFailComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
+      },
+      "typescript": {
+        "symbol": "WIRED_TRANSACTION_FAIL",
+        "className": "WiredTransactionFailMessageParser",
+        "path": "packages/communication/src/messages/parser/room/furniture/WiredTransactionFailMessageParser.ts"
+      },
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "failureReason"
+        }
+      ]
+    },
+    {
+      "name": "WIRED_TRADE_ERROR",
+      "direction": "server_to_client",
+      "header": 503,
+      "csharp": {
+        "symbol": "WiredTradeErrorComposer",
+        "className": "WiredTradeErrorComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
+      },
+      "typescript": {
+        "symbol": "WIRED_TRADE_ERROR",
+        "className": "WiredTradeErrorMessageParser",
+        "path": "packages/communication/src/messages/parser/room/furniture/WiredTradeErrorMessageParser.ts"
+      },
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "tradeErrorId"
         }
       ]
     },
@@ -17310,11 +17268,11 @@
     {
       "name": "CHEST_UPGRADE_RESULT",
       "direction": "server_to_client",
-      "header": 9335,
-      "java": {
-        "symbol": "ChestUpgradeResultComposer",
-        "className": "ChestUpgradeResultComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/ChestUpgradeResultComposer.java"
+      "header": 1373,
+      "csharp": {
+        "symbol": "WiredChestUpgradeComposer",
+        "className": "WiredChestUpgradeComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
         "symbol": "CHEST_UPGRADE_RESULT",
@@ -17325,12 +17283,12 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": ""
+          "name": "chestId"
         },
         {
           "kind": "scalar",
           "type": "int",
-          "name": ""
+          "name": "resultCode"
         }
       ]
     },
@@ -19485,22 +19443,6 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 9346,
-      "symbol": "WIRED_CHEST_REWARD",
-      "path": "packages/communication/src/messages/parser/room/furniture/WiredChestRewardMessageParser.ts",
-      "reason": "PlusEMU WiredChestRewardComposer is the declared companion; this manifest has no verified Java field contract for that pair"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
-      "header": 9347,
-      "symbol": "WIRED_CHEST_SETTINGS_ACK",
-      "path": "packages/communication/src/messages/parser/room/furniture/WiredChestSettingsAckParser.ts",
-      "reason": "PlusEMU WiredChestSettingsAckComposer is the declared companion; this manifest has no verified Java field contract for that pair"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
       "header": 9480,
       "symbol": "WIRED_USER_VARIABLES_DATA_64",
       "path": "packages/communication/src/messages/parser/roomevents/WiredUserVariablesData64Parser.ts",
@@ -21188,18 +21130,18 @@
     {
       "name": "WIRED_TRADE_OFFER_ITEMS",
       "direction": "client_to_server",
-      "header": 9335,
-      "java": {
-        "symbol": "WiredTradeOfferItemsEvent",
-        "className": "WiredTradeOfferItemsEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/WiredTradeOfferItemsEvent.java"
+      "header": 1774,
+      "csharp": {
+        "symbol": "WiredChestOfferItemsEvent",
+        "className": "WiredChestOfferItemsEvent",
+        "path": "Communication/Packets/Incoming/WiredChests/WiredChestEvents.cs"
       },
       "typescript": {
         "symbol": "WIRED_TRADE_OFFER_ITEMS",
         "className": "WiredTradeOfferItemsComposer",
         "path": "packages/communication/src/messages/outgoing/room/furniture/chest/WiredTradeOfferItemsComposer.ts"
       },
-      "reason": "Java analyzer: Data-dependent packet operations in ForStmt inside handle; TypeScript analyzer: Outgoing value itemIds.length has no statically resolvable wire type"
+      "reason": "TypeScript analyzer: the item id count is itemIds.length of a rest argument; wire is bool remove, int count, int[count] itemIds (AIR WIN63-202610121709 id 1774, package_186/class_2956)"
     },
     {
       "name": "GET_HABBICON_SHOP_DATA",
@@ -24754,22 +24696,6 @@
       "reason": "TypeScript analyzer: Packet fields delegated to external constructor AreaHideMessageData inside parse"
     },
     {
-      "name": "CHEST_DATA",
-      "direction": "server_to_client",
-      "header": 9312,
-      "java": {
-        "symbol": "ChestDataComposer",
-        "className": "ChestDataComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/ChestDataComposer.java"
-      },
-      "typescript": {
-        "symbol": "CHEST_DATA",
-        "className": "ChestDataMessageParser",
-        "path": "packages/communication/src/messages/parser/room/furniture/ChestDataMessageParser.ts"
-      },
-      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in ForStatement inside parse"
-    },
-    {
       "name": "CHEST_LOG",
       "direction": "server_to_client",
       "header": 9319,
@@ -24788,34 +24714,34 @@
     {
       "name": "CHEST_FURNI_CHUNK",
       "direction": "server_to_client",
-      "header": 9322,
-      "java": {
-        "symbol": "ChestFurniChunkComposer",
-        "className": "ChestFurniChunkComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/ChestFurniChunkComposer.java"
+      "header": 44,
+      "csharp": {
+        "symbol": "WiredChestFurniChunkComposer",
+        "className": "WiredChestFurniChunkComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
         "symbol": "CHEST_FURNI_CHUNK",
         "className": "ChestFurniChunkMessageParser",
         "path": "packages/communication/src/messages/parser/room/furniture/ChestFurniChunkMessageParser.ts"
       },
-      "reason": "Java analyzer: Packet fields delegated to external serializer appendToMessage inside composeInternal"
+      "reason": "TypeScript analyzer: ChestStorage rows are read by the delegated ChestFurniStoredItemParser; wire is int chestId, int totalFragments, int fragmentNo, int count, ChestStorage[count] (AIR WIN63-202610121709 id 44, package_112/class_2610)"
     },
     {
-      "name": "CHEST_FURNI_DELTA",
+      "name": "CHEST_FURNI_UPDATE",
       "direction": "server_to_client",
-      "header": 9323,
-      "java": {
-        "symbol": "ChestFurniDeltaComposer",
-        "className": "ChestFurniDeltaComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/ChestFurniDeltaComposer.java"
+      "header": 518,
+      "csharp": {
+        "symbol": "WiredChestFurniUpdateComposer",
+        "className": "WiredChestFurniUpdateComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
-        "symbol": "CHEST_FURNI_DELTA",
-        "className": "ChestFurniDeltaMessageParser",
-        "path": "packages/communication/src/messages/parser/room/furniture/ChestFurniDeltaMessageParser.ts"
+        "symbol": "CHEST_FURNI_UPDATE",
+        "className": "ChestFurniUpdateMessageParser",
+        "path": "packages/communication/src/messages/parser/room/furniture/ChestFurniUpdateMessageParser.ts"
       },
-      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in ForStatement inside parse"
+      "reason": "TypeScript analyzer: data-dependent loops and delegated ChestStorage rows; wire is int chestId, int n, int[n] removedIds, int m, ChestStorage[m] (AIR WIN63-202610121709 id 518, package_112/class_3289)"
     },
     {
       "name": "WIRED_CHEST_ROOM_LOGS",
@@ -24852,34 +24778,50 @@
     {
       "name": "WIRED_TRADE_OPEN",
       "direction": "server_to_client",
-      "header": 9331,
-      "java": {
-        "symbol": "WiredTradeOpenComposer",
-        "className": "WiredTradeOpenComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/WiredTradeOpenComposer.java"
+      "header": 84,
+      "csharp": {
+        "symbol": "WiredChestTradeOpenComposer",
+        "className": "WiredChestTradeOpenComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
         "symbol": "WIRED_TRADE_OPEN",
         "className": "WiredTradeOpenMessageParser",
         "path": "packages/communication/src/messages/parser/room/furniture/WiredTradeOpenMessageParser.ts"
       },
-      "reason": "Java analyzer: Packet fields delegated to external serializer appendRules inside composeInternal"
+      "reason": "TypeScript analyzer: TradeRequirement rules are read by the delegated readWiredTradeRulesDefinition behind a type branch; wire is TradeRequirement, bool showRequirementsImmediate, bool overridePreviousTrade, int timeoutSeconds (AIR WIN63-202610121709 id 84, package_192/class_3295)"
+    },
+    {
+      "name": "WIRED_TRANSACTION_SUCCESS",
+      "direction": "server_to_client",
+      "header": 125,
+      "csharp": {
+        "symbol": "WiredTransactionSuccessComposer",
+        "className": "WiredTransactionSuccessComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
+      },
+      "typescript": {
+        "symbol": "WIRED_TRANSACTION_SUCCESS",
+        "className": "WiredTransactionSuccessMessageParser",
+        "path": "packages/communication/src/messages/parser/room/furniture/WiredTransactionSuccessMessageParser.ts"
+      },
+      "reason": "TypeScript analyzer: the reward contents are read only for successType 2 when bytes remain, through the delegated readWiredTradeRule; wire is int successType, [rule, string rewardText, bool openByDefault] (AIR WIN63-202610121709 id 125, package_196/class_3152)"
     },
     {
       "name": "WIRED_TRADE_ITEMS",
       "direction": "server_to_client",
-      "header": 9332,
-      "java": {
-        "symbol": "WiredTradeItemsComposer",
-        "className": "WiredTradeItemsComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/WiredTradeItemsComposer.java"
+      "header": 705,
+      "csharp": {
+        "symbol": "WiredChestTradeItemsComposer",
+        "className": "WiredChestTradeItemsComposer",
+        "path": "HabboHotel/Items/Wired/Chests/WiredChestComposers.cs"
       },
       "typescript": {
         "symbol": "WIRED_TRADE_ITEMS",
         "className": "WiredTradeItemsMessageParser",
         "path": "packages/communication/src/messages/parser/room/furniture/WiredTradeItemsMessageParser.ts"
       },
-      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in ForStatement inside parse"
+      "reason": "TypeScript analyzer: the trading item lists are read by the inherited TradingListItemParser; wire is class_3481 trading items, bool canAccept, int extra (AIR WIN63-202610121709 id 705, package_192/class_3020)"
     },
     {
       "name": "HOT_LOOKS",
@@ -25411,14 +25353,14 @@
       {"direction":"server_to_client","header":27,"sourceClass":"class_2559","sourcePath":"decompiled/scripts/package_52/class_2559.as","sourceSha256":"42d2d4f5ed66098ce67b369ac03454cef5596043a0ad1177d92a4e73c124de02","mapLine":1511,"reportedName":"PopularRoomTagsResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PopularRoomTagsResultComposer"],"typescript":["ROOM_POPULAR_TAGS_RESULT"]}},
       {"direction":"server_to_client","header":37,"sourceClass":"class_2003","sourcePath":"decompiled/scripts/package_9/class_2003.as","sourceSha256":"5c06ae4ee713178b92833948a73bb3829170f39b46ca7f6033b1620ce3d557fc","mapLine":1676,"reportedName":"AccountSafetyLockStatusChange","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ACCOUNT_SAFETY_LOCK_STATUS_CHANGE"]}},
       {"direction":"server_to_client","header":41,"sourceClass":"class_3067","sourcePath":"decompiled/scripts/package_52/class_3067.as","sourceSha256":"74f233f9834694a2614257f6f26cf3f06db67a41c354a9e21a35d471f0545ea7","mapLine":1731,"reportedName":"CanCreateRoomEvent","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CAN_CREATE_ROOM_EVENT"]}},
-      {"direction":"server_to_client","header":44,"sourceClass":"class_2610","sourcePath":"decompiled/scripts/package_112/class_2610.as","sourceSha256":"246268246eab2247dc1f8050bd7f5982056f7d5c03f34e88ff702509643b17d9","mapLine":1734,"reportedName":"ItemsChestContentsChunk","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":44,"sourceClass":"class_2610","sourcePath":"decompiled/scripts/package_112/class_2610.as","sourceSha256":"246268246eab2247dc1f8050bd7f5982056f7d5c03f34e88ff702509643b17d9","mapLine":1734,"reportedName":"ItemsChestContentsChunk","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestFurniChunkComposer"],"typescript":["CHEST_FURNI_CHUNK"]}},
       {"direction":"server_to_client","header":63,"sourceClass":"class_3131","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3131.as","sourceSha256":"118e287d645bd4da7cf66a6b3fcca74177c77c4b1073588b6cf5632c8e020f6b","mapLine":1771,"reportedName":"WiredFurniTrigger","namingSource":"Sulek","canonicalName":"WiredFurniTrigger","canonicalStatus":"semantic-verified","localBindings":{"csharp":["WiredTriggeRconfigComposer"],"typescript":["WIRED_TRIGGER"]}},
       {"direction":"server_to_client","header":72,"sourceClass":"class_3001","sourcePath":"decompiled/scripts/package_99/class_3001.as","sourceSha256":"3683ecc6c2f24d5320d2fe73e44c594244d93bc17edd210b41bb67ede8659b85","mapLine":1785,"reportedName":"WiredContractUpdateResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":73,"sourceClass":"class_3866","sourcePath":"decompiled/scripts/package_50/class_3866.as","sourceSha256":"a76419dd5904ef77c2324b588d934314ea256868b4e2d03b0ae10252cfebde18","mapLine":1787,"reportedName":"IssueDeleted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ISSUE_DELETED"]}},
       {"direction":"server_to_client","header":77,"sourceClass":"class_3584","sourcePath":"decompiled/scripts/package_33/class_3584.as","sourceSha256":"b0e92f42277540a64453b2cc30041fe8734e8ff5c1c5a5f74ff9abf232d9de23","mapLine":1797,"reportedName":"NavigatorSearchResultBlocks","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["NavigatorSearchResultSetComposer"],"typescript":["NAVIGATOR_SEARCH"]}},
       {"direction":"server_to_client","header":80,"sourceClass":"class_3399","sourcePath":"decompiled/scripts/package_64/class_3399.as","sourceSha256":"6298d2a3e2fe6802811c684dbbbba677be83d3f220337551eac14add722ef69c","mapLine":1802,"reportedName":"ObjectsDataUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ObjectsDataUpdateComposer"],"typescript":["OBJECTS_DATA_UPDATE"]}},
       {"direction":"server_to_client","header":83,"sourceClass":"class_2449","sourcePath":"decompiled/scripts/package_65/class_2449.as","sourceSha256":"2e7f9c1100627a8aea65e52fc4ff21d472299fbadf32ee78378c52376557729d","mapLine":1809,"reportedName":"NftTransferAssetsResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"server_to_client","header":84,"sourceClass":"class_3295","sourcePath":"decompiled/scripts/package_192/class_3295.as","sourceSha256":"1e014bb3e6479b154c14047053da8ac9c7075463a50a75298e7076ad0105bf81","mapLine":1812,"reportedName":"WiredTradeInitiate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":84,"sourceClass":"class_3295","sourcePath":"decompiled/scripts/package_192/class_3295.as","sourceSha256":"1e014bb3e6479b154c14047053da8ac9c7075463a50a75298e7076ad0105bf81","mapLine":1812,"reportedName":"WiredTradeInitiate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestTradeOpenComposer"],"typescript":["WIRED_TRADE_OPEN"]}},
       {"direction":"server_to_client","header":90,"sourceClass":"class_2642","sourcePath":"decompiled/scripts/package_149/class_2642.as","sourceSha256":"e29892931a6a7d1d8fdf96dbcacfe76be541e19809f50762426d7599b2ce563e","mapLine":1822,"reportedName":"CampaignCalendarDoorOpened","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CampaignCalendarDoorOpenedComposer"],"typescript":["CAMPAIGN_CALENDAR_DOOR_OPENED"]}},
       {"direction":"server_to_client","header":96,"sourceClass":"class_3375","sourcePath":"decompiled/scripts/package_32/class_3375.as","sourceSha256":"28c80fe1750b2a4b9bc2ec774d64e0c84c29b2398ea19d21af7a5b74418e3847","mapLine":1828,"reportedName":"ChatReviewSessionOfferedToGuide","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CHAT_REVIEW_SESSION_OFFERED_TO_GUIDE"]}},
       {"direction":"server_to_client","header":99,"sourceClass":"class_3827","sourcePath":"decompiled/scripts/package_216/class_3827.as","sourceSha256":"b09f7f0d9390d18c5977476d0a34047a3f7465a901fb4d79b1250250d3c0f4e7","mapLine":1836,"reportedName":"IncomeRewardNotification","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["INCOME_REWARD_NOTIFICATION"]}},
@@ -25426,7 +25368,7 @@
       {"direction":"server_to_client","header":111,"sourceClass":"class_3088","sourcePath":"decompiled/scripts/package_162/class_3088.as","sourceSha256":"b1235f6e6db23e9a22fb2bc800fd0c30dfb5727bb09b9d8cc1c79d02515bdbfd","mapLine":1242,"reportedName":"DailyTasksActiveList","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ACTIVE_DAILY_TASKS"]}},
       {"direction":"server_to_client","header":117,"sourceClass":"class_2688","sourcePath":"decompiled/scripts/package_116/class_2688.as","sourceSha256":"1fb46918c7d14ff8a8eb9b490cb76d2a775b58e44344c2fc66b9a34f12c5237a","mapLine":1252,"reportedName":"WiredSetUserPermanentVariableResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":119,"sourceClass":"class_3490","sourcePath":"decompiled/scripts/package_96/class_3490.as","sourceSha256":"1d6ce6347e9a044580470cb4ed8b0dc963447250c64a88f9276ccf1ae2542ab5","mapLine":1256,"reportedName":"Game2GameStarted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"server_to_client","header":125,"sourceClass":"class_3152","sourcePath":"decompiled/scripts/package_196/class_3152.as","sourceSha256":"1d8b4ccffcfbd326e07244acfc5e0dffc119d2ae73558058eb5b482c4042f73e","mapLine":1269,"reportedName":"WiredTransactionSuccess","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":125,"sourceClass":"class_3152","sourcePath":"decompiled/scripts/package_196/class_3152.as","sourceSha256":"1d8b4ccffcfbd326e07244acfc5e0dffc119d2ae73558058eb5b482c4042f73e","mapLine":1269,"reportedName":"WiredTransactionSuccess","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredTransactionSuccessComposer"],"typescript":["WIRED_TRANSACTION_SUCCESS"]}},
       {"direction":"server_to_client","header":129,"sourceClass":"class_2836","sourcePath":"decompiled/scripts/package_87/class_2836.as","sourceSha256":"1476f80a0c37397b7aae2379c0cf20665336730771d234e2f80e0cb18ba21bc4","mapLine":1273,"reportedName":"ConfirmBreedingRequest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PetBreedingComposer"],"typescript":["PET_CONFIRM_BREEDING_REQUEST"]}},
       {"direction":"server_to_client","header":136,"sourceClass":"Game2UserLeftGameMessageEvent","sourcePath":"decompiled/scripts/package_96/Game2UserLeftGameMessageEvent.as","sourceSha256":"f5a45f862d8cd329a253696225c36b9aa44f47b37ed29aca475c1e42a700f44b","mapLine":1289,"reportedName":"Game2UserLeftGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2UserLeftGameComposer"],"typescript":["GAME_CENTER_USER_LEFT_GAME"]}},
       {"direction":"server_to_client","header":137,"sourceClass":"class_2763","sourcePath":"decompiled/scripts/package_111/class_2763.as","sourceSha256":"c8fa6ebb75b4f78b786240f6739b48cb37a7ed24ebb856071494128d3a0c69ce","mapLine":1291,"reportedName":"AvatarEffects","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AvatarEffectsComposer"],"typescript":["USER_EFFECTS"]}},
@@ -25483,10 +25425,10 @@
       {"direction":"server_to_client","header":496,"sourceClass":"class_3798","sourcePath":"decompiled/scripts/package_102/class_3798.as","sourceSha256":"bd5b0b4f78949327617a62144f289b98d6ab5d9940e0898e911cb4e8b959ee2c","mapLine":1744,"reportedName":"AreaHide","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["AREA_HIDE"]}},
       {"direction":"server_to_client","header":497,"sourceClass":"class_2015","sourcePath":"decompiled/scripts/package_53/class_2015.as","sourceSha256":"3b3b9f718f1f8bb75ac66625e909aa054ec70d2fef4313d359223c845fd38c4f","mapLine":1745,"reportedName":"HabboAchievementNotification","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AchievementUnlockedComposer"],"typescript":["ACHIEVEMENT_NOTIFICATION"]}},
       {"direction":"server_to_client","header":500,"sourceClass":"class_3058","sourcePath":"decompiled/scripts/package_102/class_3058.as","sourceSha256":"4ac08df566aa0a4b0ba816a438065a80b48d8e2c507ab558d95da6dd785c27cd","mapLine":1747,"reportedName":"RentableSpaceRentFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RentableSpacesErrorComposer"],"typescript":["RENTABLE_SPACE_RENT_FAILED"]}},
-      {"direction":"server_to_client","header":503,"sourceClass":"class_3890","sourcePath":"decompiled/scripts/package_192/class_3890.as","sourceSha256":"9fd0195406d68ae70b0490cbd5017ddbcfde9d33c4dfa07234a83c1c8b6b37f0","mapLine":1748,"reportedName":"WiredTradeTransactionNotification","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":503,"sourceClass":"class_3890","sourcePath":"decompiled/scripts/package_192/class_3890.as","sourceSha256":"9fd0195406d68ae70b0490cbd5017ddbcfde9d33c4dfa07234a83c1c8b6b37f0","mapLine":1748,"reportedName":"WiredTradeTransactionNotification","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredTradeErrorComposer"],"typescript":["WIRED_TRADE_ERROR"]}},
       {"direction":"server_to_client","header":507,"sourceClass":"class_3590","sourcePath":"decompiled/scripts/package_215/class_3590.as","sourceSha256":"9ae52a56cce1e07fc8e25e7468f430fbb46f6ef106bb4da65d0683cc457a0e66","mapLine":1749,"reportedName":"TryVerificationCodeResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["NewUserExperienceGiftOfferComposer"],"typescript":["PHONE_TRY_VERIFICATION_CODE_RESULT"]}},
       {"direction":"server_to_client","header":513,"sourceClass":"class_3553","sourcePath":"decompiled/scripts/package_64/class_3553.as","sourceSha256":"d20ff6a14c8016e3a89d155d0f666dc95ed8b82f27cd1c1f36cf4a5800a981e6","mapLine":1750,"reportedName":"BuildersClubPlacementWarning","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"server_to_client","header":518,"sourceClass":"class_3289","sourcePath":"decompiled/scripts/package_112/class_3289.as","sourceSha256":"c2e513e18c7bf562198a609624817886988461a1bb22990221e444e7571ece91","mapLine":1751,"reportedName":"ItemsChestContentsUpdated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":518,"sourceClass":"class_3289","sourcePath":"decompiled/scripts/package_112/class_3289.as","sourceSha256":"c2e513e18c7bf562198a609624817886988461a1bb22990221e444e7571ece91","mapLine":1751,"reportedName":"ItemsChestContentsUpdated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestFurniUpdateComposer"],"typescript":["CHEST_FURNI_UPDATE"]}},
       {"direction":"server_to_client","header":531,"sourceClass":"class_2824","sourcePath":"decompiled/scripts/package_52/class_2824.as","sourceSha256":"611187930d7f5f64e35e62ab2077bae419103eca3e3adb180afab86bd1f3eb3c","mapLine":1752,"reportedName":"NavigatorSettings","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["NavigatorSettingsComposer"],"typescript":["USER_HOME_ROOM"]}},
       {"direction":"server_to_client","header":534,"sourceClass":"class_3515","sourcePath":"decompiled/scripts/package_101/class_3515.as","sourceSha256":"d52b343f2fd875d95163ab94c573e9c23292c61a86917285ab0eb1fe5a8884f8","mapLine":1753,"reportedName":"SecondsUntil","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["COMPETITION_SECONDS_UNTIL"]}},
       {"direction":"server_to_client","header":536,"sourceClass":"class_2828","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_2828.as","sourceSha256":"9db90eed19937d6536b2de67321c2dd32f08af84e711b9f45037df9b527287f8","mapLine":1754,"reportedName":"_-y18","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -25518,7 +25460,7 @@
       {"direction":"server_to_client","header":682,"sourceClass":"class_3851","sourcePath":"decompiled/scripts/package_1/class_3851.as","sourceSha256":"1a5d37bad1a7fd974ac5fecb85f35bfe1b8660d06a7381d23275db62e505904c","mapLine":1781,"reportedName":"Ping","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PingComposer"],"typescript":["CLIENT_PING"]}},
       {"direction":"server_to_client","header":686,"sourceClass":"class_3419","sourcePath":"decompiled/scripts/package_52/class_3419.as","sourceSha256":"e4457e749ca46b733264ef6c521c70e36eb96e6450776922d4b774c24aa17628","mapLine":1782,"reportedName":"GuestRoomSearchResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GuestRoomSearchResultComposer"],"typescript":["GUEST_ROOM_SEARCH_RESULT"]}},
       {"direction":"server_to_client","header":699,"sourceClass":"class_3624","sourcePath":"decompiled/scripts/package_49/class_3624.as","sourceSha256":"6ce878e320d900ef5bbc82087b464fadc4daa65835c9f1d736f229e24f869896","mapLine":1783,"reportedName":"QuestCompleted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["QuestCompletedComposer"],"typescript":["QUEST_COMPLETED"]}},
-      {"direction":"server_to_client","header":705,"sourceClass":"class_3020","sourcePath":"decompiled/scripts/package_192/class_3020.as","sourceSha256":"1b0fcf092aa33a38d5415bbd3cd091b5d4666ec611ebd8f0c3acf7931a15c073","mapLine":1784,"reportedName":"WiredTradeItemsUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":705,"sourceClass":"class_3020","sourcePath":"decompiled/scripts/package_192/class_3020.as","sourceSha256":"1b0fcf092aa33a38d5415bbd3cd091b5d4666ec611ebd8f0c3acf7931a15c073","mapLine":1784,"reportedName":"WiredTradeItemsUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestTradeItemsComposer"],"typescript":["WIRED_TRADE_ITEMS"]}},
       {"direction":"server_to_client","header":726,"sourceClass":"class_2757","sourcePath":"decompiled/scripts/package_9/class_2757.as","sourceSha256":"0a38f64eff29d498f67cbc34415d3dd7d96fa6446b4d287223aa7be60ee59685","mapLine":1786,"reportedName":"IgnoredUsers","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["IgnoredUsersComposer"],"typescript":["USER_IGNORED"]}},
       {"direction":"server_to_client","header":730,"sourceClass":"class_2689","sourcePath":"decompiled/scripts/package_106/class_2689.as","sourceSha256":"49d26992a110fe2b75925fa394e4db3bf4e4e14e526a40f727a431e8c5556095","mapLine":1788,"reportedName":"CraftingRecipe","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CraftingRecipeComposer"],"typescript":["CRAFTING_RECIPE"]}},
       {"direction":"server_to_client","header":741,"sourceClass":"class_2752","sourcePath":"decompiled/scripts/package_9/class_2752.as","sourceSha256":"818eefcbe78fbe359e28fc1da2691299dd293ef9e671069cd08b93e49aa47cdc","mapLine":1789,"reportedName":"HabboGroupBadges","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["HabboGroupBadgesComposer"],"typescript":["GROUP_BADGES"]}},
@@ -25560,7 +25502,7 @@
       {"direction":"server_to_client","header":969,"sourceClass":"class_1825","sourcePath":"decompiled/scripts/package_5/class_1825.as","sourceSha256":"6cf10150949b3dd03e3e9ecd827e68735c3f6fb545ec8f27560eb0ffc37e8795","mapLine":1831,"reportedName":"HabboClubOffers","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["HabboClubOffersComposer"],"typescript":["CLUB_OFFERS"]}},
       {"direction":"server_to_client","header":977,"sourceClass":"class_1950","sourcePath":"decompiled/scripts/package_17/class_1950.as","sourceSha256":"c2f85d2c96a1b671c3fa97d90c39decd79a5004fdcbf1ca846264ce57c6e89fe","mapLine":1832,"reportedName":"CfhTopicsInit","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CfhTopicsInitComposer"],"typescript":["CFH_TOPICS"]}},
       {"direction":"server_to_client","header":983,"sourceClass":"class_2305","sourcePath":"decompiled/scripts/package_5/class_2305.as","sourceSha256":"9a762a69f91edbc2b104d42cc48a3fa5c82ea6364d331dad7ec3931a26897273","mapLine":1833,"reportedName":"CatalogPublished","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CatalogUpdatedComposer"],"typescript":["CATALOG_PUBLISHED"]}},
-      {"direction":"server_to_client","header":988,"sourceClass":"class_3799","sourcePath":"decompiled/scripts/package_112/class_3799.as","sourceSha256":"a39b6c40086a27a9c9dde974b04646e77ab3e1150c3d8a29befc9c17d0e67b46","mapLine":1834,"reportedName":"CoinsChestContents","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":988,"sourceClass":"class_3799","sourcePath":"decompiled/scripts/package_112/class_3799.as","sourceSha256":"a39b6c40086a27a9c9dde974b04646e77ab3e1150c3d8a29befc9c17d0e67b46","mapLine":1834,"reportedName":"CoinsChestContents","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestCoinsComposer"],"typescript":["CHEST_COINS"]}},
       {"direction":"server_to_client","header":989,"sourceClass":"class_3594","sourcePath":"decompiled/scripts/package_54/class_3594.as","sourceSha256":"eb5262c34267746aefddbfecdfab09754ba86cf73a8bd1d7cd6332f1f18e777c","mapLine":1835,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":992,"sourceClass":"class_2703","sourcePath":"decompiled/scripts/package_49/class_2703.as","sourceSha256":"00403f38aa21cb30bcbad7f3c8ed0d248390a2d2511486b6b1c2faaa69246530","mapLine":1837,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":995,"sourceClass":"class_3168","sourcePath":"decompiled/scripts/package_160/class_3168.as","sourceSha256":"e704eba19856eca7124e584d605b83544d9f88684f0cfd10ef0ce2d0532b5630","mapLine":1838,"reportedName":"_-eW","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -25626,9 +25568,9 @@
       {"direction":"server_to_client","header":1348,"sourceClass":"class_3450","sourcePath":"decompiled/scripts/package_86/class_3450.as","sourceSha256":"1a9766242ab9acb3b8d7565ebfe0c8d533ed1cd7bb06aefe1c60c3951cef175d","mapLine":1286,"reportedName":"JukeboxSongDisks","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["JukeboxPlaylistComposer"],"typescript":["JUKEBOX_SONG_DISKS"]}},
       {"direction":"server_to_client","header":1352,"sourceClass":"class_3592","sourcePath":"decompiled/scripts/package_2/class_3592.as","sourceSha256":"15f4e3292c7827e9ec8d5009763048842a374de5cb084bc890cc0a25e3481660","mapLine":1287,"reportedName":"RoomSettingsError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ROOM_SETTINGS_ERROR"]}},
       {"direction":"server_to_client","header":1354,"sourceClass":"class_2930","sourcePath":"decompiled/scripts/package_64/class_2930.as","sourceSha256":"f916f5bdcfdf75dc8b881e8b0633ec06efecd835bb510e53b3228f40d9897dfc","mapLine":1288,"reportedName":"Objects","namingSource":"Sulek","canonicalName":"Objects","canonicalStatus":"semantic-verified","localBindings":{"csharp":["ObjectsComposer"],"typescript":["FURNITURE_FLOOR"]}},
-      {"direction":"server_to_client","header":1360,"sourceClass":"class_3447","sourcePath":"decompiled/scripts/package_196/class_3447.as","sourceSha256":"93359845cad026a295e37c29e58e74e1e4de0f2de8b396d511be6d8d4fe9b80b","mapLine":1290,"reportedName":"WiredTransactionFail","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1360,"sourceClass":"class_3447","sourcePath":"decompiled/scripts/package_196/class_3447.as","sourceSha256":"93359845cad026a295e37c29e58e74e1e4de0f2de8b396d511be6d8d4fe9b80b","mapLine":1290,"reportedName":"WiredTransactionFail","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredTransactionFailComposer"],"typescript":["WIRED_TRANSACTION_FAIL"]}},
       {"direction":"server_to_client","header":1370,"sourceClass":"class_2138","sourcePath":"decompiled/scripts/package_9/class_2138.as","sourceSha256":"113c3ad5271dd4f2496834ee664555bc93ca380944aa0d7e46da508679ed5a6e","mapLine":1292,"reportedName":"GuildMemberFurniCountInHQ","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"server_to_client","header":1373,"sourceClass":"class_3153","sourcePath":"decompiled/scripts/package_112/class_3153.as","sourceSha256":"3e04571d42a9f51d751d6f97ef2a743124fde857dd4aaaea26ee7bed722a5503","mapLine":1293,"reportedName":"UpgradeChestResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1373,"sourceClass":"class_3153","sourcePath":"decompiled/scripts/package_112/class_3153.as","sourceSha256":"3e04571d42a9f51d751d6f97ef2a743124fde857dd4aaaea26ee7bed722a5503","mapLine":1293,"reportedName":"UpgradeChestResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestUpgradeComposer"],"typescript":["CHEST_UPGRADE_RESULT"]}},
       {"direction":"server_to_client","header":1378,"sourceClass":"class_2957","sourcePath":"decompiled/scripts/package_50/class_2957.as","sourceSha256":"558652c02b871f00d1e86172d906c9dd876e21c86c75d8505d3125688467a47c","mapLine":1294,"reportedName":"ModeratorToolPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MODERATOR_TOOL_PREFERENCES"]}},
       {"direction":"server_to_client","header":1380,"sourceClass":"class_2602","sourcePath":"decompiled/scripts/package_102/class_2602.as","sourceSha256":"262f9d0b891c457b016e0c1e56089d3cd9b7f5d1b923e2e93a50bf4d80e60efe","mapLine":1295,"reportedName":"FurniRentOrBuyoutOffer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["RENTABLE_FURNI_RENT_OR_BUYOUT_OFFER"]}},
       {"direction":"server_to_client","header":1385,"sourceClass":"class_3564","sourcePath":"decompiled/scripts/package_159/class_3564.as","sourceSha256":"befac0f2b6fddd77891f9ef75f9b7a1dcd84c0cdcf44b4cfdda4ef4e11e815da","mapLine":1296,"reportedName":"ForumThreads","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ThreadsListDataComposer"],"typescript":["GROUP_FORUM_THREADS"]}},
@@ -25750,7 +25692,7 @@
       {"direction":"server_to_client","header":2137,"sourceClass":"class_2959","sourcePath":"decompiled/scripts/package_49/class_2959.as","sourceSha256":"7266c7d1b9da1ec5ad6e1230c12ac6db8ec795749d6e0a8fe39768848d0f2f8a","mapLine":1425,"reportedName":"QuestDaily","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["QUEST_DAILY"]}},
       {"direction":"server_to_client","header":2147,"sourceClass":"class_2474","sourcePath":"decompiled/scripts/package_52/class_2474.as","sourceSha256":"5b5058ed85dcf3948c2abece87e9ece09961ccafba9b8f8a63fc9486d5ae591c","mapLine":1426,"reportedName":"RoomInfoUpdated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomInfoUpdatedComposer"],"typescript":["ROOM_INFO_UPDATED"]}},
       {"direction":"server_to_client","header":2156,"sourceClass":"class_3829","sourcePath":"decompiled/scripts/package_73/class_3829.as","sourceSha256":"4353b5fb26b12dcd007a282c75460bd3e770c36a6e2831c47c3b20c365229ae3","mapLine":1427,"reportedName":"Shout","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ShoutComposer"],"typescript":["UNIT_CHAT_SHOUT"]}},
-      {"direction":"server_to_client","header":2159,"sourceClass":"class_2436","sourcePath":"decompiled/scripts/package_112/class_2436.as","sourceSha256":"67ac940f76185a6abb15734b064f6f34a60383e52da8faa3b7d03dc6da939359","mapLine":1428,"reportedName":"ChestPreferencesUpdateSuccess","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2159,"sourceClass":"class_2436","sourcePath":"decompiled/scripts/package_112/class_2436.as","sourceSha256":"67ac940f76185a6abb15734b064f6f34a60383e52da8faa3b7d03dc6da939359","mapLine":1428,"reportedName":"ChestPreferencesUpdateSuccess","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestSettingsUpdatedComposer"],"typescript":["CHEST_SETTINGS_UPDATED"]}},
       {"direction":"server_to_client","header":2161,"sourceClass":"class_3692","sourcePath":"decompiled/scripts/package_82/class_3692.as","sourceSha256":"b66c4a289dfca819c95498a6030216e71f903729567227d5836633c944731097","mapLine":1430,"reportedName":"_-N2w","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2162,"sourceClass":"class_2677","sourcePath":"decompiled/scripts/package_65/class_2677.as","sourceSha256":"0a24ef01ff580b4228d4402e70b54b2e3fec58e29b0b05fc12509d02cc4b6d5f","mapLine":1431,"reportedName":"NftCollectionsScore","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2164,"sourceClass":"class_3148","sourcePath":"decompiled/scripts/package_50/class_3148.as","sourceSha256":"51826de4031509824365576e26b2a3452df22ac4e431fd21f6afe96a2103079e","mapLine":1432,"reportedName":"IssuePickFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ISSUE_PICK_FAILED"]}},
@@ -26015,7 +25957,7 @@
       {"direction":"server_to_client","header":3944,"sourceClass":"class_3893","sourcePath":"decompiled/scripts/package_102/class_3893.as","sourceSha256":"925d5815d7b06c705b0645e3c006a19c7756e21b9d908b650d3f080af8da241c","mapLine":1718,"reportedName":"RoomDimmerPresets","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["MoodlightConfigComposer"],"typescript":["ITEM_DIMMER_SETTINGS"]}},
       {"direction":"server_to_client","header":3955,"sourceClass":"class_1896","sourcePath":"decompiled/scripts/package_20/class_1896.as","sourceSha256":"42d3e9abcc369f48c50fa7f69ada674688622826aae3da05b0d0f2e9d3b7cf72","mapLine":1720,"reportedName":"FriendListUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FriendListUpdateComposer"],"typescript":["MESSENGER_UPDATE"]}},
       {"direction":"server_to_client","header":3965,"sourceClass":"class_2427","sourcePath":"decompiled/scripts/package_5/class_2427.as","sourceSha256":"08b45562c9b4496e752eb72067ec4fa22bc1930c079ee216b5cbc071c39959b9","mapLine":1721,"reportedName":"ClubGiftSelected","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ClubGiftReceivedComposer"],"typescript":["CLUB_GIFT_SELECTED"]}},
-      {"direction":"server_to_client","header":3966,"sourceClass":"class_3066","sourcePath":"decompiled/scripts/package_112/class_3066.as","sourceSha256":"5f9584c00690bce36039d237bd6997caba33a1bbead62c8e6349367cf4f67f17","mapLine":1722,"reportedName":"OpenChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3966,"sourceClass":"class_3066","sourcePath":"decompiled/scripts/package_112/class_3066.as","sourceSha256":"5f9584c00690bce36039d237bd6997caba33a1bbead62c8e6349367cf4f67f17","mapLine":1722,"reportedName":"OpenChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestOpenComposer"],"typescript":["CHEST_OPEN"]}},
       {"direction":"server_to_client","header":3973,"sourceClass":"class_2438","sourcePath":"decompiled/scripts/package_52/class_2438.as","sourceSha256":"1b177be68400a84eb636b477c83322e5d014b1c424bbafba59b20b931935c5f3","mapLine":1723,"reportedName":"FlatAccessDenied","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FlatAccessDeniedComposer"],"typescript":["ROOM_DOORBELL_REJECTED"]}},
       {"direction":"server_to_client","header":3985,"sourceClass":"class_2625","sourcePath":"decompiled/scripts/package_93/class_2625.as","sourceSha256":"e6f0ab445c867512e32faa079188261fe988e2ad42373d6fdb7d6551c9a8bdc2","mapLine":1724,"reportedName":"Achievements","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AchievementsComposer"],"typescript":["ACHIEVEMENT_LIST"]}},
       {"direction":"server_to_client","header":3991,"sourceClass":"class_2279","sourcePath":"decompiled/scripts/package_5/class_2279.as","sourceSha256":"207a0cfd296fbf5fefe6394786329360a7c176d67bb13e3bc66c087c610a227f","mapLine":1726,"reportedName":"BundleDiscountRuleset","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CatalogItemDiscountComposer"],"typescript":["BUNDLE_DISCOUNT_RULESET"]}},
@@ -26031,7 +25973,7 @@
       {"direction":"client_to_server","header":46,"sourceClass":"class_3083","sourcePath":"decompiled/scripts/package_153/class_3083.as","sourceSha256":"d16fb1dc17996e3b1b7b82b3bbdd4b99ca677591037285c9823e7770a11b6562","mapLine":1125,"reportedName":"RemoveNftFromTrade","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":53,"sourceClass":"class_2981","sourcePath":"decompiled/scripts/package_157/class_2981.as","sourceSha256":"4f4bd6954a3fd7a15707b4acbc8726975e645a3aa5017575eae1e3ae0590853b","mapLine":1139,"reportedName":"GetRoomSettings","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetRoomSettingsEvent"],"typescript":["ROOM_SETTINGS"]}},
       {"direction":"client_to_server","header":56,"sourceClass":"class_1898","sourcePath":"decompiled/scripts/package_16/class_1898.as","sourceSha256":"979cec6b590b34fdf1c87775885469e392242720ff351a29c14f7e6e5c411cb9","mapLine":1143,"reportedName":"GetCatalogIndex","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetCatalogIndexEvent"],"typescript":["GET_CATALOG_INDEX"]}},
-      {"direction":"client_to_server","header":57,"sourceClass":"class_3881","sourcePath":"decompiled/scripts/package_95/class_3881.as","sourceSha256":"a256467b52c6b470127fa54be1005f74c67b1376969a77e34a528fcb0d39a9e7","mapLine":1146,"reportedName":"WithdrawAllFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":57,"sourceClass":"class_3881","sourcePath":"decompiled/scripts/package_95/class_3881.as","sourceSha256":"a256467b52c6b470127fa54be1005f74c67b1376969a77e34a528fcb0d39a9e7","mapLine":1146,"reportedName":"WithdrawAllFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestWithdrawAllEvent"],"typescript":["CHEST_WITHDRAW_ALL"]}},
       {"direction":"client_to_server","header":58,"sourceClass":"class_3322","sourcePath":"decompiled/scripts/package_66/class_3322.as","sourceSha256":"a701dcedf63a5b65e37ef3ff6a8d507d60f542bb698dd2824d93e494894238a1","mapLine":1148,"reportedName":"PickupObject","namingSource":"Sulek","canonicalName":"PickupObject","canonicalStatus":"semantic-verified","localBindings":{"csharp":["PickupObjectEvent"],"typescript":["FURNITURE_PICKUP"]}},
       {"direction":"client_to_server","header":76,"sourceClass":"class_3063","sourcePath":"decompiled/scripts/package_88/class_3063.as","sourceSha256":"78b99eede5a908e147de532fb7e2ec3ee9282a80c35a2c85553bfd6591bed4e9","mapLine":1183,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":80,"sourceClass":"ClickFurniMessageComposer","sourcePath":"decompiled/scripts/package_66/ClickFurniMessageComposer.as","sourceSha256":"bba0251c25bb2c9e26f8d1dfc61d5618c9698971cc8f8c84b677f684f39d2ac7","mapLine":1189,"reportedName":"ClickFurni","namingSource":"Sulek","canonicalName":"ClickFurni","canonicalStatus":"semantic-verified","localBindings":{"csharp":["ClickFurniEvent"],"typescript":["CLICK_FURNI"]}},
@@ -26127,7 +26069,7 @@
       {"direction":"client_to_server","header":594,"sourceClass":"class_1995","sourcePath":"decompiled/scripts/package_15/class_1995.as","sourceSha256":"49df2e873290914a96e00c64729ada4004e2ddd0fdf5f8478112a5f563af26d5","mapLine":1152,"reportedName":"CancelAllMarketplaceOffers","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MARKETPLACE_CANCEL_ALL_OFFERS"]}},
       {"direction":"client_to_server","header":598,"sourceClass":"class_3402","sourcePath":"decompiled/scripts/package_25/class_3402.as","sourceSha256":"4ce9b2cec40ccefdde3a0a33d1388ecae72da9911c1f76dde98b95823633b115","mapLine":1153,"reportedName":"GetBadgeLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":606,"sourceClass":"class_1918","sourcePath":"decompiled/scripts/package_39/class_1918.as","sourceSha256":"190550518898432ef3a8ec8f5c585c1da1f653589ec9a286957dc647784c0a79","mapLine":1154,"reportedName":"GetSoundSettings","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_SOUND_SETTINGS"]}},
-      {"direction":"client_to_server","header":609,"sourceClass":"class_3394","sourcePath":"decompiled/scripts/package_186/class_3394.as","sourceSha256":"02567f0ec102014e7c06c674362480c9eaeaeeca0e71052bed83295011271689","mapLine":1155,"reportedName":"WiredTradeConfirm","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":609,"sourceClass":"class_3394","sourcePath":"decompiled/scripts/package_186/class_3394.as","sourceSha256":"02567f0ec102014e7c06c674362480c9eaeaeeca0e71052bed83295011271689","mapLine":1155,"reportedName":"WiredTradeConfirm","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestAcceptEvent"],"typescript":["WIRED_TRADE_ACCEPT"]}},
       {"direction":"client_to_server","header":612,"sourceClass":"class_1911","sourcePath":"decompiled/scripts/package_8/class_1911.as","sourceSha256":"c834ab123a286fd22efc6c26871a8f7c9b9f73ff4c8f39c575b7a338726a29a7","mapLine":1156,"reportedName":"RemoveFriend","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RemoveFriendEvent"],"typescript":["REMOVE_FRIEND"]}},
       {"direction":"client_to_server","header":618,"sourceClass":"class_2498","sourcePath":"decompiled/scripts/package_26/class_2498.as","sourceSha256":"9a584e30853b3cf8a19c75d4bb3b18f8a7cddc0b6dcd4e40df0fd6d3b4193e49","mapLine":1157,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":620,"sourceClass":"class_3906","sourcePath":"decompiled/scripts/package_26/class_3906.as","sourceSha256":"7e5841905efa61a3f536cb07c02085205775667fe43496bca485897973c618c1","mapLine":1158,"reportedName":"GuildBaseSearch","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GUILD_BASE_SEARCH"]}},
@@ -26144,7 +26086,7 @@
       {"direction":"client_to_server","header":690,"sourceClass":"class_2679","sourcePath":"decompiled/scripts/package_40/class_2679.as","sourceSha256":"8913f091a3cba92d6e0e52037cf45907719d785ab3a3216c945b39af2c45e6c0","mapLine":1169,"reportedName":"CustomizePetWithFurni","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ApplyHorseEffectEvent"],"typescript":["USE_PET_PRODUCT"]}},
       {"direction":"client_to_server","header":693,"sourceClass":"class_2902","sourcePath":"decompiled/scripts/package_100/class_2902.as","sourceSha256":"3c47c08c93ad99ab2ca6c954bddf36cfaf1865225f1a5c8757b48452b491ecda","mapLine":1170,"reportedName":"RentableSpaceStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetRentableSpaceEvent"],"typescript":["RENTABLE_SPACE_STATUS"]}},
       {"direction":"client_to_server","header":707,"sourceClass":"class_3197","sourcePath":"decompiled/scripts/package_202/class_3197.as","sourceSha256":"d0c746058357aebef5dacc3365da694a8ecd4bc1fd2ce4f195c49067f390f163","mapLine":1171,"reportedName":"GetAchievements","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetAchievementsEvent"],"typescript":["ACHIEVEMENT_LIST"]}},
-      {"direction":"client_to_server","header":715,"sourceClass":"class_2388","sourcePath":"decompiled/scripts/package_95/class_2388.as","sourceSha256":"983624ed38b4a835af0f6af2af262978a0bfd7e255c7306982e463c54856ef3e","mapLine":1172,"reportedName":"WithdrawItemsFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":715,"sourceClass":"class_2388","sourcePath":"decompiled/scripts/package_95/class_2388.as","sourceSha256":"983624ed38b4a835af0f6af2af262978a0bfd7e255c7306982e463c54856ef3e","mapLine":1172,"reportedName":"WithdrawItemsFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestWithdrawFurniEvent"],"typescript":["CHEST_WITHDRAW_FURNI"]}},
       {"direction":"client_to_server","header":717,"sourceClass":"class_2644","sourcePath":"decompiled/scripts/package_26/class_2644.as","sourceSha256":"cb9eb21b8318e0185102cb3a64a6cef20c8f73e54d16ec01231a3aeb7bb48906","mapLine":1173,"reportedName":"DeleteFavouriteRoom","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RemoveFavouriteRoomEvent"],"typescript":["ROOM_FAVORITE_REMOVE"]}},
       {"direction":"client_to_server","header":722,"sourceClass":"class_2719","sourcePath":"decompiled/scripts/package_157/class_2719.as","sourceSha256":"f90cd8b605ee7a676c84aaaf801f86006f8e2d407425751c10dbf00a69635f30","mapLine":1174,"reportedName":"UpdateRoomCategoryAndTradeSettings","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SaveEnforcedCategorySettingsEvent"],"typescript":["ROOM_SETTINGS_UPDATE_ROOM_CATEGORY_AND_TRADE"]}},
       {"direction":"client_to_server","header":724,"sourceClass":"class_3016","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/quest/class_3016.as","sourceSha256":"85adf1daf89ea759df97302c2bac39aaae49791a36f5c29fa78e7a58ea91b2b1","mapLine":1175,"reportedName":"GetCommunityGoalProgress","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_COMMUNITY_GOAL_PROGRESS"]}},
@@ -26204,11 +26146,11 @@
       {"direction":"client_to_server","header":1143,"sourceClass":"class_2890","sourcePath":"decompiled/scripts/package_8/class_2890.as","sourceSha256":"6c72803a9162fc7873090c8a80864237e39f045b11fb0f3278e187bb1c3acaf9","mapLine":638,"reportedName":"VisitUser","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["VISIT_USER"]}},
       {"direction":"client_to_server","header":1145,"sourceClass":"class_3669","sourcePath":"decompiled/scripts/package_13/class_3669.as","sourceSha256":"28d51f40f715b2fdc8b1b46f1d7543f9eff108cd9bb4f0ebf1d45a7ad7363bb0","mapLine":639,"reportedName":"NftCollectiblesClaimRewardItem","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1148,"sourceClass":"class_3207","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/inventory/trading/class_3207.as","sourceSha256":"3028bb73e3d8c0389989a756fda639027615cb27d1ec88d389831d0fe56c6877","mapLine":640,"reportedName":"CloseTrading","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["TradingCancelEvent"],"typescript":["TRADE_CLOSE"]}},
-      {"direction":"client_to_server","header":1154,"sourceClass":"class_2979","sourcePath":"decompiled/scripts/package_95/class_2979.as","sourceSha256":"b4bd135d9a6b130b44db9191652fb82409efe8e0053f18f4305b53b8f5780ab2","mapLine":641,"reportedName":"CloseChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1154,"sourceClass":"class_2979","sourcePath":"decompiled/scripts/package_95/class_2979.as","sourceSha256":"b4bd135d9a6b130b44db9191652fb82409efe8e0053f18f4305b53b8f5780ab2","mapLine":641,"reportedName":"CloseChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestCloseEvent"],"typescript":["CHEST_CLOSE"]}},
       {"direction":"client_to_server","header":1162,"sourceClass":"class_3378","sourcePath":"decompiled/scripts/package_36/class_3378.as","sourceSha256":"c5f6a1fecf2a732720891aefdc8c708c222a51dea1dd8f25bc306d868c7c5047","mapLine":642,"reportedName":"AppealCfh","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1179,"sourceClass":"class_3085","sourcePath":"decompiled/scripts/package_25/class_3085.as","sourceSha256":"98bb158f8feaa75b72e4b48312c679aba020c1cc5489365e0a9231aab76c4d62","mapLine":643,"reportedName":"GetGuildMemberships","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetGroupFurniConfigEvent"],"typescript":["GROUP_MEMBERSHIPS"]}},
       {"direction":"client_to_server","header":1204,"sourceClass":"class_3127","sourcePath":"decompiled/scripts/package_100/class_3127.as","sourceSha256":"7e7f4cb97a2f928be1724b612e72299a8db02642588e9442842c346ec01a5bfd","mapLine":644,"reportedName":"RoomDimmerGetPresets","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetMoodlightConfigEvent"],"typescript":["ITEM_DIMMER_SETTINGS"]}},
-      {"direction":"client_to_server","header":1211,"sourceClass":"class_3275","sourcePath":"decompiled/scripts/package_95/class_3275.as","sourceSha256":"55d2f3a00ececcba3a54d1d05af6a3bb2e8dde9bd5d3500223984f89f053fb07","mapLine":646,"reportedName":"SetChestOptions","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1211,"sourceClass":"class_3275","sourcePath":"decompiled/scripts/package_95/class_3275.as","sourceSha256":"55d2f3a00ececcba3a54d1d05af6a3bb2e8dde9bd5d3500223984f89f053fb07","mapLine":646,"reportedName":"SetChestOptions","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestSaveOptionsEvent"],"typescript":["CHEST_SAVE_OPTIONS"]}},
       {"direction":"client_to_server","header":1215,"sourceClass":"class_3650","sourcePath":"decompiled/scripts/package_13/class_3650.as","sourceSha256":"50e6ecc280189b05c2c6660e0ee25bdd81856115b8e1fd77a7fef33040128fa2","mapLine":647,"reportedName":"MintItem","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1220,"sourceClass":"class_2455","sourcePath":"decompiled/scripts/package_16/class_2455.as","sourceSha256":"8ca12d4b504ca45bf99cd58f5afe059288bb0c933bb5b0d84b4fe78575ef6a95","mapLine":648,"reportedName":"PurchaseTargetedOffer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PURCHASE_TARGETED_OFFER"]}},
       {"direction":"client_to_server","header":1227,"sourceClass":"Game2SetUserMoveTargetMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2SetUserMoveTargetMessageComposer.as","sourceSha256":"40c8654d09f270c1425a437aaf21f96e78b50402afa5c86ac8f25ecef5fcd61d","mapLine":649,"reportedName":"Game2SetUserMoveTarget","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26220,7 +26162,7 @@
       {"direction":"client_to_server","header":1303,"sourceClass":"class_3826","sourcePath":"decompiled/scripts/package_62/class_3826.as","sourceSha256":"b734f0395129d251692d0f61fd344432757d491fc4da2a1608359ba08ee57406","mapLine":660,"reportedName":"SetRoomCameraPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SetUserFocusPreferenceEvent"],"typescript":["USER_SETTINGS_CAMERA"]}},
       {"direction":"client_to_server","header":1313,"sourceClass":"class_3694","sourcePath":"decompiled/scripts/package_157/class_3694.as","sourceSha256":"305c0559d8eb5ec054c819914e3330038029f5bb50303487e3910e8c29b91ae9","mapLine":662,"reportedName":"DeleteRoom","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["DeleteRoomEvent"],"typescript":["ROOM_DELETE"]}},
       {"direction":"client_to_server","header":1320,"sourceClass":"class_2608","sourcePath":"decompiled/scripts/package_84/class_2608.as","sourceSha256":"81985c54a51c80185239555138073af034e57362702b3cbfa332e69b1fc269fe","mapLine":663,"reportedName":"GetUserChatlog","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetModeratorUserChatlogEvent"],"typescript":["MODTOOL_REQUEST_USER_CHATLOG"]}},
-      {"direction":"client_to_server","header":1323,"sourceClass":"class_3508","sourcePath":"decompiled/scripts/package_95/class_3508.as","sourceSha256":"0bfda9635b3aa05031d206b48d39cbd38295fe1d4aa2a46629416d51b805b671","mapLine":664,"reportedName":"LockAllChests","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1323,"sourceClass":"class_3508","sourcePath":"decompiled/scripts/package_95/class_3508.as","sourceSha256":"0bfda9635b3aa05031d206b48d39cbd38295fe1d4aa2a46629416d51b805b671","mapLine":664,"reportedName":"LockAllChests","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestLockEvent"],"typescript":["WIRED_CHEST_LOCK"]}},
       {"direction":"client_to_server","header":1326,"sourceClass":"class_3129","sourcePath":"decompiled/scripts/package_72/class_3129.as","sourceSha256":"94a5cb481166932d1091001832dcdca2ffe9f72efdd8086ff2c4950a1eb68bc2","mapLine":665,"reportedName":"GetTalentTrackLevel","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["TALENT_TRACK_GET_LEVEL"]}},
       {"direction":"client_to_server","header":1331,"sourceClass":"class_3621","sourcePath":"decompiled/scripts/package_88/class_3621.as","sourceSha256":"da126edc4fd3aeb423165800adc5d0e54be5ddda145d0279cf15f0ab3adf5db5","mapLine":666,"reportedName":"UnfavoriteHabbicon","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["UnfavoriteHabbiconEvent"],"typescript":["UNFAVORITE_HABBICON"]}},
       {"direction":"client_to_server","header":1344,"sourceClass":"class_3287","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/inventory/trading/class_3287.as","sourceSha256":"39854b7e745acc74919b708aafeeaca424db4e88993abb93d9482ec4e05372df","mapLine":667,"reportedName":"OpenTrading","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["InitTradeEvent"],"typescript":["TRADE"]}},
@@ -26264,7 +26206,7 @@
       {"direction":"client_to_server","header":1575,"sourceClass":"class_2090","sourcePath":"decompiled/scripts/package_63/class_2090.as","sourceSha256":"cc37310bea51dd0bf8f2f2fe43ad76be15bf597783a267e7a4be74bf0dd22a8e","mapLine":709,"reportedName":"Game2StartSnowWar","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1583,"sourceClass":"class_3391","sourcePath":"decompiled/scripts/package_88/class_3391.as","sourceSha256":"5b0b00df899f0087324b8982af45fb57a931589a35dcc7380d50adb3b6038dc1","mapLine":710,"reportedName":"FavoriteHabbicon","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FavoriteHabbiconEvent"],"typescript":["FAVORITE_HABBICON"]}},
       {"direction":"client_to_server","header":1592,"sourceClass":"class_3907","sourcePath":"decompiled/scripts/package_8/class_3907.as","sourceSha256":"73767f7c9177e5259cf412d7aa984c9aeee5b427f13ed430c6727998bd460653","mapLine":711,"reportedName":"HabboSearch","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["HabboSearchEvent"],"typescript":["HABBO_SEARCH"]}},
-      {"direction":"client_to_server","header":1595,"sourceClass":"class_2544","sourcePath":"decompiled/scripts/package_95/class_2544.as","sourceSha256":"08e04ee541401b3b7bc8c3485ec3aceec959512554546d6997e20f5009549b7d","mapLine":712,"reportedName":"OpenChestAndGetContents","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1595,"sourceClass":"class_2544","sourcePath":"decompiled/scripts/package_95/class_2544.as","sourceSha256":"08e04ee541401b3b7bc8c3485ec3aceec959512554546d6997e20f5009549b7d","mapLine":712,"reportedName":"OpenChestAndGetContents","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestOpenEvent"],"typescript":["CHEST_OPEN"]}},
       {"direction":"client_to_server","header":1602,"sourceClass":"class_3119","sourcePath":"decompiled/scripts/package_16/class_3119.as","sourceSha256":"e93dcd6d3bd0268417e9344a53cadb9e84ec721e5b2aafaa65f186da7fc38e71","mapLine":713,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1623,"sourceClass":"class_2055","sourcePath":"decompiled/scripts/package_3/class_2055.as","sourceSha256":"66462ccdca436efcf5ee1ba7ecc7dd1facb4f219025c2d46846e36d055b5a946","mapLine":715,"reportedName":"SSOTicket","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SSOTicketEvent"],"typescript":["SECURITY_TICKET"]}},
       {"direction":"client_to_server","header":1628,"sourceClass":"class_3526","sourcePath":"decompiled/scripts/package_143/class_3526.as","sourceSha256":"2f7e5bebfaf76e9b0344856db545f67c33eac46faa5ae91dd0fe88b63a1d3811","mapLine":716,"reportedName":"HasClaimedProduct","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26283,7 +26225,7 @@
       {"direction":"client_to_server","header":1763,"sourceClass":"Game2GetFriendsLeaderboardComposer","sourcePath":"decompiled/scripts/package_90/Game2GetFriendsLeaderboardComposer.as","sourceSha256":"5dd7d2cac6311c5a7689139f8907f78b5b507b1532c72bc450635f3d09933131","mapLine":734,"reportedName":"Game2GetFriendsLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1768,"sourceClass":"class_2594","sourcePath":"decompiled/scripts/package_70/class_2594.as","sourceSha256":"1a7a7857cd58f12d80ae6d421476035503e9305b6f4d97d07b613c8eacf60c6b","mapLine":735,"reportedName":"LatencyPingRequest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["LatencyPingRequestEvent"],"typescript":["CLIENT_LATENCY"]}},
       {"direction":"client_to_server","header":1773,"sourceClass":"class_3411","sourcePath":"decompiled/scripts/package_124/class_3411.as","sourceSha256":"e8baa6946ca232d69063da4fbe67d056970971aa3ae501999b112e51943bdc12","mapLine":736,"reportedName":"MuteAllInRoom","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ToggleMuteToolEvent"],"typescript":["ROOM_MUTE"]}},
-      {"direction":"client_to_server","header":1774,"sourceClass":"class_2956","sourcePath":"decompiled/scripts/package_186/class_2956.as","sourceSha256":"25367ca95c12802ae2c5e3faff7d1b06d23aefc343045f1db997e60c1fe10c2d","mapLine":737,"reportedName":"WiredTradeAddDeleteItems","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1774,"sourceClass":"class_2956","sourcePath":"decompiled/scripts/package_186/class_2956.as","sourceSha256":"25367ca95c12802ae2c5e3faff7d1b06d23aefc343045f1db997e60c1fe10c2d","mapLine":737,"reportedName":"WiredTradeAddDeleteItems","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestOfferItemsEvent"],"typescript":["WIRED_TRADE_OFFER_ITEMS"]}},
       {"direction":"client_to_server","header":1779,"sourceClass":"class_2465","sourcePath":"decompiled/scripts/package_36/class_2465.as","sourceSha256":"cad63c4e7ddb0d6d89429868eaff12a9ac1cbc7a860d7dca4034b3294139fc7f","mapLine":738,"reportedName":"ChatReviewGuideDecidesOnOffer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CHAT_REVIEW_GUIDE_DECIDES"]}},
       {"direction":"client_to_server","header":1780,"sourceClass":"class_2576","sourcePath":"decompiled/scripts/package_47/class_2576.as","sourceSha256":"ac4b1abc17dc8d6af612ead6021a803f17c8181c66eb610aee5e3c9545a0982e","mapLine":739,"reportedName":"Quit","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GoToHotelViewEvent"],"typescript":["DESKTOP_VIEW"]}},
       {"direction":"client_to_server","header":1784,"sourceClass":"class_2723","sourcePath":"decompiled/scripts/package_158/class_2723.as","sourceSha256":"730ab12d09ba3606efb96db37a4848e8acb48f3e7bcc075b0069818d19754904","mapLine":740,"reportedName":"ClaimRewardTrackPrize","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ClaimRewardTrackPrizeEvent"],"typescript":["CLAIM_REWARD_TRACK_PRIZE"]}},
@@ -26453,7 +26395,7 @@
       {"direction":"client_to_server","header":2934,"sourceClass":"class_2767","sourcePath":"decompiled/scripts/package_25/class_2767.as","sourceSha256":"d29b8cc3157c6778c6c46b50d38e5a4416a30d07a1aa12c956042ea7e49fc673","mapLine":923,"reportedName":"GetHabboGroupBadges","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetHabboGroupBadgesEvent"],"typescript":["GROUP_BADGES"]}},
       {"direction":"client_to_server","header":2948,"sourceClass":"class_1866","sourcePath":"decompiled/scripts/package_16/class_1866.as","sourceSha256":"75cb72472fa93a9dd80657be1294c104670c3c31c4e65a632dc64668cd9fa10a","mapLine":924,"reportedName":"RoomAdPurchaseInitiated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ROOM_AD_PURCHASE_INITIATED"]}},
       {"direction":"client_to_server","header":2959,"sourceClass":"class_3228","sourcePath":"decompiled/scripts/package_26/class_3228.as","sourceSha256":"20047401e585f36170a432ab56b0c23f1f14b3929aae4bced5ee923e17a3cac3","mapLine":925,"reportedName":"MyRoomRightsSearch","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MY_ROOM_RIGHTS_SEARCH"]}},
-      {"direction":"client_to_server","header":2964,"sourceClass":"class_3721","sourcePath":"decompiled/scripts/package_95/class_3721.as","sourceSha256":"e891699a3ef7ae1023c5ba6e30860943d7960bbab6d7d7851154ba315f05b37c","mapLine":926,"reportedName":"UpgradeChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":2964,"sourceClass":"class_3721","sourcePath":"decompiled/scripts/package_95/class_3721.as","sourceSha256":"e891699a3ef7ae1023c5ba6e30860943d7960bbab6d7d7851154ba315f05b37c","mapLine":926,"reportedName":"UpgradeChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestUpgradeEvent"],"typescript":["CHEST_UPGRADE_CAPACITY"]}},
       {"direction":"client_to_server","header":2970,"sourceClass":"class_3124","sourcePath":"decompiled/scripts/package_171/class_3124.as","sourceSha256":"642940b971ffa021253c4c5fb2dec516e4ba41f29f4bf48d8c6469f3b4bef83b","mapLine":927,"reportedName":"NewUserExperienceScriptProceed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["NEW_USER_EXPERIENCE_SCRIPT_PROCEED"]}},
       {"direction":"client_to_server","header":2973,"sourceClass":"GetFriendsWeeklyCompetitiveLeaderboardComposer","sourcePath":"decompiled/scripts/package_90/GetFriendsWeeklyCompetitiveLeaderboardComposer.as","sourceSha256":"9d05d1875d15363b0919102ab0e7148a51f3c117decbdf4ddf9a47edf90d1f0e","mapLine":928,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":2976,"sourceClass":"class_3211","sourcePath":"decompiled/scripts/package_204/class_3211.as","sourceSha256":"21f2d913605b02a331d1e434b4cceb0cd36d31480f24c2a3317040300e4a4a56","mapLine":929,"reportedName":"GetRaidProtectionSettings","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26500,10 +26442,10 @@
       {"direction":"client_to_server","header":3250,"sourceClass":"class_2528","sourcePath":"decompiled/scripts/package_8/class_2528.as","sourceSha256":"3675fe07803ec0cbe532b87575d0a32e60371d3cacdec7f87cd870b7d6870138","mapLine":980,"reportedName":"FindNewFriends","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FindNewFriendsEvent"],"typescript":["FIND_NEW_FRIENDS"]}},
       {"direction":"client_to_server","header":3253,"sourceClass":"class_3105","sourcePath":"decompiled/scripts/package_13/class_3105.as","sourceSha256":"1b227c877d7529dadc10202ea5a33e7a145587b37ff27be49ee875d1596bd678","mapLine":981,"reportedName":"RedeemNftLootBox","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":3257,"sourceClass":"class_3288","sourcePath":"decompiled/scripts/package_13/class_3288.as","sourceSha256":"06e6f6033016bfe9e5fcc2774a4d8b839859b40920c0c4c4b12c8a9514d23b11","mapLine":982,"reportedName":"GetNftCollections","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"client_to_server","header":3268,"sourceClass":"class_3668","sourcePath":"decompiled/scripts/package_95/class_3668.as","sourceSha256":"3042db7ea4c5b7bd2fa5c5c394930d0394d157b6f76952f1e6aec99cf6584142","mapLine":983,"reportedName":"StartAddingToChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3268,"sourceClass":"class_3668","sourcePath":"decompiled/scripts/package_95/class_3668.as","sourceSha256":"3042db7ea4c5b7bd2fa5c5c394930d0394d157b6f76952f1e6aec99cf6584142","mapLine":983,"reportedName":"StartAddingToChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestStartDepositEvent"],"typescript":["CHEST_START_DEPOSIT"]}},
       {"direction":"client_to_server","header":3271,"sourceClass":"class_2598","sourcePath":"decompiled/scripts/package_143/class_2598.as","sourceSha256":"ec8b2a9234fcc2ee59e82d130e2e770ed95dd78aad212d363b0bf30fdb667beb","mapLine":984,"reportedName":"ClaimProduct","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":3272,"sourceClass":"class_2854","sourcePath":"decompiled/scripts/package_168/class_2854.as","sourceSha256":"7ec321b27236fecf7b8a46deb9b4c7979b1c9fbf18e5e4ae969ffc8a28cd76f6","mapLine":985,"reportedName":"CommandBot","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SaveBotActionEvent"],"typescript":["BOT_SKILL_SAVE"]}},
-      {"direction":"client_to_server","header":3274,"sourceClass":"class_3094","sourcePath":"decompiled/scripts/package_95/class_3094.as","sourceSha256":"e2456f0472d142e5a09624be0c37f7dbce613bdcdf67ce8600ca5ef38ac2c292","mapLine":986,"reportedName":"SetChestPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3274,"sourceClass":"class_3094","sourcePath":"decompiled/scripts/package_95/class_3094.as","sourceSha256":"e2456f0472d142e5a09624be0c37f7dbce613bdcdf67ce8600ca5ef38ac2c292","mapLine":986,"reportedName":"SetChestPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestSavePreferencesEvent"],"typescript":["CHEST_SAVE_SETTINGS"]}},
       {"direction":"client_to_server","header":3278,"sourceClass":"class_3367","sourcePath":"decompiled/scripts/package_144/class_3367.as","sourceSha256":"c71594c2b0d9d5928a9a1871dd0afcda73840c1852c1146569a6cc479d14979b","mapLine":987,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":3282,"sourceClass":"class_3053","sourcePath":"decompiled/scripts/package_26/class_3053.as","sourceSha256":"a4e82405fa765c336e0407dba4554b6a86ef3de1d67da84c336fc220f60276fe","mapLine":988,"reportedName":"GetPopularRoomTags","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_POPULAR_ROOM_TAGS"]}},
       {"direction":"client_to_server","header":3283,"sourceClass":"class_2920","sourcePath":"decompiled/scripts/package_181/class_2920.as","sourceSha256":"619be7938a524addf6c093703bcbbe84d72701c1753d6990ba292bbb48ccd1e0","mapLine":989,"reportedName":"ProgressTreasureHunt","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26566,7 +26508,7 @@
       {"direction":"client_to_server","header":3696,"sourceClass":"class_3878","sourcePath":"decompiled/scripts/package_124/class_3878.as","sourceSha256":"2394f165b812d9ebd7a9ee68125d7bc41517fd24a4f4eccd50f71c6b3cb54f81","mapLine":1055,"reportedName":"AssignRights","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AssignRightsEvent"],"typescript":["ROOM_RIGHTS_GIVE"]}},
       {"direction":"client_to_server","header":3705,"sourceClass":"class_2953","sourcePath":"decompiled/scripts/package_100/class_2953.as","sourceSha256":"36363bc3de3e97667a3fb71ecc625793fecdf83e428e1f1f5346c6c2e368c307","mapLine":1056,"reportedName":"SetAdjacentCustomStackingHeight","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":3711,"sourceClass":"class_2109","sourcePath":"decompiled/scripts/package_62/class_2109.as","sourceSha256":"a1da7b5c72f006ee72a970f4844971fd7c6e4babd7db382ff19d4457e88b6651","mapLine":1057,"reportedName":"SetNewNavigatorWindowPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"client_to_server","header":3731,"sourceClass":"class_3305","sourcePath":"decompiled/scripts/package_95/class_3305.as","sourceSha256":"0798ac7c2e341372da5f906b0fd7dee98e5a33d6456ee4e926ff4df3e356d890","mapLine":1059,"reportedName":"WithdrawCoinsFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3731,"sourceClass":"class_3305","sourcePath":"decompiled/scripts/package_95/class_3305.as","sourceSha256":"0798ac7c2e341372da5f906b0fd7dee98e5a33d6456ee4e926ff4df3e356d890","mapLine":1059,"reportedName":"WithdrawCoinsFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestWithdrawCoinsEvent"],"typescript":["CHEST_WITHDRAW_COINS"]}},
       {"direction":"client_to_server","header":3734,"sourceClass":"class_2837","sourcePath":"decompiled/scripts/package_144/class_2837.as","sourceSha256":"758e26a63004b32cdf7f066939a76c1b1be7914f1e1d68aa156c84c832613649","mapLine":1060,"reportedName":"TryPhoneNumber","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["YouTubeVideoInformationEvent"],"typescript":["TRY_PHONE_NUMBER"]}},
       {"direction":"client_to_server","header":3736,"sourceClass":"class_3898","sourcePath":"decompiled/scripts/package_34/class_3898.as","sourceSha256":"e17ae44e1cb296c25f70c5ece989b84e1f82b791a356bb051943b13f35ab81fd","mapLine":1061,"reportedName":"GetSelectedNftWardrobeOutfit","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":3738,"sourceClass":"class_3333","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/userdefinedroomevents/wiredmenu/class_3333.as","sourceSha256":"6c0475808389610a04a35085a4b71c8afac3320eb6a4c37bbde6b35fc30570be","mapLine":1062,"reportedName":"WiredGetRoomStats","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26606,7 +26548,7 @@
       {"direction":"client_to_server","header":3927,"sourceClass":"class_2835","sourcePath":"decompiled/scripts/package_25/class_2835.as","sourceSha256":"ede4db150987c0714b385b11ac64f81c6b17808fd55ee0ce6c2bb086e635bbac","mapLine":1099,"reportedName":"GetGuildMembers","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetGroupMembersEvent"],"typescript":["GROUP_MEMBERS"]}},
       {"direction":"client_to_server","header":3931,"sourceClass":"class_3563","sourcePath":"decompiled/scripts/package_84/class_3563.as","sourceSha256":"41611d787c1151e00f824293865191d3529f6515e782d8e486f1902cc5d53f61","mapLine":1100,"reportedName":"ModTradingLock","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ModerationTradeLockEvent"],"typescript":["MODTOOL_SANCTION_TRADELOCK"]}},
       {"direction":"client_to_server","header":3936,"sourceClass":"class_3082","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/userdefinedroomevents/wiredmenu/class_3082.as","sourceSha256":"7e27ac67cf68508038f8fc5e79dcc2ce02d95cd87b3447225febe55a343261bd","mapLine":1101,"reportedName":"WiredDeleteAllVariableHolders","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"client_to_server","header":3937,"sourceClass":"class_2747","sourcePath":"decompiled/scripts/package_95/class_2747.as","sourceSha256":"54f996dd9ae9b371983a499c7ccc94bd5009469c27da7ad3d89650a4d8a5fdbd","mapLine":1102,"reportedName":"SetChestNotificationPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3937,"sourceClass":"class_2747","sourcePath":"decompiled/scripts/package_95/class_2747.as","sourceSha256":"54f996dd9ae9b371983a499c7ccc94bd5009469c27da7ad3d89650a4d8a5fdbd","mapLine":1102,"reportedName":"SetChestNotificationPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestSaveNotificationsEvent"],"typescript":["CHEST_SAVE_NOTIFICATIONS"]}},
       {"direction":"client_to_server","header":3938,"sourceClass":"class_3894","sourcePath":"decompiled/scripts/package_25/class_3894.as","sourceSha256":"06c0254f96efe885e724db9dd2a2933b8a6f5f476e0e81988ca8fc891fb27d93","mapLine":1103,"reportedName":"UpdateGuildBadge","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["UpdateGroupBadgeEvent"],"typescript":["GROUP_SAVE_BADGE"]}},
       {"direction":"client_to_server","header":3950,"sourceClass":"class_2874","sourcePath":"decompiled/scripts/package_146/class_2874.as","sourceSha256":"889f65583bded72ef55c2d9d867f5744b9f88c3e363f9c3e8e19dfc10d4ac489","mapLine":1104,"reportedName":"RoomCompetitionInit","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ROOM_COMPETITION_INIT"]}},
       {"direction":"client_to_server","header":3958,"sourceClass":"class_2513","sourcePath":"decompiled/scripts/package_125/class_2513.as","sourceSha256":"3b66ae10d4a1095033683000efd32f53b200e7f7b198c4455520c74684013a57","mapLine":1105,"reportedName":"GetResolutionAchievements","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ACHIEVEMENT_RESOLUTION_OPEN"]}},

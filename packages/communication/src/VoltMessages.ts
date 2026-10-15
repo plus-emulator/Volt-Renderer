@@ -1,5 +1,5 @@
 import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
-import { WiredChestRewardEvent, WiredChestSettingsAckEvent, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
+import { WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
 import { WiredFurniTransparencyEvent, WiredUserTransparencyEvent, WiredFurniHighlightEvent, VariableLeaderboardSnapshotEvent, VariableLeaderboardChunkEvent, WiredLabelsEvent, WiredLabelsUpdateEvent, WiredLinkOpenEvent, WiredLinkConfigurationEvent, WiredLinkOperationResultEvent, WiredLinkConnectionsEvent, WiredLinkNetworkInvalidatedEvent, WiredVariableShareSynchronizeComposer, VariableLeaderboardSubscribeComposer, WiredLabelSaveTextComposer, WiredLabelSaveSettingsComposer, WiredLabelSaveRegionComposer, WiredLinkRequestConfigComposer, WiredLinkSaveSelectionComposer, WiredLinkCreateNetworkComposer, WiredLinkRenameNetworkComposer, WiredLinkDeleteNetworkComposer, WiredLinkGetConnectionsComposer } from './messages';
@@ -35,7 +35,7 @@ import { CatalogRuntimeConfigurationEvent } from './messages/incoming/catalog/co
 import { CatalogRuntimeConfigurationComposer } from './messages/outgoing/catalog/configuration';
 
 import { GetHotLooksComposer, HotLooksEvent } from './messages';
-import { ChestDataEvent, ChestDepositComposer, ChestDepositFurniComposer, ChestDepositInventoryItemComposer, ChestFurniChunkEvent, ChestFurniDeltaEvent, ChestOpenComposer, ChestOpenEvent, ChestStartDepositComposer, ChestWithdrawAllFurniComposer, ChestWithdrawComposer, ChestWithdrawFurniComposer, ChestLogEvent, ChestCloseComposer, ChestEnableWiredComposer, ChestSaveOptionsComposer, ChestSaveSettingsComposer, ChestSaveNotificationsComposer, ChestUpgradeCapacityComposer, ChestNotificationEvent, ChestUpgradeResultEvent, ChestRequestLogComposer, WiredChestRoomLogsComposer, WiredChestLockComposer, WiredChestTransactionDetailsComposer, WiredChestRoomLogsEvent, WiredChestLockStateEvent, WiredChestTransactionDetailsEvent, WiredTradeOpenEvent, WiredTradeItemsEvent, WiredTradeCancelledEvent, WiredTradeCompletedEvent, WiredTradeOfferItemsComposer, WiredTradeAcceptComposer, WiredTradeCancelComposer } from './messages';
+import { ChestCoinsEvent, ChestFurniChunkEvent, ChestFurniUpdateEvent, ChestOpenComposer, ChestOpenEvent, ChestSettingsUpdatedEvent, ChestStartDepositComposer, ChestWithdrawAllComposer, ChestWithdrawCoinsComposer, ChestWithdrawFurniComposer, ChestLogEvent, ChestCloseComposer, ChestSaveOptionsComposer, ChestSaveSettingsComposer, ChestSaveNotificationsComposer, ChestUpgradeCapacityComposer, ChestNotificationEvent, ChestUpgradeResultEvent, ChestRequestLogComposer, WiredChestRoomLogsComposer, WiredChestLockComposer, WiredChestTransactionDetailsComposer, WiredChestRoomLogsEvent, WiredChestTransactionDetailsEvent, WiredTradeErrorEvent, WiredTradeOpenEvent, WiredTradeItemsEvent, WiredTradeCancelledEvent, WiredTradeCompletedEvent, WiredTradeOfferItemsComposer, WiredTradeAcceptComposer, WiredTradeCancelComposer, WiredTransactionFailEvent, WiredTransactionSuccessEvent } from './messages';
 import { PressKeybindComposer } from './messages';
 import { EarningsCenterEvent, EarningsClaimResultEvent, IncomeRewardNotificationEvent, RequestEarningsCenterComposer, ClaimEarningsRewardComposer, ClaimAllEarningsRewardsComposer } from './messages';
 import { ActiveDailyTasksMessageEvent, ClaimDailyTaskMessageComposer, ClaimRewardTrackPrizeMessageComposer, DailyTaskUpdatedMessageEvent, DailyTasksAddedMessageEvent, DeleteRewardTrackEntityMessageComposer, GetDailyTasksMessageComposer, GetRewardTrackAdminDataMessageComposer, GetRewardTracksMessageComposer, PurchaseRewardTrackPremiumMessageComposer, RewardTrackAdminDataMessageEvent, RewardTrackAdminResultMessageEvent, RewardTrackClaimResultMessageEvent, RewardTrackFurniSearchResultMessageEvent, RewardTrackTextsMessageEvent, RewardTrackPremiumPurchaseResultMessageEvent, RewardTrackProgressMessageEvent, RewardTracksMessageEvent, SaveRewardTrackMessageComposer, SaveRewardTrackPrizeMessageComposer, SaveRewardTrackTaskMessageComposer, SaveRewardTrackTextsMessageComposer, SearchRewardTrackFurniMessageComposer } from './messages';
@@ -517,21 +517,22 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.FURNITURE_STATE, OneWayDoorStatusMessageEvent);
         this._events.set(IncomingHeader.ITEM_DIMMER_SETTINGS, RoomDimmerPresetsEvent);
         this._events.set(IncomingHeader.BUILD_HEIGHT_AVAILABLE, BuildHeightAvailableEvent);
-        this._events.set(IncomingHeader.CHEST_DATA, ChestDataEvent);
-        this._events.set(IncomingHeader.WIRED_CHEST_REWARD, WiredChestRewardEvent);
-        this._events.set(IncomingHeader.WIRED_CHEST_SETTINGS_ACK, WiredChestSettingsAckEvent);
         this._events.set(IncomingHeader.CHEST_OPEN, ChestOpenEvent);
+        this._events.set(IncomingHeader.CHEST_SETTINGS_UPDATED, ChestSettingsUpdatedEvent);
+        this._events.set(IncomingHeader.CHEST_UPGRADE_RESULT, ChestUpgradeResultEvent);
+        this._events.set(IncomingHeader.CHEST_COINS, ChestCoinsEvent);
         this._events.set(IncomingHeader.CHEST_FURNI_CHUNK, ChestFurniChunkEvent);
-        this._events.set(IncomingHeader.CHEST_FURNI_DELTA, ChestFurniDeltaEvent);
+        this._events.set(IncomingHeader.CHEST_FURNI_UPDATE, ChestFurniUpdateEvent);
         this._events.set(IncomingHeader.CHEST_LOG, ChestLogEvent);
         this._events.set(IncomingHeader.WIRED_CHEST_ROOM_LOGS, WiredChestRoomLogsEvent);
-        this._events.set(IncomingHeader.WIRED_CHEST_LOCK_STATE, WiredChestLockStateEvent);
-        this._events.set(IncomingHeader.CHEST_UPGRADE_RESULT, ChestUpgradeResultEvent);
         this._events.set(IncomingHeader.CHEST_NOTIFICATION, ChestNotificationEvent);
         this._events.set(IncomingHeader.WIRED_CHEST_TRANSACTION_DETAILS, WiredChestTransactionDetailsEvent);
         this._events.set(IncomingHeader.WIRED_CONTRACT_OPEN, WiredContractOpenEvent);
         this._events.set(IncomingHeader.WIRED_CONTRACT_CONTENTS, WiredContractContentsEvent);
         this._events.set(IncomingHeader.WIRED_CONTRACT_UPDATE_RESULT, WiredContractUpdateResultEvent);
+        this._events.set(IncomingHeader.WIRED_TRANSACTION_FAIL, WiredTransactionFailEvent);
+        this._events.set(IncomingHeader.WIRED_TRANSACTION_SUCCESS, WiredTransactionSuccessEvent);
+        this._events.set(IncomingHeader.WIRED_TRADE_ERROR, WiredTradeErrorEvent);
         this._events.set(IncomingHeader.WIRED_TRADE_OPEN, WiredTradeOpenEvent);
         this._events.set(IncomingHeader.WIRED_TRADE_ITEMS, WiredTradeItemsEvent);
         this._events.set(IncomingHeader.WIRED_TRADE_CANCELLED, WiredTradeCancelledEvent);
@@ -1249,27 +1250,23 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.ITEM_DIMMER_TOGGLE, MoodlightTogggleStateComposer);
 
         // Player-facing wired chest (Scrigno)
-        this._composers.set(OutgoingHeader.CHEST_DEPOSIT, ChestDepositComposer);
-        this._composers.set(OutgoingHeader.CHEST_WITHDRAW, ChestWithdrawComposer);
-        this._composers.set(OutgoingHeader.CHEST_WITHDRAW_FURNI, ChestWithdrawFurniComposer);
-        this._composers.set(OutgoingHeader.CHEST_DEPOSIT_FURNI, ChestDepositFurniComposer);
-        this._composers.set(OutgoingHeader.CHEST_START_DEPOSIT, ChestStartDepositComposer);
-        this._composers.set(OutgoingHeader.CHEST_DEPOSIT_INVENTORY_ITEM, ChestDepositInventoryItemComposer);
-        this._composers.set(OutgoingHeader.CHEST_WITHDRAW_ALL_FURNI, ChestWithdrawAllFurniComposer);
         this._composers.set(OutgoingHeader.CHEST_OPEN, ChestOpenComposer);
+        this._composers.set(OutgoingHeader.CHEST_CLOSE, ChestCloseComposer);
+        this._composers.set(OutgoingHeader.CHEST_START_DEPOSIT, ChestStartDepositComposer);
+        this._composers.set(OutgoingHeader.CHEST_WITHDRAW_ALL, ChestWithdrawAllComposer);
+        this._composers.set(OutgoingHeader.CHEST_WITHDRAW_FURNI, ChestWithdrawFurniComposer);
+        this._composers.set(OutgoingHeader.CHEST_WITHDRAW_COINS, ChestWithdrawCoinsComposer);
         this._composers.set(OutgoingHeader.CHEST_SAVE_SETTINGS, ChestSaveSettingsComposer);
         this._composers.set(OutgoingHeader.CHEST_SAVE_OPTIONS, ChestSaveOptionsComposer);
-        this._composers.set(OutgoingHeader.CHEST_CLOSE, ChestCloseComposer);
-        this._composers.set(OutgoingHeader.CHEST_ENABLE_WIRED, ChestEnableWiredComposer);
         this._composers.set(OutgoingHeader.CHEST_SAVE_NOTIFICATIONS, ChestSaveNotificationsComposer);
         this._composers.set(OutgoingHeader.CHEST_UPGRADE_CAPACITY, ChestUpgradeCapacityComposer);
         this._composers.set(OutgoingHeader.CHEST_REQUEST_LOG, ChestRequestLogComposer);
         this._composers.set(OutgoingHeader.WIRED_CHEST_ROOM_LOGS, WiredChestRoomLogsComposer);
         this._composers.set(OutgoingHeader.WIRED_CHEST_LOCK, WiredChestLockComposer);
         this._composers.set(OutgoingHeader.WIRED_CHEST_TRANSACTION_DETAILS, WiredChestTransactionDetailsComposer);
-        this._composers.set(OutgoingHeader.WIRED_TRADE_OFFER_ITEMS, WiredTradeOfferItemsComposer);
         this._composers.set(OutgoingHeader.WIRED_CONTRACT_GET_CONTENTS, GetWiredContractContentsComposer);
         this._composers.set(OutgoingHeader.WIRED_CONTRACT_UPDATE, UpdateWiredContractComposer);
+        this._composers.set(OutgoingHeader.WIRED_TRADE_OFFER_ITEMS, WiredTradeOfferItemsComposer);
         this._composers.set(OutgoingHeader.WIRED_TRADE_ACCEPT, WiredTradeAcceptComposer);
         this._composers.set(OutgoingHeader.WIRED_TRADE_CANCEL, WiredTradeCancelComposer);
 

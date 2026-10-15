@@ -1,8 +1,11 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 import { ChestFurniStoredItemParser, IChestFurniStoredItem } from './ChestFurniStoredItemParser';
 
-/** Furni-chest incremental update (official Sola wire shape, header 9323). */
-export class ChestFurniDeltaMessageParser implements IMessageParser
+/**
+ * The contents of an open furni chest changed: int chestId, int removedCount, int[] removedIds, int addedCount,
+ * ChestStorage[]. AIR WIN63-202610121709 id 518 (package_112/class_3289).
+ */
+export class ChestFurniUpdateMessageParser implements IMessageParser
 {
     private _chestId: number = 0;
     private _removedIds: number[] = [];

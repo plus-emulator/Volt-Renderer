@@ -1,13 +1,16 @@
 import { IMessageComposer } from '@volt/api';
 
-/** Start furni deposit mode (official Kigike / header 3514 wire shape, Volt header 9324). */
+/**
+ * Start adding to a chest: [chestId]. AIR WIN63-202610121709 id 3268 (package_95/class_3668). The server answers by
+ * opening a wired trade (WiredTradeOpen 84); furni and credit furni are then offered through the trade window.
+ */
 export class ChestStartDepositComposer implements IMessageComposer<ConstructorParameters<typeof ChestStartDepositComposer>>
 {
     private _data: ConstructorParameters<typeof ChestStartDepositComposer>;
 
-    constructor(chestItemId: number)
+    constructor(chestId: number)
     {
-        this._data = [chestItemId];
+        this._data = [chestId];
     }
 
     public getMessageArray()

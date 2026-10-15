@@ -1,10 +1,8 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Locks or unlocks the room's wired chests. [lock, all].
- *
- * With all = false the server touches only the chests this user owns, which needs room rights;
- * with all = true it touches every chest in the room, which is the room owner's call.
+ * Lock or unlock the room's wired chests: [lock, all]. AIR WIN63-202610121709 id 1323 (package_95/class_3508,
+ * WiredMenuChestsTab). The server sends no answer; the new state arrives through the chests' stuff data.
  */
 export class WiredChestLockComposer implements IMessageComposer<ConstructorParameters<typeof WiredChestLockComposer>>
 {

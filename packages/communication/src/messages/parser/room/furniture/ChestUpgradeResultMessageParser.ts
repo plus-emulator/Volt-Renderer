@@ -2,6 +2,7 @@ import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
 /**
  * The answer to a capacity purchase. Wire layout: int chestId, int resultCode.
+ * AIR WIN63-202610121709 id 1373 (package_112/class_3153).
  *
  * Zero is the only success. Every other code names a refusal the window renders as
  * `wiredchests.upgrade.result.error.<code>`, so a purchase that cannot go through says why instead

@@ -32,7 +32,7 @@ describe('native contract editor AIR protocol', () =>
         expect(messages.events.get(72)).toBe(WiredContractUpdateResultEvent);
         expect(messages.composers.get(3415)).toBe(GetWiredContractContentsComposer);
         expect(messages.composers.get(2559)).toBe(UpdateWiredContractComposer);
-        expect(messages.events.has(9331)).toBe(true);
+        expect(messages.events.has(84)).toBe(true);
         expect(new GetWiredContractContentsComposer(42).getMessageArray()).toEqual([42]);
     });
     it('writes exact short/byte widths and the poster-bearing furniture tuple', () =>

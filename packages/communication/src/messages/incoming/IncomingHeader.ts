@@ -1,7 +1,5 @@
 export class IncomingHeader
 {
-    public static WIRED_CHEST_REWARD = 9346;
-    public static WIRED_CHEST_SETTINGS_ACK = 9347;
     public static WIRED_VARIABLE_INSPECTION_DATA = 9483;
     public static WIRED_USER_VARIABLES_DATA_64 = 9480;
     public static WIRED_VARIABLE_HOLDERS_64 = 9481;
@@ -97,20 +95,27 @@ export class IncomingHeader
     public static GUILD_MEMBER_MGMT_FAILED = 1736;
     public static ITEM_DIMMER_SETTINGS = 3944;
     public static BUILD_HEIGHT_AVAILABLE = 9350;
-    public static CHEST_DATA = 9312;
+    // CHEST_LOG, WIRED_CHEST_ROOM_LOGS, WIRED_CHEST_TRANSACTION_DETAILS and CHEST_NOTIFICATION are Volt-only ids; the AIR
+    // transaction log messages (121709: 3189, 1831) are not ported yet because PlusEMU has no transaction log store.
     public static CHEST_LOG = 9319;
-    public static CHEST_FURNI_CHUNK = 9322;
-    public static CHEST_FURNI_DELTA = 9323;
-    public static CHEST_OPEN = 9327;
     public static WIRED_CHEST_ROOM_LOGS = 9328;
-    public static WIRED_CHEST_LOCK_STATE = 9329;
-    public static CHEST_UPGRADE_RESULT = 9335;
-    public static CHEST_NOTIFICATION = 9336;
     public static WIRED_CHEST_TRANSACTION_DETAILS = 9330;
-    public static WIRED_TRADE_OPEN = 9331;
-    public static WIRED_TRADE_ITEMS = 9332;
-    public static WIRED_TRADE_CANCELLED = 2553;
-    public static WIRED_TRADE_COMPLETED = 1501;
+    public static CHEST_NOTIFICATION = 9336;
+    // Wired chests and wired transactions: ids of AIR WIN63-202610121709 (communication/class_2049); the second id is
+    // the same class in WIN63-202610131318-860371703.
+    public static CHEST_OPEN = 3966; // package_112/class_3066; 202610131318: 3327.
+    public static CHEST_SETTINGS_UPDATED = 2159; // package_112/class_2436; 202610131318: 1541.
+    public static CHEST_UPGRADE_RESULT = 1373; // package_112/class_3153; 202610131318: 3362.
+    public static CHEST_COINS = 988; // package_112/class_3799; 202610131318: 419.
+    public static CHEST_FURNI_CHUNK = 44; // package_112/class_2610; 202610131318: 1688.
+    public static CHEST_FURNI_UPDATE = 518; // package_112/class_3289; 202610131318: 2725.
+    public static WIRED_TRANSACTION_FAIL = 1360; // package_196/class_3447; 202610131318: 518.
+    public static WIRED_TRANSACTION_SUCCESS = 125; // package_196/class_3152; 202610131318: 3394.
+    public static WIRED_TRADE_ERROR = 503; // package_192/class_3890; 202610131318: 147.
+    public static WIRED_TRADE_OPEN = 84; // package_192/class_3295; 202610131318: 1959.
+    public static WIRED_TRADE_ITEMS = 705; // package_192/class_3020; 202610131318: 3900.
+    public static WIRED_TRADE_CANCELLED = 2553; // package_192/class_3825; 202610131318: 2320.
+    public static WIRED_TRADE_COMPLETED = 1501; // package_192/class_3864; 202610131318: 555.
     public static ITEM_STACK_HELPER = 65486;
     public static ITEM_WALL = 3242;
     public static ITEM_WALL_ADD = 3363;

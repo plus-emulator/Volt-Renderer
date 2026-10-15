@@ -2,6 +2,7 @@ import { IMessageComposer } from '@volt/api';
 
 /**
  * Puts items on the negotiation table, or takes them off. [remove, count, itemId...].
+ * AIR WIN63-202610121709 id 1774 (package_186/class_2956, WiredTradingModel).
  *
  * Item ids come in as a rest argument, the way the friend-list composers take theirs, so the count
  * and the list can never disagree about how many there are.

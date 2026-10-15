@@ -1,18 +1,13 @@
 import { IMessageComposer } from '@volt/api';
 
-/**
- * The chest window was closed: [itemId].
- *
- * A chest set to open while someone is looking inside has to be told when they stopped -- only the
- * client knows that, so it says so, and the lid comes back down for everyone in the room.
- */
+/** The chest window was closed: [chestId]. AIR WIN63-202610121709 id 1154 (package_95/class_2979). */
 export class ChestCloseComposer implements IMessageComposer<ConstructorParameters<typeof ChestCloseComposer>>
 {
     private _data: ConstructorParameters<typeof ChestCloseComposer>;
 
-    constructor(itemId: number)
+    constructor(chestId: number)
     {
-        this._data = [itemId];
+        this._data = [chestId];
     }
 
     public getMessageArray()

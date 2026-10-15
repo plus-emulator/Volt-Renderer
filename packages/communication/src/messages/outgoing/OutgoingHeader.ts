@@ -106,30 +106,28 @@ export class OutgoingHeader
     public static ITEM_DIMMER_SETTINGS = 1204;
     public static SET_BUILD_HEIGHT = 9351;
     public static SET_BUILD_UNDERPASS = 7022;
-    public static CHEST_DEPOSIT = 9313;
-    public static CHEST_WITHDRAW = 9314;
-    public static CHEST_SAVE_SETTINGS = 9315;
-    public static CHEST_SAVE_OPTIONS = 9338;
-    public static CHEST_CLOSE = 9339;
-    public static CHEST_ENABLE_WIRED = 9345;
-    public static CHEST_SAVE_NOTIFICATIONS = 9316;
-    public static CHEST_UPGRADE_CAPACITY = 9317;
+    // Wired chests and wired trades: ids of AIR WIN63-202610121709 (communication/class_2049); the second id is the
+    // same class in WIN63-202610131318-860371703.
+    public static CHEST_OPEN = 1595; // package_95/class_2544; 202610131318: 1457.
+    public static CHEST_CLOSE = 1154; // package_95/class_2979; 202610131318: 3568.
+    public static CHEST_START_DEPOSIT = 3268; // package_95/class_3668; 202610131318: 3947.
+    public static CHEST_WITHDRAW_ALL = 57; // package_95/class_3881; 202610131318: 2074.
+    public static CHEST_WITHDRAW_FURNI = 715; // package_95/class_2388; 202610131318: 3992.
+    public static CHEST_WITHDRAW_COINS = 3731; // package_95/class_3305; 202610131318: 1840.
+    public static CHEST_SAVE_SETTINGS = 3274; // package_95/class_3094; 202610131318: 3680.
+    public static CHEST_SAVE_OPTIONS = 1211; // package_95/class_3275; 202610131318: 1786.
+    public static CHEST_SAVE_NOTIFICATIONS = 3937; // package_95/class_2747; 202610131318: 2402.
+    public static CHEST_UPGRADE_CAPACITY = 2964; // package_95/class_3721; 202610131318: 1940.
+    public static WIRED_CHEST_LOCK = 1323; // package_95/class_3508; 202610131318: 540.
+    public static WIRED_TRADE_OFFER_ITEMS = 1774; // package_186/class_2956; 202610131318: 1287.
+    public static WIRED_TRADE_ACCEPT = 609; // package_186/class_3394; 202610131318: 2276.
+    public static WIRED_TRADE_CANCEL = 1898; // package_186/class_3259; 202610131318: 1474.
+    // CHEST_REQUEST_LOG, WIRED_CHEST_ROOM_LOGS and WIRED_CHEST_TRANSACTION_DETAILS are Volt-only ids; the AIR transaction
+    // log messages (121709: 3922, 88, 1697) are not ported yet because PlusEMU has no transaction log store.
     public static CHEST_REQUEST_LOG = 9318;
-    public static CHEST_WITHDRAW_FURNI = 9320;
-    public static CHEST_DEPOSIT_FURNI = 9321;
-    public static CHEST_START_DEPOSIT = 9324;
-    public static CHEST_DEPOSIT_INVENTORY_ITEM = 9325;
-    public static CHEST_WITHDRAW_ALL_FURNI = 9326;
-    public static CHEST_OPEN = 9327;
-    // WIRED_CHEST_ROOM_LOGS, WIRED_CHEST_TRANSACTION_DETAILS and WIRED_USER_INSPECT_MOVE .. WIRED_ARRAY_INSPECTION_UPDATE are
-    // Volt-only; PlusEMU reserves the ids (CustomPacketRanges.ReservedClientPackets) but has no handler for them yet.
     public static WIRED_CHEST_ROOM_LOGS = 9328;
-    public static WIRED_CHEST_LOCK = 9329;
     // 9330-9333 belong to the Trax editor; the chests tab continues at 9334.
     public static WIRED_CHEST_TRANSACTION_DETAILS = 9334;
-    public static WIRED_TRADE_OFFER_ITEMS = 9335;
-    public static WIRED_TRADE_ACCEPT = 9336;
-    public static WIRED_TRADE_CANCEL = 1898;
     public static ITEM_DIMMER_TOGGLE = 3450;
     public static ITEM_EXCHANGE_REDEEM = 3651;
     public static ITEM_PAINT = 503;

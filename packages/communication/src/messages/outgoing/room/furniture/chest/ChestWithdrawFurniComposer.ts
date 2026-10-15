@@ -1,16 +1,16 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Player withdraws stored furni (official Dul wire shape):
- * [chestItemId, isWallItem, typeId, legacyPosterId, amount]. amount < 0 = all matching rows.
+ * Withdraw stored furni of one type: [chestId, wall, typeId, posterId, amount] (ChestItemType inline).
+ * AIR WIN63-202610121709 id 715 (package_95/class_2388).
  */
 export class ChestWithdrawFurniComposer implements IMessageComposer<ConstructorParameters<typeof ChestWithdrawFurniComposer>>
 {
     private _data: ConstructorParameters<typeof ChestWithdrawFurniComposer>;
 
-    constructor(chestItemId: number, isWallItem: boolean, typeId: number, legacyPosterId: string, amount: number)
+    constructor(chestId: number, wall: boolean, typeId: number, posterId: string, amount: number)
     {
-        this._data = [chestItemId, isWallItem, typeId, legacyPosterId, amount];
+        this._data = [chestId, wall, typeId, posterId, amount];
     }
 
     public getMessageArray()
