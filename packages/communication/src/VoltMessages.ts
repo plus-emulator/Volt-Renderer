@@ -1,3 +1,4 @@
+import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
 import { WiredChestRewardEvent, WiredChestSettingsAckEvent, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
@@ -528,6 +529,9 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.CHEST_UPGRADE_RESULT, ChestUpgradeResultEvent);
         this._events.set(IncomingHeader.CHEST_NOTIFICATION, ChestNotificationEvent);
         this._events.set(IncomingHeader.WIRED_CHEST_TRANSACTION_DETAILS, WiredChestTransactionDetailsEvent);
+        this._events.set(IncomingHeader.WIRED_CONTRACT_OPEN, WiredContractOpenEvent);
+        this._events.set(IncomingHeader.WIRED_CONTRACT_CONTENTS, WiredContractContentsEvent);
+        this._events.set(IncomingHeader.WIRED_CONTRACT_UPDATE_RESULT, WiredContractUpdateResultEvent);
         this._events.set(IncomingHeader.WIRED_TRADE_OPEN, WiredTradeOpenEvent);
         this._events.set(IncomingHeader.WIRED_TRADE_ITEMS, WiredTradeItemsEvent);
         this._events.set(IncomingHeader.WIRED_TRADE_CANCELLED, WiredTradeCancelledEvent);
@@ -1264,6 +1268,8 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_CHEST_LOCK, WiredChestLockComposer);
         this._composers.set(OutgoingHeader.WIRED_CHEST_TRANSACTION_DETAILS, WiredChestTransactionDetailsComposer);
         this._composers.set(OutgoingHeader.WIRED_TRADE_OFFER_ITEMS, WiredTradeOfferItemsComposer);
+        this._composers.set(OutgoingHeader.WIRED_CONTRACT_GET_CONTENTS, GetWiredContractContentsComposer);
+        this._composers.set(OutgoingHeader.WIRED_CONTRACT_UPDATE, UpdateWiredContractComposer);
         this._composers.set(OutgoingHeader.WIRED_TRADE_ACCEPT, WiredTradeAcceptComposer);
         this._composers.set(OutgoingHeader.WIRED_TRADE_CANCEL, WiredTradeCancelComposer);
 

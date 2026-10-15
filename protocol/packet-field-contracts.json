@@ -19737,7 +19737,12 @@
       "symbol": "WIRED_FURNI_VISUALIZATION_STATE",
       "path": "packages/communication/src/messages/parser/roomevents/WiredVisualizationStateParser.ts",
       "reason": "October AIR wired packet from reviews/new-wireds-packet-contract-r88.json (WIN63-202610131318 class, build 202610121709 id); the PlusEMU companion is implemented in parallel and has no verified Java field contract yet"
-    }
+    },
+    {"direction": "client_to_server", "side": "typescript", "header": 3415, "symbol": "WIRED_CONTRACT_GET_CONTENTS", "path": "packages/communication/src/messages/outgoing/roomevents/GetWiredContractContentsComposer.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
+    {"direction": "client_to_server", "side": "typescript", "header": 2559, "symbol": "WIRED_CONTRACT_UPDATE", "path": "packages/communication/src/messages/outgoing/roomevents/UpdateWiredContractComposer.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
+    {"direction": "server_to_client", "side": "typescript", "header": 3833, "symbol": "WIRED_CONTRACT_OPEN", "path": "packages/communication/src/messages/parser/roomevents/WiredContractOpenParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
+    {"direction": "server_to_client", "side": "typescript", "header": 2796, "symbol": "WIRED_CONTRACT_CONTENTS", "path": "packages/communication/src/messages/parser/roomevents/WiredContractContentsParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
+    {"direction": "server_to_client", "side": "typescript", "header": 72, "symbol": "WIRED_CONTRACT_UPDATE_RESULT", "path": "packages/communication/src/messages/parser/roomevents/WiredContractUpdateResultParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."}
   ],
   "exemptions": [
     {
