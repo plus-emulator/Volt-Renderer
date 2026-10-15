@@ -1798,6 +1798,9 @@ export class RoomMessageHandler
                             postureType = action.action;
                             parameter = action.value;
                             break;
+                        // 'wf' marks a wired move for one status update (official hhus, AIR WIN63-202610131318-860371703);
+                        // like 'trd' it is no posture (AIR class_1993.onUserUpdate ignores both).
+                        case 'wf':
                         case 'trd': break;
                         case 'jmp':
                         case 'jmp-in':
