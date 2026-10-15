@@ -148,10 +148,10 @@ export class SessionDataManager implements ISessionDataManager
         return this._userDataSnapshot;
     }
 
-    public async init(): Promise<void>
+    public async init(localizationReady?: Promise<void>): Promise<void>
     {
         await Promise.all([
-            this._furnitureData.init(true),
+            this._furnitureData.init(true, localizationReady),
             this._productData.init(),
             this._badgeImageManager.init(),
             Promise.resolve(this._ignoredUsersManager.init()),

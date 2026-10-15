@@ -299,7 +299,7 @@ export class AssetManager implements IAssetManager
         const roomImagesSub = import.meta.glob('./assets/room/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true });
         const merged = { ...roomImages, ...roomImagesSub };
 
-        for(const path in merged)
+        await Promise.all(Object.keys(merged).map(async path =>
         {
             const mod = merged[path];
             const imageUrl = ((mod as { default?: string }).default ?? mod) as string;
@@ -310,7 +310,7 @@ export class AssetManager implements IAssetManager
             if(!texture)
             {
                 resource.dispose();
-                continue;
+                return;
             }
 
             this.setImageResource(imageUrl, resource);
@@ -323,7 +323,7 @@ export class AssetManager implements IAssetManager
                 this.setTexture(normalizedName, texture);
                 collection.textures.set(normalizedName, texture);
             }
-        }
+        }));
 
         collection.define(roomData);
     }
@@ -369,10 +369,8 @@ export class AssetManager implements IAssetManager
         const allImages = import.meta.glob('./assets/*/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true });
         const prefix = `./assets/${ name }/images/`;
 
-        for(const path in allImages)
+        await Promise.all(Object.keys(allImages).filter(path => path.startsWith(prefix)).map(async path =>
         {
-            if(!path.startsWith(prefix)) continue;
-
             const mod = allImages[path];
             const imageUrl = ((mod as { default?: string }).default ?? mod) as string;
             const rawName = imageNameFromPath(path);
@@ -382,14 +380,14 @@ export class AssetManager implements IAssetManager
             if(!texture)
             {
                 resource.dispose();
-                continue;
+                return;
             }
 
             this.setImageResource(imageUrl, resource);
             this.setTexture(rawName, texture);
             collection.textures.set(name + '_' + rawName, texture);
             collection.textures.set(rawName, texture);
-        }
+        }));
 
         collection.define(data);
     }
