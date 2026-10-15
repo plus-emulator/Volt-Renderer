@@ -2,6 +2,12 @@
 
 Volt originated as a fork of [Nitro React](https://github.com/billsonnn/nitro-react) and its companion [Nitro Renderer](https://github.com/billsonnn/nitro-renderer) and is completely independently developed and has no further ties to Billsonnn / Nitro.
 
+## Releases
+
+Every push to `main`, including a merged pull request, tests, compiles and builds the renderer, then publishes a GitHub release tagged `renderer-v<package version>-<short sha>`. The release includes `volt-renderer.zip` containing `dist/`, plus GitHub's source archives.
+
+Release runs queue instead of replacing pending merges (up to GitHub's 100-run queue limit). Assets upload to a draft before publication; rerunning a failed workflow resumes the draft, and an already published tag is left unchanged. Upstream-sync merges explicitly dispatch the workflow for the merged commit. To retry manually, run **Build & Publish Renderer Release** on `main`; the optional `commit` input selects the exact commit to rebuild.
+
 ## Installation
 
 npm
