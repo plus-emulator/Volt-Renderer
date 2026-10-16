@@ -1,4 +1,4 @@
-import { CanonicalWiredMovement, IFurnitureMetadata, IFurnitureMetadataEntry, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
+import { CanonicalWiredMovement, IsBuildersClubFurniId, IsTemporaryFurniId, IFurnitureMetadata, IFurnitureMetadataEntry, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '@volt/communication';
 import { GetConfiguration } from '@volt/configuration';
 import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomZoomEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
@@ -1906,7 +1906,8 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         if(roomInstanceData) roomInstanceData.removePendingFunitureFloor(objectId);
 
-        if(this._sessionDataManager.userId === userId)
+        // Temporary and Builders Club furni never fly to the inventory (AIR room/class_56.as:3923).
+        if((this._sessionDataManager.userId === userId) && !IsBuildersClubFurniId(objectId) && !IsTemporaryFurniId(objectId))
         {
             const roomObject = this.getRoomObject(roomId, objectId, RoomObjectCategory.FLOOR);
 
@@ -1956,7 +1957,8 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
     public removeRoomObjectWall(roomId: number, objectId: number, userId: number = -1): void
     {
-        if(this._sessionDataManager.userId === userId)
+        // Temporary and Builders Club furni never fly to the inventory (AIR room/class_56.as:4209).
+        if((this._sessionDataManager.userId === userId) && !IsBuildersClubFurniId(objectId) && !IsTemporaryFurniId(objectId))
         {
             const roomObject = this.getRoomObject(roomId, objectId, RoomObjectCategory.WALL);
 
