@@ -14,6 +14,7 @@ import { UserSettingsOnlineIndicatorComposer } from './messages/outgoing/user/se
 import { WiredMenuSettingsComposer } from './messages/outgoing/roomevents/WiredMenuSettingsComposer';
 import { RequestOfflineMessagesComposer } from './messages/outgoing/friendlist/RequestOfflineMessagesComposer';
 
+import { FurnitureMetadataEvent } from './messages';
 import { FurniRecolorUpdateEvent, RecolorFurnitureComposer, RoomQueueStatusEvent, YouAreNotSpectatorMessageEvent, ConfigurationItemStatesEvent, SpecialRoomEventEvent, SpecialSystemChatEvent, ObjectRemoveMultipleEvent, ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveConfirmEvent, FurnitureListRemoveMultipleEvent, OfficialRoomsEvent } from './messages';
 import { RoomUseHabbiconEvent, TriggerHabbiconComposer } from './messages';
 import { UserHabbiconsEvent, UserHabbiconStatusChangedEvent, HabbiconInfoEvent, HabbiconShopDataEvent, GetHabbiconShopDataComposer, GetHabbiconInfoComposer, BuyHabbiconComposer, BuyHabbiconCollectionComposer, ClaimHabbiconComposer, FavoriteHabbiconComposer, UnfavoriteHabbiconComposer } from './messages';
@@ -506,6 +507,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.FURNITURE_FLOOR, FurnitureFloorEvent);
         this._events.set(IncomingHeader.FURNITURE_FLOOR_REMOVE, FurnitureFloorRemoveEvent);
         this._events.set(IncomingHeader.FURNITURE_FLOOR_UPDATE, FurnitureFloorUpdateEvent);
+        this._events.set(IncomingHeader.FURNITURE_METADATA, FurnitureMetadataEvent);
         this._events.set(IncomingHeader.ITEM_WALL_ADD, FurnitureWallAddEvent);
         this._events.set(IncomingHeader.ITEM_WALL, FurnitureWallEvent);
         this._events.set(IncomingHeader.ITEM_WALL_REMOVE, FurnitureWallRemoveEvent);

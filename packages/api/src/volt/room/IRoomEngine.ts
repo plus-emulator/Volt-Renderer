@@ -3,6 +3,7 @@ import { Container, Point, PointData, Rectangle, RenderTexture, Texture } from '
 import { IRoomGeometry, IRoomManager, IRoomObject, IRoomObjectController, IRoomRenderingCanvas } from '../../room';
 import { IVector3D } from '../../utils';
 import { IPetCustomPart } from '../session';
+import { IFurnitureMetadata, IFurnitureMetadataEntry } from './IFurnitureMetadata';
 import { IGetImageListener } from './IGetImageListener';
 import { IImageResult } from './IImageResult';
 import { IPetColorResult } from './IPetColorResult';
@@ -11,6 +12,8 @@ import { IObjectData, IRoomMapData } from './object';
 
 export interface IRoomEngine
 {
+    setFurnitureMetadata(roomId: number, entries: IFurnitureMetadataEntry[]): void;
+    getFurnitureMetadata(roomId: number, itemId: number): IFurnitureMetadata;
     init(): Promise<void>;
     destroyRoom(roomId: number): void;
     setActiveRoomId(roomId: number): void;
@@ -53,9 +56,9 @@ export interface IRoomEngine
     updateRoomObjectWallLocation(roomId: number, objectId: number, location: IVector3D, targetLocation?: IVector3D, duration?: number): boolean;
     addRoomObjectUser(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, headDirection: number, type: number, figure: string): boolean;
     updateRoomObjectUserLocation(roomId: number, objectId: number, location: IVector3D, targetLocation: IVector3D, canStandUp?: boolean, baseY?: number, direction?: IVector3D, headDirection?: number, skipLocationFix?: boolean, isSlide?: boolean, duration?: number, canonicalWired?: CanonicalWiredMovement): boolean;
-    addFurnitureFloor(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra?: number, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, synchronized?: boolean, realRoomObject?: boolean, sizeZ?: number, allowStack?: boolean, allowSit?: boolean, allowLay?: boolean, allowWalk?: boolean, dimensionsX?: number, dimensionsY?: number, teleportTargetId?: number): boolean;
-    addFurnitureFloorByTypeName(roomId: number, id: number, typeName: string, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra?: number, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, synchronized?: boolean, realRoomObject?: boolean, sizeZ?: number, allowStack?: boolean, allowSit?: boolean, allowLay?: boolean, allowWalk?: boolean, dimensionsX?: number, dimensionsY?: number, teleportTargetId?: number): boolean;
-    addFurnitureWall(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, extra: string, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, realRoomObject?: boolean, allowStack?: boolean, allowSit?: boolean, allowLay?: boolean, allowWalk?: boolean, dimensionsX?: number, dimensionsY?: number, teleportTargetId?: number): boolean;
+    addFurnitureFloor(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra?: number, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, synchronized?: boolean, realRoomObject?: boolean, sizeZ?: number): boolean;
+    addFurnitureFloorByTypeName(roomId: number, id: number, typeName: string, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra?: number, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, synchronized?: boolean, realRoomObject?: boolean, sizeZ?: number): boolean;
+    addFurnitureWall(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, extra: string, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, realRoomObject?: boolean): boolean;
     initalizeTemporaryObjectsByType(type: string, contentLoaded: boolean): void;
     updateRoomObjectFloor(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, data: IObjectData, extra?: number): boolean;
     updateRoomObjectWall(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, extra?: string): boolean;

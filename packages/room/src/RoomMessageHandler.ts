@@ -4,7 +4,7 @@ import { GetEventDispatcher, RoomEngineObjectEvent } from '@volt/events';
 import { GetRoomSessionManager, GetSessionDataManager } from '@volt/session';
 import { Vector3d } from '@volt/utils';
 import { FloorHeightMapMessageParser } from '@volt/communication';
-import { ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveMultipleEvent } from '@volt/communication';
+import { FurnitureMetadataEvent, ItemRemoveMultipleEvent, ItemsStateUpdateEvent, ObjectRemoveMultipleEvent } from '@volt/communication';
 import { GetRoomEngine } from './GetRoomEngine';
 import { RoomVariableEnum } from './RoomVariableEnum';
 import { ObjectFurnitureHighlightUpdateMessage, ObjectFurnitureTransparencyUpdateMessage, ObjectMoveUpdateMessage, ObjectRoomMapUpdateMessage, RoomObjectUpdateMessage } from './messages';
@@ -82,6 +82,7 @@ export class RoomMessageHandler
             new FurnitureFloorEvent(this.onFurnitureFloorEvent.bind(this)),
             new FurnitureFloorRemoveEvent(this.onFurnitureFloorRemoveEvent.bind(this)),
             new ObjectRemoveMultipleEvent(this.onObjectRemoveMultipleEvent.bind(this)),
+            new FurnitureMetadataEvent(this.onFurnitureMetadataEvent.bind(this)),
             new FurnitureFloorUpdateEvent(this.onFurnitureFloorUpdateEvent.bind(this)),
             new FurnitureWallAddEvent(this.onFurnitureWallAddEvent.bind(this)),
             new FurnitureWallEvent(this.onFurnitureWallEvent.bind(this)),
@@ -1079,6 +1080,13 @@ export class RoomMessageHandler
      * batch and refreshes the tile object map once at the end, instead of once
      * per item as the single remove does.
      */
+    private onFurnitureMetadataEvent(event: FurnitureMetadataEvent): void
+    {
+        if(!(event instanceof FurnitureMetadataEvent) || !event.connection || !this._roomEngine) return;
+
+        if(this._currentRoomId !== 0) this._roomEngine.setFurnitureMetadata(this._currentRoomId, event.getParser().entries);
+    }
+
     private onObjectRemoveMultipleEvent(event: ObjectRemoveMultipleEvent): void
     {
         if(!(event instanceof ObjectRemoveMultipleEvent) || !event.connection || !this._roomEngine) return;
@@ -1970,11 +1978,11 @@ export class RoomMessageHandler
 
         if(data.spriteName)
         {
-            this._roomEngine.addFurnitureFloorByTypeName(roomId, data.itemId, data.spriteName, location, direction, data.state, data.data, data.extra, data.expires, data.usagePolicy, data.userId, data.username, true, true, data.stackHeight, data.allowStack, data.allowSit, data.allowLay, data.allowWalk, data.dimensionsX, data.dimensionsY, data.teleportTargetId);
+            this._roomEngine.addFurnitureFloorByTypeName(roomId, data.itemId, data.spriteName, location, direction, data.state, data.data, data.extra, data.expires, data.usagePolicy, data.userId, data.username, true, true, data.stackHeight);
         }
         else
         {
-            this._roomEngine.addFurnitureFloor(roomId, data.itemId, data.spriteId, location, direction, data.state, data.data, data.extra, data.expires, data.usagePolicy, data.userId, data.username, true, true, data.stackHeight, data.allowStack, data.allowSit, data.allowLay, data.allowWalk, data.dimensionsX, data.dimensionsY, data.teleportTargetId);
+            this._roomEngine.addFurnitureFloor(roomId, data.itemId, data.spriteId, location, direction, data.state, data.data, data.extra, data.expires, data.usagePolicy, data.userId, data.username, true, true, data.stackHeight);
         }
     }
 
@@ -1999,7 +2007,7 @@ export class RoomMessageHandler
 
         const direction = new Vector3d(wallGeometry.getDirection(data.direction));
 
-        this._roomEngine.addFurnitureWall(roomId, data.itemId, data.spriteId, location, direction, data.state, data.stuffData, data.secondsToExpiration, data.usagePolicy, data.userId, data.username, true, data.allowStack, data.allowSit, data.allowLay, data.allowWalk, data.dimensionsX, data.dimensionsY, data.teleportTargetId);
+        this._roomEngine.addFurnitureWall(roomId, data.itemId, data.spriteId, location, direction, data.state, data.stuffData, data.secondsToExpiration, data.usagePolicy, data.userId, data.username, true);
     }
 
     private onIgnoreResultEvent(event: IgnoreResultEvent): void

@@ -1,4 +1,4 @@
-import { CanonicalWiredMovement, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
+import { CanonicalWiredMovement, IFurnitureMetadata, IFurnitureMetadataEntry, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '@volt/communication';
 import { GetConfiguration } from '@volt/configuration';
 import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomZoomEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
@@ -71,6 +71,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
     private _initializedCameraCanvases = new WeakSet<IRoomRenderingCanvas>();
     private _roomDatas: Map<number, RoomData> = new Map();
     private _roomsWithInitializedObjects: Set<number> = new Set();
+    private _furnitureMetadata: Map<number, Map<number, IFurnitureMetadata>> = new Map();
     private _initializedRooms: Set<number> = new Set();
     private _roomInstanceDatas: Map<number, RoomInstanceData> = new Map();
     private _skipFurnitureCreationForNextFrame: boolean = false;
@@ -183,8 +184,27 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         return (this._roomManager && this._roomManager.getRoomInstance(this.getRoomId(roomId))) || null;
     }
 
+    public setFurnitureMetadata(roomId: number, entries: IFurnitureMetadataEntry[]): void
+    {
+        let items = this._furnitureMetadata.get(roomId);
+
+        if(!items)
+        {
+            items = new Map();
+            this._furnitureMetadata.set(roomId, items);
+        }
+
+        for(const entry of entries) items.set(entry.itemId, { allowStack: entry.allowStack, allowSit: entry.allowSit, allowLay: entry.allowLay, allowWalk: entry.allowWalk, dimensionsX: entry.dimensionsX, dimensionsY: entry.dimensionsY, teleportTargetId: entry.teleportTargetId });
+    }
+
+    public getFurnitureMetadata(roomId: number, itemId: number): IFurnitureMetadata
+    {
+        return this._furnitureMetadata.get(roomId)?.get(itemId) ?? null;
+    }
+
     public removeRoomInstance(roomId: number): void
     {
+        this._furnitureMetadata?.delete(roomId);
         this._roomsWithInitializedObjects.delete(roomId);
         this._initializedRooms.delete(roomId);
         this._roomObjectEventHandler.setGameInputHandler(roomId, null);
@@ -1066,13 +1086,6 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
             model.setValue(RoomObjectVariable.FURNITURE_USAGE_POLICY, data.usagePolicy);
             model.setValue(RoomObjectVariable.FURNITURE_OWNER_ID, data.ownerId);
             model.setValue(RoomObjectVariable.FURNITURE_OWNER_NAME, data.ownerName);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_STACK, data.allowStack ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_SIT, data.allowSit ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_LAY, data.allowLay ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_WALK, data.allowWalk ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_DIMENSIONS_X, data.dimensionsX);
-            model.setValue(RoomObjectVariable.FURNITURE_DIMENSIONS_Y, data.dimensionsY);
-            model.setValue(RoomObjectVariable.FURNITURE_TELEPORT_TARGET_ID, data.teleportTargetId);
         }
 
         if(!this.updateRoomObjectFloor(roomId, id, data.location, data.direction, data.state, data.data, data.extra)) return false;
@@ -1134,13 +1147,6 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
             model.setValue(RoomObjectVariable.FURNITURE_USAGE_POLICY, data.usagePolicy);
             model.setValue(RoomObjectVariable.FURNITURE_OWNER_ID, data.ownerId);
             model.setValue(RoomObjectVariable.FURNITURE_OWNER_NAME, data.ownerName);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_STACK, data.allowStack ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_SIT, data.allowSit ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_LAY, data.allowLay ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_ALLOW_WALK, data.allowWalk ? 1 : 0);
-            model.setValue(RoomObjectVariable.FURNITURE_DIMENSIONS_X, data.dimensionsX);
-            model.setValue(RoomObjectVariable.FURNITURE_DIMENSIONS_Y, data.dimensionsY);
-            model.setValue(RoomObjectVariable.FURNITURE_TELEPORT_TARGET_ID, data.teleportTargetId);
         }
 
         if(!this.updateRoomObjectWall(roomId, id, data.location, data.direction, data.state, extra)) return false;
@@ -2006,33 +2012,33 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         if(GetEventDispatcher()) GetEventDispatcher().dispatchEvent(new RoomEngineObjectEvent(RoomEngineObjectEvent.REMOVED, roomId, objectId, category));
     }
 
-    public addFurnitureFloor(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra: number = NaN, expires: number = -1, usagePolicy: number = 0, ownerId: number = 0, ownerName: string = '', synchronized: boolean = true, realRoomObject: boolean = true, sizeZ: number = -1, allowStack: boolean = false, allowSit: boolean = false, allowLay: boolean = false, allowWalk: boolean = false, dimensionsX: number = 0, dimensionsY: number = 0, teleportTargetId: number = 0): boolean
+    public addFurnitureFloor(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra: number = NaN, expires: number = -1, usagePolicy: number = 0, ownerId: number = 0, ownerName: string = '', synchronized: boolean = true, realRoomObject: boolean = true, sizeZ: number = -1): boolean
     {
         const instanceData = this.getRoomInstanceData(roomId);
 
         if(!instanceData) return false;
 
-        const furnitureData = new RoomFurnitureData(id, typeId, null, location, direction, state, objectData, extra, expires, usagePolicy, ownerId, ownerName, synchronized, realRoomObject, sizeZ, allowStack, allowSit, allowLay, allowWalk, dimensionsX, dimensionsY, teleportTargetId);
+        const furnitureData = new RoomFurnitureData(id, typeId, null, location, direction, state, objectData, extra, expires, usagePolicy, ownerId, ownerName, synchronized, realRoomObject, sizeZ);
 
         instanceData.addPendingFurnitureFloor(furnitureData);
 
         return true;
     }
 
-    public addFurnitureFloorByTypeName(roomId: number, id: number, typeName: string, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra: number = NaN, expires: number = -1, usagePolicy: number = 0, ownerId: number = 0, ownerName: string = '', synchronized: boolean = true, realRoomObject: boolean = true, sizeZ: number = -1, allowStack: boolean = false, allowSit: boolean = false, allowLay: boolean = false, allowWalk: boolean = false, dimensionsX: number = 0, dimensionsY: number = 0, teleportTargetId: number = 0): boolean
+    public addFurnitureFloorByTypeName(roomId: number, id: number, typeName: string, location: IVector3D, direction: IVector3D, state: number, objectData: IObjectData, extra: number = NaN, expires: number = -1, usagePolicy: number = 0, ownerId: number = 0, ownerName: string = '', synchronized: boolean = true, realRoomObject: boolean = true, sizeZ: number = -1): boolean
     {
         const instanceData = this.getRoomInstanceData(roomId);
 
         if(!instanceData) return false;
 
-        const furnitureData = new RoomFurnitureData(id, 0, typeName, location, direction, state, objectData, extra, expires, usagePolicy, ownerId, ownerName, synchronized, realRoomObject, sizeZ, allowStack, allowSit, allowLay, allowWalk, dimensionsX, dimensionsY, teleportTargetId);
+        const furnitureData = new RoomFurnitureData(id, 0, typeName, location, direction, state, objectData, extra, expires, usagePolicy, ownerId, ownerName, synchronized, realRoomObject, sizeZ);
 
         instanceData.addPendingFurnitureFloor(furnitureData);
 
         return true;
     }
 
-    public addFurnitureWall(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, extra: string, expires: number = -1, usagePolicy: number = 0, ownerId: number = 0, ownerName: string = '', realRoomObject: boolean = true, allowStack: boolean = false, allowSit: boolean = false, allowLay: boolean = false, allowWalk: boolean = false, dimensionsX: number = 0, dimensionsY: number = 0, teleportTargetId: number = 0): boolean
+    public addFurnitureWall(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, extra: string, expires: number = -1, usagePolicy: number = 0, ownerId: number = 0, ownerName: string = '', realRoomObject: boolean = true): boolean
     {
         const instanceData = this.getRoomInstanceData(roomId);
 
@@ -2042,7 +2048,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         objectData.setString(extra);
 
-        const furnitureData = new RoomFurnitureData(id, typeId, null, location, direction, state, objectData, NaN, expires, usagePolicy, ownerId, ownerName, true, realRoomObject, -1, allowStack, allowSit, allowLay, allowWalk, dimensionsX, dimensionsY, teleportTargetId);
+        const furnitureData = new RoomFurnitureData(id, typeId, null, location, direction, state, objectData, NaN, expires, usagePolicy, ownerId, ownerName, true, realRoomObject, -1);
 
         instanceData.addPendingFurnitureWall(furnitureData);
 

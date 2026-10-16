@@ -1,4 +1,5 @@
 export * from './enums';
+export * from './IFurnitureMetadata';
 export * from './IGetImageListener';
 export * from './IImageResult';
 export * from './IPetColorResult';
