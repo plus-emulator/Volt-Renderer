@@ -19,10 +19,21 @@ export const OBJECT_ALTITUDE_DEPTH: number = 0.2;
 // room push the sofa 0.2 forward of its own sitter, which paints the whole seat
 // over the avatar. Ride-on furniture carries standing riders, so it keeps the
 // full weighting.
+//
+// A horse rider is raised one unit above the horse it shares a tile with. AIR
+// adds no altitude to sort depth, so the horse's own layer offsets decide the
+// order: head and mane in front of the rider, body and tail behind it. Weight
+// the rider at the horse's altitude to keep that order.
+const RIDING_EFFECTS: number[] = [77, 103];
+const RIDING_HEIGHT: number = 1;
+
 export const getObjectAltitudeDepth = (object: IRoomObject): number =>
 {
     const altitude = object.getLocation().z;
     const posture = object.model?.getValue<string>(RoomObjectVariable.FIGURE_POSTURE);
+    const effect = object.model?.getValue<number>(RoomObjectVariable.FIGURE_EFFECT);
+
+    if(RIDING_EFFECTS.indexOf(effect) >= 0) return (Math.max(0, (altitude - RIDING_HEIGHT)) * OBJECT_ALTITUDE_DEPTH);
 
     if((posture === AvatarAction.POSTURE_SIT) || (posture === AvatarAction.POSTURE_LAY))
     {
