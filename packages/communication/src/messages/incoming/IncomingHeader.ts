@@ -35,6 +35,9 @@ export class IncomingHeader
     public static FURNITURE_FLOOR_ADD = 559;
     public static FURNITURE_FLOOR_REMOVE = 996;
     public static FURNITURE_FLOOR_UPDATE = 2875;
+    // Plus-only (custom id, not an AIR id): furniture metadata batch sent after each Objects, ObjectAdd, ObjectUpdate,
+    // Items, ItemAdd and ItemUpdate. 5120 is unused on AIR WIN63-202610131318-860371703 (incoming).
+    public static FURNITURE_METADATA = 5120;
     public static FURNITURE_ITEMDATA = 2703;
     public static FURNITURE_STATE = 1700;
     public static FURNITURE_GROUP_CONTEXT_MENU_INFO = 1315;
