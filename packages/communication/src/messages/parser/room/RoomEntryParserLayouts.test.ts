@@ -2,6 +2,7 @@ import { BinaryReader, BinaryWriter } from '@volt/utils';
 import { describe, expect, it } from 'vitest';
 import { EvaWireDataWrapper } from '../../../codec/evawire/EvaWireDataWrapper';
 import { WiredEnvironmentParser } from '../roomevents/WiredEnvironmentParser';
+import { WiredPermissionsParser } from '../roomevents/WiredPermissionsParser';
 import { RoomEnterParser } from './access/RoomEnterParser';
 import { RoomRightsOwnerParser } from './access/rights/RoomRightsOwnerParser';
 import { RoomUnitInfoParser } from './unit/RoomUnitInfoParser';
@@ -59,6 +60,16 @@ describe('room entry parsers (AIR WIN63-202610131318-860371703)', () =>
         expect(parser.parse(wrapper)).toBe(true);
         expect(parser.hasClickUserWired).toBe(true);
         expect(parser.enabledAchievements).toEqual([ 'ACH_RoomEntry' ]);
+        expect(wrapper.bytesAvailable).toBe(false);
+    });
+
+    it('WiredPermissions reads canModify then canRead and ends there', () =>
+    {
+        const wrapper = wrapperOf([ [ 'bool', true ], [ 'bool', false ] ]);
+        const parser = new WiredPermissionsParser();
+
+        expect(parser.parse(wrapper)).toBe(true);
+        expect([ parser.canModify, parser.canRead ]).toEqual([ true, false ]);
         expect(wrapper.bytesAvailable).toBe(false);
     });
 

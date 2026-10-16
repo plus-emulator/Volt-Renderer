@@ -1,4 +1,5 @@
 export * from './WiredEnvironmentEvent';
+export * from './WiredPermissionsEvent';
 export * from './WiredFurniActionEvent';
 export * from './WiredFurniConditionEvent';
 export * from './WiredFurniMoveStyleEvent';

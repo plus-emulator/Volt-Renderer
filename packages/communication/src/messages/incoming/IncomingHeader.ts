@@ -315,6 +315,8 @@ export class IncomingHeader
     // AIR 13 wired leftovers. 420 (WiredClickUserResponse) takes a custom id. Incoming 2901 is
     // class_3459 WiredUserVisualizationState (WIRED_USER_VISUALIZATION_STATE); outgoing 2901 is USER_MOTTO.
     public static WIRED_ENVIRONMENT = 3583;
+    // Wired menu permissions, sent on room entry. package_121.class_3679 (new 3061), parser class_2713.
+    public static WIRED_PERMISSIONS = 2054;
     public static WIRED_CLICK_SETTINGS = 1136;
     public static WIRED_LOG_PAGE = 1028; // WiredRoomLogs, class_3640 -> parser class_4087 / WiredLogPage (new 32)
     public static WIRED_ALL_VARIABLES_HASH = 2585;
