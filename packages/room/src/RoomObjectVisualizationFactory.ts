@@ -50,7 +50,11 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
             case RoomObjectVisualizationType.PET_ANIMATED:
                 visualization = PetVisualization;
                 break;
+            // AIR WIN63-202610131318-860371703 RoomObjectVisualizationFactory.as:180-186: furniture_label (class_1845) and
+            // furniture_region (class_1848) are plain FurnitureVisualization subclasses with no code of their own.
             case RoomObjectVisualizationType.FURNITURE_STATIC:
+            case RoomObjectVisualizationType.FURNITURE_LABEL:
+            case RoomObjectVisualizationType.FURNITURE_REGION:
                 visualization = FurnitureVisualization;
                 break;
             case RoomObjectVisualizationType.FURNITURE_BRANDED_IMAGE:
@@ -173,6 +177,8 @@ export class RoomObjectVisualizationFactory implements IRoomObjectVisualizationF
         switch(visualization)
         {
             case RoomObjectVisualizationType.FURNITURE_STATIC:
+            case RoomObjectVisualizationType.FURNITURE_LABEL:
+            case RoomObjectVisualizationType.FURNITURE_REGION:
             case RoomObjectVisualizationType.FURNITURE_BRANDED_IMAGE:
             case RoomObjectVisualizationType.FURNITURE_GIFT_WRAPPED:
             case RoomObjectVisualizationType.FURNITURE_BB:

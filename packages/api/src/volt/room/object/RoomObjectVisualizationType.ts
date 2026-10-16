@@ -1,6 +1,8 @@
 export class RoomObjectVisualizationType
 {
     public static FURNITURE_STATIC = 'furniture_static';
+    public static FURNITURE_LABEL = 'furniture_label';
+    public static FURNITURE_REGION = 'furniture_region';
     public static FURNITURE_BRANDED_IMAGE = 'furniture_branded_image';
     public static FURNITURE_ANIMATED = 'furniture_animated';
     public static FURNITURE_RESETTING_ANIMATED = 'furniture_resetting_animated';
