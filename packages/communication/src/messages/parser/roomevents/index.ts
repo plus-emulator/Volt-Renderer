@@ -3,6 +3,7 @@ export * from './Triggerable';
 export * from './TriggerDefinition';
 export * from './WiredActionDefinition';
 export * from './WiredEnvironmentParser';
+export * from './WiredPermissionsParser';
 export * from './WiredFurniActionParser';
 export * from './WiredFurniConditionParser';
 export * from './WiredFurniMoveStyleParser';

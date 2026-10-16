@@ -18901,6 +18901,14 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
+      "header": 2054,
+      "symbol": "WIRED_PERMISSIONS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredPermissionsParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
       "header": 5108,
       "symbol": "WIRED_FURNI_RUNTIME_STATE",
       "path": "packages/communication/src/messages/parser/roomevents/WiredFurniRuntimeStateParser.ts",
