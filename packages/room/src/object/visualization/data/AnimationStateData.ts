@@ -111,9 +111,26 @@ export class AnimationStateData
 
                 if(frame)
                 {
+                    // AIR WIN63-202610131318-860371703,
+                    // com/sulake/habbo/room/object/visualization/data/AnimationStateData.as:110-111
+                    // recycles the frame and immediately calls
+                    // AnimationFrame.allocate(id, x, y, repeats, 0, isLastFrame) without a
+                    // sequence. AnimationFrame.as:58-62 only writes activeSequence /
+                    // activeSequenceOffset when one is passed (param7 >= 0), and the
+                    // LIFO pool (AnimationFrame.as:41, 132-141) hands the same object back.
+                    // The active sequence and offset therefore carry over into the new
+                    // animation id, so AnimatedFurnitureVisualization.updateFramesForAnimation
+                    // (AnimatedFurnitureVisualization.as:343-354) continues with
+                    // getFrameFromSequence(offset + repeats) instead of restarting at frame 0.
+                    // This keeps a transition (e.g. wf_antenna2 100 <-> 101) running across
+                    // fast 0/1 state flips. Pass them explicitly so the result does not
+                    // depend on the pool.
+                    const activeSequence = frame.activeSequence;
+                    const activeSequenceOffset = frame.activeSequenceOffset;
+
                     frame.recycle();
 
-                    this._frames[layerId] = AnimationFrame.allocate(frame.id, frame.x, frame.y, frame.repeats, 0, frame.isLastFrame);
+                    this._frames[layerId] = AnimationFrame.allocate(frame.id, frame.x, frame.y, frame.repeats, 0, frame.isLastFrame, activeSequence, activeSequenceOffset);
                 }
             }
 
