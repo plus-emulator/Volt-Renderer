@@ -34,8 +34,8 @@ void main(void)
 
 // Rebuilds what the old bake produced: a TilingSprite drawn through the plane's skew matrix into a
 // w x h RGBA8 texture (Pixi's tiling math, tint, 8-bit store, PlaneMaskFilter's black cut-out), which
-// the canvas then sampled with a clamp-to-edge sampler of the default scale mode (nearest on Habz,
-// linear in plain Pixi). Each fragment rebuilds the texel(s) that sampler would have read and blends
+// the canvas then sampled with a clamp-to-edge sampler of the default scale mode (nearest in the
+// reference client, linear in plain Pixi). Each fragment rebuilds the texel(s) that sampler would have read and blends
 // them the same way. Texels under a baked patch (door
 // and window masks, landscapes) are read from that patch instead, so every texel has exactly one source.
 const FRAGMENT = `#version 300 es
