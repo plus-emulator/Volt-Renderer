@@ -204,7 +204,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
     public removeRoomInstance(roomId: number): void
     {
-        this._furnitureMetadata.delete(roomId);
+        this._furnitureMetadata?.delete(roomId);
         this._roomsWithInitializedObjects.delete(roomId);
         this._initializedRooms.delete(roomId);
         this._roomObjectEventHandler.setGameInputHandler(roomId, null);
