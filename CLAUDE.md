@@ -1,5 +1,9 @@
 # Volt Renderer — Claude project context
 
+## Tests
+
+- Never write new tests in this repo: no Vitest unit, component, hook or renderer tests, and no new `*.test.ts(x)` files. Verify a change by building it and checking it in the running client.
+
 Pure-TypeScript renderer library for the Volt retro Habbo client.
 Wraps **PixiJS v8** for room/avatar rendering and provides the WebSocket
 + event-bus infrastructure that the React client (`../volt`) sits on
