@@ -10814,7 +10814,13 @@
         "className": "RoomRightsOwnerParser",
         "path": "packages/communication/src/messages/parser/room/access/rights/RoomRightsOwnerParser.ts"
       },
-      "fields": []
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": ""
+        }
+      ]
     },
     {
       "name": "HAND_ITEM_RECEIVED",
@@ -11364,7 +11370,13 @@
         "className": "RoomEnterParser",
         "path": "packages/communication/src/messages/parser/room/access/RoomEnterParser.ts"
       },
-      "fields": []
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": ""
+        }
+      ]
     },
     {
       "name": "GROUP_HABBO_JOIN_FAILED",
@@ -16873,48 +16885,6 @@
       ]
     },
     {
-      "name": "UNIT_INFO",
-      "direction": "server_to_client",
-      "header": 2130,
-      "java": {
-        "symbol": "RoomUserDataComposer",
-        "className": "RoomUserDataComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/users/RoomUserDataComposer.java"
-      },
-      "typescript": {
-        "symbol": "UNIT_INFO",
-        "className": "RoomUnitInfoParser",
-        "path": "packages/communication/src/messages/parser/room/unit/RoomUnitInfoParser.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": ""
-        }
-      ]
-    },
-    {
       "name": "COMPETITION_SECONDS_UNTIL",
       "direction": "server_to_client",
       "header": 534,
@@ -19687,6 +19657,22 @@
     {"direction": "server_to_client", "side": "typescript", "header": 72, "symbol": "WIRED_CONTRACT_UPDATE_RESULT", "path": "packages/communication/src/messages/parser/roomevents/WiredContractUpdateResultParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."}
   ],
   "exemptions": [
+    {
+      "name": "UNIT_INFO",
+      "direction": "server_to_client",
+      "header": 2130,
+      "java": {
+        "symbol": "RoomUserDataComposer",
+        "className": "RoomUserDataComposer",
+        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/users/RoomUserDataComposer.java"
+      },
+      "typescript": {
+        "symbol": "UNIT_INFO",
+        "className": "RoomUnitInfoParser",
+        "path": "packages/communication/src/messages/parser/room/unit/RoomUnitInfoParser.ts"
+      },
+      "reason": "TypeScript analyzer: Data-dependent packet operations in ForStatement inside parse"
+    },
     {
       "name": "FURNITURE_PICKUP",
       "direction": "client_to_server",

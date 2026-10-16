@@ -32,6 +32,7 @@ export class UserMessageData
     private _petPosture: string = '';
     private _botSkills: number[] = [];
     private _isModerator: boolean = false;
+    private _badgesRank: number = -1;
     private _roomEntryMethod: string = 'unknown';
     private _roomEntryTeleportId: number = 0;
     private _isReadOnly: boolean = false;
@@ -409,6 +410,19 @@ export class UserMessageData
         if(!this._isReadOnly)
         {
             this._isModerator = value;
+        }
+    }
+
+    public get badgesRank(): number
+    {
+        return this._badgesRank;
+    }
+
+    public set badgesRank(value: number)
+    {
+        if(!this._isReadOnly)
+        {
+            this._badgesRank = value;
         }
     }
 

@@ -8,6 +8,10 @@ function parseLocaleFloat(value: string): number
     return parseFloat(value.replace(',', '.'));
 }
 
+/**
+ * Users (AIR WIN63-202610131318-860371703 incoming 123, class_2291.parse L72-186): every entry ends with the
+ * branch for its user type.
+ */
 export class RoomUnitParser implements IMessageParser
 {
     private _users: UserMessageData[];
@@ -69,6 +73,7 @@ export class RoomUnitParser implements IMessageParser
                 user.figure = figure;
                 user.activityPoints = wrapper.readInt();
                 user.isModerator = wrapper.readBoolean();
+                user.badgesRank = wrapper.readInt();
             }
 
             else if(type === 2)
@@ -128,9 +133,6 @@ export class RoomUnitParser implements IMessageParser
                     user.botSkills = skills;
                 }
             }
-
-            user.roomEntryMethod = wrapper.readString();
-            user.roomEntryTeleportId = wrapper.readInt();
 
             i++;
         }
