@@ -468,7 +468,12 @@ export class AvatarLogic extends MovingObjectLogic
 
         if(message instanceof ObjectAvatarFlatControlUpdateMessage)
         {
-            model.setValue(RoomObjectVariable.FIGURE_FLAT_CONTROL, message.level);
+            // AIR WIN63-202610151745-318700621 AvatarLogic.as:358: anything but a level of 0-5 is 0.
+            // Every status packet clears it with a null level; a NaN never equals itself, so it
+            // used to count as a model change for every user on every packet.
+            const level = message.level;
+
+            model.setValue(RoomObjectVariable.FIGURE_FLAT_CONTROL, ((level >= 0) && (level <= 5)) ? level : 0);
 
             return;
         }
