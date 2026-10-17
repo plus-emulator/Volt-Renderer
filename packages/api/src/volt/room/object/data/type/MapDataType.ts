@@ -72,6 +72,12 @@ export class MapDataType extends ObjectDataBase
         return this._data[key];
     }
 
+    /** Copy-on-write so a map read from a room object model is never changed in place. */
+    public setValue(key: string, value: string): void
+    {
+        this._data = { ...this._data, [key]: value };
+    }
+
     public get rarityLevel(): number
     {
         if(!this._data) return -1;

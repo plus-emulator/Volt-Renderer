@@ -1,4 +1,4 @@
-import { CanonicalWiredMovement, IsBuildersClubFurniId, IsTemporaryFurniId, IFurnitureMetadata, IFurnitureMetadataEntry, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
+import { CanonicalWiredMovement, IsBuildersClubFurniId, IsTemporaryFurniId, IFurnitureMetadata, IFurnitureMetadataEntry, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MapDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '@volt/communication';
 import { GetConfiguration } from '@volt/configuration';
 import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomZoomEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
@@ -2073,6 +2073,31 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         }
 
         return true;
+    }
+
+    /**
+     * AIR WIN63-202610131318-860371703 `room/class_56.as` `updateFurnitureColor`: writes the new `r`, `g`, `b`
+     * into each furni's MapData and replays it as a data update, keeping its state and unique serial.
+     */
+    public updateFurnitureColor(roomId: number, objectIds: number[], red: number, green: number, blue: number): void
+    {
+        if(!objectIds) return;
+
+        for(const objectId of objectIds)
+        {
+            const object = this.getRoomObjectFloor(roomId, objectId);
+
+            if(!object || !object.model) continue;
+
+            const data = new MapDataType();
+
+            data.initializeFromRoomObjectModel(object.model);
+            data.setValue('r', String(red));
+            data.setValue('g', String(green));
+            data.setValue('b', String(blue));
+
+            this.updateRoomObjectFloor(roomId, objectId, null, null, object.getState(0), data);
+        }
     }
 
     public updateRoomObjectWall(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, extra: string = null): boolean
