@@ -3,13 +3,12 @@ import { AvatarImageDirectionCache } from './AvatarImageDirectionCache';
 
 export class AvatarImageActionCache
 {
-    // Directions kept per action. Each one holds a baked Pixi container per animation frame, and a
-    // walking avatar visits all eight; with the finished frames cached in AvatarImage, a rebuild only
-    // costs the first frames after turning back to an evicted direction. Three covers a head turned
-    // either side of the body.
-    private static MAX_DIRECTIONS: number = 3;
+    // Directions kept per action. A part is a short layer list now, not a Pixi container, so all
+    // eight fit: a walking avatar turns often, and a crowd that is redrawn less often (see
+    // AvatarCompositeBudget) would otherwise rebuild its parts on almost every redraw.
+    private static MAX_DIRECTIONS: number = 8;
 
-    private _cache: Map<string, AvatarImageDirectionCache>;
+    private _cache: Map<number, AvatarImageDirectionCache>;
     private _lastAccessTime: number;
 
     constructor()
@@ -35,27 +34,22 @@ export class AvatarImageActionCache
 
     public getDirectionCache(direction: number): AvatarImageDirectionCache
     {
-        const key = direction.toString();
-        const existing = this._cache.get(key);
+        const existing = this._cache.get(direction);
 
         if(!existing) return null;
 
-        // Most recently used last, so the oldest direction is the first one evicted.
-        this._cache.delete(key);
-        this._cache.set(key, existing);
-
+        // All eight directions fit, so nothing is evicted and lookups need no reordering.
         return existing;
     }
 
     public updateDirectionCache(direction: number, directionCache: AvatarImageDirectionCache): void
     {
-        const key = direction.toString();
-        const existing = this._cache.get(key);
+        const existing = this._cache.get(direction);
 
         if(existing && (existing !== directionCache)) existing.dispose();
 
-        this._cache.delete(key);
-        this._cache.set(key, directionCache);
+        this._cache.delete(direction);
+        this._cache.set(direction, directionCache);
 
         // Safe mid-frame: one body part uses one direction per frame, and this is that part's cache.
         while(this._cache.size > AvatarImageActionCache.MAX_DIRECTIONS)

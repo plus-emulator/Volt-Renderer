@@ -7,6 +7,8 @@ export class ActiveActionData implements IActiveActionData
     private _definition: IActionDefinition;
     private _startFrame: number;
     private _overridingAction: string;
+    // Looked up for every body part of every redraw; built once instead of each time.
+    private _id: string = null;
 
     constructor(action: string, parameter: string = '', startFrame: number = 0)
     {
@@ -28,7 +30,9 @@ export class ActiveActionData implements IActiveActionData
     {
         if(!this._definition) return '';
 
-        return this._definition.id + '_' + this._actionParameter;
+        if(this._id === null) this._id = (this._definition.id + '_' + this._actionParameter);
+
+        return this._id;
     }
 
     public get actionType(): string
@@ -44,6 +48,7 @@ export class ActiveActionData implements IActiveActionData
     public set actionParameter(parameter: string)
     {
         this._actionParameter = parameter;
+        this._id = null;
     }
 
     public get definition(): IActionDefinition
@@ -54,6 +59,7 @@ export class ActiveActionData implements IActiveActionData
     public set definition(definition: IActionDefinition)
     {
         this._definition = definition;
+        this._id = null;
     }
 
     public get startFrame(): number

@@ -33,3 +33,4 @@ export * from './filters';
 export * from './motion';
 
 export * from './TextureContentVersion';
+export * from './RegionHitMap';
