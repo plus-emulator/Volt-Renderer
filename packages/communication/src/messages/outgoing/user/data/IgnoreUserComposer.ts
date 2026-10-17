@@ -4,9 +4,9 @@ export class IgnoreUserComposer implements IMessageComposer<ConstructorParameter
 {
     private _data: ConstructorParameters<typeof IgnoreUserComposer>;
 
-    constructor(username: string)
+    constructor(userId: number)
     {
-        this._data = [username];
+        this._data = [userId];
     }
 
     public getMessageArray()

@@ -12,9 +12,9 @@ export class VoltSettingsEvent extends VoltEvent
     private _cameraFollow: boolean;
     private _flags: number;
     private _chatType: number;
-    private _onlineStatusVisible: boolean;
-    private _friendsCanFollow: boolean;
-    private _friendRequestsAllowed: boolean;
+    private _wiredMenuButton: boolean;
+    private _wiredInspectButton: boolean;
+    private _playTestMode: boolean;
     private _profileVisible: boolean = true;
 
     constructor()
@@ -34,9 +34,9 @@ export class VoltSettingsEvent extends VoltEvent
         clone._cameraFollow = this._cameraFollow;
         clone._flags = this._flags;
         clone._chatType = this._chatType;
-        clone._onlineStatusVisible = this._onlineStatusVisible;
-        clone._friendsCanFollow = this._friendsCanFollow;
-        clone._friendRequestsAllowed = this._friendRequestsAllowed;
+        clone._wiredMenuButton = this._wiredMenuButton;
+        clone._wiredInspectButton = this._wiredInspectButton;
+        clone._playTestMode = this._playTestMode;
         clone._profileVisible = this._profileVisible;
 
         return clone;
@@ -122,34 +122,34 @@ export class VoltSettingsEvent extends VoltEvent
         this._chatType = type;
     }
 
-    public get onlineStatusVisible(): boolean
+    public get wiredMenuButton(): boolean
     {
-        return this._onlineStatusVisible;
+        return this._wiredMenuButton;
     }
 
-    public set onlineStatusVisible(value: boolean)
+    public set wiredMenuButton(value: boolean)
     {
-        this._onlineStatusVisible = value;
+        this._wiredMenuButton = value;
     }
 
-    public get friendsCanFollow(): boolean
+    public get wiredInspectButton(): boolean
     {
-        return this._friendsCanFollow;
+        return this._wiredInspectButton;
     }
 
-    public set friendsCanFollow(value: boolean)
+    public set wiredInspectButton(value: boolean)
     {
-        this._friendsCanFollow = value;
+        this._wiredInspectButton = value;
     }
 
-    public get friendRequestsAllowed(): boolean
+    public get playTestMode(): boolean
     {
-        return this._friendRequestsAllowed;
+        return this._playTestMode;
     }
 
-    public set friendRequestsAllowed(value: boolean)
+    public set playTestMode(value: boolean)
     {
-        this._friendRequestsAllowed = value;
+        this._playTestMode = value;
     }
 
     /** Whether other users see the full extended profile. */

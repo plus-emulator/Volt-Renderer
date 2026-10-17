@@ -4,9 +4,9 @@ export class GetWardrobeMessageComposer implements IMessageComposer<ConstructorP
 {
     private _data: ConstructorParameters<typeof GetWardrobeMessageComposer>;
 
-    constructor(pageId: number = 0)
+    constructor()
     {
-        this._data = [pageId];
+        this._data = [];
     }
 
     public getMessageArray()

@@ -23,7 +23,6 @@ export class CommunicationManager implements ICommunicationManager
 
     private _machineIdPromise: Promise<string> | null = null;
     private _initResolved: boolean = false;
-    private _recoveryToken: string = '';
 
     private async generateMachineID(): Promise<string>
     {
@@ -51,10 +50,7 @@ export class CommunicationManager implements ICommunicationManager
         // Send the machine fingerprint (UniqueID) BEFORE the SSO ticket so the server
         // has the machineId available when it processes the login in Habbo.connect().
         this._connection.send(new UniqueIDMessageComposer(machineId, '', ''));
-        this._connection.send(new SSOTicketMessageComposer(
-            ticket,
-            GetTickerTime(),
-            this._recoveryToken));
+        this._connection.send(new SSOTicketMessageComposer(ticket, GetTickerTime()));
     }
 
     constructor()
@@ -105,9 +101,6 @@ export class CommunicationManager implements ICommunicationManager
             const authEvent = new AuthenticatedEvent((event: AuthenticatedEvent) =>
             {
                 const isReconnect = this._initResolved;
-                const parser = event.getParser();
-
-                this._recoveryToken = parser.recoveryToken;
 
                 VoltLogger.log('[CommunicationManager] AuthenticatedEvent received (isReconnect=' + isReconnect + ')');
 
@@ -132,8 +125,8 @@ export class CommunicationManager implements ICommunicationManager
                     VoltLogger.log('[CommunicationManager] Dispatching SOCKET_REAUTHENTICATED');
                     GetEventDispatcher().dispatchEvent(new SocketReauthenticatedEvent(
                         VoltEventType.SOCKET_REAUTHENTICATED,
-                        parser.sessionResumed,
-                        parser.roomId));
+                        false,
+                        0));
                 }
             });
 
@@ -191,7 +184,6 @@ export class CommunicationManager implements ICommunicationManager
             this._connection.removeMessageEvent(event);
         }
         this._messageEvents = [];
-        this._recoveryToken = '';
     }
 
     protected startPong(): void

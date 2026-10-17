@@ -4,9 +4,9 @@ export class SSOTicketMessageComposer implements IMessageComposer<ConstructorPar
 {
     private _data: ConstructorParameters<typeof SSOTicketMessageComposer>;
 
-    constructor(ticket: string, time: number, recoveryToken: string = '')
+    constructor(ticket: string, time: number)
     {
-        this._data = [ ticket, time, recoveryToken ];
+        this._data = [ ticket, time ];
     }
 
     public getMessageArray()

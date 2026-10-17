@@ -1,12 +1,13 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
+/** AIR WIN63-202610151745-318700621 package_37/class_4333.as:23: the ignored user ids. */
 export class IgnoredUsersParser implements IMessageParser
 {
-    private _ignoredUsers: string[];
+    private _ignoredUserIds: number[];
 
     public flush(): boolean
     {
-        this._ignoredUsers = [];
+        this._ignoredUserIds = [];
 
         return true;
     }
@@ -15,13 +16,13 @@ export class IgnoredUsersParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        this._ignoredUsers = [];
+        this._ignoredUserIds = [];
 
         let count = wrapper.readInt();
 
         while(count > 0)
         {
-            this._ignoredUsers.push(wrapper.readString());
+            this._ignoredUserIds.push(wrapper.readInt());
 
             count--;
         }
@@ -29,8 +30,8 @@ export class IgnoredUsersParser implements IMessageParser
         return true;
     }
 
-    public get ignoredUsers(): string[]
+    public get ignoredUserIds(): number[]
     {
-        return this._ignoredUsers;
+        return this._ignoredUserIds;
     }
 }
