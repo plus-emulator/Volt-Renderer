@@ -20,6 +20,8 @@ export class OutgoingHeader
     public static GET_CLUB_GIFT_INFO = 638;
     public static GET_CATALOG_INDEX = 2041;
     public static GET_CATALOG_PAGE = 2955;
+    public static BUILDERS_CLUB_PLACE_ROOM_ITEM = 141;
+    public static BUILDERS_CLUB_PLACE_WALL_ITEM = 3269;
     public static CATALOG_PURCHASE = 1184;
     public static CATALOG_PURCHASE_GIFT = 2809;
     public static GET_PRODUCT_OFFER = 2810;

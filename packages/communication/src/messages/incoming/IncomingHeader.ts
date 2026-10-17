@@ -22,6 +22,8 @@ export class IncomingHeader
     public static PRODUCT_OFFER = 1684;
     public static LIMITED_SOLD_OUT = 395;
     public static CATALOG_PUBLISHED = 2750;
+    public static BUILDERS_CLUB_SUBSCRIPTION_STATUS = 1910;
+    public static BUILDERS_CLUB_FURNI_COUNT = 3928;
     public static CFH_RESULT_MESSAGE = 2428;
     public static CLIENT_LATENCY = 3742;
     public static CLIENT_PING = 3107;
