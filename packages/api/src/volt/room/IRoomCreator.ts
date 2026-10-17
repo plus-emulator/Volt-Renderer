@@ -33,6 +33,7 @@ export interface IRoomCreator
     addFurnitureWall(roomId: number, id: number, typeId: number, location: IVector3D, direction: IVector3D, state: number, extra: string, expires?: number, usagePolicy?: number, ownerId?: number, ownerName?: string, realRoomObject?: boolean): boolean;
     removeRoomObjectFloor(roomId: number, objectId: number, userId?: number, dispatchToWiredHandler?: boolean): void;
     removeRoomObjectWall(roomId: number, objectId: number, userId?: number): void;
+    updateFurnitureColor(roomId: number, objectIds: number[], red: number, green: number, blue: number): void;
     updateRoomObjectFloor(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, data: IObjectData, extra?: number): boolean;
     updateRoomObjectWall(roomId: number, objectId: number, location: IVector3D, direction: IVector3D, state: number, extra?: string): boolean;
     updateRoomObjectWallLocation(roomId: number, objectId: number, location: IVector3D, targetLocation?: IVector3D, duration?: number): boolean;
