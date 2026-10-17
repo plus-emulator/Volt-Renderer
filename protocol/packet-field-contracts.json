@@ -19637,7 +19637,23 @@
     {"direction": "client_to_server", "side": "typescript", "header": 3632, "symbol": "WIRED_CONTRACT_UPDATE", "path": "packages/communication/src/messages/outgoing/roomevents/UpdateWiredContractComposer.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
     {"direction": "server_to_client", "side": "typescript", "header": 1751, "symbol": "WIRED_CONTRACT_OPEN", "path": "packages/communication/src/messages/parser/roomevents/WiredContractOpenParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
     {"direction": "server_to_client", "side": "typescript", "header": 1261, "symbol": "WIRED_CONTRACT_CONTENTS", "path": "packages/communication/src/messages/parser/roomevents/WiredContractContentsParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
-    {"direction": "server_to_client", "side": "typescript", "header": 3567, "symbol": "WIRED_CONTRACT_UPDATE_RESULT", "path": "packages/communication/src/messages/parser/roomevents/WiredContractUpdateResultParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."}
+    {"direction": "server_to_client", "side": "typescript", "header": 3567, "symbol": "WIRED_CONTRACT_UPDATE_RESULT", "path": "packages/communication/src/messages/parser/roomevents/WiredContractUpdateResultParser.ts", "reason": "Native AIR contract editor packet verified by docs/protocol/wired-native-contract-source-receipt.json and WiredContractProtocol.test.ts; no verified Java field contract is available. PlusEMU provides the companion implementation."},
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2612,
+      "symbol": "WIRED_GET_VARIABLES_FOR_OBJECT",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredGetVariablesForObjectComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1478,
+      "symbol": "WIRED_VARIABLES_FOR_OBJECT",
+      "path": "packages/communication/src/messages/incoming/roomevents/WiredVariablesForObjectEvent.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    }
   ],
   "exemptions": [
     {
