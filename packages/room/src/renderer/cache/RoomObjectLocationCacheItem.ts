@@ -3,6 +3,8 @@ import { Vector3d } from '@volt/utils';
 
 export class RoomObjectLocationCacheItem
 {
+    private static ROUNDED: Vector3d = new Vector3d();
+
     private _roomObjectVariableAccurateZ: string;
 
     private _location: Vector3d;
@@ -62,10 +64,17 @@ export class RoomObjectLocationCacheItem
 
             if(isNaN(accurateZ) || (accurateZ === 0))
             {
-                const rounded = new Vector3d(Math.round(location.x), Math.round(location.y), location.z);
+                const roundedX = Math.round(location.x);
+                const roundedY = Math.round(location.y);
 
-                if((rounded.x !== location.x) || (rounded.y !== location.y))
+                if((roundedX !== location.x) || (roundedY !== location.y))
                 {
+                    const rounded = RoomObjectLocationCacheItem.ROUNDED;
+
+                    rounded.x = roundedX;
+                    rounded.y = roundedY;
+                    rounded.z = location.z;
+
                     const roundedScreen = geometry.getScreenPosition(rounded);
 
                     this._screenLocation.assign(screenLocation);

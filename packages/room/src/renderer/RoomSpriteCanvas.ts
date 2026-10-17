@@ -479,7 +479,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             {
                 if(!object) continue;
 
-                spriteCount = (spriteCount + this.renderObject(object, object.instanceId.toString(), time, update, updateVisuals, spriteCount));
+                spriteCount = (spriteCount + this.renderObject(object, time, update, updateVisuals, spriteCount));
             }
         }
 
@@ -533,23 +533,24 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
     public removeFromCache(identifier: string): void
     {
-        this._objectCache.removeObjectCache(identifier);
+        this._objectCache.removeObjectCache(Number(identifier));
     }
 
-    private renderObject(object: IRoomObject, identifier: string, time: number, update: boolean, updateVisuals: boolean, count: number): number
+    private renderObject(object: IRoomObject, time: number, update: boolean, updateVisuals: boolean, count: number): number
     {
         if(!object) return 0;
 
+        const instanceId = object.instanceId;
         const visualization = object.visualization as IRoomObjectSpriteVisualization;
 
         if(!visualization)
         {
-            this.removeFromCache(identifier);
+            this._objectCache.removeObjectCache(instanceId);
 
             return 0;
         }
 
-        const cache = this.getCacheItem(identifier);
+        const cache = this.getCacheItem(instanceId);
         cache.objectId = object.instanceId;
 
         const locationCache = cache.location;
@@ -559,12 +560,12 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
         if(!vector)
         {
-            this.removeFromCache(identifier);
+            this._objectCache.removeObjectCache(instanceId);
 
             return 0;
         }
 
-        if(updateVisuals) visualization.update(this._geometry, time, (!sortableCache.isEmpty || update), (this._skipObjectUpdate && this._runningSlow));
+        if(updateVisuals) visualization.update(this._geometry, time, (!sortableCache.isEmpty || update), (this._skipObjectUpdate && this._runningSlow), !sortableCache.isEmpty);
 
         if(locationCache.locationChanged) update = true;
 
@@ -629,14 +630,16 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
                 this._sortableSprites.push(sortableSprite);
 
-                sortableSprite.name = identifier;
+                sortableSprite.name = instanceId.toString();
             }
 
             sortableSprite.sprite = sprite;
 
             if((sprite.spriteType === RoomObjectSpriteType.AVATAR) || (sprite.spriteType === RoomObjectSpriteType.AVATAR_OWN))
             {
-                sortableSprite.sprite.libraryAssetName = 'avatar_' + object.id;
+                // A sprite belongs to one object for life: name it once instead of building the
+                // same string every frame for every avatar.
+                if(!sprite.libraryAssetName.startsWith('avatar_')) sprite.libraryAssetName = 'avatar_' + object.id;
             }
 
             sortableSprite.x = (spriteX - this._screenOffsetX);
@@ -900,7 +903,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
         this._mouseListener = listener;
     }
 
-    private getCacheItem(id: string): RoomObjectCacheItem
+    private getCacheItem(id: number): RoomObjectCacheItem
     {
         return this._objectCache.getObjectCache(id);
     }

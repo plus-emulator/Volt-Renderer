@@ -5,6 +5,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
 import { WiredHighlightFilterCache } from '../WiredHighlightFilters';
 import { HalfSizeTextureCache } from '../HalfSizeTexture';
+import { AvatarCompositeBudget } from './AvatarCompositeBudget';
 import { AvatarVisualizationData } from './AvatarVisualizationData';
 import { ExpressionAdditionFactory, FloatingIdleZAddition, GameClickTargetAddition, GuideStatusBubbleAddition, HabbiconBubbleAddition, IAvatarAddition, MutedBubbleAddition, NumberBubbleAddition, TypingBubbleAddition } from './additions';
 
@@ -85,6 +86,12 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
     private _extraSpritesStartIndex: number;
     private _forcedAnimFrames: number;
     private _updatesUntilFrameUpdate: number;
+    private _cosmeticModelUpdate: boolean = false;
+    // updateObject reports every move of a visible avatar; this is only set when it turned.
+    private _turned: boolean = false;
+    // A redraw that was held back (off screen, or over the frame's budget) and is still owed.
+    private _pendingRedraw: boolean = false;
+    private _pendingStructuralRedraw: boolean = false;
 
     private _isAvatarReady: boolean;
     private _needsUpdate: boolean;
@@ -192,7 +199,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         this._disposed = true;
     }
 
-    public update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean): void
+    public update(geometry: IRoomGeometry, time: number, update: boolean, skipUpdate: boolean, visible: boolean = true): void
     {
         if(!this.object || !geometry || !this._data) return;
 
@@ -284,23 +291,43 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
         const update1 = (objectUpdate || updateModel || didScaleUpdate);
         const update2 = ((this._isAnimating || (this._forcedAnimFrames > 0)) && update);
+        const structural = (this._turned || didScaleUpdate || otherUpdate || (updateModel && !this._cosmeticModelUpdate));
+
+        this._turned = false;
 
         if(update1) this._forcedAnimFrames = AvatarVisualization.ANIMATION_FRAME_UPDATE_INTERVAL;
 
-        if(update1 || update2)
+        if(update1 || update2 || (this._pendingRedraw && visible))
         {
-            this.updateSpriteCounter++;
-
             this._forcedAnimFrames--;
             this._updatesUntilFrameUpdate--;
 
-            if((((this._updatesUntilFrameUpdate <= 0) || didScaleUpdate) || updateModel) || otherUpdate)
-            {
-                this._avatarImage.updateAnimationByFrames(1);
+            if(!((((this._updatesUntilFrameUpdate <= 0) || didScaleUpdate) || updateModel) || otherUpdate || this._pendingRedraw)) return;
 
-                this._updatesUntilFrameUpdate = AvatarVisualization.ANIMATION_FRAME_UPDATE_INTERVAL;
+            const avatarSprite = this.getSprite(AvatarVisualization.SPRITE_INDEX_AVATAR);
+
+            // Nothing to show yet: always draw. Otherwise an avatar off screen waits until it comes
+            // back, and animation-only frames wait for room in the frame's budget.
+            if(avatarSprite?.texture)
+            {
+                const urgent = (structural || this._pendingStructuralRedraw);
+
+                if(!visible || !AvatarCompositeBudget.allow(this.object.id, urgent))
+                {
+                    this._pendingRedraw = true;
+                    this._pendingStructuralRedraw = urgent;
+
+                    return;
+                }
             }
-            else return;
+
+            this._pendingRedraw = false;
+            this._pendingStructuralRedraw = false;
+            this.updateSpriteCounter++;
+
+            this._avatarImage.updateAnimationByFrames(1);
+
+            this._updatesUntilFrameUpdate = AvatarVisualization.ANIMATION_FRAME_UPDATE_INTERVAL;
 
             let canvasOffsets = this._avatarImage.getCanvasOffsets();
 
@@ -311,7 +338,10 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
             {
                 const highlightEnabled = ((this.object.model.getValue<number>(RoomObjectVariable.FIGURE_HIGHLIGHT_ENABLE) === 1) && (this.object.model.getValue<number>(RoomObjectVariable.FIGURE_HIGHLIGHT) === 1));
 
-                const avatarImage = this._avatarImage.processAsTexture(AvatarSetType.FULL, highlightEnabled);
+                const startedAt = performance.now();
+                const avatarImage = this._avatarImage.processAsTexture(AvatarSetType.FULL, highlightEnabled, true);
+
+                AvatarCompositeBudget.record(performance.now() - startedAt);
 
                 if(!this._isAnimating && this._avatarImage.isAnimating()) this._isAnimating = true;
 
@@ -602,6 +632,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         {
             update = true;
 
+            if(direction !== this._angle) this._turned = true;
+
             this._angle = direction;
 
             direction = (direction - (135 - 22.5));
@@ -613,6 +645,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         if((headDirection !== this._headAngle) || force)
         {
             update = true;
+
+            if(headDirection !== this._headAngle) this._turned = true;
 
             this._headAngle = headDirection;
 
@@ -642,11 +676,14 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
         const talk = (model.getValue<number>(RoomObjectVariable.FIGURE_TALK) > 0);
 
+        // Mouth and eye frames alone are cosmetic: AvatarCompositeBudget may hold them back.
+        let cosmeticUpdate = false;
+
         if(talk !== this._talk)
         {
             this._talk = talk;
 
-            needsUpdate = true;
+            cosmeticUpdate = true;
         }
 
         const expression = model.getValue<number>(RoomObjectVariable.FIGURE_EXPRESSION);
@@ -673,7 +710,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         {
             this._blink = blink;
 
-            needsUpdate = true;
+            cosmeticUpdate = true;
         }
 
         const gesture = (model.getValue<number>(RoomObjectVariable.FIGURE_GESTURE) || 0);
@@ -700,7 +737,9 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         {
             this._postureParameter = postureParameter;
 
-            needsUpdate = true;
+            // While walking the parameter is the next tile, new on every step; the picture is the same.
+            if(posture === AvatarAction.POSTURE_WALK) cosmeticUpdate = true;
+            else needsUpdate = true;
         }
 
         const canStandUp = model.getValue<boolean>(RoomObjectVariable.FIGURE_CAN_STAND_UP);
@@ -1007,8 +1046,9 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         }
 
         this.updateModelCounter = model.updateCounter;
+        this._cosmeticModelUpdate = (cosmeticUpdate && !needsUpdate);
 
-        return needsUpdate;
+        return (needsUpdate || cosmeticUpdate);
     }
 
     // Wired transparency, click-through and highlight apply to the avatar body sprite (AIR AvatarVisualization L530-545, L1546-1600).
