@@ -1,32 +1,29 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
+export interface ISanctionStatusType
+{
+    name: string;
+    lengthHours: number;
+    probationDays: number;
+}
+
+export interface ISanctionStatusEntry
+{
+    sanction: ISanctionStatusType;
+    reason: string;
+    isGradual: boolean;
+    probationHoursLeft: number;
+    nextSanction: ISanctionStatusType;
+}
+
+// AIR WIN63-202610151745-318700621 package_58/class_2526.as:24
 export class SanctionStatusMessageParser implements IMessageParser
 {
-    private _isSanctionNew: boolean;
-    private _isSanctionActive: boolean;
-    private _sanctionName: string;
-    private _sanctionLengthHours: number;
-    private _sanctionReason: string;
-    private _sanctionCreationTime: string;
-    private _probationHoursLeft: number;
-    private _nextSanctionName: string;
-    private _nextSanctionLengthHours: number;
-    private _hasCustomMute: boolean;
-    private _tradeLockExpiryTime: string;
+    private _sanctions: ISanctionStatusEntry[];
 
     public flush(): boolean
     {
-        this._isSanctionNew = false;
-        this._isSanctionActive = false;
-        this._sanctionName = null;
-        this._sanctionLengthHours = 0;
-        this._sanctionReason = null;
-        this._sanctionCreationTime = null;
-        this._probationHoursLeft = 0;
-        this._nextSanctionName = null;
-        this._nextSanctionLengthHours = 0;
-        this._hasCustomMute = false;
-        this._tradeLockExpiryTime = null;
+        this._sanctions = [];
 
         return true;
     }
@@ -35,80 +32,37 @@ export class SanctionStatusMessageParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        this._isSanctionNew = wrapper.readBoolean();
-        this._isSanctionActive = wrapper.readBoolean();
-        this._sanctionName = wrapper.readString();
-        this._sanctionLengthHours = wrapper.readInt();
+        this._sanctions = [];
 
-        wrapper.readInt();
+        let count = wrapper.readInt();
 
-        this._sanctionReason = wrapper.readString();
-        this._sanctionCreationTime = wrapper.readString();
-        this._probationHoursLeft = wrapper.readInt();
-        this._nextSanctionName = wrapper.readString();
-        this._nextSanctionLengthHours = wrapper.readInt();
+        while(count > 0)
+        {
+            const sanction = this.readSanctionType(wrapper);
+            const reason = wrapper.readString();
+            const isGradual = wrapper.readBoolean();
+            const probationHoursLeft = wrapper.readInt();
+            const nextSanction = this.readSanctionType(wrapper);
 
-        wrapper.readInt();
+            this._sanctions.push({ sanction, reason, isGradual, probationHoursLeft, nextSanction });
 
-        this._hasCustomMute = wrapper.readBoolean();
-
-        if(wrapper.bytesAvailable) this._tradeLockExpiryTime = wrapper.readString();
+            count--;
+        }
 
         return true;
     }
 
-    public get isSanctionNew(): boolean
+    private readSanctionType(wrapper: IMessageDataWrapper): ISanctionStatusType
     {
-        return this._isSanctionNew;
+        const name = wrapper.readString();
+        const lengthHours = wrapper.readInt();
+        const probationDays = wrapper.readInt();
+
+        return { name, lengthHours, probationDays };
     }
 
-    public get isSanctionActive(): boolean
+    public get sanctions(): ISanctionStatusEntry[]
     {
-        return this._isSanctionActive;
-    }
-
-    public get sanctionName(): string
-    {
-        return this._sanctionName;
-    }
-
-    public get sanctionLengthHours(): number
-    {
-        return this._sanctionLengthHours;
-    }
-
-    public get sanctionReason(): string
-    {
-        return this._sanctionReason;
-    }
-
-    public get sanctionCreationTime(): string
-    {
-        return this._sanctionCreationTime;
-    }
-
-    public get probationHoursLeft(): number
-    {
-        return this._probationHoursLeft;
-    }
-
-    public get nextSanctionName(): string
-    {
-        return this._nextSanctionName;
-    }
-
-    public get nextSanctionLengthHours(): number
-    {
-        return this._nextSanctionLengthHours;
-    }
-
-    public get hasCustomMute(): boolean
-    {
-        return this._hasCustomMute;
-    }
-
-    public get tradeLockExpiryTime(): string
-    {
-        return this._tradeLockExpiryTime;
+        return this._sanctions;
     }
 }
