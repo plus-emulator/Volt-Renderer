@@ -1,16 +1,17 @@
 import { IMessageDataWrapper, IMessageParser } from '@volt/api';
 
+/** AIR WIN63-202610151745-318700621 package_30/class_2929.as:30: account id, suggested login actions, identity id. */
 export class AuthenticatedParser implements IMessageParser
 {
-    private _sessionResumed: boolean = false;
-    private _roomId: number = 0;
-    private _recoveryToken: string = '';
+    private _accountId: number = -1;
+    private _suggestedLoginActions: number[] = [];
+    private _identityId: number = -1;
 
     public flush(): boolean
     {
-        this._sessionResumed = false;
-        this._roomId = 0;
-        this._recoveryToken = '';
+        this._accountId = -1;
+        this._suggestedLoginActions = [];
+        this._identityId = -1;
 
         return true;
     }
@@ -19,25 +20,34 @@ export class AuthenticatedParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        this._sessionResumed = wrapper.bytesAvailable ? wrapper.readBoolean() : false;
-        this._roomId = wrapper.bytesAvailable ? Math.max(wrapper.readInt(), 0) : 0;
-        this._recoveryToken = wrapper.bytesAvailable ? wrapper.readString() : '';
+        this._accountId = wrapper.readInt();
+
+        let count = wrapper.readInt();
+
+        while(count > 0)
+        {
+            this._suggestedLoginActions.push(wrapper.readShort());
+
+            count--;
+        }
+
+        this._identityId = wrapper.readInt();
 
         return true;
     }
 
-    public get sessionResumed(): boolean
+    public get accountId(): number
     {
-        return this._sessionResumed;
+        return this._accountId;
     }
 
-    public get roomId(): number
+    public get suggestedLoginActions(): number[]
     {
-        return this._roomId;
+        return this._suggestedLoginActions;
     }
 
-    public get recoveryToken(): string
+    public get identityId(): number
     {
-        return this._recoveryToken;
+        return this._identityId;
     }
 }

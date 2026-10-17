@@ -4814,11 +4814,6 @@
           "kind": "scalar",
           "type": "int",
           "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": ""
         }
       ]
     },
@@ -5377,13 +5372,7 @@
         "className": "GetWardrobeMessageComposer",
         "path": "packages/communication/src/messages/outgoing/avatar/GetWardrobeMessageComposer.ts"
       },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": ""
-        }
-      ]
+      "fields": []
     },
     {
       "name": "GET_CFH_STATUS",
@@ -7906,13 +7895,7 @@
         "className": "GetIgnoredUsersComposer",
         "path": "packages/communication/src/messages/outgoing/user/data/GetIgnoredUsersComposer.ts"
       },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": "requestedUsername"
-        }
-      ]
+      "fields": []
     },
     {
       "name": "WIRED_ROOM_LOGS_PAGE",
@@ -10693,12 +10676,12 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": ""
+          "name": "result"
         },
         {
           "kind": "scalar",
-          "type": "string",
-          "name": ""
+          "type": "int",
+          "name": "userId"
         }
       ]
     },
@@ -14576,38 +14559,6 @@
       ]
     },
     {
-      "name": "AUTHENTICATED",
-      "direction": "server_to_client",
-      "header": 2926,
-      "java": {
-        "symbol": "SecureLoginOKComposer",
-        "className": "SecureLoginOKComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/handshake/SecureLoginOKComposer.java"
-      },
-      "typescript": {
-        "symbol": "AUTHENTICATED",
-        "className": "AuthenticatedParser",
-        "path": "packages/communication/src/messages/parser/security/AuthenticatedParser.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "boolean",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": ""
-        },
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": ""
-        }
-      ]
-    },
-    {
       "name": "USER_BADGES_ADD",
       "direction": "server_to_client",
       "header": 1525,
@@ -14625,17 +14576,22 @@
         {
           "kind": "scalar",
           "type": "int",
-          "name": ""
+          "name": "badgeId"
         },
         {
           "kind": "scalar",
           "type": "string",
-          "name": ""
+          "name": "badgeCode"
         },
         {
           "kind": "scalar",
-          "type": "string",
-          "name": ""
+          "type": "int",
+          "name": "ownerCount"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "badgeRarityId"
         }
       ]
     },
@@ -21352,6 +21308,22 @@
         "path": "packages/communication/src/messages/parser/user/IgnoredUsersParser.ts"
       },
       "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in WhileStatement inside parse"
+    },
+    {
+      "name": "AUTHENTICATED",
+      "direction": "server_to_client",
+      "header": 2926,
+      "java": {
+        "symbol": "SecureLoginOKComposer",
+        "className": "SecureLoginOKComposer",
+        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/handshake/SecureLoginOKComposer.java"
+      },
+      "typescript": {
+        "symbol": "AUTHENTICATED",
+        "className": "AuthenticatedParser",
+        "path": "packages/communication/src/messages/parser/security/AuthenticatedParser.ts"
+      },
+      "reason": "Java analyzer: Data-dependent packet operations; TypeScript analyzer: Data-dependent packet operations in WhileStatement inside parse"
     },
     {
       "name": "USER_FAVORITE_ROOM_COUNT",

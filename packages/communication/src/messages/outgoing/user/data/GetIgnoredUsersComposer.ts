@@ -4,9 +4,9 @@ export class GetIgnoredUsersComposer implements IMessageComposer<ConstructorPara
 {
     private _data: ConstructorParameters<typeof GetIgnoredUsersComposer>;
 
-    constructor(username: string)
+    constructor()
     {
-        this._data = [username];
+        this._data = [];
     }
 
     public getMessageArray()
