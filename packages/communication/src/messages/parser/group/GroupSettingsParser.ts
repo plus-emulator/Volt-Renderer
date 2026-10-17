@@ -15,7 +15,6 @@ export class GroupSettingsParser implements IMessageParser
     private _badgeParts: Map<number, GroupDataBadgePart>;
     private _badgeCode: string;
     private _membersCount: number;
-    private _hasForum: boolean;
 
     public flush(): boolean
     {
@@ -31,7 +30,6 @@ export class GroupSettingsParser implements IMessageParser
         this._badgeParts = new Map();
         this._badgeCode = null;
         this._membersCount = 0;
-        this._hasForum = false;
 
         return true;
     }
@@ -85,7 +83,6 @@ export class GroupSettingsParser implements IMessageParser
 
         this._badgeCode = wrapper.readString();
         this._membersCount = wrapper.readInt();
-        this._hasForum = wrapper.readBoolean();
 
         return true;
     }
@@ -148,10 +145,5 @@ export class GroupSettingsParser implements IMessageParser
     public get membersCount(): number
     {
         return this._membersCount;
-    }
-
-    public get hasForum(): boolean
-    {
-        return this._hasForum;
     }
 }
