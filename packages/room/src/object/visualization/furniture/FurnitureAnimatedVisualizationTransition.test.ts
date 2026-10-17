@@ -115,7 +115,7 @@ describe('FurnitureAnimatedVisualization transitions (AIR parity)', () =>
         expect(layer2).toEqual([ 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9, 0, 0, 0 ]);
     });
 
-    it('keeps the rings growing across 0/1 flips every 200 ms instead of restarting', () =>
+    it('restarts the rings on each 0/1 flip every 200 ms', () =>
     {
         const { layer2, animationIds } = runFlips(60);
 
@@ -123,34 +123,20 @@ describe('FurnitureAnimatedVisualization transitions (AIR parity)', () =>
         expect(animationIds.filter((id, index) => (index > 0) && (id !== animationIds[index - 1])).length).toBeGreaterThanOrEqual(10);
         expect(new Set(animationIds)).toEqual(new Set([ 1000000, 1000001 ]));
 
-        // AIR carries the active sequence offset into the new transition
-        // (AnimationStateData.as:110-111, AnimatedFurnitureVisualization.as:343-354),
-        // so each flip moves on to the next frame instead of going back to 1.
-        // Once the sequence runs out, getFrameFromSequence falls back to
-        // getFrame(frameCounter) (AnimationLayerData.as:139-142) and the rings
-        // start again: a 24 tick (~1 s) loop, as seen on hhus.
+        // AIR WIN63-202610151745-318700621 drops the active sequence when the
+        // animation id changes (AnimationStateData.as:110-111, AnimationFrame.as:58-59),
+        // so each flip starts the new transition again from its first frame and
+        // the rings never get past their second frame.
         // Flips land on ticks 1, 5, 10, 15, 20 and 25.
         expect(layer2.slice(0, 26)).toEqual([
             1, 1, 1, 2,
-            3, 3, 3, 4, 4,
-            5, 5, 5, 6, 6,
-            7, 7, 7, 8, 8,
-            9, 9, 9, 0, 0,
+            1, 1, 1, 2, 2,
+            1, 1, 1, 2, 2,
+            1, 1, 1, 2, 2,
+            1, 1, 1, 2, 2,
             1, 1
         ]);
 
-        // Every frame of the ring sequence is reached, and outside of the
-        // wrap at the end of the sequence the frame never goes backwards.
-        expect(new Set(layer2)).toEqual(new Set([ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]));
-
-        for(let index = 1; index < layer2.length; index++)
-        {
-            const previous = layer2[index - 1];
-            const current = layer2[index];
-
-            if(current >= previous) continue;
-
-            expect([ previous, current ]).toEqual([ 9, 0 ]);
-        }
+        expect(new Set(layer2)).toEqual(new Set([ 1, 2 ]));
     });
 });
