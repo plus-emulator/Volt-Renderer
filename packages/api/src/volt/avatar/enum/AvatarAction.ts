@@ -4,6 +4,7 @@ export class AvatarAction
     public static DANCE = 'dance';
     public static EFFECT = 'fx';
     public static EXPRESSION = 'expression';
+    public static EXPRESSION_67 = '67';
     public static EXPRESSION_BLOW_A_KISS = 'blow';
     public static EXPRESSION_CRY = 'cry';
     public static EXPRESSION_IDLE = 'idle';
@@ -61,6 +62,8 @@ export class AvatarAction
                 return 5000;
             case 2:
                 return 1400;
+            case 67:
+                return 990;
             case 3:
                 return 2000;
             case 4:
@@ -89,6 +92,8 @@ export class AvatarAction
 
     public static getExpression(expressionId: number): string
     {
+        if(expressionId == 67) return AvatarAction.EXPRESSION_67;
+
         if(expressionId > AvatarAction.EXPRESSION_MAP.length) return null;
 
         return AvatarAction.EXPRESSION_MAP[expressionId];

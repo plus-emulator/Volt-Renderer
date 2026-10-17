@@ -419,7 +419,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                 }
                 else
                 {
-                    const sprite = this.getSprite(spriteIndex);
+                    const sprite = this.getSprite(spriteIndex++);
 
                     if(sprite)
                     {
@@ -468,7 +468,14 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                             resampled = true;
                         }
 
-                        if(!asset) continue;
+                        if(!asset)
+                        {
+                            // AIR: an effect sprite without art for this frame is cleared, not left showing the previous effect.
+                            sprite.texture = Texture.EMPTY;
+                            sprite.visible = false;
+
+                            continue;
+                        }
 
                         const texture = resampled ? AvatarVisualization.HALF_SIZE_EFFECT_TEXTURES.getTexture((AvatarScaleType.LARGE + assetSuffix), asset.texture) : asset.texture;
 
@@ -507,8 +514,6 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                         if(spriteData.ink === 33) sprite.blendMode = 'add';
                         else sprite.blendMode = 'normal';
                     }
-
-                    spriteIndex++;
                 }
             }
 
@@ -1099,6 +1104,9 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                 {
                     case AvatarAction.DANCE:
                         this._avatarImage.appendAction(AvatarAction.DANCE, 2);
+                        break;
+                    case AvatarAction.EXPRESSION_67:
+                        this._avatarImage.appendAction(AvatarAction.DANCE, 'sixseven');
                         break;
                     default:
                         this._avatarImage.appendAction(expression);

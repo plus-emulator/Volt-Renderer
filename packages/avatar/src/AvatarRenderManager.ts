@@ -13,6 +13,7 @@ import { PlaceHolderAvatarImage } from './PlaceHolderAvatarImage';
 import { AssetAliasCollection } from './alias';
 import { AvatarFrameTextureCache } from './cache/AvatarFrameTextureCache';
 import { HabboAvatarAnimations } from './data/HabboAvatarAnimations';
+import { HabboAvatarDanceSixSeven } from './data/HabboAvatarDanceSixSeven';
 import { HabboAvatarGeometry } from './data/HabboAvatarGeometry';
 import { HabboAvatarPartSets } from './data/HabboAvatarPartSets';
 
@@ -86,6 +87,9 @@ export class AvatarRenderManager implements IAvatarRenderManager
         {
             throw new Error(`Could not load avatar actions from "${ url }" — check "avatar.actions.url" in renderer-config.json (${ err?.message || err })`);
         }
+
+        // Animation frames resolve their action definitions on registration, so this needs the actions loaded.
+        this._structure.registerAnimation({ [HabboAvatarDanceSixSeven.name]: HabboAvatarDanceSixSeven });
     }
 
     private async loadFigureData(): Promise<void>

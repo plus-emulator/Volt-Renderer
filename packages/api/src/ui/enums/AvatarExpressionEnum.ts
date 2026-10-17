@@ -3,6 +3,7 @@
     public static NONE: AvatarExpressionEnum = new AvatarExpressionEnum(0);
     public static WAVE: AvatarExpressionEnum = new AvatarExpressionEnum(1);
     public static BLOW: AvatarExpressionEnum = new AvatarExpressionEnum(2);
+    public static EXPRESSION_67: AvatarExpressionEnum = new AvatarExpressionEnum(67);
     public static LAUGH: AvatarExpressionEnum = new AvatarExpressionEnum(3);
     public static CRY: AvatarExpressionEnum = new AvatarExpressionEnum(4);
     public static IDLE: AvatarExpressionEnum = new AvatarExpressionEnum(5);
