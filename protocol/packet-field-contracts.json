@@ -11575,28 +11575,6 @@
       ]
     },
     {
-      "name": "ROOM_DOORBELL_REJECTED",
-      "direction": "server_to_client",
-      "header": 1764,
-      "java": {
-        "symbol": "RoomAccessDeniedComposer",
-        "className": "RoomAccessDeniedComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/RoomAccessDeniedComposer.java"
-      },
-      "typescript": {
-        "symbol": "ROOM_DOORBELL_REJECTED",
-        "className": "FlatAccessDeniedMessageParser",
-        "path": "packages/communication/src/messages/parser/navigator/FlatAccessDeniedMessageParser.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "string",
-          "name": ""
-        }
-      ]
-    },
-    {
       "name": "MESSENGER_MESSAGE_ERROR",
       "direction": "server_to_client",
       "header": 2274,
@@ -11827,7 +11805,13 @@
         "className": "YouAreSpectatorMessageParser",
         "path": "packages/communication/src/messages/parser/room/session/YouAreSpectatorMessageParser.ts"
       },
-      "fields": []
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": ""
+        }
+      ]
     },
     {
       "name": "HOTEL_WILL_CLOSE_MINUTES",
@@ -16671,6 +16655,11 @@
         "path": "packages/communication/src/messages/parser/room/access/doorbell/RoomDoorbellAcceptedParser.ts"
       },
       "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": ""
+        },
         {
           "kind": "scalar",
           "type": "string",
@@ -25330,6 +25319,22 @@
         "path": "packages/communication/src/messages/outgoing/marketplace/MakeOfferMessageComposer.ts"
       },
       "reason": "Java analyzer: SellItemEvent reads one item id, not the AIR count-prefixed batch; TypeScript analyzer: Outgoing value itemIds.length has no statically resolvable wire type"
+    },
+    {
+      "name": "ROOM_DOORBELL_REJECTED",
+      "direction": "server_to_client",
+      "header": 1764,
+      "java": {
+        "symbol": "RoomAccessDeniedComposer",
+        "className": "RoomAccessDeniedComposer",
+        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/RoomAccessDeniedComposer.java"
+      },
+      "typescript": {
+        "symbol": "ROOM_DOORBELL_REJECTED",
+        "className": "FlatAccessDeniedMessageParser",
+        "path": "packages/communication/src/messages/parser/navigator/FlatAccessDeniedMessageParser.ts"
+      },
+      "reason": "TypeScript analyzer: Data-dependent packet operations in IfStatement inside parse (AIR FlatAccessDenied reads the user name only when bytes remain)"
     }
   ],
   "nativeAir": {
