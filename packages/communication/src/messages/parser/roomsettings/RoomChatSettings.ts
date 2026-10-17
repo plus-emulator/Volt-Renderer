@@ -22,13 +22,30 @@ export class RoomChatSettings
 
     constructor(wrapper: IMessageDataWrapper)
     {
-        if(!wrapper) throw new Error('invalid_wrapper');
+        if(!wrapper) return;
 
         this._mode = wrapper.readInt();
         this._weight = wrapper.readInt();
         this._speed = wrapper.readInt();
         this._distance = wrapper.readInt();
         this._protection = wrapper.readInt();
+    }
+
+    /**
+     * AIR WIN63-202610151745-318700621 package_2/class_1770.as:48: room data and room settings only carry the
+     * flood sensitivity; mode, bubble width and scroll speed fall back to free flow, normal, normal.
+     */
+    public static fromFloodSensitivity(protection: number): RoomChatSettings
+    {
+        const settings = new RoomChatSettings(null);
+
+        settings._mode = RoomChatSettings.CHAT_MODE_FREE_FLOW;
+        settings._weight = RoomChatSettings.CHAT_BUBBLE_WIDTH_NORMAL;
+        settings._speed = RoomChatSettings.CHAT_SCROLL_SPEED_NORMAL;
+        settings._distance = 50;
+        settings._protection = protection;
+
+        return settings;
     }
 
     public get mode(): number

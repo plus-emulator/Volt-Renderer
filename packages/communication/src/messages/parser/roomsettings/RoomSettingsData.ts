@@ -44,6 +44,7 @@ export class RoomSettingsData
     private _idleSleepTimeoutSeconds: number = 0;
     private _idleAutokickEnabled: boolean = false;
     private _idleAutokickTimeoutSeconds: number = 0;
+    private _hiddenByBc: boolean = false;
 
     public static from(settings: RoomSettingsData)
     {
@@ -78,6 +79,7 @@ export class RoomSettingsData
         instance._idleSleepEnabled = settings._idleSleepEnabled;
         instance._idleSleepTimeoutSeconds = settings._idleSleepTimeoutSeconds;
         instance._idleAutokickEnabled = settings._idleAutokickEnabled;
+        instance._hiddenByBc = settings._hiddenByBc;
         instance._idleAutokickTimeoutSeconds = settings._idleAutokickTimeoutSeconds;
 
         return instance;
@@ -412,5 +414,15 @@ export class RoomSettingsData
     public set idleAutokickTimeoutSeconds(value: number)
     {
         this._idleAutokickTimeoutSeconds = value;
+    }
+
+    public get hiddenByBc(): boolean
+    {
+        return this._hiddenByBc;
+    }
+
+    public set hiddenByBc(flag: boolean)
+    {
+        this._hiddenByBc = flag;
     }
 }

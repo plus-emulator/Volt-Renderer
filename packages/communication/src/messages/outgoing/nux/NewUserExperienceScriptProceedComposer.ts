@@ -1,21 +1,11 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Official `HabboNuxDialogs` composer 2132: the reason the NUX script moves on -
- * 0 from "Verify & get gifts" (`onVerify`) and 2 from the "never again" confirmation
- * (`onNeverAgainConfirmClose`).
+ * AIR WIN63-202610151745-318700621 package_171/class_3136.as:12 (`RoomSession.sendScriptProceed`): no fields.
  */
-export class NewUserExperienceScriptProceedComposer implements IMessageComposer<ConstructorParameters<typeof NewUserExperienceScriptProceedComposer>>
+export class NewUserExperienceScriptProceedComposer implements IMessageComposer<[]>
 {
-    public static readonly VERIFY: number = 0;
-    public static readonly NEVER_AGAIN: number = 2;
-
-    private _data: ConstructorParameters<typeof NewUserExperienceScriptProceedComposer>;
-
-    constructor(reason: number = 0)
-    {
-        this._data = [reason];
-    }
+    private _data: [] = [];
 
     public getMessageArray()
     {

@@ -26,6 +26,7 @@ export class RoomSession implements IRoomSession
     private _isRoomOwner: boolean = false;
     private _isDecorating: boolean = false;
     private _isSpectator: boolean = false;
+    private _chatTrackingId: number = 0;
 
     private _moderationSettings: RoomModerationSettings = null;
 
@@ -64,7 +65,7 @@ export class RoomSession implements IRoomSession
     {
         if(!GetCommunication().connection) return false;
 
-        GetCommunication().connection.send(new RoomEnterComposer(this._roomId, this._password, this._spawnX, this._spawnY));
+        GetCommunication().connection.send(new RoomEnterComposer(this._roomId, this._password));
 
         return true;
     }
@@ -76,14 +77,14 @@ export class RoomSession implements IRoomSession
         this._roomId = roomId;
     }
 
-    public sendChatMessage(text: string, styleId: number, chatColour: string): void
+    public sendChatMessage(text: string, styleId: number = 0): void
     {
-        GetCommunication().connection.send(new RoomUnitChatComposer(text, styleId, chatColour));
+        GetCommunication().connection.send(new RoomUnitChatComposer(text, styleId, this._chatTrackingId++));
     }
 
-    public sendShoutMessage(text: string, styleId: number, chatColour: string): void
+    public sendShoutMessage(text: string, styleId: number = 0): void
     {
-        GetCommunication().connection.send(new RoomUnitChatShoutComposer(text, styleId, chatColour));
+        GetCommunication().connection.send(new RoomUnitChatShoutComposer(text, styleId));
     }
 
     public sendWhisperMessage(recipientName: string, text: string, styleId: number): void
@@ -284,12 +285,9 @@ export class RoomSession implements IRoomSession
         GetCommunication().connection.send(new GetPetCommandsComposer(id));
     }
 
-    /**
-     * Official `HabboNuxDialogs`: 0 from "Verify & get gifts", 2 from "never again".
-     */
-    public sendScriptProceed(reason: number = 0): void
+    public sendScriptProceed(): void
     {
-        GetCommunication().connection.send(new NewUserExperienceScriptProceedComposer(reason));
+        GetCommunication().connection.send(new NewUserExperienceScriptProceedComposer());
     }
 
     public sendUpdateClothingChangeFurniture(objectId: number, gender: string, look: string):void
