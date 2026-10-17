@@ -49,7 +49,7 @@ class TestWrapper
     }
 }
 
-const writeLegacySettings = (writer: BinaryWriter, onlineStatusVisible = true) =>
+const writeLegacySettings = (writer: BinaryWriter, wiredMenuButton = true) =>
 {
     writer.writeInt(10);
     writer.writeInt(20);
@@ -59,7 +59,7 @@ const writeLegacySettings = (writer: BinaryWriter, onlineStatusVisible = true) =
     writer.writeByte(1);
     writer.writeInt(12);
     writer.writeInt(4);
-    writer.writeByte(onlineStatusVisible ? 1 : 0);
+    writer.writeByte(wiredMenuButton ? 1 : 0);
     writer.writeByte(0);
     writer.writeByte(1);
 };
@@ -97,7 +97,7 @@ describe('UserSettingsParser per-user preferences', () =>
         expect(parser.onlineIndicatorPreference).toBe(2);
     });
 
-    it('reads whether online status is visible to others', () =>
+    it('reads the wired menu button preference', () =>
     {
         const writer = new BinaryWriter();
         writeLegacySettings(writer, false);
@@ -111,7 +111,7 @@ describe('UserSettingsParser per-user preferences', () =>
         writer.writeInt(0);
         writer.writeInt(2);
 
-        expect(parse(writer).onlineStatusVisible).toBe(false);
+        expect(parse(writer).wiredMenuButton).toBe(false);
     });
 
     it('keeps the profile visible when the emulator does not send the flag', () =>

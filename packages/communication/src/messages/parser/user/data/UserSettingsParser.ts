@@ -10,9 +10,9 @@ export class UserSettingsParser implements IMessageParser
     private _cameraFollow: boolean;
     private _flags: number;
     private _chatType: number;
-    private _onlineStatusVisible: boolean;
-    private _friendsCanFollow: boolean;
-    private _friendRequestsAllowed: boolean;
+    private _wiredMenuButton: boolean;
+    private _wiredInspectButton: boolean;
+    private _playTestMode: boolean;
     private _wiredWhisperDisabled: boolean;
     private _chatMode: number;
     private _chatBubbleWidth: number;
@@ -34,9 +34,9 @@ export class UserSettingsParser implements IMessageParser
         this._cameraFollow = false;
         this._flags = 0;
         this._chatType = 0;
-        this._onlineStatusVisible = true;
-        this._friendsCanFollow = true;
-        this._friendRequestsAllowed = true;
+        this._wiredMenuButton = false;
+        this._wiredInspectButton = false;
+        this._playTestMode = false;
         this._wiredWhisperDisabled = false;
         this._chatMode = 0;
         this._chatBubbleWidth = 1;
@@ -65,9 +65,11 @@ export class UserSettingsParser implements IMessageParser
         this._cameraFollow = wrapper.readBoolean();
         this._flags = wrapper.readInt();
         this._chatType = wrapper.readInt();
-        this._onlineStatusVisible = wrapper.readBoolean();
-        this._friendsCanFollow = wrapper.readBoolean();
-        this._friendRequestsAllowed = wrapper.readBoolean();
+        // AIR WIN63-202610151745-318700621 package_43/class_1951.as:170-172: wired menu button, wired inspect button,
+        // play test mode.
+        this._wiredMenuButton = wrapper.readBoolean();
+        this._wiredInspectButton = wrapper.readBoolean();
+        this._playTestMode = wrapper.readBoolean();
 
         // The verified QA serializer ends at this 26-byte prefix. Every nonempty tail follows
         // v75 Th's native field order; the older custom preference tail is not a supported format.
@@ -173,19 +175,19 @@ export class UserSettingsParser implements IMessageParser
         return this._chatType;
     }
 
-    public get onlineStatusVisible(): boolean
+    public get wiredMenuButton(): boolean
     {
-        return this._onlineStatusVisible;
+        return this._wiredMenuButton;
     }
 
-    public get friendsCanFollow(): boolean
+    public get wiredInspectButton(): boolean
     {
-        return this._friendsCanFollow;
+        return this._wiredInspectButton;
     }
 
-    public get friendRequestsAllowed(): boolean
+    public get playTestMode(): boolean
     {
-        return this._friendRequestsAllowed;
+        return this._playTestMode;
     }
 
     public get wiredWhisperDisabled(): boolean
