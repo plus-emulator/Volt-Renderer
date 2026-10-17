@@ -6,7 +6,7 @@ import { FrontPageItem } from './FrontPageItem';
 
 export class CatalogPageMessageParser implements IMessageParser
 {
-    private static readonly MIN_OFFER_BYTES: number = 35;
+    private static readonly MIN_OFFER_BYTES: number = 36;
     private static readonly MIN_FRONT_PAGE_ITEM_BYTES: number = 16;
 
     private _pageId: number;

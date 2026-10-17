@@ -1,11 +1,11 @@
 import { IMessageDataWrapper } from '@volt/api';
 
+// AIR WIN63-202610151745-318700621 package_5/class_3470.as:23
 export class NodeData
 {
     private _visible: boolean;
     private _icon: number;
     private _pageId: number;
-    private _parentId: number;
     private _pageName: string;
     private _localization: string;
     private _children: NodeData[];
@@ -24,7 +24,6 @@ export class NodeData
         this._visible = false;
         this._icon = 0;
         this._pageId = -1;
-        this._parentId = -1;
         this._pageName = null;
         this._localization = null;
         this._children = [];
@@ -34,7 +33,7 @@ export class NodeData
     }
 
     private static readonly MAX_DEPTH: number = 20;
-    private static readonly MIN_CHILD_BYTES: number = 25;
+    private static readonly MIN_CHILD_BYTES: number = 21;
 
     private static requireBytes(wrapper: IMessageDataWrapper, amount: number, field: string): void
     {
@@ -82,7 +81,6 @@ export class NodeData
         this._visible = NodeData.readBoolean(wrapper, 'node visibility');
         this._icon = NodeData.readInt(wrapper, 'node icon');
         this._pageId = NodeData.readInt(wrapper, 'page id');
-        this._parentId = NodeData.readInt(wrapper, 'parent id');
         this._pageName = NodeData.readString(wrapper, 'page name');
         this._localization = NodeData.readString(wrapper, 'page localization');
 
@@ -129,11 +127,6 @@ export class NodeData
     public get pageId(): number
     {
         return this._pageId;
-    }
-
-    public get parentId(): number
-    {
-        return this._parentId;
     }
 
     public get pageName(): string

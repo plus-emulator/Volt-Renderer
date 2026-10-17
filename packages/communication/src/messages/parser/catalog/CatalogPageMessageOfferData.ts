@@ -2,6 +2,7 @@ import { IMessageDataWrapper } from '@volt/api';
 import { CatalogPageMessageProductData } from './CatalogPageMessageProductData';
 import { readBoundedCatalogCount } from './catalogPacketGuards';
 
+// AIR WIN63-202610151745-318700621 package_5/class_1948.as:35
 export class CatalogPageMessageOfferData
 {
     // productType(2) + extraParam(2) — the badge branch, the smallest product
@@ -13,13 +14,12 @@ export class CatalogPageMessageOfferData
     private _priceCredits: number;
     private _priceActivityPoints: number;
     private _priceActivityPointsType: number;
+    private _priceSilver: number;
     private _clubLevel: number;
     private _giftable: boolean;
     private _bundlePurchaseAllowed: boolean;
     private _isPet: boolean;
     private _previewImage: string;
-    private _itemIds: string;
-    private _haveOffer: boolean;
     private _products: CatalogPageMessageProductData[];
 
     constructor(wrapper: IMessageDataWrapper)
@@ -30,6 +30,7 @@ export class CatalogPageMessageOfferData
         this._priceCredits = wrapper.readInt();
         this._priceActivityPoints = wrapper.readInt();
         this._priceActivityPointsType = wrapper.readInt();
+        this._priceSilver = wrapper.readInt();
         this._giftable = wrapper.readBoolean();
 
         this._products = [];
@@ -45,8 +46,6 @@ export class CatalogPageMessageOfferData
         this._bundlePurchaseAllowed = wrapper.readBoolean();
         this._isPet = wrapper.readBoolean();
         this._previewImage = wrapper.readString();
-        this._itemIds = wrapper.readString();
-        this._haveOffer = wrapper.readBoolean();
     }
 
     public get offerId(): number
@@ -79,6 +78,11 @@ export class CatalogPageMessageOfferData
         return this._priceActivityPointsType;
     }
 
+    public get priceSilver(): number
+    {
+        return this._priceSilver;
+    }
+
     public get clubLevel(): number
     {
         return this._clubLevel;
@@ -107,15 +111,5 @@ export class CatalogPageMessageOfferData
     public get products(): CatalogPageMessageProductData[]
     {
         return this._products;
-    }
-
-    public get itemIds(): string
-    {
-        return this._itemIds;
-    }
-
-    public get haveOffer(): boolean
-    {
-        return this._haveOffer;
     }
 }
