@@ -1,5 +1,5 @@
 import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
-import { BuildersClubFurniCountMessageEvent, BuildersClubPlaceRoomItemMessageComposer, BuildersClubPlaceWallItemMessageComposer, BuildersClubSubscriptionStatusMessageEvent } from './messages';
+import { BuildersClubFurniCountMessageEvent, BuildersClubPlacementWarningMessageEvent, BuildersClubPlaceRoomItemMessageComposer, BuildersClubPlaceWallItemMessageComposer, BuildersClubSubscriptionStatusMessageEvent } from './messages';
 import { WiredGetVariablesForObjectComposer, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer, WiredVariablesForObjectEvent } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
@@ -110,6 +110,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.CATALOG_PUBLISHED, CatalogPublishedMessageEvent);
         this._events.set(IncomingHeader.BUILDERS_CLUB_SUBSCRIPTION_STATUS, BuildersClubSubscriptionStatusMessageEvent);
         this._events.set(IncomingHeader.BUILDERS_CLUB_FURNI_COUNT, BuildersClubFurniCountMessageEvent);
+        this._events.set(IncomingHeader.BUILDERS_CLUB_PLACEMENT_WARNING, BuildersClubPlacementWarningMessageEvent);
         this._events.set(IncomingHeader.CATALOG_PRODUCT_METADATA, CatalogProductMetadataEvent);
         this._events.set(IncomingHeader.CATALOG_RUNTIME_CONFIGURATION, CatalogRuntimeConfigurationEvent);
 

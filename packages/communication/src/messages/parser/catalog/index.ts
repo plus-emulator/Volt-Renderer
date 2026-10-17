@@ -2,6 +2,7 @@ export * from './BonusRareInfoMessageParser';
 export * from './BundleDiscountRuleset';
 export * from './BundleDiscountRulesetMessageParser';
 export * from './BuildersClubFurniCountMessageParser';
+export * from './BuildersClubPlacementWarningMessageParser';
 export * from './BuildersClubSubscriptionStatusMessageParser';
 export * from './CatalogIndexMessageParser';
 export * from './CatalogLocalizationData';
