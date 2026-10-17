@@ -32,6 +32,7 @@ export * from './WiredUserVariablesData64Event';
 export * from './WiredVariableHolders64Event';
 export * from './WiredVariableHoldersPage64Event';
 export * from './WiredVariableInspectionDataEvent';
+export * from './WiredVariablesForObjectEvent';
 export * from './WiredFurniTransparencyEvent';
 export * from './WiredUserTransparencyEvent';
 export * from './WiredFurniHighlightEvent';

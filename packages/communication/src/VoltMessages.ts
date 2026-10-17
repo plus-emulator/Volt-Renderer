@@ -1,5 +1,5 @@
 import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
-import { WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer } from './messages';
+import { WiredGetVariablesForObjectComposer, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer, WiredVariablesForObjectEvent } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
 import { WiredFurniTransparencyEvent, WiredUserTransparencyEvent, WiredFurniHighlightEvent, VariableLeaderboardSnapshotEvent, VariableLeaderboardChunkEvent, WiredLabelsEvent, WiredLabelsUpdateEvent, WiredLinkOpenEvent, WiredLinkConfigurationEvent, WiredLinkOperationResultEvent, WiredLinkConnectionsEvent, WiredLinkNetworkInvalidatedEvent, WiredVariableShareSynchronizeComposer, VariableLeaderboardSubscribeComposer, WiredLabelSaveTextComposer, WiredLabelSaveSettingsComposer, WiredLabelSaveRegionComposer, WiredLinkRequestConfigComposer, WiredLinkSaveSelectionComposer, WiredLinkCreateNetworkComposer, WiredLinkRenameNetworkComposer, WiredLinkDeleteNetworkComposer, WiredLinkGetConnectionsComposer } from './messages';
@@ -628,6 +628,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.WIRED_MONITOR_DATA, WiredMonitorDataEvent);
         this._events.set(IncomingHeader.WIRED_ROOM_SETTINGS_DATA, WiredRoomSettingsDataEvent);
         this._events.set(IncomingHeader.WIRED_VARIABLE_INSPECTION_DATA, WiredVariableInspectionDataEvent);
+        this._events.set(IncomingHeader.WIRED_VARIABLES_FOR_OBJECT, WiredVariablesForObjectEvent);
         this._events.set(IncomingHeader.WIRED_USER_VARIABLES_DATA_64, WiredUserVariablesData64Event);
         this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_64, WiredVariableHolders64Event);
         this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_PAGE_64, WiredVariableHoldersPage64Event);
@@ -1323,6 +1324,7 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_REQUEST_64, WiredVariableHoldersRequest64Composer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_PAGE_64, WiredVariableHoldersPage64Composer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_INSPECTION_REQUEST, WiredVariableInspectionRequestComposer);
+        this._composers.set(OutgoingHeader.WIRED_GET_VARIABLES_FOR_OBJECT, WiredGetVariablesForObjectComposer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_UPDATE_64, WiredUserVariableUpdate64Composer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_MANAGE_64, WiredUserVariableManage64Composer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLES_REQUEST, WiredUserVariablesRequestComposer);
