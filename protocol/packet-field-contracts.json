@@ -19685,6 +19685,14 @@
       "symbol": "BUILDERS_CLUB_PLACE_WALL_ITEM",
       "path": "packages/communication/src/messages/outgoing/catalog/BuildersClubPlaceWallItemMessageComposer.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2075,
+      "symbol": "BUILDERS_CLUB_PLACEMENT_WARNING",
+      "path": "packages/communication/src/messages/incoming/catalog/BuildersClubPlacementWarningMessageEvent.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
     }
   ],
   "exemptions": [
@@ -25707,7 +25715,7 @@
       {"direction":"server_to_client","header":2059,"sourceClass":"class_2900","sourcePath":"decompiled/scripts/package_44/class_2900.as","sourceSha256":"eed00cd332dd048e556841620cc543210ca6351031960658346ba7af5849369d","mapLine":1401,"reportedName":"RoomForward","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomForwardComposer"],"typescript":["ROOM_FORWARD"]}},
       {"direction":"server_to_client","header":2070,"sourceClass":"class_2659","sourcePath":"decompiled/scripts/package_96/class_2659.as","sourceSha256":"58942407adc1eeb1d7ce7b756f4c628edc5a266323fa83cf4dd02c27927b5403","mapLine":1404,"reportedName":"Game2GameCreated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2073,"sourceClass":"class_3878","sourcePath":"decompiled/scripts/package_50/class_3878.as","sourceSha256":"305e3fe343e71984aec137b5583f3f2e26c4bb0440c611f0a93496bd57968525","mapLine":1405,"reportedName":"IssueDeleted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ISSUE_DELETED"]}},
-      {"direction":"server_to_client","header":2075,"sourceClass":"class_3565","sourcePath":"decompiled/scripts/package_64/class_3565.as","sourceSha256":"fbaf5a87c4eff079bf9927f98d98ae7cab2b76d1bff78a4aec945f0935e3355b","mapLine":1406,"reportedName":"BuildersClubPlacementWarning","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2075,"sourceClass":"class_3565","sourcePath":"decompiled/scripts/package_64/class_3565.as","sourceSha256":"fbaf5a87c4eff079bf9927f98d98ae7cab2b76d1bff78a4aec945f0935e3355b","mapLine":1406,"reportedName":"BuildersClubPlacementWarning","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["BUILDERS_CLUB_PLACEMENT_WARNING"]}},
       {"direction":"server_to_client","header":2089,"sourceClass":"class_3397","sourcePath":"decompiled/scripts/package_169/class_3397.as","sourceSha256":"a87c56a95f0f914f1e8a16163189da79daeba1962ad0bb1df5bdea47b0d14f2c","mapLine":1407,"reportedName":"BadgePointLimits","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["BadgeDefinitionsComposer"],"typescript":["BADGE_POINT_LIMITS"]}},
       {"direction":"server_to_client","header":2094,"sourceClass":"class_3615","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3615.as","sourceSha256":"fabc063fa6b9a514e5c2454e3bba6038aebe71ff536a8c9fadb06709a959087a","mapLine":1408,"reportedName":"_-sm","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2097,"sourceClass":"class_3811","sourcePath":"decompiled/scripts/package_112/class_3811.as","sourceSha256":"4916143bb89d6d747299b3549ae83cf44f8e5fc3ca118c3ce9ebe640c9925510","mapLine":1409,"reportedName":"CoinsChestContents","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestCoinsComposer"],"typescript":["CHEST_COINS"]}},
