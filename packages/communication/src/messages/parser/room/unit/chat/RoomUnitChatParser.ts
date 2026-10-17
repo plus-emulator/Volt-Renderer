@@ -60,9 +60,12 @@ export class RoomUnitChatParser implements IMessageParser
 
         let totalUrls = wrapper.readInt();
 
+        // AIR WIN63-202610151745-318700621 package_167/class_2856.as:101: each link is (url, text, allowed).
         while(totalUrls > 0)
         {
             this._urls.push(wrapper.readString());
+            wrapper.readString();
+            wrapper.readBoolean();
 
             totalUrls--;
         }

@@ -9,8 +9,8 @@ export interface IRoomSession
     setRoomOwner(): void;
     start(): boolean;
     reset(roomId: number): void;
-    sendChatMessage(text: string, styleId: number, chatColour?: string): void;
-    sendShoutMessage(text: string, styleId: number, chatColour?: string): void;
+    sendChatMessage(text: string, styleId?: number): void;
+    sendShoutMessage(text: string, styleId?: number): void;
     sendWhisperMessage(recipientName: string, text: string, styleId: number): void;
     sendChatTypingMessage(isTyping: boolean): void;
     sendMottoMessage(motto: string): void;
@@ -47,7 +47,7 @@ export interface IRoomSession
     harvestPet(id: number): void;
     compostPlant(id: number): void;
     requestPetCommands(id: number): void;
-    sendScriptProceed(reason?: number): void;
+    sendScriptProceed(): void;
     userDataManager: IUserDataManager;
     roomId: number;
     password: string;

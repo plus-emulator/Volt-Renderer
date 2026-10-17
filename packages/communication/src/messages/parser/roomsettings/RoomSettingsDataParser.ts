@@ -45,23 +45,16 @@ export class RoomSettingsDataParser implements IMessageParser
         this._roomSettingsData.hideWalls = (wrapper.readInt() === 1);
         this._roomSettingsData.wallThickness = wrapper.readInt();
         this._roomSettingsData.floorThickness = wrapper.readInt();
-        this._roomSettingsData.chatSettings = new RoomChatSettings(wrapper);
-        this._roomSettingsData.allowNavigatorDynamicCats = wrapper.readBoolean();
+        // AIR WIN63-202610151745-318700621 package_105/class_3641.as:20.
+        this._roomSettingsData.chatSettings = RoomChatSettings.fromFloodSensitivity(wrapper.readInt());
+        this._roomSettingsData.leaveOnDoorTileEnabled = wrapper.readBoolean();
+        this._roomSettingsData.idleSleepEnabled = wrapper.readBoolean();
+        this._roomSettingsData.idleSleepTimeoutSeconds = wrapper.readInt();
+        this._roomSettingsData.idleAutokickEnabled = wrapper.readBoolean();
+        this._roomSettingsData.idleAutokickTimeoutSeconds = wrapper.readInt();
+        this._roomSettingsData.muteAllPets = wrapper.readBoolean();
         this._roomSettingsData.roomModerationSettings = new RoomModerationSettings(wrapper);
-
-        // Custom Arcturus extension: trailing int (0/1) for the underpass toggle.
-        // Older servers may not emit it; default stays false when absent.
-        if(wrapper.bytesAvailable) this._roomSettingsData.allowUnderpass = (wrapper.readInt() === 1);
-
-        if(wrapper.bytesAvailable)
-        {
-            this._roomSettingsData.muteAllPets = (wrapper.readInt() === 1);
-            this._roomSettingsData.leaveOnDoorTileEnabled = (wrapper.readInt() === 1);
-            this._roomSettingsData.idleSleepEnabled = (wrapper.readInt() === 1);
-            this._roomSettingsData.idleSleepTimeoutSeconds = wrapper.readInt();
-            this._roomSettingsData.idleAutokickEnabled = (wrapper.readInt() === 1);
-            this._roomSettingsData.idleAutokickTimeoutSeconds = wrapper.readInt();
-        }
+        this._roomSettingsData.hiddenByBc = wrapper.readBoolean();
 
         return true;
     }

@@ -220,7 +220,7 @@ export class RoomSessionManager implements IRoomSessionManager, IRoomHandlerList
 
         if(existingSession)
         {
-            GetCommunication().connection.send(new RoomEnterComposer(roomId, password, this._savedPosX, this._savedPosY));
+            GetCommunication().connection.send(new RoomEnterComposer(roomId, password));
 
             this.clearGuardTimer();
             this._reconnectGuardTimer = setTimeout(() =>

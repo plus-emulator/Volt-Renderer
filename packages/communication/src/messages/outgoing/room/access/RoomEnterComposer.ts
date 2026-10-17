@@ -1,23 +1,18 @@
 import { IMessageComposer } from '@volt/api';
 
-type RoomEnterPayload = [ number, string, number?, number? ];
+type RoomEnterPayload = [ number, string, number ];
 
+/**
+ * AIR WIN63-202610151745-318700621 package_47/class_1982.as:11: flat id, password, and a
+ * trailing int that every caller in that build leaves at its default of -1.
+ */
 export class RoomEnterComposer implements IMessageComposer<RoomEnterPayload>
 {
     private _data: RoomEnterPayload;
 
-    /**
-     * Optional spawnX/spawnY let the server resume the avatar at a
-     * specific tile when re-entering the same room — used by the
-     * reconnect flow. Arcturus' RequestRoomLoadEvent reads both ints
-     * only if `packet.remaining >= 8`, so omitting them keeps the
-     * legacy enter-via-door behavior.
-     */
-    constructor(roomId: number, password: string = null, spawnX?: number, spawnY?: number)
+    constructor(roomId: number, password: string = null)
     {
-        this._data = (spawnX !== undefined && spawnY !== undefined)
-            ? [ roomId, password, spawnX, spawnY ]
-            : [ roomId, password ];
+        this._data = [ roomId, (password ?? ''), -1 ];
     }
 
     public getMessageArray()

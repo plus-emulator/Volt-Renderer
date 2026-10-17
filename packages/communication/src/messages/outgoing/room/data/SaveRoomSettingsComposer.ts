@@ -1,12 +1,12 @@
 import { IMessageComposer } from '@volt/api';
 
-export class SaveRoomSettingsComposer
-implements
-    IMessageComposer<
-    ConstructorParameters<typeof SaveRoomSettingsComposer>
-    >
+/**
+ * AIR WIN63-202610151745-318700621 package_157/class_3305.as:12. Empty tags are dropped and a null
+ * password goes out as an empty string, as AIR does.
+ */
+export class SaveRoomSettingsComposer implements IMessageComposer<(string | number | boolean)[]>
 {
-    private _data: ConstructorParameters<typeof SaveRoomSettingsComposer>;
+    private _data: (string | number | boolean)[];
 
     constructor(
         roomId: number,
@@ -16,7 +16,6 @@ implements
         password: string,
         userCount: number,
         categoryId: number,
-        tagsCount: number,
         tags: string[],
         tradeState: number,
         allowPets: boolean,
@@ -28,36 +27,27 @@ implements
         muteState: number,
         kickState: number,
         banState: number,
-        chatBubbleMode: number,
-        chatBubbleWeight: number,
-        chatBubbleSpeed: number,
-        chatDistance: number,
         chatFloodProtection: number,
-        allowUnderpass?: boolean,
-        muteAllPets?: boolean,
-        leaveOnDoorTileEnabled?: boolean,
-        idleSleepEnabled?: boolean,
-        idleSleepTimeoutSeconds?: number,
-        idleAutokickEnabled?: boolean,
-        idleAutokickTimeoutSeconds?: number
+        leaveOnDoorTileEnabled: boolean,
+        idleSleepEnabled: boolean,
+        idleSleepTimeoutSeconds: number,
+        idleAutokickEnabled: boolean,
+        idleAutokickTimeoutSeconds: number,
+        muteAllPets: boolean
     )
     {
-        //@ts-ignore
-        this._data = [];
+        const validTags = (tags ?? []).filter(tag => !!tag);
 
-        this._data.push(
+        this._data = [
             roomId,
             roomName,
             roomDescription,
             lockState,
-            password,
+            (password ?? ''),
             userCount,
-            categoryId
-        );
-
-        this._data.push(tags.length, ...tags);
-
-        this._data.push(
+            categoryId,
+            validTags.length,
+            ...validTags,
             tradeState,
             allowPets,
             allowPetsEat,
@@ -68,23 +58,14 @@ implements
             muteState,
             kickState,
             banState,
-            chatBubbleMode,
-            chatBubbleWeight,
-            chatBubbleSpeed,
-            chatDistance,
-            chatFloodProtection
-        );
-
-        if(allowUnderpass !== undefined) this._data.push(allowUnderpass);
-
-        if(muteAllPets !== undefined) this._data.push(
-            muteAllPets,
-            leaveOnDoorTileEnabled ?? true,
-            idleSleepEnabled ?? false,
-            idleSleepTimeoutSeconds ?? 0,
-            idleAutokickEnabled ?? false,
-            idleAutokickTimeoutSeconds ?? 0
-        );
+            chatFloodProtection,
+            leaveOnDoorTileEnabled,
+            idleSleepEnabled,
+            idleSleepTimeoutSeconds,
+            idleAutokickEnabled,
+            idleAutokickTimeoutSeconds,
+            muteAllPets
+        ];
     }
 
     public getMessageArray()
