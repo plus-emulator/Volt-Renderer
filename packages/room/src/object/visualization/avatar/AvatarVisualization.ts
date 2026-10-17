@@ -34,7 +34,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
     private static BASE_Y_SCALE: number = 1000;
     private static AVATAR_SPRITE_DEFAULT_DEPTH: number = -0.01;
     private static AVATAR_OWN_DEPTH_ADJUST: number = 0.001;
-    private static AVATAR_SPRITE_LAYING_DEPTH: number = 0.002;
+    private static AVATAR_SPRITE_LAYING_DEPTH: number = -0.409;
+    private static AVATAR_SPRITE_LAYING_INSIDE_DEPTH: number = -0.5;
 
     protected _data: AvatarVisualizationData;
 
@@ -78,7 +79,6 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
     private _isLaying: boolean;
     private _layInside: boolean;
-    private _layDepthOffset: number;
     private _layXOffset: number;
     private _layYOffset: number;
     private _isAnimating: boolean;
@@ -137,7 +137,6 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
         this._isLaying = false;
         this._layInside = false;
-        this._layDepthOffset = 0;
         this._isAnimating = false;
         this._extraSpritesStartIndex = AvatarVisualization.INITIAL_RESERVED_SPRITES;
         this._forcedAnimFrames = 0;
@@ -346,8 +345,9 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
                 if(this._isLaying)
                 {
-                    const laySign = this._layInside ? AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH : -AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH;
-                    sprite.relativeDepth = (laySign - this._layDepthOffset + canvasOffsets[2]);
+                    sprite.relativeDepth = this._layInside
+                        ? AvatarVisualization.AVATAR_SPRITE_LAYING_INSIDE_DEPTH
+                        : (AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH + canvasOffsets[2]);
                 }
                 else
                 {
@@ -375,8 +375,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                 }
                 else
                 {
-                    const laySign = this._layInside ? AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH : -AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH;
-                    typingBubble.relativeDepth = ((laySign - this._layDepthOffset - 0.01) + canvasOffsets[2]);
+                    typingBubble.relativeDepth = ((AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH - 0.01) + canvasOffsets[2]);
                 }
             }
 
@@ -503,8 +502,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
                         if(this._isLaying)
                         {
-                            const laySign = this._layInside ? AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH : -AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH;
-                            sprite.relativeDepth = (laySign - this._layDepthOffset - ((0.001 * this.totalSprites) * offsetZ));
+                            sprite.relativeDepth = (AvatarVisualization.AVATAR_SPRITE_LAYING_DEPTH - ((0.001 * this.totalSprites) * offsetZ));
                         }
                         else
                         {
@@ -1048,7 +1046,6 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
         this._layInside = false;
         this._isLaying = false;
-        this._layDepthOffset = 0;
         this._layXOffset = 0;
         this._layYOffset = 0;
 
@@ -1060,9 +1057,6 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
             const height = parts.length > 0 ? parseFloat(parts[0]) : 0;
 
             if(height < 0) this._layInside = true;
-
-            const avatarZ = this.object ? this.object.getLocation().z : 0;
-            this._layDepthOffset = avatarZ * Math.sqrt(0.5);
 
             if(parts.length >= 3)
             {
