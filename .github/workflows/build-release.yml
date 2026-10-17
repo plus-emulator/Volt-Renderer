@@ -1,8 +1,7 @@
 name: Build & Publish Renderer Release
 
+# Releases are cut by hand once a batch of changes is ready (Actions > Release > Run workflow).
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
     inputs:
       commit:
