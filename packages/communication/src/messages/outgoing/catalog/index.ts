@@ -1,5 +1,7 @@
 export * from './GetBonusRareInfoMessageComposer';
 export * from './GetBundleDiscountRulesetComposer';
+export * from './BuildersClubPlaceRoomItemMessageComposer';
+export * from './BuildersClubPlaceWallItemMessageComposer';
 export * from './GetCatalogIndexComposer';
 export * from './GetCatalogPageComposer';
 export * from './GetCatalogPageExpirationComposer';
