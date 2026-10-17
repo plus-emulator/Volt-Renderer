@@ -45,6 +45,7 @@ const writeOffer = (writer: PacketWriter, offerId: number): void =>
         .int(3) // priceCredits
         .int(0) // priceActivityPoints
         .int(0) // priceActivityPointsType
+        .int(0) // priceSilver
         .byte(1) // giftable
         .int(1) // product count
         .string('s') // productType (floor)
@@ -55,9 +56,7 @@ const writeOffer = (writer: PacketWriter, offerId: number): void =>
         .int(1) // clubLevel
         .byte(0) // bundlePurchaseAllowed
         .byte(0) // isPet
-        .string('') // previewImage
-        .string('') // itemIds
-        .byte(0); // haveOffer
+        .string(''); // previewImage
 };
 
 const createPagePacket = (declaredOffers: number, writtenOffers: number): ArrayBuffer =>

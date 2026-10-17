@@ -42,7 +42,6 @@ const createRootPacket = (declaredOffers: number, writtenOffers: number, include
         .byte(1)
         .int(0)
         .int(-1)
-        .int(-1)
         .string('root')
         .string('')
         .int(declaredOffers);
