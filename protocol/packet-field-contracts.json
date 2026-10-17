@@ -10584,6 +10584,22 @@
           "kind": "scalar",
           "type": "string",
           "name": ""
+        },
+        {
+          "kind": "list",
+          "countType": "int",
+          "item": [
+            {
+              "kind": "scalar",
+              "type": "string",
+              "name": "key"
+            },
+            {
+              "kind": "scalar",
+              "type": "string",
+              "name": "value"
+            }
+          ]
         }
       ]
     },
