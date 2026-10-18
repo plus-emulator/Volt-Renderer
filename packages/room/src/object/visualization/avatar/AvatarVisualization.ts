@@ -5,7 +5,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
 import { WiredHighlightFilterCache } from '../WiredHighlightFilters';
 import { HalfSizeTextureCache } from '../HalfSizeTexture';
-import { AvatarCompositeBudget, AvatarRedrawKind } from './AvatarCompositeBudget';
+import { AvatarCompositeBudget } from './AvatarCompositeBudget';
 import { AvatarVisualizationData } from './AvatarVisualizationData';
 import { ExpressionAdditionFactory, FloatingIdleZAddition, GameClickTargetAddition, GuideStatusBubbleAddition, HabbiconBubbleAddition, IAvatarAddition, MutedBubbleAddition, NumberBubbleAddition, TypingBubbleAddition } from './additions';
 
@@ -306,14 +306,14 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
             const avatarSprite = this.getSprite(AvatarVisualization.SPRITE_INDEX_AVATAR);
 
-            // Nothing to show yet: always draw. Otherwise an avatar off screen waits until it comes
-            // back, and animation-only frames wait for room in the frame's budget.
-            if(avatarSprite?.texture)
+            // Nothing to show yet, or a new zoom level: always draw. Otherwise an avatar off screen
+            // waits until it comes back, and mouth and eye frames wait for room in the frame's budget.
+            if(avatarSprite?.texture && !didScaleUpdate)
             {
                 const urgent = (structural || this._pendingStructuralRedraw);
-                const kind = urgent ? AvatarRedrawKind.URGENT : ((this._posture === AvatarAction.POSTURE_WALK) ? AvatarRedrawKind.WALK : AvatarRedrawKind.COSMETIC);
+                const cosmetic = (!urgent && (this._posture !== AvatarAction.POSTURE_WALK));
 
-                if(!visible || !AvatarCompositeBudget.allow(this.object.id, kind))
+                if(!visible || (cosmetic && !AvatarCompositeBudget.allow(this.object.id)))
                 {
                     this._pendingRedraw = true;
                     this._pendingStructuralRedraw = urgent;
