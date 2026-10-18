@@ -595,12 +595,17 @@ export class SocketConnection implements IConnection
         this._isReady = true;
         this._hasBeenReady = true;
 
-        if(this._pendingServerMessages && this._pendingServerMessages.length) this.processWrappers(...this._pendingServerMessages);
+        const pendingClientMessages = this._pendingClientMessages;
+        const pendingServerMessages = this._pendingServerMessages;
 
-        if(this._pendingClientMessages && this._pendingClientMessages.length) this.send(...this._pendingClientMessages);
-
-        this._pendingServerMessages = [];
         this._pendingClientMessages = [];
+        this._pendingServerMessages = [];
+
+        // Queued requests go out first: a buffered server message can send at once (the home
+        // room's RoomEnter), and must not overtake the InfoRetrieve the login queued earlier.
+        if(pendingClientMessages && pendingClientMessages.length) this.send(...pendingClientMessages);
+
+        if(pendingServerMessages && pendingServerMessages.length) this.processWrappers(...pendingServerMessages);
     }
 
     public authenticated(): void
