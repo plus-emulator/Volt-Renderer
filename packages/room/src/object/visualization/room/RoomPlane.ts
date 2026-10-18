@@ -505,6 +505,10 @@ export class RoomPlane implements IRoomPlane
             const planeData = getTextureAndColorForPlane(this._id, this._type, normal);
             const texture = this._hasTexture ? planeData.texture ?? Texture.WHITE : Texture.WHITE;
 
+            // AIR draws the plane textures through the plane matrix without smoothing (BitmapData.draw): a linear sample
+            // across the half-pixel wall shear would blend the 1px dither of the wall and floor materials.
+            if((texture !== Texture.WHITE) && texture.source && (texture.source.scaleMode !== 'nearest')) texture.source.scaleMode = 'nearest';
+
             const planeTileScale = ((planeData.visualizationSize > 0) ? (planeGeometry.scale / planeData.visualizationSize) : 1);
 
             // Geometry or material changes replace the tiling sprite and its owned mask children.

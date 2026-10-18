@@ -914,6 +914,8 @@ export class RoomPreviewer
         let y = (-(this._currentPreviewRectangle.top + this._currentPreviewRectangle.bottom) >> 1);
         const height = ((this._currentPreviewCanvasHeight - this._currentPreviewRectangle.height) >> 1);
 
+        // AIR keeps x and y in ints (RoomPreviewer.as:566-595, WIN63-202610151745-318700621), so a half pixel is cut
+        // here, before the view offset is added.
         if(height > 10)
         {
             y = (y + Math.min(15, (height - 10)));
@@ -922,11 +924,11 @@ export class RoomPreviewer
         {
             if(this._currentPreviewObjectCategory !== RoomObjectCategory.UNIT)
             {
-                y = (y + (5 - Math.max(0, (height / 2))));
+                y = Math.trunc(y + (5 - Math.max(0, (height / 2))));
             }
             else
             {
-                y = (y - (5 - Math.min(0, (height / 2))));
+                y = Math.trunc(y - (5 - Math.min(0, (height / 2))));
             }
         }
 
@@ -942,8 +944,8 @@ export class RoomPreviewer
 
             if(distance > 10)
             {
-                x = (point.x + ((offsetX * 10) / distance));
-                y = (point.y + ((offsetY * 10) / distance));
+                x = Math.trunc(point.x + ((offsetX * 10) / distance));
+                y = Math.trunc(point.y + ((offsetY * 10) / distance));
             }
 
             return new Point(x, y);
