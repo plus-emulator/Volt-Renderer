@@ -308,6 +308,9 @@ export class OutgoingHeader
     public static USER_SUBSCRIPTION = 3073;
     public static GET_WARDROBE = 1672;
     public static SAVE_WARDROBE_OUTFIT = 3540;
+    public static GET_USER_NFT_WARDROBE = 3375; // package_34/GetUserNftWardrobeMessageComposer
+    public static GET_SELECTED_NFT_WARDROBE_OUTFIT = 3132; // package_34/class_3910
+    public static SAVE_USER_NFT_WARDROBE = 1789; // package_34/SaveUserNftWardrobeMessageComposer
     public static USER_TAGS = 65382;
     public static PEER_USERS_CLASSIFICATION = 687;
     public static USER_CLASSIFICATION = 2192;

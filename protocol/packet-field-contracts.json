@@ -19725,6 +19725,46 @@
       "symbol": "CLAIM_PRODUCT_RESULT",
       "path": "packages/communication/src/messages/incoming/catalog/ClaimProductResultMessageEvent.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3375,
+      "symbol": "GET_USER_NFT_WARDROBE",
+      "path": "packages/communication/src/messages/outgoing/avatar/GetUserNftWardrobeMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3132,
+      "symbol": "GET_SELECTED_NFT_WARDROBE_OUTFIT",
+      "path": "packages/communication/src/messages/outgoing/avatar/GetSelectedNftWardrobeOutfitMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1789,
+      "symbol": "SAVE_USER_NFT_WARDROBE",
+      "path": "packages/communication/src/messages/outgoing/avatar/SaveUserNftWardrobeMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3493,
+      "symbol": "USER_NFT_WARDROBE",
+      "path": "packages/communication/src/messages/parser/avatar/UserNftWardrobeMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3131,
+      "symbol": "USER_NFT_WARDROBE_SELECTION",
+      "path": "packages/communication/src/messages/parser/avatar/SelectedNftWardrobeOutfitMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
     }
   ],
   "exemptions": [

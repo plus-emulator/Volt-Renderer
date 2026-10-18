@@ -38,6 +38,7 @@ import { CatalogRuntimeConfigurationEvent } from './messages/incoming/catalog/co
 import { CatalogRuntimeConfigurationComposer } from './messages/outgoing/catalog/configuration';
 
 import { GetHotLooksComposer, HotLooksEvent } from './messages';
+import { GetSelectedNftWardrobeOutfitMessageComposer, GetUserNftWardrobeMessageComposer, SaveUserNftWardrobeMessageComposer, SelectedNftWardrobeOutfitMessageEvent, UserNftWardrobeMessageEvent } from './messages';
 import { ChestCoinsEvent, ChestFurniChunkEvent, ChestFurniUpdateEvent, ChestOpenComposer, ChestOpenEvent, ChestSettingsUpdatedEvent, ChestStartDepositComposer, ChestWithdrawAllComposer, ChestWithdrawCoinsComposer, ChestWithdrawFurniComposer, ChestLogEvent, ChestCloseComposer, ChestSaveOptionsComposer, ChestSaveSettingsComposer, ChestSaveNotificationsComposer, ChestUpgradeCapacityComposer, ChestNotificationEvent, ChestUpgradeResultEvent, ChestRequestLogComposer, WiredChestRoomLogsComposer, WiredChestLockComposer, WiredChestTransactionDetailsComposer, WiredChestRoomLogsEvent, WiredChestTransactionDetailsEvent, WiredTradeErrorEvent, WiredTradeOpenEvent, WiredTradeItemsEvent, WiredTradeCancelledEvent, WiredTradeCompletedEvent, WiredTradeOfferItemsComposer, WiredTradeAcceptComposer, WiredTradeCancelComposer, WiredTransactionFailEvent, WiredTransactionSuccessEvent } from './messages';
 import { PressKeybindComposer } from './messages';
 import { EarningsCenterEvent, EarningsClaimResultEvent, IncomeRewardNotificationEvent, RequestEarningsCenterComposer, ClaimEarningsRewardComposer, ClaimAllEarningsRewardsComposer } from './messages';
@@ -733,6 +734,8 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.USER_CURRENCY, UserCurrencyEvent);
         this._events.set(IncomingHeader.USER_SUBSCRIPTION, UserSubscriptionEvent);
         this._events.set(IncomingHeader.USER_WARDROBE_PAGE, UserWardrobePageEvent);
+        this._events.set(IncomingHeader.USER_NFT_WARDROBE, UserNftWardrobeMessageEvent);
+        this._events.set(IncomingHeader.USER_NFT_WARDROBE_SELECTION, SelectedNftWardrobeOutfitMessageEvent);
         this._events.set(IncomingHeader.USER_CLASSIFICATION, UserClassificationMessageEvent);
         this._events.set(IncomingHeader.GET_USER_TAGS, UserTagsMessageEvent);
         this._events.set(IncomingHeader.SCR_SEND_KICKBACK_INFO, ScrSendKickbackInfoMessageEvent);
@@ -819,6 +822,9 @@ export class VoltMessages implements IMessageConfiguration
         // AVATAR
         this._composers.set(OutgoingHeader.GET_WARDROBE, GetWardrobeMessageComposer);
         this._composers.set(OutgoingHeader.SAVE_WARDROBE_OUTFIT, SaveWardrobeOutfitMessageComposer);
+        this._composers.set(OutgoingHeader.GET_USER_NFT_WARDROBE, GetUserNftWardrobeMessageComposer);
+        this._composers.set(OutgoingHeader.GET_SELECTED_NFT_WARDROBE_OUTFIT, GetSelectedNftWardrobeOutfitMessageComposer);
+        this._composers.set(OutgoingHeader.SAVE_USER_NFT_WARDROBE, SaveUserNftWardrobeMessageComposer);
         this._composers.set(OutgoingHeader.CHANGE_USERNAME, ChangeUserNameMessageComposer);
         this._composers.set(OutgoingHeader.CHECK_USERNAME, CheckUserNameMessageComposer);
 
