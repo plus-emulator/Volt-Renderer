@@ -92,6 +92,9 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
     // A redraw that was held back (off screen, or over the frame's budget) and is still owed.
     private _pendingRedraw: boolean = false;
     private _pendingStructuralRedraw: boolean = false;
+    // The image shown before a zoom or effect change; its kept frames are released once the new
+    // image is on screen.
+    private _previousAvatarImage: IAvatarImage = null;
 
     private _isAvatarReady: boolean;
     private _needsUpdate: boolean;
@@ -176,6 +179,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
         if(this._avatarImage) this._avatarImage.dispose();
 
+        this._previousAvatarImage = null;
+
         if(this._cachedAvatars)
         {
             for(const avatar of this._cachedAvatars.getValues()) avatar && avatar.dispose();
@@ -233,6 +238,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
             if(didScaleUpdate || !this._avatarImage || didEffectUpdate)
             {
+                if(this._avatarImage && !this._previousAvatarImage) this._previousAvatarImage = this._avatarImage;
+
                 this._avatarImage = this.createAvatarImage(scale, this._effect);
 
                 if(!this._avatarImage) return;
@@ -349,6 +356,13 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                 if(avatarImage)
                 {
                     sprite.texture = avatarImage;
+
+                    if(this._previousAvatarImage)
+                    {
+                        if(this._previousAvatarImage !== this._avatarImage) this._previousAvatarImage.releaseCachedFrames();
+
+                        this._previousAvatarImage = null;
+                    }
                     if(highlightEnabled)
                     {
                         // sprite.filters  = [

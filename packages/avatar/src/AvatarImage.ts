@@ -76,6 +76,15 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
     private _compositionRevision: number = -1;
     private _preparedParts: PreparedAvatarPart[] = [];
     private _atlasSlot: AvatarAtlasSlot = null;
+    // Finished frames of the current pose, like AIR's full image cache: a walking avatar redraws
+    // its legs four times and then only swaps cells. Each frame owns the part list it was drawn from.
+    private _frameSlots: AvatarAtlasSlot[] = [];
+    private _frameParts: PreparedAvatarPart[][] = [];
+    private _frameDirection: number = -1;
+    private _frameActions: string = null;
+    private _frameSetType: string = null;
+    // Cells of an earlier pose, drawn over by the next one instead of going back to the atlas.
+    private _spareFrameSlots: AvatarAtlasSlot[] = [];
     // Reused for every immediate render: a new root per render made Pixi build (and destroy) a
     // render group with its own vertex arrays each time.
     private static _composeRoot: Container = null;
@@ -121,6 +130,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
 
         this.releaseActiveTexture();
         this.releaseAtlasSlot();
+        this.releaseFrames();
         this._compositions.clear();
         this._frameTextures = null;
         this._compositor = null;
@@ -380,6 +390,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
         if(this._compositionRevision !== revision)
         {
             this._compositions.clear();
+            this.retireFrames();
             this._compositionRevision = revision;
             this._changes = true;
         }
@@ -394,11 +405,54 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
 
         if(!avatarCanvas) return null;
 
-        const parts = this.prepareBodyParts(avatarCanvas, setType);
         const shared = (!this._figureShare || (this._figureShare.count > 1));
+
+        if((shared || this._avatarSpriteData) && this._frameSlots.length) this.retireFrames();
+
+        const frameIndex = (deferred && !shared && this._compositor && !this._avatarSpriteData) ? this.getFrameIndex(setType) : -1;
+
+        if(frameIndex >= 0)
+        {
+            const frame = this._frameSlots[frameIndex];
+
+            if(frame && !frame.incomplete && (frame.page.slots[frame.cell] === frame))
+            {
+                this.setAtlasTexture(frame.texture, setType);
+
+                return this._activeTexture;
+            }
+        }
+
+        const parts = this.prepareBodyParts(avatarCanvas, setType);
 
         if(deferred && !shared && this._compositor && !this._avatarSpriteData && !this._transientBodyParts.length && AvatarImage.allPartsFit(parts))
         {
+            // Content that animates on its own (hasAnimatedContent is known once the parts exist)
+            // does not repeat with the pose, so it is drawn every frame.
+            if((frameIndex >= 0) && !this._cache.hasAnimatedContent)
+            {
+                let frame = this._frameSlots[frameIndex];
+
+                if(!frame || (frame.page.slots[frame.cell] !== frame)) frame = (this.takeSpareFrame(avatarCanvas.width, avatarCanvas.height) ?? this._compositor.allocateFrame(avatarCanvas.width, avatarCanvas.height, this));
+
+                if(frame)
+                {
+                    frame.incomplete = false;
+
+                    const frameParts = AvatarImage.copyParts(parts, this._frameParts[frameIndex]);
+
+                    this._frameSlots[frameIndex] = frame;
+                    this._frameParts[frameIndex] = frameParts;
+                    this._compositor.queue(frame, frameParts, frameParts.length);
+                    this.setAtlasTexture(frame.texture, setType);
+
+                    // The avatar's own cell is not needed while it shows cached frames.
+                    this.releaseAtlasSlot();
+
+                    return this._activeTexture;
+                }
+            }
+
             const slot = this.getAtlasSlot(avatarCanvas.width, avatarCanvas.height);
 
             if(slot)
@@ -511,6 +565,166 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
         }
     }
 
+    // AIR AvatarImage.getFullImageCacheKey (WIN63-202610151745-318700621, AvatarImage.as:360-397)
+    // caches the whole image while the avatar only has a stand, walk, sit or lay posture and its
+    // head faces the body: a walk repeats every 4 frames. A still pose without animated content
+    // looks the same on every frame, so it keeps one image.
+    private getFrameIndex(setType: string): number
+    {
+        const actions = this._sortedActions;
+
+        if(!actions || (actions.length !== 1) || (this._headDirection !== this._mainDirection)) return -1;
+
+        let index = -1;
+
+        // Sorted actions carry the posture as their type.
+        switch(actions[0].actionType)
+        {
+            case AvatarAction.POSTURE_WALK:
+                index = (this._frameCounter % 4);
+                break;
+            case AvatarAction.POSTURE_STAND:
+            case AvatarAction.POSTURE_SIT:
+            case AvatarAction.POSTURE_LAY:
+                index = 0;
+                break;
+            default:
+                return -1;
+        }
+
+        if(this._cache.hasAnimatedContent) return -1;
+
+        if((this._frameDirection !== this._mainDirection) || (this._frameActions !== this._currentActionsString) || (this._frameSetType !== setType))
+        {
+            this.retireFrames();
+
+            // A still pose needs one cell; spares beyond what the new pose uses go back to the atlas.
+            const spares = this._spareFrameSlots;
+            const needed = ((actions[0].actionType === AvatarAction.POSTURE_WALK) ? 4 : 1);
+
+            while(spares.length > needed) this._compositor?.release(spares.pop());
+
+            this._frameDirection = this._mainDirection;
+            this._frameActions = this._currentActionsString;
+            this._frameSetType = setType;
+        }
+
+        return index;
+    }
+
+    private setAtlasTexture(texture: Texture, setType: string): void
+    {
+        if(this._activeTexture !== texture) this.releaseActiveTexture();
+
+        this._activeTexture = texture;
+        this._changes = false;
+        this._activeSetType = setType;
+    }
+
+    private static copyParts(parts: PreparedAvatarPart[], target: PreparedAvatarPart[]): PreparedAvatarPart[]
+    {
+        const copy = target ?? [];
+
+        for(let index = 0; index < parts.length; index++)
+        {
+            const part = parts[index];
+            const entry = copy[index];
+
+            if(entry)
+            {
+                entry.part = part.part;
+                entry.x = part.x;
+                entry.y = part.y;
+                entry.fits = part.fits;
+            }
+            else copy[index] = { part: part.part, x: part.x, y: part.y, fits: part.fits };
+        }
+
+        copy.length = parts.length;
+
+        return copy;
+    }
+
+    // A new pose: the frames of the last one become spare cells for the next frames.
+    private retireFrames(): void
+    {
+        const slots = this._frameSlots;
+
+        for(let index = 0; index < slots.length; index++)
+        {
+            if(slots[index]) this._spareFrameSlots.push(slots[index]);
+        }
+
+        slots.length = 0;
+        // A spare cell may still wait for its flush with its part list; new frames get new lists.
+        this._frameParts.length = 0;
+        this._frameDirection = -1;
+        this._frameActions = null;
+        this._frameSetType = null;
+    }
+
+    private takeSpareFrame(width: number, height: number): AvatarAtlasSlot
+    {
+        const spares = this._spareFrameSlots;
+
+        while(spares.length)
+        {
+            const slot = spares.pop();
+
+            if(slot.page.slots[slot.cell] !== slot) continue;
+            if((slot.page.width === width) && (slot.page.height === height)) return slot;
+
+            // Another canvas size (a pose with another geometry): give the cell back.
+            this._compositor?.release(slot);
+        }
+
+        return null;
+    }
+
+    private releaseFrames(): void
+    {
+        this.retireFrames();
+
+        for(const slot of this._spareFrameSlots) this._compositor?.release(slot);
+
+        this._spareFrameSlots.length = 0;
+    }
+
+    // The room shows another image of this avatar now (another zoom level or effect): its kept
+    // frames go back to the atlas, and it draws again if it is shown later.
+    public releaseCachedFrames(): void
+    {
+        if(!this._frameSlots.length && !this._spareFrameSlots.length) return;
+
+        const active = this._activeTexture;
+
+        if(active && (active !== this._atlasSlot?.texture) && this.isAtlasTexture(active))
+        {
+            this._activeTexture = null;
+            this._changes = true;
+        }
+
+        this.releaseFrames();
+    }
+
+    private isAtlasTexture(texture: Texture): boolean
+    {
+        if(!texture) return false;
+        if(texture === this._atlasSlot?.texture) return true;
+
+        for(const slot of this._frameSlots)
+        {
+            if(slot && (slot.texture === texture)) return true;
+        }
+
+        for(const slot of this._spareFrameSlots)
+        {
+            if(slot.texture === texture) return true;
+        }
+
+        return false;
+    }
+
     private static getComposeRoot(): Container
     {
         if(!AvatarImage._composeRoot || AvatarImage._composeRoot.destroyed) AvatarImage._composeRoot = new Container();
@@ -556,6 +770,8 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
 
     public onAtlasContentLost(): void
     {
+        // Cached frames are empty now as well; they are drawn again on the next frames.
+        this._frameDirection = -1;
         this._changes = true;
     }
 
@@ -1107,7 +1323,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
     private releaseActiveTexture(): void
     {
         if(this._sharedFrame) this._frameTextures.release(this._sharedFrame);
-        else if(this._activeTexture && (this._activeTexture !== this._atlasSlot?.texture)) GetTexturePool().putTexture(this._activeTexture);
+        else if(this._activeTexture && !this.isAtlasTexture(this._activeTexture)) GetTexturePool().putTexture(this._activeTexture);
 
         this._sharedFrame = null;
         this._activeTexture = null;

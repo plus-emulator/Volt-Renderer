@@ -16,6 +16,10 @@ export class AvatarAtlasSlot
 {
     public pending: AvatarAtlasPart[] = null;
     public pendingCount: number = 0;
+    // Pixels this slot counts against the cap for cached avatar frames (0 for an avatar's own cell).
+    public framePixels: number = 0;
+    // A part was gone by the time the cell was drawn: the picture is not whole.
+    public incomplete: boolean = false;
 
     constructor(
         public readonly page: AvatarAtlasPage,
@@ -116,6 +120,8 @@ export class AvatarAtlasCompositor
     public static GUTTER: number = 1;
     // Draw cells with plain WebGL2 when it is there; Pixi's batcher (WebGL1, WebGPU) otherwise.
     public static USE_GL: boolean = true;
+    // Cached avatar frames (a walk cycle, a standing pose) may use this many atlas pixels: 256 MB.
+    public static MAX_FRAME_PIXELS: number = (64 * 1024 * 1024);
     private static PAGE_SIZE: number = 2048;
 
     private _pages: Map<string, AvatarAtlasPage[]> = new Map();
@@ -130,6 +136,7 @@ export class AvatarAtlasCompositor
     private _lastFlushMs: number = 0;
     private _lastFlushJobs: number = 0;
     private _flushJobs: number = 0;
+    private _framePixels: number = 0;
 
     constructor()
     {
@@ -182,11 +189,34 @@ export class AvatarAtlasCompositor
         return page.allocate(owner);
     }
 
+    // A cell for a finished frame the avatar keeps, or null once the frames use their whole share.
+    public allocateFrame(width: number, height: number, owner: IAvatarAtlasOwner): AvatarAtlasSlot
+    {
+        const pixels = (Math.ceil(width) * Math.ceil(height));
+
+        if((this._framePixels + pixels) > AvatarAtlasCompositor.MAX_FRAME_PIXELS) return null;
+
+        const slot = this.allocate(width, height, owner);
+
+        if(!slot) return null;
+
+        slot.framePixels = pixels;
+        this._framePixels += pixels;
+
+        return slot;
+    }
+
     public release(slot: AvatarAtlasSlot): void
     {
         if(!slot) return;
 
         this.cancel(slot);
+
+        if(slot.framePixels)
+        {
+            this._framePixels -= slot.framePixels;
+            slot.framePixels = 0;
+        }
 
         const page = slot.page;
 
@@ -316,7 +346,12 @@ export class AvatarAtlasCompositor
                 const layers = part.part.layers;
 
                 // Disposed since it was queued (its avatar changed or left).
-                if(!layers) continue;
+                if(!layers)
+                {
+                    slot.incomplete = true;
+
+                    continue;
+                }
 
                 const x = (slot.x + part.x);
                 const y = (slot.y + part.y);
@@ -325,7 +360,12 @@ export class AvatarAtlasCompositor
                 {
                     const texture = layer.texture;
 
-                    if(!texture || texture.destroyed || !texture.source) continue;
+                    if(!texture || texture.destroyed || !texture.source)
+                    {
+                        slot.incomplete = true;
+
+                        continue;
+                    }
 
                     if(gl.full) gl.flush(renderer, target);
 
@@ -375,7 +415,12 @@ export class AvatarAtlasCompositor
                     const layers = part.part.layers;
 
                     // Disposed since it was queued (its avatar changed or left).
-                    if(!layers) continue;
+                    if(!layers)
+                    {
+                        slot.incomplete = true;
+
+                        continue;
+                    }
 
                     const x = (slot.x + part.x);
                     const y = (slot.y + part.y);
@@ -384,7 +429,12 @@ export class AvatarAtlasCompositor
                     {
                         const texture = layer.texture;
 
-                        if(!texture || texture.destroyed || !texture.source) continue;
+                        if(!texture || texture.destroyed || !texture.source)
+                        {
+                            slot.incomplete = true;
+
+                            continue;
+                        }
 
                         this.getQuad(count++).set(texture, (x + layer.x), (y + layer.y), layer.flipped, layer.tint);
                     }
