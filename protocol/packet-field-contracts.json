@@ -21699,7 +21699,7 @@
     {
       "name": "ROOM_HEIGHT_MAP_UPDATE",
       "direction": "server_to_client",
-      "header": 65424,
+      "header": 853,
       "java": {
         "symbol": "UpdateStackHeightComposer",
         "className": "UpdateStackHeightComposer",

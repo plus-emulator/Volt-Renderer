@@ -198,7 +198,7 @@ export class IncomingHeader
     public static ROOM_ENTER_ERROR = 1293;
     public static ROOM_FORWARD = 2059;
     public static ROOM_HEIGHT_MAP = 2099;
-    public static ROOM_HEIGHT_MAP_UPDATE = 65424;
+    public static ROOM_HEIGHT_MAP_UPDATE = 853;
     public static ROOM_INFO = 1450;
     public static ROOM_INFO_OWNER = 3478;
     // Nitro literals. The active floor-plan profile remaps these to 1589, 2757 and 2959.
