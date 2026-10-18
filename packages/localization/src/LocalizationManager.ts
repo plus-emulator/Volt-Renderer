@@ -6,6 +6,14 @@ import { BadgeBaseAndLevel } from './BadgeBaseAndLevel';
 
 export class LocalizationManager implements ILocalizationManager
 {
+    /** AIR CoreLocalizationManager.parseLocalization (CoreLocalizationManager.as:383,400): every literal "\\n" in a value becomes a line break. */
+    private static readonly LITERAL_NEWLINE = /\\n/gm;
+
+    private static decodeValue(value: unknown): unknown
+    {
+        return (typeof value === 'string') ? value.replace(LocalizationManager.LITERAL_NEWLINE, '\n') : value;
+    }
+
     /**
      * AIR Localization.fillParameterValues: every "%name%" of a text is replaced, in any letter case (RegExp "gim"), so a
      * parameter used twice (the author name of groupforum.view.forum_details is both a link target and the link text) is
@@ -65,7 +73,7 @@ export class LocalizationManager implements ILocalizationManager
     {
         if(!data) return false;
 
-        for(const key in data) this._definitions.set(key, data[key]);
+        for(const key in data) this._definitions.set(key, LocalizationManager.decodeValue(data[key]) as string);
 
         return true;
     }
@@ -258,7 +266,7 @@ export class LocalizationManager implements ILocalizationManager
 
     public setValue(key: string, value: string): void
     {
-        this._definitions.set(key, value);
+        this._definitions.set(key, LocalizationManager.decodeValue(value) as string);
     }
 
     public setOverrideValues(values: Map<string, string>): void
