@@ -13,6 +13,7 @@ import { PlaceHolderAvatarImage } from './PlaceHolderAvatarImage';
 import { AssetAliasCollection } from './alias';
 import { AvatarAtlasCompositor } from './cache/AvatarAtlasCompositor';
 import { AvatarFrameTextureCache } from './cache/AvatarFrameTextureCache';
+import { AvatarImageCache } from './cache/AvatarImageCache';
 import { HabboAvatarAnimations } from './data/HabboAvatarAnimations';
 import { HabboAvatarDanceSixSeven } from './data/HabboAvatarDanceSixSeven';
 import { HabboAvatarGeometry } from './data/HabboAvatarGeometry';
@@ -43,7 +44,11 @@ export class AvatarRenderManager implements IAvatarRenderManager
         this._aliasCollection.init();
 
         // Store callback for cleanup
-        this._aliasResetCallback = () => this._aliasCollection.reset();
+        this._aliasResetCallback = () =>
+        {
+            this._aliasCollection.reset();
+            AvatarImageCache.clearResolvedAssets();
+        };
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_ASSET_LOADED, this._aliasResetCallback);
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_EFFECT_LOADED, this._aliasResetCallback);
 

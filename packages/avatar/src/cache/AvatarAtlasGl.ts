@@ -1,4 +1,5 @@
 import { Renderer, Texture, TextureSource, WebGLRenderer } from 'pixi.js';
+import { AvatarLayerQuad, AvatarPartLayer } from '../AvatarImageBodyPartContainer';
 
 const MAX_UNITS = 16;
 const FLOATS_PER_VERTEX = 6;
@@ -213,11 +214,13 @@ export class AvatarAtlasGl
         this._quads++;
     }
 
-    // Same quad as a Sprite with this texture, anchor 0, an optional horizontal flip and an RGB tint.
-    public quad(texture: Texture, x: number, y: number, flipped: boolean, tint: number): boolean
+    // The layer's quad at (x, y): the same quad as a Sprite with its texture, anchor 0, its flip and tint.
+    public layer(layer: AvatarPartLayer, x: number, y: number): boolean
     {
         if(this._quads >= MAX_QUADS) return false;
 
+        const quad = layer.quad ?? (layer.quad = AvatarAtlasGl.layerQuad(layer));
+        const texture = layer.texture;
         const source = texture.source;
 
         let unit = this._units.get(source);
@@ -230,25 +233,32 @@ export class AvatarAtlasGl
             this._units.set(source, unit);
         }
 
+        const uvs = texture.uvs;
+
+        this.writeQuad((quad.left + x), (quad.top + y), (quad.right + x), (quad.bottom + y), uvs.x0, uvs.y0, uvs.x1, uvs.y1, uvs.x2, uvs.y2, uvs.x3, uvs.y3, quad.color, (unit | (quad.unpremultiplied ? 32 : 0)));
+
+        return true;
+    }
+
+    private static layerQuad(layer: AvatarPartLayer): AvatarLayerQuad
+    {
+        const texture = layer.texture;
         const trim = texture.trim;
         const orig = texture.orig;
         const minX = trim ? trim.x : 0;
         const maxX = trim ? (trim.x + trim.width) : orig.width;
-        const minY = trim ? trim.y : 0;
-        const maxY = trim ? (trim.y + trim.height) : orig.height;
-        const a = (flipped ? -1 : 1);
-        const left = ((a * minX) + x);
-        const right = ((a * maxX) + x);
-        const top = (minY + y);
-        const bottom = (maxY + y);
-        const uvs = texture.uvs;
-        // Tints are RGB; the vertex color is RGBA bytes with full alpha.
-        const color = (((0xFF << 24) | ((tint & 0xFF) << 16) | (tint & 0xFF00) | ((tint >> 16) & 0xFF)) >>> 0);
-        const textureId = (unit | ((source.alphaMode === 'no-premultiply-alpha') ? 32 : 0));
+        const a = (layer.flipped ? -1 : 1);
+        const tint = layer.tint;
 
-        this.writeQuad(left, top, right, bottom, uvs.x0, uvs.y0, uvs.x1, uvs.y1, uvs.x2, uvs.y2, uvs.x3, uvs.y3, color, textureId);
-
-        return true;
+        return {
+            left: ((a * minX) + layer.x),
+            right: ((a * maxX) + layer.x),
+            top: ((trim ? trim.y : 0) + layer.y),
+            bottom: ((trim ? (trim.y + trim.height) : orig.height) + layer.y),
+            // Tints are RGB; the vertex color is RGBA bytes with full alpha.
+            color: (((0xFF << 24) | ((tint & 0xFF) << 16) | (tint & 0xFF00) | ((tint >> 16) & 0xFF)) >>> 0),
+            unpremultiplied: (texture.source.alphaMode === 'no-premultiply-alpha')
+        };
     }
 
     private breakBatch(): void

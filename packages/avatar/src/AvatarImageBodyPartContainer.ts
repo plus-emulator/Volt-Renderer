@@ -1,7 +1,9 @@
 ﻿import { Container, Matrix, Point, Rectangle, Sprite, Texture } from 'pixi.js';
 
-// One asset of a baked body part, placed in the part's own coordinates.
-export type AvatarPartLayer = { texture: Texture; flipped: boolean; x: number; y: number; tint: number };
+// One asset of a baked body part, placed in the part's own coordinates. `quad` is filled in by the
+// atlas the first time it draws the layer (its corners and vertex colour never change).
+export type AvatarPartLayer = { texture: Texture; flipped: boolean; x: number; y: number; tint: number; quad?: AvatarLayerQuad };
+export type AvatarLayerQuad = { left: number; right: number; top: number; bottom: number; color: number; unpremultiplied: boolean };
 
 export class AvatarImageBodyPartContainer
 {

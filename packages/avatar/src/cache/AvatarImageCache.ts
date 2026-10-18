@@ -14,8 +14,22 @@ import { AvatarImageDirectionCache } from './AvatarImageDirectionCache';
 import { ImageData } from './ImageData';
 import { AvatarScaleTextureCache } from './AvatarScaleTextureCache';
 
+type AssetsByFrame = Map<number, IGraphicAsset>;
+
 export class AvatarImageCache
 {
+    // Every avatar resolves its parts' assets through the same names (scale, action, part type and
+    // id, direction, frame, with up to four fallbacks), and building and hashing those names was most
+    // of the cost of a body part an avatar had not shown yet. Parts repeat across figures, so the
+    // result is kept once for all avatars: part type -> part id -> action -> frame key -> asset or null.
+    // Emptied whenever avatar assets load (see AvatarRenderManager).
+    private static RESOLVED_ASSETS: Map<string, Map<string, Map<string, AssetsByFrame>>> = new Map();
+
+    public static clearResolvedAssets(): void
+    {
+        AvatarImageCache.RESOLVED_ASSETS.clear();
+    }
+
     private static DEFAULT_MAX_CACHE_STORAGE_TIME_MS: number = 60000;
     // Shared read-only defaults for the per-frame hot path — never mutate.
     private static EMPTY_REMOVE_DATA: string[] = [];
@@ -370,26 +384,7 @@ export class AvatarImageCache
                         }
                     }
 
-                    let assetName = (this._scale + '_' + assetPartDefinition + '_' + partType + '_' + partId + '_' + assetDirection + '_' + frameNumber);
-                    let asset = this._assets.getAsset(assetName);
-
-                    if(!asset)
-                    {
-                        assetName = (this._scale + '_' + assetPartDefinition + '_' + partType + '_' + partId + '_' + assetDirection + '_0');
-                        asset = this._assets.getAsset(assetName);
-                    }
-
-                    if(!asset)
-                    {
-                        assetName = (this._scale + '_' + this._defaultAction + '_' + partType + '_' + partId + '_' + assetDirection + '_' + frameNumber);
-                        asset = this._assets.getAsset(assetName);
-                    }
-
-                    if(!asset)
-                    {
-                        assetName = (this._scale + '_' + this._defaultAction + '_' + partType + '_' + partId + '_' + assetDirection + '_0');
-                        asset = this._assets.getAsset(assetName);
-                    }
+                    let asset = this.resolveAsset(assetPartDefinition, partType, partId, assetDirection, frameNumber);
 
                     if(!asset && (this._scale !== AvatarScaleType.LARGE))
                     {
@@ -442,6 +437,37 @@ export class AvatarImageCache
         }
 
         return new AvatarImageBodyPartContainer(layers, imageData.width, imageData.height, offset, isCacheable, imageData.rect);
+    }
+
+    private resolveAsset(assetPartDefinition: string, partType: string, partId: string, direction: number, frameNumber: number): IGraphicAsset
+    {
+        let byId = AvatarImageCache.RESOLVED_ASSETS.get(partType);
+
+        if(!byId) AvatarImageCache.RESOLVED_ASSETS.set(partType, (byId = new Map()));
+
+        let byAction = byId.get(partId);
+
+        if(!byAction) byId.set(partId, (byAction = new Map()));
+
+        let byFrame = byAction.get(assetPartDefinition);
+
+        if(!byFrame) byAction.set(assetPartDefinition, (byFrame = new Map()));
+
+        // Frame, direction, the scale and the default action, in one number.
+        const key = ((((frameNumber * 16) + direction) * 4) + ((this._scale === AvatarScaleType.LARGE) ? 0 : 2) + ((this._defaultAction === 'std') ? 0 : 1));
+        const cached = byFrame.get(key);
+
+        if((cached !== undefined) && (!cached || !cached.texture || !cached.texture.destroyed)) return cached;
+
+        let asset = this._assets.getAsset(this._scale + '_' + assetPartDefinition + '_' + partType + '_' + partId + '_' + direction + '_' + frameNumber);
+
+        if(!asset) asset = this._assets.getAsset(this._scale + '_' + assetPartDefinition + '_' + partType + '_' + partId + '_' + direction + '_0');
+        if(!asset) asset = this._assets.getAsset(this._scale + '_' + this._defaultAction + '_' + partType + '_' + partId + '_' + direction + '_' + frameNumber);
+        if(!asset) asset = this._assets.getAsset(this._scale + '_' + this._defaultAction + '_' + partType + '_' + partId + '_' + direction + '_0');
+
+        byFrame.set(key, (asset ?? null));
+
+        return (asset ?? null);
     }
 
     private getSmallScaleFallbackAsset(assetPartDefinition: string, partType: string, partId: string, assetDirection: number, frameNumber: number): IGraphicAsset

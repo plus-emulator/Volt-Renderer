@@ -329,7 +329,7 @@ export class AvatarAtlasCompositor
 
                     if(gl.full) gl.flush(renderer, target);
 
-                    gl.quad(texture, (x + layer.x), (y + layer.y), layer.flipped, layer.tint);
+                    gl.layer(layer, x, y);
                 }
             }
 
