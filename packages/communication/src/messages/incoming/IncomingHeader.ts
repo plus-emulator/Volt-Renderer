@@ -301,6 +301,8 @@ export class IncomingHeader
     public static USER_SETTINGS = 1853;
     public static USER_SUBSCRIPTION = 1857;
     public static USER_WARDROBE_PAGE = IncomingHeader.USER_OUTFITS;
+    public static USER_NFT_WARDROBE = 3493; // package_210/class_3851
+    public static USER_NFT_WARDROBE_SELECTION = 3131; // package_210/class_3356
     public static USER_CLASSIFICATION = 3919;
     public static GET_USER_TAGS = 65514;
     public static WIRED_ACTION = 2483;
