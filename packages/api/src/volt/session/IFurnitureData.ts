@@ -35,4 +35,8 @@ export interface IFurnitureData
     furniLine: string;
     environment: string;
     rare: boolean;
+    /** furnidata bc: the furni can be placed from the Builders Club catalogue. */
+    availableForBuildersClub: boolean;
+    /** furnidata bcofferid: the offer that sells it there, or -1. */
+    bcOfferId: number;
 }

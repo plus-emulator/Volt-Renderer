@@ -1,3 +1,4 @@
+export * from './ClaimProductMessageComposer';
 export * from './GetBonusRareInfoMessageComposer';
 export * from './GetBundleDiscountRulesetComposer';
 export * from './BuildersClubPlaceRoomItemMessageComposer';
@@ -20,6 +21,7 @@ export * from './GetRoomAdPurchaseInfoComposer';
 export * from './GetSeasonalCalendarDailyOfferComposer';
 export * from './GetSellablePetPalettesComposer';
 export * from './GetTargetedOfferComposer';
+export * from './HasClaimedProductMessageComposer';
 export * from './MarkCatalogNewAdditionsPageOpenedComposer';
 export * from './PurchaseBasicMembershipExtensionComposer';
 export * from './PurchaseFromCatalogAsGiftComposer';

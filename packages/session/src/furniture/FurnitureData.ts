@@ -34,8 +34,10 @@ export class FurnitureData implements IFurnitureData
     private _canPutStuffOn?: boolean;
     private _height?: number;
     private _tradeable?: boolean;
+    private _availableForBuildersClub: boolean;
+    private _bcOfferId: number;
 
-    constructor(type: FurnitureType, id: number, fullName: string, className: string, category: string, localizedName: string, description: string, revision: number, tileSizeX: number, tileSizeY: number, tileSizeZ: number, colors: number[], hadIndexedColor: boolean, colorIndex: number, adUrl: string, purchaseOfferId: number, purchaseCouldBeUsedForBuyout: boolean, rentOfferId: number, rentCouldBeUsedForBuyout: boolean, customParams: string, specialType: number, allowStack: boolean, canStandOn: boolean, canSitOn: boolean, canLayOn: boolean, excludedfromDynamic: boolean, furniLine: string, environment: string, rare: boolean, canPutStuffOn?: boolean, height?: number, tradeable?: boolean)
+    constructor(type: FurnitureType, id: number, fullName: string, className: string, category: string, localizedName: string, description: string, revision: number, tileSizeX: number, tileSizeY: number, tileSizeZ: number, colors: number[], hadIndexedColor: boolean, colorIndex: number, adUrl: string, purchaseOfferId: number, purchaseCouldBeUsedForBuyout: boolean, rentOfferId: number, rentCouldBeUsedForBuyout: boolean, customParams: string, specialType: number, allowStack: boolean, canStandOn: boolean, canSitOn: boolean, canLayOn: boolean, excludedfromDynamic: boolean, furniLine: string, environment: string, rare: boolean, canPutStuffOn?: boolean, height?: number, tradeable?: boolean, availableForBuildersClub: boolean = false, bcOfferId: number = -1)
     {
         this._type = type;
         this._id = id;
@@ -69,6 +71,8 @@ export class FurnitureData implements IFurnitureData
         this._canPutStuffOn = canPutStuffOn;
         this._height = height;
         this._tradeable = tradeable;
+        this._availableForBuildersClub = availableForBuildersClub;
+        this._bcOfferId = bcOfferId;
     }
 
     public get canPutStuffOn(): boolean | undefined
@@ -84,6 +88,16 @@ export class FurnitureData implements IFurnitureData
     public get tradeable(): boolean | undefined
     {
         return this._tradeable;
+    }
+
+    public get availableForBuildersClub(): boolean
+    {
+        return this._availableForBuildersClub;
+    }
+
+    public get bcOfferId(): number
+    {
+        return this._bcOfferId;
     }
 
     public get type(): FurnitureType
