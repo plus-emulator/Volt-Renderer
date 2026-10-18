@@ -468,13 +468,11 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
             }
         }
 
-        // Leaving the atlas (the figure became shared, a filter, a part outside the canvas).
-        if(this._atlasSlot)
-        {
-            if(this._activeTexture === this._atlasSlot.texture) this._activeTexture = null;
+        // Leaving the atlas (the figure became shared, a filter, a part outside the canvas). A cell
+        // or kept frame is never drawn into from here: a render into it clears its whole page.
+        if(this.isAtlasTexture(this._activeTexture)) this._activeTexture = null;
 
-            this.releaseAtlasSlot();
-        }
+        this.releaseAtlasSlot();
 
         // Cached body-part trees are immutable until disposed/replaced. Their placement is
         // resolved afresh, including effect offsets, head turns and each part's animation cycle.
@@ -602,7 +600,13 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
             const spares = this._spareFrameSlots;
             const needed = ((actions[0].actionType === AvatarAction.POSTURE_WALK) ? 4 : 1);
 
-            while(spares.length > needed) this._compositor?.release(spares.pop());
+            // The cell on screen stays: the next frame draws over it before the room is drawn.
+            while(spares.length > needed)
+            {
+                const last = (spares.length - 1);
+
+                this.releaseFrameSlot(spares.splice(((spares[last].texture === this._activeTexture) ? (last - 1) : last), 1)[0]);
+            }
 
             this._frameDirection = this._mainDirection;
             this._frameActions = this._currentActionsString;
@@ -675,7 +679,7 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
             if((slot.page.width === width) && (slot.page.height === height)) return slot;
 
             // Another canvas size (a pose with another geometry): give the cell back.
-            this._compositor?.release(slot);
+            this.releaseFrameSlot(slot);
         }
 
         return null;
@@ -685,9 +689,21 @@ export class AvatarImage implements IAvatarImage, IAvatarEffectListener, IAvatar
     {
         this.retireFrames();
 
-        for(const slot of this._spareFrameSlots) this._compositor?.release(slot);
+        for(const slot of this._spareFrameSlots) this.releaseFrameSlot(slot);
 
         this._spareFrameSlots.length = 0;
+    }
+
+    // A released cell's texture is destroyed, so the avatar must not keep showing it.
+    private releaseFrameSlot(slot: AvatarAtlasSlot): void
+    {
+        if(slot.texture === this._activeTexture)
+        {
+            this._activeTexture = null;
+            this._changes = true;
+        }
+
+        this._compositor?.release(slot);
     }
 
     // The room shows another image of this avatar now (another zoom level or effect): its kept
