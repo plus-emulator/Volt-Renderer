@@ -5,7 +5,7 @@ import { Sprite, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
 import { WiredHighlightFilterCache } from '../WiredHighlightFilters';
 import { HalfSizeTextureCache } from '../HalfSizeTexture';
-import { AvatarCompositeBudget } from './AvatarCompositeBudget';
+import { AvatarCompositeBudget, AvatarRedrawKind } from './AvatarCompositeBudget';
 import { AvatarVisualizationData } from './AvatarVisualizationData';
 import { ExpressionAdditionFactory, FloatingIdleZAddition, GameClickTargetAddition, GuideStatusBubbleAddition, HabbiconBubbleAddition, IAvatarAddition, MutedBubbleAddition, NumberBubbleAddition, TypingBubbleAddition } from './additions';
 
@@ -311,8 +311,9 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
             if(avatarSprite?.texture)
             {
                 const urgent = (structural || this._pendingStructuralRedraw);
+                const kind = urgent ? AvatarRedrawKind.URGENT : ((this._posture === AvatarAction.POSTURE_WALK) ? AvatarRedrawKind.WALK : AvatarRedrawKind.COSMETIC);
 
-                if(!visible || !AvatarCompositeBudget.allow(this.object.id, urgent))
+                if(!visible || !AvatarCompositeBudget.allow(this.object.id, kind))
                 {
                     this._pendingRedraw = true;
                     this._pendingStructuralRedraw = urgent;
