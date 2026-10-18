@@ -22,6 +22,8 @@ export class OutgoingHeader
     public static GET_CATALOG_PAGE = 2955;
     public static BUILDERS_CLUB_PLACE_ROOM_ITEM = 141;
     public static BUILDERS_CLUB_PLACE_WALL_ITEM = 3269;
+    public static HAS_CLAIMED_PRODUCT = 628; // package_143/class_3538
+    public static CLAIM_PRODUCT = 152; // package_143/class_2610
     public static CATALOG_PURCHASE = 1184;
     public static CATALOG_PURCHASE_GIFT = 2809;
     public static GET_PRODUCT_OFFER = 2810;

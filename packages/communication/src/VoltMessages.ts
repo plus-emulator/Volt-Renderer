@@ -1,5 +1,6 @@
 import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
 import { BuildersClubFurniCountMessageEvent, BuildersClubPlacementWarningMessageEvent, BuildersClubPlaceRoomItemMessageComposer, BuildersClubPlaceWallItemMessageComposer, BuildersClubSubscriptionStatusMessageEvent } from './messages';
+import { ClaimProductMessageComposer, ClaimProductResultMessageEvent, HasClaimedProductMessageComposer, HasClaimedProductResponseMessageEvent } from './messages';
 import { WiredGetVariablesForObjectComposer, WiredVariableInspectionDataEvent, WiredVariableInspectionRequestComposer, WiredVariablesForObjectEvent } from './messages';
 import { WiredUserVariablesRequest64Composer, WiredVariableHoldersRequest64Composer, WiredVariableHoldersPage64Composer, WiredUserVariableUpdate64Composer, WiredUserVariableManage64Composer, WiredUserVariablesData64Event, WiredVariableHolders64Event, WiredVariableHoldersPage64Event } from './messages';
 import { WiredFurniSelectorEvent, WiredFurniAddonEvent, WiredFurniVariableEvent, UpdateSelectorMessageComposer, UpdateAddonMessageComposer, UpdateVariableMessageComposer } from './messages';
@@ -111,6 +112,8 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.BUILDERS_CLUB_SUBSCRIPTION_STATUS, BuildersClubSubscriptionStatusMessageEvent);
         this._events.set(IncomingHeader.BUILDERS_CLUB_FURNI_COUNT, BuildersClubFurniCountMessageEvent);
         this._events.set(IncomingHeader.BUILDERS_CLUB_PLACEMENT_WARNING, BuildersClubPlacementWarningMessageEvent);
+        this._events.set(IncomingHeader.HAS_CLAIMED_PRODUCT_RESPONSE, HasClaimedProductResponseMessageEvent);
+        this._events.set(IncomingHeader.CLAIM_PRODUCT_RESULT, ClaimProductResultMessageEvent);
         this._events.set(IncomingHeader.CATALOG_PRODUCT_METADATA, CatalogProductMetadataEvent);
         this._events.set(IncomingHeader.CATALOG_RUNTIME_CONFIGURATION, CatalogRuntimeConfigurationEvent);
 
@@ -841,6 +844,8 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.GET_CATALOG_PAGE, GetCatalogPageComposer);
         this._composers.set(OutgoingHeader.BUILDERS_CLUB_PLACE_ROOM_ITEM, BuildersClubPlaceRoomItemMessageComposer);
         this._composers.set(OutgoingHeader.BUILDERS_CLUB_PLACE_WALL_ITEM, BuildersClubPlaceWallItemMessageComposer);
+        this._composers.set(OutgoingHeader.HAS_CLAIMED_PRODUCT, HasClaimedProductMessageComposer);
+        this._composers.set(OutgoingHeader.CLAIM_PRODUCT, ClaimProductMessageComposer);
         this._composers.set(OutgoingHeader.CATALOG_PURCHASE, PurchaseFromCatalogComposer);
         this._composers.set(OutgoingHeader.CATALOG_PURCHASE_GIFT, PurchaseFromCatalogAsGiftComposer);
         this._composers.set(OutgoingHeader.GET_PRODUCT_OFFER, GetProductOfferComposer);
