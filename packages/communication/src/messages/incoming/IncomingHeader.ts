@@ -25,6 +25,8 @@ export class IncomingHeader
     public static BUILDERS_CLUB_SUBSCRIPTION_STATUS = 1910;
     public static BUILDERS_CLUB_FURNI_COUNT = 3928;
     public static BUILDERS_CLUB_PLACEMENT_WARNING = 2075;
+    public static HAS_CLAIMED_PRODUCT_RESPONSE = 2980; // package_177/class_2903
+    public static CLAIM_PRODUCT_RESULT = 3734; // package_177/class_3354
     public static CFH_RESULT_MESSAGE = 2428;
     public static CLIENT_LATENCY = 3742;
     public static CLIENT_PING = 3107;
