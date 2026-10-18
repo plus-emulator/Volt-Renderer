@@ -69,6 +69,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
     private _roomDraggingAlwaysCenters: boolean = false;
     private _roomAllowsDragging: boolean = true;
     private _initializedCameraCanvases = new WeakSet<IRoomRenderingCanvas>();
+    private _pendingRoomCamera: { roomId: number, canvasId: number } = null;
     private _roomDatas: Map<number, RoomData> = new Map();
     private _roomsWithInitializedObjects: Set<number> = new Set();
     private _furnitureMetadata: Map<number, Map<number, IFurnitureMetadata>> = new Map();
@@ -956,6 +957,14 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         this.reportInitializedRooms();
 
+        if(this._pendingRoomCamera)
+        {
+            const { roomId, canvasId } = this._pendingRoomCamera;
+
+            this._pendingRoomCamera = null;
+            this.initializeRoomCamera(roomId, canvasId, false);
+        }
+
         this.updateRoomCameras(time);
 
         if(this._mouseCursorUpdate) this.setPointer();
@@ -1223,7 +1232,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         }
     }
 
-    public initializeRoomCamera(roomId: number, canvasId: number): void
+    public initializeRoomCamera(roomId: number, canvasId: number, renderFirst: boolean = true): void
     {
         if(roomId !== this._activeRoomId) return;
 
@@ -1240,10 +1249,23 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         // Render once before applying the native room's initial camera target.
         this._initializedCameraCanvases.add(canvas);
-        this.update(Ticker.shared);
+
+        if(renderFirst) this.update(Ticker.shared);
 
         if(roomId !== this._activeRoomId || this.getRoomInstance(roomId) !== instance
             || this.getRoomInstanceRenderingCanvas(roomId, canvasId) !== canvas) return;
+
+        // The camera needs the room's drawn size. A render that came too soon to build the
+        // planes leaves it empty, and the camera would park the room off screen for good.
+        const bounds = this.getCanvasBoundingRectangle(canvasId);
+
+        if(!bounds || (bounds.width <= 1) || (bounds.height <= 1))
+        {
+            this._initializedCameraCanvases.delete(canvas);
+            this._pendingRoomCamera = { roomId, canvasId };
+
+            return;
+        }
 
         this.updateRoomCamera(roomId, canvasId, new Vector3d(x, y, z), 1);
     }
