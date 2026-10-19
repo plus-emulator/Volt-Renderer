@@ -1,4 +1,5 @@
 import { CanonicalWiredMovement, IsBuildersClubFurniId, IsTemporaryFurniId, IFurnitureMetadata, IFurnitureMetadataEntry, IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MapDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectOperationType, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType, ToolbarIconEnum } from '@volt/api';
+import { GetAvatarRenderManager } from '@volt/avatar';
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '@volt/communication';
 import { GetConfiguration } from '@volt/configuration';
 import { BadgeImageReadyEvent, GetEventDispatcher, VoltToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomZoomEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '@volt/events';
@@ -966,6 +967,9 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         }
 
         this.updateRoomCameras(time);
+
+        // Avatars that changed this frame draw into their atlas cells before the stage renders.
+        GetAvatarRenderManager().flushCompositions();
 
         if(this._mouseCursorUpdate) this.setPointer();
 
@@ -3826,6 +3830,8 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
     public createTextureFromRoom(roomId: number, canvasId: number = -1, bounds: Rectangle = null): Texture
     {
+        GetAvatarRenderManager().flushCompositions();
+
         let canvas: IRoomRenderingCanvas = null;
 
         if(canvasId > -1)

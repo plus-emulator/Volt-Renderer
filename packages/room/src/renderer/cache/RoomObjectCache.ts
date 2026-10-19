@@ -6,7 +6,8 @@ export class RoomObjectCache
 {
     private static MAX_SIZE_FOR_AVG_COLOR: number = 200;
 
-    private _data: Map<string, RoomObjectCacheItem> = new Map();
+    // Keyed by object instance id; a string key cost a toString per object per frame.
+    private _data: Map<number, RoomObjectCacheItem> = new Map();
     private _roomObjectVariableAccurateZ: string;
 
     constructor(accurateZ: string)
@@ -31,7 +32,7 @@ export class RoomObjectCache
         }
     }
 
-    public getObjectCache(id: string): RoomObjectCacheItem
+    public getObjectCache(id: number): RoomObjectCacheItem
     {
         let existing = this._data.get(id);
 
@@ -45,7 +46,7 @@ export class RoomObjectCache
         return existing;
     }
 
-    public removeObjectCache(id: string): void
+    public removeObjectCache(id: number): void
     {
         const existing = this._data.get(id);
 

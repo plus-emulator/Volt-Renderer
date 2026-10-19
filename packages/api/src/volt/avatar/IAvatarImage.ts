@@ -13,7 +13,8 @@ export interface IAvatarImage
     getScale(): string;
     getSprites(): ISpriteDataContainer[];
     getLayerData(sprite: ISpriteDataContainer): IAnimationLayerData;
-    processAsTexture(setType: string, hightlight: boolean, texture?: Texture): Texture;
+    processAsTexture(setType: string, hightlight: boolean, deferred?: boolean): Texture;
+    releaseCachedFrames(): void;
     processAsImageUrl(setType: string): string;
     processAsCroppedImageUrl(setType: string, trimTransparentPixels?: boolean): string;
     processAsContainer(setType: string): Container;

@@ -5,13 +5,15 @@ import { GetEventDispatcher, VoltEventType } from '@volt/events';
 import { loadGamedata } from '@volt/utils';
 import { AvatarAssetDownloadManager } from './AvatarAssetDownloadManager';
 import { AvatarFigureContainer } from './AvatarFigureContainer';
-import { AvatarImage } from './AvatarImage';
+import { AvatarFigureShare, AvatarImage } from './AvatarImage';
 import { AvatarStructure } from './AvatarStructure';
 import { EffectAssetDownloadManager } from './EffectAssetDownloadManager';
 import { FigureDataContainer } from './FigureDataContainer';
 import { PlaceHolderAvatarImage } from './PlaceHolderAvatarImage';
 import { AssetAliasCollection } from './alias';
+import { AvatarAtlasCompositor } from './cache/AvatarAtlasCompositor';
 import { AvatarFrameTextureCache } from './cache/AvatarFrameTextureCache';
+import { AvatarImageCache } from './cache/AvatarImageCache';
 import { HabboAvatarAnimations } from './data/HabboAvatarAnimations';
 import { HabboAvatarDanceSixSeven } from './data/HabboAvatarDanceSixSeven';
 import { HabboAvatarGeometry } from './data/HabboAvatarGeometry';
@@ -29,6 +31,8 @@ export class AvatarRenderManager implements IAvatarRenderManager
     private _placeHolderFigure: AvatarFigureContainer = new AvatarFigureContainer(AvatarRenderManager.DEFAULT_FIGURE);
     private _aliasResetCallback: () => void = null;
     private _frameTextures: AvatarFrameTextureCache = new AvatarFrameTextureCache();
+    private _compositor: AvatarAtlasCompositor = new AvatarAtlasCompositor();
+    private _figureShares: Map<string, AvatarFigureShare> = new Map();
 
     public async init(): Promise<void>
     {
@@ -40,7 +44,11 @@ export class AvatarRenderManager implements IAvatarRenderManager
         this._aliasCollection.init();
 
         // Store callback for cleanup
-        this._aliasResetCallback = () => this._aliasCollection.reset();
+        this._aliasResetCallback = () =>
+        {
+            this._aliasCollection.reset();
+            AvatarImageCache.clearResolvedAssets();
+        };
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_ASSET_LOADED, this._aliasResetCallback);
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_EFFECT_LOADED, this._aliasResetCallback);
 
@@ -67,6 +75,7 @@ export class AvatarRenderManager implements IAvatarRenderManager
         this._avatarAssetDownloadManager?.dispose();
         this._effectAssetDownloadManager?.dispose();
         this._frameTextures.dispose();
+        this._compositor.dispose();
     }
 
     private async loadActions(): Promise<void>
@@ -136,12 +145,55 @@ export class AvatarRenderManager implements IAvatarRenderManager
 
         if(this._avatarAssetDownloadManager.isAvatarFigureContainerReady(figureContainer))
         {
-            return new AvatarImage(this._structure, this._aliasCollection, figureContainer, size, this._effectAssetDownloadManager, effectListener, this._frameTextures);
+            return new AvatarImage(this._structure, this._aliasCollection, figureContainer, size, this._effectAssetDownloadManager, effectListener, this._frameTextures, this._compositor, this.getFigureShare(figureContainer.getFigureString(), size));
         }
 
         this._avatarAssetDownloadManager.downloadAvatarFigure(figureContainer, listener);
 
-        return new PlaceHolderAvatarImage(this._structure, this._aliasCollection, this._placeHolderFigure, size, this._effectAssetDownloadManager);
+        // Every placeholder wears the same figure, so they all share the cached frames.
+        return new PlaceHolderAvatarImage(this._structure, this._aliasCollection, this._placeHolderFigure, size, this._effectAssetDownloadManager, this._frameTextures, this._compositor, this.getFigureShare(this._placeHolderFigure.getFigureString(), size));
+    }
+
+    private getFigureShare(figure: string, size: string): AvatarFigureShare
+    {
+        const key = `${ size }|${ figure }`;
+
+        let share = this._figureShares.get(key);
+
+        if(!share)
+        {
+            share = { count: 0 };
+
+            this._figureShares.set(key, share);
+        }
+
+        share.count++;
+
+        // Forget figures nobody wears any more, now and then, so the map follows the room.
+        if(this._figureShares.size > 8192)
+        {
+            for(const [shareKey, value] of this._figureShares)
+            {
+                if(value.count <= 0) this._figureShares.delete(shareKey);
+            }
+        }
+
+        return share;
+    }
+
+    public get lastCompositionFlushMs(): number
+    {
+        return (this._compositor?.lastFlushMs ?? 0);
+    }
+
+    public get lastCompositionFlushJobs(): number
+    {
+        return (this._compositor?.lastFlushJobs ?? 0);
+    }
+
+    public flushCompositions(): void
+    {
+        this._compositor?.flush();
     }
 
     public downloadAvatarFigure(container: IAvatarFigureContainer, listener: IAvatarImageListener): void

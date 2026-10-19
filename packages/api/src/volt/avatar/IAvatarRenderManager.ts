@@ -17,6 +17,8 @@ export interface IAvatarRenderManager
     getFigureStringWithFigureIds(figure: string, gender: string, figureIds: number[]): string;
     getMandatoryAvatarPartSetIds(gender: string, clubLevel: number): string[];
     getAssetByName(name: string): IGraphicAsset;
+    // Draws the avatars that changed this frame; the room engine calls it before the stage renders.
+    flushCompositions(): void;
     assets: IAssetManager;
     structureData: IStructureData;
 }
