@@ -26,24 +26,24 @@ class TestWrapper
     }
 }
 
-/** AIR WIN63-202610151745-318700621 class_2061: composers 2018 / 1473 / 1115, events 417 / 3490 (Sulek-reported GetCustomFilter, AddToCustomFilter, RemoveFromCustomFilter, GetCustomFilterResult, ModifyCustomFilterResult). */
+/** AIR WIN63-202610201032-107964540 class_2061: composers 3608 / 2131 / 1058, events 2546 / 76 (Sulek-reported GetCustomFilter, AddToCustomFilter, RemoveFromCustomFilter, GetCustomFilterResult, ModifyCustomFilterResult). */
 describe('personal word filter packet contract', () =>
 {
     it('uses the official headers and registers every request and response', () =>
     {
         const messages = new VoltMessages();
 
-        expect(OutgoingHeader.GET_CUSTOM_FILTER).toBe(2018);
-        expect(OutgoingHeader.ADD_CUSTOM_FILTER_WORD).toBe(1473);
-        expect(OutgoingHeader.REMOVE_CUSTOM_FILTER_WORD).toBe(1115);
-        expect(IncomingHeader.CUSTOM_FILTER_RESULT).toBe(417);
-        expect(IncomingHeader.MODIFY_CUSTOM_FILTER_RESULT).toBe(3490);
+        expect(OutgoingHeader.GET_CUSTOM_FILTER).toBe(3608);
+        expect(OutgoingHeader.ADD_CUSTOM_FILTER_WORD).toBe(2131);
+        expect(OutgoingHeader.REMOVE_CUSTOM_FILTER_WORD).toBe(1058);
+        expect(IncomingHeader.CUSTOM_FILTER_RESULT).toBe(2546);
+        expect(IncomingHeader.MODIFY_CUSTOM_FILTER_RESULT).toBe(76);
 
-        expect(messages.composers.get(2018)).toBe(GetCustomFilterMessageComposer);
-        expect(messages.composers.get(1473)).toBe(AddCustomFilterWordMessageComposer);
-        expect(messages.composers.get(1115)).toBe(RemoveCustomFilterWordMessageComposer);
-        expect(messages.events.get(417)).toBe(CustomFilterResultEvent);
-        expect(messages.events.get(3490)).toBe(ModifyCustomFilterResultEvent);
+        expect(messages.composers.get(3608)).toBe(GetCustomFilterMessageComposer);
+        expect(messages.composers.get(2131)).toBe(AddCustomFilterWordMessageComposer);
+        expect(messages.composers.get(1058)).toBe(RemoveCustomFilterWordMessageComposer);
+        expect(messages.events.get(2546)).toBe(CustomFilterResultEvent);
+        expect(messages.events.get(76)).toBe(ModifyCustomFilterResultEvent);
     });
 
     it('serializes the request bodies as the official composers do', () =>
