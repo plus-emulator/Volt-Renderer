@@ -19655,6 +19655,22 @@
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2860,
+      "symbol": "WIRED_GET_ROOM_STATS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredGetRoomStatsComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2006,
+      "symbol": "WIRED_ROOM_STATS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredRoomStatsParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
       "direction": "server_to_client",
       "side": "typescript",
       "header": 1478,

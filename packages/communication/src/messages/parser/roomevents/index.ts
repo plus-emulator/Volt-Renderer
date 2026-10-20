@@ -42,6 +42,7 @@ export * from './WiredVariableHolders64Parser';
 export * from './WiredVariableHoldersPage64Parser';
 export * from './WiredVariableInspectionDataParser';
 export * from './WiredVariablesForObjectParser';
+export * from './WiredRoomStatsParser';
 
 export * from './WiredNativeVariableData';
 export * from './WiredFurniTransparencyParser';

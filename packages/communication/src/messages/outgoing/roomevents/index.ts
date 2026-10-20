@@ -34,6 +34,7 @@ export * from './WiredUserVariableUpdate64Composer';
 export * from './WiredUserVariableManage64Composer';
 export * from './WiredVariableInspectionRequestComposer';
 export * from './WiredGetVariablesForObjectComposer';
+export * from './WiredGetRoomStatsComposer';
 export * from './WiredSetObjectVariableValueComposer';
 export * from './WiredVariableShareSynchronizeComposer';
 export * from './VariableLeaderboardSubscribeComposer';
