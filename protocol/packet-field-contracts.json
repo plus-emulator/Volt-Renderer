@@ -19647,6 +19647,14 @@
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3165,
+      "symbol": "WIRED_SET_OBJECT_VARIABLE_VALUE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredSetObjectVariableValueComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
       "direction": "server_to_client",
       "side": "typescript",
       "header": 1478,
