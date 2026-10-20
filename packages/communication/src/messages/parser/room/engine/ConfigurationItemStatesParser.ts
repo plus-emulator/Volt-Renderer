@@ -13,6 +13,7 @@ export class ConfigurationItemStatesParser implements IMessageParser
     private _chooserDisabled: boolean;
     private _freeFurniMovementsEnabled: boolean;
     private _invisibleFurni: boolean;
+    private _fifthFlag: boolean;
 
     public flush(): boolean
     {
@@ -20,6 +21,7 @@ export class ConfigurationItemStatesParser implements IMessageParser
         this._chooserDisabled = false;
         this._freeFurniMovementsEnabled = false;
         this._invisibleFurni = false;
+        this._fifthFlag = false;
 
         return true;
     }
@@ -29,9 +31,14 @@ export class ConfigurationItemStatesParser implements IMessageParser
         if(!wrapper) return false;
 
         this._isHanditemControlBlocked = wrapper.readBoolean();
-        this._chooserDisabled = wrapper.readBoolean();
-        this._freeFurniMovementsEnabled = wrapper.readBoolean();
-        this._invisibleFurni = wrapper.readBoolean();
+
+        // Official order: chooser, free furni movements, invisible furni. Each is read only while bytes remain.
+        this._chooserDisabled = wrapper.bytesAvailable ? wrapper.readBoolean() : false;
+        this._freeFurniMovementsEnabled = wrapper.bytesAvailable ? wrapper.readBoolean() : false;
+        this._invisibleFurni = wrapper.bytesAvailable ? wrapper.readBoolean() : false;
+
+        // The server sends a fifth byte. The official client ignores it; it is kept for completeness.
+        this._fifthFlag = wrapper.bytesAvailable ? wrapper.readBoolean() : false;
 
         return true;
     }
@@ -54,5 +61,11 @@ export class ConfigurationItemStatesParser implements IMessageParser
     public get invisibleFurni(): boolean
     {
         return this._invisibleFurni;
+    }
+
+    /** Fifth byte of 3946. Unused by the official client. */
+    public get fifthFlag(): boolean
+    {
+        return this._fifthFlag;
     }
 }

@@ -57,4 +57,6 @@ export interface IRoomCreator
     setRoomEngineGameMode(roomId: number, isPlaying: boolean): void;
     setFreeFurniMovementsMode(roomId: number, enabled: boolean): void;
     setChooserDisabled(roomId: number, disabled: boolean): void;
+    setHanditemControlBlocked(roomId: number, blocked: boolean): void;
+    setInvisibleFurni(roomId: number, enabled: boolean): void;
 }

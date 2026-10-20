@@ -105,8 +105,6 @@ export class RoomObjectVariable
     public static FURNITURE_WIRED_HIGHLIGHT_TYPE: string = 'furniture_wired_highlight_type';
     public static FURNITURE_WIRED_HIGHLIGHT_STRENGTH: string = 'furniture_wired_highlight_strength';
     public static FURNITURE_WIRED_HIGHLIGHT_COLOR: string = 'furniture_wired_highlight_color';
-    public static FURNITURE_CONF_INVIS_HIDDEN: string = 'furniture_conf_invis_hidden';
-    public static FURNITURE_AREA_HIDE_HIDDEN: string = 'furniture_area_hide_hidden';
     public static FURNITURE_USAGE_POLICY: string = 'furniture_usage_policy';
     public static FURNITURE_OWNER_ID: string = 'furniture_owner_id';
     public static FURNITURE_OWNER_NAME: string = 'furniture_owner_name';

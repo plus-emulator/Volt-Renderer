@@ -941,6 +941,52 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         return (roomInstance.model.getValue<number>(RoomVariableEnum.CHOOSER_DISABLED) > 0);
     }
 
+    /** AIR `setHanditemControlBlocked`: ConfigurationItemStates hides the pass and drop hand item buttons. */
+    public setHanditemControlBlocked(roomId: number, blocked: boolean): void
+    {
+        const roomInstance = this.getRoomInstance(roomId);
+
+        if(!roomInstance) return;
+
+        roomInstance.model.setValue(RoomVariableEnum.HANDITEM_CONTROL_BLOCKED, (blocked ? 1 : 0));
+    }
+
+    public get activeRoomHasHanditemControlBlocked(): boolean
+    {
+        const roomInstance = this.getRoomInstance(this._activeRoomId);
+
+        if(!roomInstance) return false;
+
+        return (roomInstance.model.getValue<number>(RoomVariableEnum.HANDITEM_CONTROL_BLOCKED) > 0);
+    }
+
+    /** AIR `setInvisibleFurni`: ConfigurationItemStates hides the sprite layers tagged `invisible` on every floor and wall object. */
+    public setInvisibleFurni(roomId: number, enabled: boolean): void
+    {
+        const roomInstance = this.getRoomInstance(roomId);
+
+        if(!roomInstance) return;
+
+        roomInstance.model.setValue(RoomVariableEnum.INVISIBLE_FURNI, (enabled ? 1 : 0));
+
+        for(const category of [ RoomObjectCategory.FLOOR, RoomObjectCategory.WALL ])
+        {
+            for(const roomObject of roomInstance.getRoomObjectsForCategory(category))
+            {
+                roomObject?.model?.setValue(RoomObjectVariable.FURNITURE_INVISIBLE_LAYER, (enabled ? 1 : 0));
+            }
+        }
+    }
+
+    public get activeRoomHasInvisibleFurni(): boolean
+    {
+        const roomInstance = this.getRoomInstance(this._activeRoomId);
+
+        if(!roomInstance) return false;
+
+        return (roomInstance.model.getValue<number>(RoomVariableEnum.INVISIBLE_FURNI) > 0);
+    }
+
     public update(ticker: Ticker): void
     {
         if(!this._roomManager) return;
@@ -1787,7 +1833,15 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         if(!instance) return null;
 
-        return instance.createRoomObjectAndInitalize(objectId, type, category) as IRoomObjectController;
+        const roomObject = instance.createRoomObjectAndInitalize(objectId, type, category) as IRoomObjectController;
+
+        // AIR applyInvisibleFurniState: objects created while the room flag is on start with the invisible layers hidden.
+        if(roomObject?.model && ((category === RoomObjectCategory.FLOOR) || (category === RoomObjectCategory.WALL)) && (instance.model.getValue<number>(RoomVariableEnum.INVISIBLE_FURNI) > 0))
+        {
+            roomObject.model.setValue(RoomObjectVariable.FURNITURE_INVISIBLE_LAYER, 1);
+        }
+
+        return roomObject;
     }
 
     public getTotalObjectsForManager(roomId: number, category: number): number

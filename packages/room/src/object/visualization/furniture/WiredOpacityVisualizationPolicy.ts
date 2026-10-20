@@ -7,7 +7,7 @@ export const normalizeOpacityMultiplier = (value: number, fallback = 1): number 
     return Math.max(0, Math.min(1, value));
 };
 
-export const composeFurnitureAlphaMultiplier = (baseMultiplier: number, wiredMultiplier: number, hidden: boolean): number =>
+export const composeFurnitureAlphaMultiplier = (baseMultiplier: number, wiredMultiplier: number, hidden: boolean = false): number =>
 {
     if(hidden) return 0;
 

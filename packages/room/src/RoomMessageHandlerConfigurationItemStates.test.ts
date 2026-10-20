@@ -13,7 +13,7 @@ const ROOM_ID = 9;
 
 const createHandler = () =>
 {
-    const roomEngine = { setChooserDisabled: vi.fn(), setFreeFurniMovementsMode: vi.fn() };
+    const roomEngine = { setHanditemControlBlocked: vi.fn(), setChooserDisabled: vi.fn(), setFreeFurniMovementsMode: vi.fn(), setInvisibleFurni: vi.fn() };
     const handler = Object.create(RoomMessageHandler.prototype) as RoomMessageHandler;
 
     Object.assign(handler, { _roomEngine: roomEngine, _currentRoomId: ROOM_ID });
@@ -21,7 +21,7 @@ const createHandler = () =>
     return { handler, roomEngine };
 };
 
-const dispatch = (handler: RoomMessageHandler, parser: { chooserDisabled: boolean; freeFurniMovementsEnabled: boolean }) =>
+const dispatch = (handler: RoomMessageHandler, parser: { isHanditemControlBlocked?: boolean; chooserDisabled: boolean; freeFurniMovementsEnabled: boolean; invisibleFurni?: boolean }) =>
 {
     (handler as unknown as { onConfigurationItemStatesEvent: (event: unknown) => void }).onConfigurationItemStatesEvent({ getParser: () => parser });
 };

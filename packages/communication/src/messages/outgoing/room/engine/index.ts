@@ -14,4 +14,5 @@ export * from './PetRemoveComposer';
 export * from './RemoveWallItemComposer';
 export * from './SetClothingChangeDataMessageComposer';
 export * from './SetItemDataMessageComposer';
+export * from './SetAreaHideComposer';
 export * from './SetObjectDataMessageComposer';
