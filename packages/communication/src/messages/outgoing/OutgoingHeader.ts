@@ -137,6 +137,7 @@ export class OutgoingHeader
     public static ITEM_DIMMER_TOGGLE = 2253;
     public static ITEM_EXCHANGE_REDEEM = 301;
     public static ITEM_PAINT = 1992;
+    public static SET_AREA_HIDE = 3831;
     public static SET_OBJECT_DATA = 2955;
     public static ITEM_STACK_HELPER = 1309;
     public static ITEM_STACK_HELPER_ADJACENT = 65449;

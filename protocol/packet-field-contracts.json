@@ -12506,6 +12506,68 @@
           "kind": "scalar",
           "type": "boolean",
           "name": ""
+        },
+        {
+          "kind": "scalar",
+          "type": "boolean",
+          "name": ""
+        }
+      ]
+    },
+    {
+      "name": "SET_AREA_HIDE",
+      "direction": "client_to_server",
+      "header": 3831,
+      "csharp": {
+        "symbol": "SetAreaHideEvent",
+        "className": "SetAreaHideEvent",
+        "path": "Communication/Packets/Incoming/Rooms/Furni/SetAreaHideEvent.cs"
+      },
+      "typescript": {
+        "symbol": "SET_AREA_HIDE",
+        "className": "SetAreaHideComposer",
+        "path": "packages/communication/src/messages/outgoing/room/engine/SetAreaHideComposer.ts"
+      },
+      "fields": [
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "furniId"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "rootX"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "rootY"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "width"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "length"
+        },
+        {
+          "kind": "scalar",
+          "type": "boolean",
+          "name": "invisibility"
+        },
+        {
+          "kind": "scalar",
+          "type": "boolean",
+          "name": "wallItems"
+        },
+        {
+          "kind": "scalar",
+          "type": "boolean",
+          "name": "invert"
         }
       ]
     },
@@ -24783,38 +24845,6 @@
         "path": "packages/communication/src/messages/parser/roomevents/WiredUserVariablesDataParser.ts"
       },
       "reason": "Java analyzer: Data-dependent packet operations in IfStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in WhileStatement inside parse"
-    },
-    {
-      "name": "CONF_INVIS_STATE",
-      "direction": "server_to_client",
-      "header": 5104,
-      "java": {
-        "symbol": "ConfInvisStateComposer",
-        "className": "ConfInvisStateComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/ConfInvisStateComposer.java"
-      },
-      "typescript": {
-        "symbol": "CONF_INVIS_STATE",
-        "className": "ConfInvisStateMessageParser",
-        "path": "packages/communication/src/messages/parser/room/furniture/ConfInvisStateMessageParser.ts"
-      },
-      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Packet fields delegated to external constructor ConfInvisStateMessageData inside parse"
-    },
-    {
-      "name": "HANDITEM_BLOCK_STATE",
-      "direction": "server_to_client",
-      "header": 5105,
-      "java": {
-        "symbol": "HanditemBlockStateComposer",
-        "className": "HanditemBlockStateComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/HanditemBlockStateComposer.java"
-      },
-      "typescript": {
-        "symbol": "HANDITEM_BLOCK_STATE",
-        "className": "HanditemBlockStateMessageParser",
-        "path": "packages/communication/src/messages/parser/room/furniture/HanditemBlockStateMessageParser.ts"
-      },
-      "reason": "TypeScript analyzer: Packet fields delegated to external constructor HanditemBlockStateMessageData inside parse"
     },
     {
       "name": "AREA_HIDE",

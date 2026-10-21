@@ -1,6 +1,5 @@
 export * from './BuildHeightAvailableEvent';
 export * from './AreaHideMessageEvent';
-export * from './ConfInvisStateMessageEvent';
 export * from './CustomUserNotificationMessageEvent';
 export * from './DiceValueMessageEvent';
 export * from './FurniRentOrBuyoutOfferMessageEvent';
@@ -9,7 +8,6 @@ export * from './FurnitureDataEvent';
 export * from './FurnitureStackHeightEvent';
 export * from './FurniRecolorUpdateEvent';
 export * from './GroupFurniContextMenuInfoMessageEvent';
-export * from './HanditemBlockStateMessageEvent';
 export * from './ItemDataUpdateMessageEvent';
 export * from './LoveLockFurniFinishedEvent';
 export * from './LoveLockFurniFriendConfirmedEvent';

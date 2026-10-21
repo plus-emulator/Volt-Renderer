@@ -253,12 +253,10 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
         const wiredTransparency = model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_TRANSPARENCY);
         const wiredVisibility = isNaN(wiredTransparency) ? 1 : (1 - (Math.max(0, Math.min(100, wiredTransparency)) / 100));
         const wiredClickThrough = (model.getValue<number>(RoomObjectVariable.FURNITURE_WIRED_CLICK_THROUGH) === 1);
-        const hiddenByConfInvisControl = (model.getValue<number>(RoomObjectVariable.FURNITURE_CONF_INVIS_HIDDEN) === 1);
-        const hiddenByAreaHideControl = (model.getValue<number>(RoomObjectVariable.FURNITURE_AREA_HIDE_HIDDEN) === 1);
         const hideInvisibleLayers = (model.getValue<number>(RoomObjectVariable.FURNITURE_INVISIBLE_LAYER) > 0);
 
         if(isNaN(alphaMultiplier)) alphaMultiplier = 1;
-        alphaMultiplier = composeFurnitureAlphaMultiplier(alphaMultiplier, (isNaN(wiredOpacity) ? 1 : wiredOpacity) * wiredVisibility, hiddenByConfInvisControl || hiddenByAreaHideControl);
+        alphaMultiplier = composeFurnitureAlphaMultiplier(alphaMultiplier, (isNaN(wiredOpacity) ? 1 : wiredOpacity) * wiredVisibility);
 
         if((this._alphaMultiplier !== alphaMultiplier) || (this._wiredClickThrough !== wiredClickThrough))
         {

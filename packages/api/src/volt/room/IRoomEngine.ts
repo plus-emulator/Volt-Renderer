@@ -104,6 +104,10 @@ export interface IRoomEngine
     readonly activeRoomHasFreeFurniMovementsMode: boolean;
     /** AIR: the room's ConfigurationItemStates disable the `:chooser` user list for non-controllers. */
     readonly activeRoomHasChooserDisabled: boolean;
+    /** AIR: the room's ConfigurationItemStates hide the pass and drop hand item buttons. */
+    readonly activeRoomHasHanditemControlBlocked: boolean;
+    /** AIR: the room's ConfigurationItemStates hide the sprite layers tagged `invisible`. */
+    readonly activeRoomHasInvisibleFurni: boolean;
     moveBlocked: boolean;
     isAreaSelectionMode(): boolean;
     whereYouClickIsWhereYouGo(): boolean;

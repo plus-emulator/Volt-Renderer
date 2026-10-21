@@ -13,4 +13,6 @@
     public static IS_PLAYING_GAME: string = 'is_playing_game';
     public static FREE_FURNI_MOVEMENTS_MODE: string = 'free_furni_movements_mode';
     public static CHOOSER_DISABLED: string = 'chooser_disabled';
+    public static HANDITEM_CONTROL_BLOCKED: string = 'handitem_control_blocked';
+    public static INVISIBLE_FURNI: string = 'invisible_furni';
 }
