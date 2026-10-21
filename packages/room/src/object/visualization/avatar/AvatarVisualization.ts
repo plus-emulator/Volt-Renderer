@@ -1,5 +1,6 @@
 import { AlphaTolerance, AvatarAction, AvatarGuideStatus, AvatarScaleType, AvatarSetType, IAdvancedMap, IAvatarEffectListener, IAvatarImage, IAvatarImageListener, IGraphicAsset, IObjectVisualizationData, IRoomGeometry, IRoomObject, IRoomObjectModel, IRoomObjectSprite, RoomObjectSpriteType, RoomObjectVariable } from '@volt/api';
 import { GetAssetManager } from '@volt/assets';
+import { GetAvatarRenderManager } from '@volt/avatar';
 import { AdvancedMap } from '@volt/utils';
 import { Sprite, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
@@ -502,13 +503,14 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
                         const assetSuffix = ((((('_' + spriteData.member) + '_') + dd) + '_') + frameNumber);
 
-                        let asset = GetAssetManager().getAsset(this._avatarImage.getScale() + assetSuffix);
+                        // AIR asks the avatar image, which follows the effect's aliases (Hoverboard draws directions 4-7 from 0-3).
+                        let asset = GetAvatarRenderManager().getAssetByName(this._avatarImage.getScale() + assetSuffix);
                         let resampled = false;
 
                         // AIR: a small avatar whose effect has no sh_ art draws the h_ art resampled to half size.
                         if(!asset && (this._avatarImage.getScale() === AvatarScaleType.SMALL))
                         {
-                            asset = GetAssetManager().getAsset(AvatarScaleType.LARGE + assetSuffix);
+                            asset = GetAvatarRenderManager().getAssetByName(AvatarScaleType.LARGE + assetSuffix);
                             resampled = true;
                         }
 
