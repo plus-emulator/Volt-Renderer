@@ -36,7 +36,7 @@ import { CatalogRuntimeConfigurationEvent } from './messages/incoming/catalog/co
 import { CatalogRuntimeConfigurationComposer } from './messages/outgoing/catalog/configuration';
 
 import { GetHotLooksComposer, HotLooksEvent } from './messages';
-import { ClaimNftCollectionBonusMessageComposer, ClaimNftCollectionRewardMessageComposer, ClaimNftRewardsMessageComposer, GetCollectibleMintTokensMessageComposer, GetCollectibleMintableItemTypesMessageComposer, GetCollectibleMintingEnabledMessageComposer, GetCollectibleWalletAddressesMessageComposer, GetCollectorScoreMessageComposer, GetMintTokenOffersMessageComposer, GetNftClaimsMessageComposer, GetNftCollectionsMessageComposer, GetNftStoreOffersMessageComposer, GetNftTransferFeeMessageComposer, MintCollectibleMessageComposer, OpenNftRewardBoxMessageComposer, PurchaseMintTokensMessageComposer, PurchaseNftStoreOfferMessageComposer, TransferNftsMessageComposer } from './messages';
+import { ClaimNftCollectionBonusMessageComposer, ClaimNftCollectionRewardMessageComposer, ClaimNftRewardsMessageComposer, CollectibleMintTokensMessageEvent, CollectibleMintableItemTypesMessageEvent, CollectibleMintingEnabledMessageEvent, CollectibleWalletAddressesMessageEvent, CollectorScoreMessageEvent, EmeraldBalanceMessageEvent, GetCollectibleMintTokensMessageComposer, GetCollectibleMintableItemTypesMessageComposer, GetCollectibleMintingEnabledMessageComposer, GetCollectibleWalletAddressesMessageComposer, GetCollectorScoreMessageComposer, GetMintTokenOffersMessageComposer, GetNftClaimsMessageComposer, GetNftCollectionsMessageComposer, GetNftStoreOffersMessageComposer, GetNftTransferFeeMessageComposer, MintCollectibleMessageComposer, MintCollectibleResultMessageEvent, MintTokenOffersMessageEvent, NftClaimResultMessageEvent, NftClaimsMessageEvent, NftCollectionBonusClaimResultMessageEvent, NftCollectionRewardClaimResultMessageEvent, NftCollectionsMessageEvent, NftRewardBoxResultMessageEvent, NftRewardBoxStateMessageEvent, NftStoreOffersMessageEvent, NftStorePurchaseResultMessageEvent, NftTransferFeeMessageEvent, NftTransferResultMessageEvent, OpenNftRewardBoxMessageComposer, PurchaseMintTokensMessageComposer, PurchaseNftStoreOfferMessageComposer, SilverBalanceMessageEvent, TransferNftsMessageComposer } from './messages';
 import { GetSelectedNftWardrobeOutfitMessageComposer, GetUserNftWardrobeMessageComposer, SaveUserNftWardrobeMessageComposer, SelectedNftWardrobeOutfitMessageEvent, UserNftWardrobeMessageEvent } from './messages';
 import { ChestCoinsEvent, ChestFurniChunkEvent, ChestFurniUpdateEvent, ChestOpenComposer, ChestOpenEvent, ChestSettingsUpdatedEvent, ChestStartDepositComposer, ChestWithdrawAllComposer, ChestWithdrawCoinsComposer, ChestWithdrawFurniComposer, ChestLogEvent, ChestCloseComposer, ChestSaveOptionsComposer, ChestSaveSettingsComposer, ChestSaveNotificationsComposer, ChestUpgradeCapacityComposer, ChestNotificationEvent, ChestUpgradeResultEvent, ChestRequestLogComposer, WiredChestRoomLogsComposer, WiredChestLockComposer, WiredChestTransactionDetailsComposer, WiredChestRoomLogsEvent, WiredChestTransactionDetailsEvent, WiredTradeErrorEvent, WiredTradeOpenEvent, WiredTradeItemsEvent, WiredTradeCancelledEvent, WiredTradeCompletedEvent, WiredTradeOfferItemsComposer, WiredTradeAcceptComposer, WiredTradeCancelComposer, WiredTransactionFailEvent, WiredTransactionSuccessEvent } from './messages';
 import { PressKeybindComposer } from './messages';
@@ -734,6 +734,29 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.USER_WARDROBE_PAGE, UserWardrobePageEvent);
         this._events.set(IncomingHeader.USER_NFT_WARDROBE, UserNftWardrobeMessageEvent);
         this._events.set(IncomingHeader.USER_NFT_WARDROBE_SELECTION, SelectedNftWardrobeOutfitMessageEvent);
+
+        // COLLECTIBLES
+        this._events.set(IncomingHeader.COLLECTIBLE_WALLET_ADDRESSES, CollectibleWalletAddressesMessageEvent);
+        this._events.set(IncomingHeader.COLLECTOR_SCORE, CollectorScoreMessageEvent);
+        this._events.set(IncomingHeader.NFT_COLLECTIONS, NftCollectionsMessageEvent);
+        this._events.set(IncomingHeader.NFT_COLLECTION_BONUS_CLAIM_RESULT, NftCollectionBonusClaimResultMessageEvent);
+        this._events.set(IncomingHeader.NFT_COLLECTION_REWARD_CLAIM_RESULT, NftCollectionRewardClaimResultMessageEvent);
+        this._events.set(IncomingHeader.NFT_STORE_OFFERS, NftStoreOffersMessageEvent);
+        this._events.set(IncomingHeader.NFT_STORE_PURCHASE_RESULT, NftStorePurchaseResultMessageEvent);
+        this._events.set(IncomingHeader.COLLECTIBLE_MINTABLE_ITEM_TYPES, CollectibleMintableItemTypesMessageEvent);
+        this._events.set(IncomingHeader.COLLECTIBLE_MINTING_ENABLED, CollectibleMintingEnabledMessageEvent);
+        this._events.set(IncomingHeader.MINT_TOKEN_OFFERS, MintTokenOffersMessageEvent);
+        this._events.set(IncomingHeader.COLLECTIBLE_MINT_TOKENS, CollectibleMintTokensMessageEvent);
+        this._events.set(IncomingHeader.MINT_COLLECTIBLE_RESULT, MintCollectibleResultMessageEvent);
+        this._events.set(IncomingHeader.NFT_TRANSFER_FEE, NftTransferFeeMessageEvent);
+        this._events.set(IncomingHeader.NFT_TRANSFER_RESULT, NftTransferResultMessageEvent);
+        this._events.set(IncomingHeader.NFT_CLAIMS, NftClaimsMessageEvent);
+        this._events.set(IncomingHeader.NFT_CLAIM_RESULT, NftClaimResultMessageEvent);
+        this._events.set(IncomingHeader.SILVER_BALANCE, SilverBalanceMessageEvent);
+        this._events.set(IncomingHeader.EMERALD_BALANCE, EmeraldBalanceMessageEvent);
+        this._events.set(IncomingHeader.NFT_REWARD_BOX_STATE, NftRewardBoxStateMessageEvent);
+        this._events.set(IncomingHeader.NFT_REWARD_BOX_RESULT, NftRewardBoxResultMessageEvent);
+
         this._events.set(IncomingHeader.USER_CLASSIFICATION, UserClassificationMessageEvent);
         this._events.set(IncomingHeader.GET_USER_TAGS, UserTagsMessageEvent);
         this._events.set(IncomingHeader.SCR_SEND_KICKBACK_INFO, ScrSendKickbackInfoMessageEvent);
