@@ -24,6 +24,9 @@ export const usesWiredHighlightCompositeSilhouette = (type: number): boolean =>
     return type === WIRED_HIGHLIGHT_OUTLINE || type === WIRED_HIGHLIGHT_SOFT_GLOW || type === WIRED_HIGHLIGHT_NEON_AURA;
 };
 
+// AIR's Flash matrix offsets count 0-255; Pixi adds them on a 0-1 scale.
+const FLASH_OFFSET_SCALE = (1 / 255);
+
 const createDarkenFilter = (amount: number): ColorMatrixFilter =>
 {
     const factor = 1 - 0.65 * amount;
@@ -37,7 +40,7 @@ const createDarkenFilter = (amount: number): ColorMatrixFilter =>
 const createBrightenFilter = (amount: number): ColorMatrixFilter =>
 {
     const factor = 1 + 0.78 * amount;
-    const offset = 36 * amount;
+    const offset = 36 * amount * FLASH_OFFSET_SCALE;
     const filter = new ColorMatrixFilter();
 
     filter.matrix = [factor, 0, 0, 0, offset, 0, factor, 0, 0, offset, 0, 0, factor, 0, offset, 0, 0, 0, 1, 0];
@@ -52,7 +55,7 @@ const createColorTintFilter = (color: number, amount: number): ColorMatrixFilter
     const blue = (color & 0xFF) / 255;
     const mix = 0.65 * amount;
     const cross = mix * 0.05;
-    const lift = 35 * amount;
+    const lift = 35 * amount * FLASH_OFFSET_SCALE;
     const filter = new ColorMatrixFilter();
 
     filter.matrix = [
