@@ -10,6 +10,7 @@ export class NftStoreOfferData
     private _isLimited: boolean;
     private _mintLimit: number;
     private _mintedCount: number;
+    private _minLevel: number;
     private _productInfo: NftProductData;
 
     constructor(wrapper: IMessageDataWrapper)
@@ -20,6 +21,7 @@ export class NftStoreOfferData
         this._isLimited = wrapper.readBoolean();
         this._mintLimit = wrapper.readInt();
         this._mintedCount = wrapper.readInt();
+        this._minLevel = wrapper.readInt();
         this._productInfo = new NftProductData(wrapper);
     }
 
@@ -52,6 +54,12 @@ export class NftStoreOfferData
     public get mintedCount(): number
     {
         return this._mintedCount;
+    }
+
+    /** The collector level needed to buy, 0 when there is none. This hotel's own field, not in AIR class_3825. */
+    public get minLevel(): number
+    {
+        return this._minLevel;
     }
 
     public get productInfo(): NftProductData

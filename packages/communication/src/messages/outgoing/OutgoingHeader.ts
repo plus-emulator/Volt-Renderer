@@ -668,12 +668,7 @@ export class OutgoingHeader
     public static PURCHASE_NFT_STORE_OFFER = 2065; // package_13/class_1790
     public static GET_COLLECTIBLE_MINTABLE_ITEM_TYPES = 446; // package_13/class_3377
     public static GET_COLLECTIBLE_MINTING_ENABLED = 264; // package_13/class_3511
-    public static GET_MINT_TOKEN_OFFERS = 3070; // package_13/class_2755
-    public static GET_COLLECTIBLE_MINT_TOKENS = 2050; // package_13/class_3835
-    public static PURCHASE_MINT_TOKENS = 3760; // package_13/class_2093
     public static MINT_COLLECTIBLE = 1663; // package_13/class_3662
-    public static GET_NFT_TRANSFER_FEE = 3678; // package_13/class_3686
-    public static TRANSFER_NFTS = 1589; // package_13/class_2699
     public static GET_NFT_CLAIMS = 1590; // package_13/class_3567
     public static CLAIM_NFT_REWARDS = 2855; // package_13/class_2817
     public static OPEN_NFT_REWARD_BOX = 1071; // package_13/class_3117

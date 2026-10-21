@@ -48,6 +48,7 @@ export class CollectibleMintableItemData
         return this._regionLocked;
     }
 
+    /** The Emerald price. AIR calls this field the mint token price. */
     public get price(): number
     {
         return this._price;
