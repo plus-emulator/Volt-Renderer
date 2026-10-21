@@ -36,6 +36,7 @@ import { CatalogRuntimeConfigurationEvent } from './messages/incoming/catalog/co
 import { CatalogRuntimeConfigurationComposer } from './messages/outgoing/catalog/configuration';
 
 import { GetHotLooksComposer, HotLooksEvent } from './messages';
+import { ClaimNftCollectionBonusMessageComposer, ClaimNftCollectionRewardMessageComposer, ClaimNftRewardsMessageComposer, GetCollectibleMintTokensMessageComposer, GetCollectibleMintableItemTypesMessageComposer, GetCollectibleMintingEnabledMessageComposer, GetCollectibleWalletAddressesMessageComposer, GetCollectorScoreMessageComposer, GetMintTokenOffersMessageComposer, GetNftClaimsMessageComposer, GetNftCollectionsMessageComposer, GetNftStoreOffersMessageComposer, GetNftTransferFeeMessageComposer, MintCollectibleMessageComposer, OpenNftRewardBoxMessageComposer, PurchaseMintTokensMessageComposer, PurchaseNftStoreOfferMessageComposer, TransferNftsMessageComposer } from './messages';
 import { GetSelectedNftWardrobeOutfitMessageComposer, GetUserNftWardrobeMessageComposer, SaveUserNftWardrobeMessageComposer, SelectedNftWardrobeOutfitMessageEvent, UserNftWardrobeMessageEvent } from './messages';
 import { ChestCoinsEvent, ChestFurniChunkEvent, ChestFurniUpdateEvent, ChestOpenComposer, ChestOpenEvent, ChestSettingsUpdatedEvent, ChestStartDepositComposer, ChestWithdrawAllComposer, ChestWithdrawCoinsComposer, ChestWithdrawFurniComposer, ChestLogEvent, ChestCloseComposer, ChestSaveOptionsComposer, ChestSaveSettingsComposer, ChestSaveNotificationsComposer, ChestUpgradeCapacityComposer, ChestNotificationEvent, ChestUpgradeResultEvent, ChestRequestLogComposer, WiredChestRoomLogsComposer, WiredChestLockComposer, WiredChestTransactionDetailsComposer, WiredChestRoomLogsEvent, WiredChestTransactionDetailsEvent, WiredTradeErrorEvent, WiredTradeOpenEvent, WiredTradeItemsEvent, WiredTradeCancelledEvent, WiredTradeCompletedEvent, WiredTradeOfferItemsComposer, WiredTradeAcceptComposer, WiredTradeCancelComposer, WiredTransactionFailEvent, WiredTransactionSuccessEvent } from './messages';
 import { PressKeybindComposer } from './messages';
@@ -822,6 +823,27 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.GET_USER_NFT_WARDROBE, GetUserNftWardrobeMessageComposer);
         this._composers.set(OutgoingHeader.GET_SELECTED_NFT_WARDROBE_OUTFIT, GetSelectedNftWardrobeOutfitMessageComposer);
         this._composers.set(OutgoingHeader.SAVE_USER_NFT_WARDROBE, SaveUserNftWardrobeMessageComposer);
+
+        // COLLECTIBLES
+        this._composers.set(OutgoingHeader.GET_COLLECTIBLE_WALLET_ADDRESSES, GetCollectibleWalletAddressesMessageComposer);
+        this._composers.set(OutgoingHeader.GET_COLLECTOR_SCORE, GetCollectorScoreMessageComposer);
+        this._composers.set(OutgoingHeader.GET_NFT_COLLECTIONS, GetNftCollectionsMessageComposer);
+        this._composers.set(OutgoingHeader.CLAIM_NFT_COLLECTION_BONUS, ClaimNftCollectionBonusMessageComposer);
+        this._composers.set(OutgoingHeader.CLAIM_NFT_COLLECTION_REWARD, ClaimNftCollectionRewardMessageComposer);
+        this._composers.set(OutgoingHeader.GET_NFT_STORE_OFFERS, GetNftStoreOffersMessageComposer);
+        this._composers.set(OutgoingHeader.PURCHASE_NFT_STORE_OFFER, PurchaseNftStoreOfferMessageComposer);
+        this._composers.set(OutgoingHeader.GET_COLLECTIBLE_MINTABLE_ITEM_TYPES, GetCollectibleMintableItemTypesMessageComposer);
+        this._composers.set(OutgoingHeader.GET_COLLECTIBLE_MINTING_ENABLED, GetCollectibleMintingEnabledMessageComposer);
+        this._composers.set(OutgoingHeader.GET_MINT_TOKEN_OFFERS, GetMintTokenOffersMessageComposer);
+        this._composers.set(OutgoingHeader.GET_COLLECTIBLE_MINT_TOKENS, GetCollectibleMintTokensMessageComposer);
+        this._composers.set(OutgoingHeader.PURCHASE_MINT_TOKENS, PurchaseMintTokensMessageComposer);
+        this._composers.set(OutgoingHeader.MINT_COLLECTIBLE, MintCollectibleMessageComposer);
+        this._composers.set(OutgoingHeader.GET_NFT_TRANSFER_FEE, GetNftTransferFeeMessageComposer);
+        this._composers.set(OutgoingHeader.TRANSFER_NFTS, TransferNftsMessageComposer);
+        this._composers.set(OutgoingHeader.GET_NFT_CLAIMS, GetNftClaimsMessageComposer);
+        this._composers.set(OutgoingHeader.CLAIM_NFT_REWARDS, ClaimNftRewardsMessageComposer);
+        this._composers.set(OutgoingHeader.OPEN_NFT_REWARD_BOX, OpenNftRewardBoxMessageComposer);
+
         this._composers.set(OutgoingHeader.CHANGE_USERNAME, ChangeUserNameMessageComposer);
         this._composers.set(OutgoingHeader.CHECK_USERNAME, CheckUserNameMessageComposer);
 
