@@ -18,7 +18,7 @@ export const quantizeWiredHighlightStrength = (value: number): number =>
     return Math.max(5, Math.round(value / 5) * 5);
 };
 
-// Outline, soft glow and neon aura are drawn once for the whole furni (composite silhouette in AIR).
+// Outline, soft glow and neon aura glow around the whole object's silhouette (WiredHighlightSilhouette), not on each sprite.
 export const usesWiredHighlightCompositeSilhouette = (type: number): boolean =>
 {
     return type === WIRED_HIGHLIGHT_OUTLINE || type === WIRED_HIGHLIGHT_SOFT_GLOW || type === WIRED_HIGHLIGHT_NEON_AURA;

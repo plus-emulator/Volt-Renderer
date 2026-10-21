@@ -4,7 +4,8 @@ import { BLEND_MODES, Filter, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
 import { ColorData, LayerData } from '../data';
 import { FurnitureVisualizationData } from './FurnitureVisualizationData';
-import { WiredHighlightFilterCache } from '../WiredHighlightFilters';
+import { usesWiredHighlightCompositeSilhouette, WiredHighlightFilterCache } from '../WiredHighlightFilters';
+import { WiredHighlightSilhouette } from '../WiredHighlightSilhouette';
 import { composeFurnitureAlphaMultiplier, furnitureAlphaTolerance } from './WiredOpacityVisualizationPolicy';
 
 export class FurnitureVisualization extends RoomObjectSpriteVisualization
@@ -49,6 +50,8 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
     private _wiredClickThrough: boolean;
     private _hideInvisibleLayers: boolean;
     private _wiredHighlight: WiredHighlightFilterCache = new WiredHighlightFilterCache();
+    private _wiredHighlightSilhouette: WiredHighlightSilhouette = new WiredHighlightSilhouette();
+    private _additionalSprites: IRoomObjectSprite[] = [ this._wiredHighlightSilhouette.sprite ];
 
     constructor()
     {
@@ -117,6 +120,13 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
         this._spriteYOffsets = null;
         this._spriteZOffsets = null;
         this._filters = [];
+
+        this._wiredHighlightSilhouette.dispose();
+    }
+
+    public get additionalSprites(): IRoomObjectSprite[]
+    {
+        return this._additionalSprites;
     }
 
     protected reset(): void
@@ -138,6 +148,8 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
         this._spriteZOffsets = [];
 
         this.createSprites(0);
+
+        this._wiredHighlightSilhouette.clear(true);
     }
 
     protected resetLayers(scale: number, direction: number): void
@@ -312,6 +324,24 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
         }
 
         this._alphaChanged = false;
+
+        this.updateWiredHighlightSilhouette();
+    }
+
+    // AIR FurnitureVisualization L512-542.
+    private updateWiredHighlightSilhouette(): void
+    {
+        if(!usesWiredHighlightCompositeSilhouette(this._wiredHighlight.type))
+        {
+            this._wiredHighlightSilhouette.clear(true);
+
+            return;
+        }
+
+        const sources = this.sprites.filter((sprite, layerId) => (layerId !== this._shadowLayerIndex) && sprite.visible && sprite.texture && (sprite.alpha > 0) && (sprite.blendMode !== 'add'));
+        const alpha = Math.round(255 * Math.max(0, Math.min(1, (this._alphaMultiplier * (this._lookThrough ? 0.2 : 1)))));
+
+        this._wiredHighlightSilhouette.update(sources, this._wiredHighlight.filters, alpha, this._type, this._direction, false);
     }
 
     protected updateSprite(scale: number, layerId: number): void
@@ -377,7 +407,7 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
                 sprite.clickHandling = this._clickHandling;
 
                 const currentFilters = sprite.filters;
-                const highlightFilters = (layerId !== this._shadowLayerIndex) ? this._wiredHighlight.filters : null;
+                const highlightFilters = ((layerId !== this._shadowLayerIndex) && !usesWiredHighlightCompositeSilhouette(this._wiredHighlight.type)) ? this._wiredHighlight.filters : null;
                 const baseFilters = highlightFilters ? [...this._filters, ...highlightFilters] : this._filters;
 
                 if((currentFilters && currentFilters.length) || baseFilters.length)

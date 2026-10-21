@@ -7,6 +7,8 @@ export interface IRoomObjectSpriteVisualization extends IRoomObjectGraphicVisual
     getSprite(index: number): IRoomObjectSprite;
     getSpriteList(): RoomObjectSpriteData[];
     sprites: IRoomObjectSprite[];
+    // Drawn after `sprites` but not part of the object's layers, such as a wired highlight glow.
+    additionalSprites?: IRoomObjectSprite[];
     updateObjectCounter: number;
     updateModelCounter: number;
 }

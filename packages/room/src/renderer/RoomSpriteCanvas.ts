@@ -586,8 +586,14 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
         let spriteCount = 0;
 
-        for(const sprite of visualization.sprites.values())
+        const sprites = visualization.sprites;
+        const additionalSprites = visualization.additionalSprites;
+        const totalSprites = (sprites.length + (additionalSprites ? additionalSprites.length : 0));
+
+        for(let index = 0; index < totalSprites; index++)
         {
+            const sprite = ((index < sprites.length) ? sprites[index] : additionalSprites[index - sprites.length]);
+
             if(!sprite || !sprite.visible) continue;
 
             const texture = sprite.texture;
