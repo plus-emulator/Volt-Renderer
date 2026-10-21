@@ -19851,6 +19851,310 @@
       "symbol": "USER_NFT_WARDROBE_SELECTION",
       "path": "packages/communication/src/messages/parser/avatar/SelectedNftWardrobeOutfitMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3112,
+      "symbol": "GET_COLLECTIBLE_WALLET_ADDRESSES",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetCollectibleWalletAddressesMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3283,
+      "symbol": "GET_COLLECTOR_SCORE",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetCollectorScoreMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2267,
+      "symbol": "GET_NFT_COLLECTIONS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetNftCollectionsMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2709,
+      "symbol": "CLAIM_NFT_COLLECTION_BONUS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/ClaimNftCollectionBonusMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1471,
+      "symbol": "CLAIM_NFT_COLLECTION_REWARD",
+      "path": "packages/communication/src/messages/outgoing/collectibles/ClaimNftCollectionRewardMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1112,
+      "symbol": "GET_NFT_STORE_OFFERS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetNftStoreOffersMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2065,
+      "symbol": "PURCHASE_NFT_STORE_OFFER",
+      "path": "packages/communication/src/messages/outgoing/collectibles/PurchaseNftStoreOfferMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 446,
+      "symbol": "GET_COLLECTIBLE_MINTABLE_ITEM_TYPES",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetCollectibleMintableItemTypesMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 264,
+      "symbol": "GET_COLLECTIBLE_MINTING_ENABLED",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetCollectibleMintingEnabledMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3070,
+      "symbol": "GET_MINT_TOKEN_OFFERS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetMintTokenOffersMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2050,
+      "symbol": "GET_COLLECTIBLE_MINT_TOKENS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetCollectibleMintTokensMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3760,
+      "symbol": "PURCHASE_MINT_TOKENS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/PurchaseMintTokensMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1663,
+      "symbol": "MINT_COLLECTIBLE",
+      "path": "packages/communication/src/messages/outgoing/collectibles/MintCollectibleMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3678,
+      "symbol": "GET_NFT_TRANSFER_FEE",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetNftTransferFeeMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1589,
+      "symbol": "TRANSFER_NFTS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/TransferNftsMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1590,
+      "symbol": "GET_NFT_CLAIMS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/GetNftClaimsMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2855,
+      "symbol": "CLAIM_NFT_REWARDS",
+      "path": "packages/communication/src/messages/outgoing/collectibles/ClaimNftRewardsMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1071,
+      "symbol": "OPEN_NFT_REWARD_BOX",
+      "path": "packages/communication/src/messages/outgoing/collectibles/OpenNftRewardBoxMessageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2681,
+      "symbol": "COLLECTIBLE_WALLET_ADDRESSES",
+      "path": "packages/communication/src/messages/parser/collectibles/CollectibleWalletAddressesMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1598,
+      "symbol": "COLLECTOR_SCORE",
+      "path": "packages/communication/src/messages/parser/collectibles/CollectorScoreMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3181,
+      "symbol": "NFT_COLLECTIONS",
+      "path": "packages/communication/src/messages/parser/collectibles/NftCollectionsMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3325,
+      "symbol": "NFT_COLLECTION_BONUS_CLAIM_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/NftCollectionBonusClaimResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 352,
+      "symbol": "NFT_COLLECTION_REWARD_CLAIM_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/NftCollectionRewardClaimResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3287,
+      "symbol": "NFT_STORE_OFFERS",
+      "path": "packages/communication/src/messages/parser/collectibles/NftStoreOffersMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 358,
+      "symbol": "NFT_STORE_PURCHASE_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/NftStorePurchaseResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 749,
+      "symbol": "COLLECTIBLE_MINTABLE_ITEM_TYPES",
+      "path": "packages/communication/src/messages/parser/collectibles/CollectibleMintableItemTypesMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2689,
+      "symbol": "COLLECTIBLE_MINTING_ENABLED",
+      "path": "packages/communication/src/messages/parser/collectibles/CollectibleMintingEnabledMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2636,
+      "symbol": "MINT_TOKEN_OFFERS",
+      "path": "packages/communication/src/messages/parser/collectibles/MintTokenOffersMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 768,
+      "symbol": "COLLECTIBLE_MINT_TOKENS",
+      "path": "packages/communication/src/messages/parser/collectibles/CollectibleMintTokensMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1072,
+      "symbol": "MINT_COLLECTIBLE_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/MintCollectibleResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 682,
+      "symbol": "NFT_TRANSFER_FEE",
+      "path": "packages/communication/src/messages/parser/collectibles/NftTransferFeeMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2056,
+      "symbol": "NFT_TRANSFER_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/NftTransferResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3065,
+      "symbol": "NFT_CLAIMS",
+      "path": "packages/communication/src/messages/parser/collectibles/NftClaimsMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3539,
+      "symbol": "NFT_CLAIM_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/NftClaimResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2182,
+      "symbol": "SILVER_BALANCE",
+      "path": "packages/communication/src/messages/parser/collectibles/SilverBalanceMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 2789,
+      "symbol": "EMERALD_BALANCE",
+      "path": "packages/communication/src/messages/parser/collectibles/EmeraldBalanceMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1437,
+      "symbol": "NFT_REWARD_BOX_STATE",
+      "path": "packages/communication/src/messages/parser/collectibles/NftRewardBoxStateMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1756,
+      "symbol": "NFT_REWARD_BOX_RESULT",
+      "path": "packages/communication/src/messages/parser/collectibles/NftRewardBoxResultMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
     }
   ],
   "exemptions": [

@@ -678,4 +678,24 @@ export class IncomingHeader
     public static WIRED_CONTRACT_OPEN = 3218; // package_99/class_3725
     public static WIRED_CONTRACT_CONTENTS = 2309; // package_99/class_2410
     public static WIRED_CONTRACT_UPDATE_RESULT = 1085; // package_99/class_3013
+    public static COLLECTIBLE_WALLET_ADDRESSES = 2681; // package_65/class_2945
+    public static COLLECTOR_SCORE = 1598; // package_65/class_2689
+    public static NFT_COLLECTIONS = 3181; // package_65/class_3665
+    public static NFT_COLLECTION_BONUS_CLAIM_RESULT = 3325; // package_65/class_3852
+    public static NFT_COLLECTION_REWARD_CLAIM_RESULT = 352; // package_65/class_3012
+    public static NFT_STORE_OFFERS = 3287; // package_65/class_3532
+    public static NFT_STORE_PURCHASE_RESULT = 358; // package_65/class_2220
+    public static COLLECTIBLE_MINTABLE_ITEM_TYPES = 749; // package_65/class_3177
+    public static COLLECTIBLE_MINTING_ENABLED = 2689; // package_65/class_2619
+    public static MINT_TOKEN_OFFERS = 2636; // package_65/class_3284
+    public static COLLECTIBLE_MINT_TOKENS = 768; // package_65/class_3021
+    public static MINT_COLLECTIBLE_RESULT = 1072; // package_65/class_3081
+    public static NFT_TRANSFER_FEE = 682; // package_65/class_3560
+    public static NFT_TRANSFER_RESULT = 2056; // package_65/class_2461
+    public static NFT_CLAIMS = 3065; // package_65/class_3805
+    public static NFT_CLAIM_RESULT = 3539; // package_65/class_2793
+    public static SILVER_BALANCE = 2182; // package_65/class_2288
+    public static EMERALD_BALANCE = 2789; // package_65/class_2134
+    public static NFT_REWARD_BOX_STATE = 1437; // package_65/class_3716
+    public static NFT_REWARD_BOX_RESULT = 1756; // package_65/class_3220
 }
