@@ -5,7 +5,11 @@ import { FurnitureBrandedImageVisualization } from './FurnitureBrandedImageVisua
 
 export class FurnitureRoomBackgroundVisualization extends FurnitureBrandedImageVisualization
 {
-    private static readonly BRANDED_IMAGE_LAYER_DEPTH_BIAS: number = 0.01;
+    // Sort depth of the image: larger is further back. Room planes sit near 2000 (RoomVisualization
+    // ROOM_DEPTH_OFFSET) and furniture, pets and avatars sort below ~150 even in big rooms, so this
+    // band lies between them whatever the tile of the furni. offsetZ moves the image inside the band.
+    private static readonly BACKGROUND_LAYER_DEPTH: number = 1000;
+    private static readonly BACKGROUND_LAYER_DEPTH_RANGE: number = 500;
 
     private _imageOffsets: Map<number, DirectionalOffsetData> = null;
     private _halfSizeImage: Texture = null;
@@ -75,6 +79,8 @@ export class FurnitureRoomBackgroundVisualization extends FurnitureBrandedImageV
 
         const sprite = this.getSprite(layerId);
 
+        if(sprite) sprite.fixedDepth = this.getBackgroundDepth();
+
         if(!sprite || !sprite.texture || (this.getImageFactor(scale) === 1)) return;
 
         const halfSizeImage = this.getHalfSizeImage(sprite.texture, layerId);
@@ -82,6 +88,14 @@ export class FurnitureRoomBackgroundVisualization extends FurnitureBrandedImageV
         // Until the resample is ready (or when the image cannot be read) the GPU draws it at half size.
         if(halfSizeImage) sprite.texture = halfSizeImage;
         else sprite.scale = (sprite.scale * 0.5);
+    }
+
+    private getBackgroundDepth(): number
+    {
+        const range = FurnitureRoomBackgroundVisualization.BACKGROUND_LAYER_DEPTH_RANGE;
+        const offsetZ = Math.max(-range, Math.min(range, (this._offsetZ || 0)));
+
+        return (FurnitureRoomBackgroundVisualization.BACKGROUND_LAYER_DEPTH - offsetZ);
     }
 
     /** AIR draws the image into a half-size bitmap once; built from the loaded image outside the render path. */
@@ -143,24 +157,6 @@ export class FurnitureRoomBackgroundVisualization extends FurnitureBrandedImageV
         if(this.getLayerTag(scale, direction, layerId) === FurnitureBrandedImageVisualization.BRANDED_IMAGE) return false;
 
         return (this.getLayerBlendMode(scale, direction, layerId) !== 'normal');
-    }
-
-    protected getLayerZOffset(scale: number, direction: number, layerId: number): number
-    {
-        let zOffset = (super.getLayerZOffset(scale, direction, layerId) + (-(this._offsetZ)));
-
-        if(this.getLayerTag(scale, direction, layerId) === FurnitureBrandedImageVisualization.BRANDED_IMAGE)
-        {
-            // The parent (FurnitureBrandedImageVisualization) now ADDS offsetZ to the
-            // branded layer as a z-index (for the MPU/billboard editor). The room
-            // background instead uses offsetZ as an INVERSE depth push — the classic
-            // "play with Z to make the floor/walls go transparent" trick — so cancel
-            // the parent's +offsetZ to restore the original net (base - offsetZ).
-            zOffset += (-(this._offsetZ));
-            zOffset += FurnitureRoomBackgroundVisualization.BRANDED_IMAGE_LAYER_DEPTH_BIAS;
-        }
-
-        return zOffset;
     }
 
     protected getLayerIgnoreMouse(scale: number, direction: number, layerId: number): boolean

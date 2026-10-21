@@ -24,6 +24,7 @@ export class RoomObjectSprite implements IRoomObjectSprite
     private _blendMode: BLEND_MODES = 'normal';
     private _color: number = 0xFFFFFF;
     private _relativeDepth: number = 0;
+    private _fixedDepth: number | null = null;
     private _varyingDepth: boolean = false;
     private _libraryAssetName: string = '';
     private _clickHandling: boolean = false;
@@ -291,6 +292,20 @@ export class RoomObjectSprite implements IRoomObjectSprite
         if(this._relativeDepth === depth) return;
 
         this._relativeDepth = depth;
+
+        this._updateCounter++;
+    }
+
+    public get fixedDepth(): number | null
+    {
+        return this._fixedDepth;
+    }
+
+    public set fixedDepth(depth: number | null)
+    {
+        if(this._fixedDepth === depth) return;
+
+        this._fixedDepth = depth;
 
         this._updateCounter++;
     }

@@ -22,6 +22,8 @@ export interface IRoomObjectSprite
     blendMode: BLEND_MODES;
     color: number;
     relativeDepth: number;
+    /** When set, the sprite sorts at this depth whatever the tile of its object (null = sort by the tile). */
+    fixedDepth: number | null;
     varyingDepth: boolean;
     libraryAssetName: string;
     clickHandling: boolean;

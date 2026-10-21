@@ -645,7 +645,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             sortableSprite.x = (spriteX - this._screenOffsetX);
             sortableSprite.y = (spriteY - this._screenOffsetY);
 
-            sortableSprite.z = ((z + sprite.relativeDepth) + (3.7E-11 * count));
+            sortableSprite.z = ((sprite.fixedDepth ?? (z + sprite.relativeDepth)) + (3.7E-11 * count));
 
             spriteCount++;
             count++;
