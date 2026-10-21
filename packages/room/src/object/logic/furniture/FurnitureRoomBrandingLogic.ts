@@ -65,11 +65,12 @@ export class FurnitureRoomBrandingLogic extends FurnitureLogic
         if(!isNaN(state) && (this.object.getState(0) !== state)) this.object.setState(state, 0);
 
         const imageUrl = objectData.getValue(FurnitureRoomBrandingLogic.IMAGEURL_KEY);
+        const secureImageUrl = this.forceImageUrlToUseHttps(imageUrl);
         const existingUrl = this.object.model.getValue<string>(RoomObjectVariable.FURNITURE_BRANDING_IMAGE_URL);
 
-        if(!existingUrl || (existingUrl !== imageUrl))
+        if(!existingUrl || (existingUrl !== secureImageUrl))
         {
-            this.object.model.setValue(RoomObjectVariable.FURNITURE_BRANDING_IMAGE_URL, imageUrl);
+            this.object.model.setValue(RoomObjectVariable.FURNITURE_BRANDING_IMAGE_URL, secureImageUrl);
             this.object.model.setValue(RoomObjectVariable.FURNITURE_BRANDING_IMAGE_STATUS, 0);
 
             this.downloadBackground();
@@ -114,6 +115,12 @@ export class FurnitureRoomBrandingLogic extends FurnitureLogic
         options = (options + (((FurnitureRoomBrandingLogic.ALPHA_KEY + '=') + alpha) + '\t'));
 
         this.object.model.setValue(RoomWidgetEnumItemExtradataParameter.INFOSTAND_EXTRA_PARAM, (RoomWidgetEnumItemExtradataParameter.BRANDING_OPTIONS + options));
+    }
+
+    /** AIR FurnitureRoomBrandingLogic.as:forceImageUrlToUseHttps: the client loads every branding image over https. The editor keeps the stored address. */
+    private forceImageUrlToUseHttps(imageUrl: string): string
+    {
+        return (typeof imageUrl === 'string') ? imageUrl.replace('http:', 'https:') : imageUrl;
     }
 
     private processAdUpdate(message: ObjectAdUpdateMessage): void
