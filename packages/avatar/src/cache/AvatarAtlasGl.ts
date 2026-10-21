@@ -348,6 +348,11 @@ export class AvatarAtlasGl
             this._draws.length = 0;
 
             renderer.resetState();
+
+            // resetState sets Pixi's clear colour cache to transparent without calling gl.clearColor. If an opaque
+            // clear (a room preview backdrop) ran before this flush, the next transparent clear would hit the cache
+            // and keep the opaque colour, so badges and avatar images got a black or beige background.
+            gl.clearColor(0, 0, 0, 0);
         }
     }
 
