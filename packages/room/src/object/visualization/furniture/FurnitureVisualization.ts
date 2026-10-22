@@ -338,7 +338,7 @@ export class FurnitureVisualization extends RoomObjectSpriteVisualization
             return;
         }
 
-        const sources = this.sprites.filter((sprite, layerId) => (layerId !== this._shadowLayerIndex) && sprite.visible && sprite.texture && (sprite.alpha > 0) && (sprite.blendMode !== 'add'));
+        const sources = this.sprites.filter((sprite, layerId) => (layerId !== this._shadowLayerIndex) && sprite.visible && sprite.texture && !sprite.texture.destroyed && sprite.texture.source && (sprite.alpha > 0) && (sprite.blendMode !== 'add'));
         const alpha = Math.round(255 * Math.max(0, Math.min(1, (this._alphaMultiplier * (this._lookThrough ? 0.2 : 1)))));
 
         this._wiredHighlightSilhouette.update(sources, this._wiredHighlight.filters, alpha, this._type, this._direction, false);

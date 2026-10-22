@@ -1107,7 +1107,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
             if((sprite.filters || null) !== spriteFilters) sprite.filters = spriteFilters;
 
-            if(sprite.visible && sprite.texture && (sprite.alpha > 0) && (sprite.blendMode !== 'add')) sources.push(sprite);
+            if(sprite.visible && sprite.texture && !sprite.texture.destroyed && sprite.texture.source && (sprite.alpha > 0) && (sprite.blendMode !== 'add')) sources.push(sprite);
         }
 
         if(!composite)

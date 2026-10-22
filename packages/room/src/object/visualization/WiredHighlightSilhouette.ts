@@ -6,6 +6,7 @@ import { RoomObjectSprite } from './RoomObjectSprite';
 // Room for the widest glow (neon aura, 24 px) around the silhouette.
 const PADDING = 32;
 const DEPTH_OFFSET = 0.0005;
+const TEXTURE_STEP = 32;
 
 interface SourceState
 {
@@ -218,9 +219,13 @@ export class WiredHighlightSilhouette
         return true;
     }
 
+    // The textures only grow, in steps, so a walking or animating avatar reuses them.
     private ensureTextureSize(width: number, height: number): void
     {
-        if(this._silhouette && (this._silhouette.width === width) && (this._silhouette.height === height)) return;
+        if(this._silhouette && (this._silhouette.width >= width) && (this._silhouette.height >= height)) return;
+
+        width = (Math.ceil(Math.max(width, (this._silhouette?.width ?? 0)) / TEXTURE_STEP) * TEXTURE_STEP);
+        height = (Math.ceil(Math.max(height, (this._silhouette?.height ?? 0)) / TEXTURE_STEP) * TEXTURE_STEP);
 
         this._sprite.texture = null;
         this.destroyTextures();
