@@ -58,7 +58,7 @@ export class IncomingHeader
     public static GAME_CENTER_DIRECTORY_STATUS = 915;
     public static GAME_CENTER_STARTING_GAME_FAILED = 3292;
     public static GAME_CENTER_JOINING_FAILED = 1966;
-    public static GAME_CENTER_GAME_NOT_FOUND = 65467;
+    public static GAME_CENTER_GAME_NOT_FOUND = 3111;
     public static GAME_CENTER_GAME_CANCELLED = 1346;
     public static GAME_CENTER_USER_BLOCKED = 817;
     public static SNOWWAR_GAME_TOKENS = 1547;
@@ -586,30 +586,30 @@ export class IncomingHeader
     public static MESSENGER_MESSAGE_FAILED = 4903;
     public static MESSENGER_MESSAGE = 4904;
     public static MESSENGER_READ_CURSOR = 4905;
-    // SnowStorm (AIR Game2 arena messages on the Volt 5000 range; 5006, 5007, 5010, 5012, 5021, 5026, 5028, 5030 are retired).
-    public static GAME2_GAME_CREATED = 5000;
-    public static GAME2_GAME_LONG_DATA = 5002;
-    public static GAME2_START_COUNTER = 5003;
-    public static GAME2_USER_JOINED_GAME = 5004;
-    public static GAME2_GAME_STARTED = 5009;
-    public static GAME2_ENTER_ARENA = 5011;
-    public static GAME2_ARENA_ENTERED = 5013;
-    public static GAME2_ENTER_ARENA_FAILED = 5014;
-    public static GAME2_GAME_STATUS = 5015;
-    public static GAME2_FULL_GAME_STATUS = 5016;
-    public static GAME2_STAGE_STARTING = 5017;
-    public static GAME2_STAGE_LOAD = 5018;
-    public static GAME2_REJOIN_PREVIOUS_ROOM = 5019;
-    public static GAME2_STAGE_STILL_LOADING = 5020;
-    public static GAME2_GAME_ENDING = 5022;
-    public static GAME2_GAME_CHAT = 5023;
-    public static GAME2_STAGE_RUNNING = 5024;
-    public static GAME2_STAGE_ENDING = 5025;
-    public static GAME2_PLAYER_EXITED_GAME_ARENA = 5027;
-    public static GAME2_PLAYER_REMATCHES = 5029;
+    // SnowStorm (AIR Game2 arena messages).
+    public static GAME2_GAME_CREATED = 414;
+    public static GAME2_GAME_LONG_DATA = 667;
+    public static GAME2_START_COUNTER = 3245;
+    public static GAME2_USER_JOINED_GAME = 1523;
+    public static GAME2_GAME_STARTED = 327;
+    public static GAME2_ENTER_ARENA = 2453;
+    public static GAME2_ARENA_ENTERED = 2176;
+    public static GAME2_ENTER_ARENA_FAILED = 3038;
+    public static GAME2_GAME_STATUS = 1276;
+    public static GAME2_FULL_GAME_STATUS = 1234;
+    public static GAME2_STAGE_STARTING = 1304;
+    public static GAME2_STAGE_LOAD = 1612;
+    public static GAME2_REJOIN_PREVIOUS_ROOM = 1853;
+    public static GAME2_STAGE_STILL_LOADING = 1222;
+    public static GAME2_GAME_ENDING = 3869;
+    public static GAME2_GAME_CHAT = 2834;
+    public static GAME2_STAGE_RUNNING = 3439;
+    public static GAME2_STAGE_ENDING = 2392;
+    public static GAME2_PLAYER_EXITED_GAME_ARENA = 3480;
+    public static GAME2_PLAYER_REMATCHES = 846;
 
     // Room unit habbicon broadcast (server -> client). 9410 to match emulator
-    // RoomUseHabbiconComposer; 6011 is reserved by SnowWar SAVE_EDITOR.
+    // RoomUseHabbiconComposer.
     public static ROOM_USE_HABBICON = 3408;
     // AIR 13 avatar editor hot looks tab (server -> client). 9360 to match emulator HotLooksComposer.
     public static HOT_LOOKS = 3604;
