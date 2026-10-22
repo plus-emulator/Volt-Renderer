@@ -595,27 +595,26 @@ export class OutgoingHeader
     public static REQUEST_MESSENGER_HISTORY = 4901;
     public static SEND_MESSENGER_MESSAGE = 4902;
     public static MARK_MESSENGER_READ = 4903;
-    // SnowStorm (AIR Game2 payloads on the Volt 6000 range; 6001, 6002, 6010, 6011, 6014, 6015 are retired).
+    // SnowStorm (AIR Game2 messages).
     public static GAME2LOADSTAGEREADYMESSAGE = 2914;
-    public static GAME2SETUSERMOVETARGETMESSAGE = 6003;
-    public static GAME2THROWSNOWBALLATPOSITIONMESSAGE = 6004;
-    public static GAME2THROWSNOWBALLATHUMANMESSAGE = 6005;
-    public static GAME2MAKESNOWBALLMESSAGE = 6006;
+    public static GAME2SETUSERMOVETARGETMESSAGE = 3787;
+    public static GAME2THROWSNOWBALLATPOSITIONMESSAGE = 2078;
+    public static GAME2THROWSNOWBALLATHUMANMESSAGE = 1898;
+    public static GAME2MAKESNOWBALLMESSAGE = 3528;
     public static GAME2REQUESTFULLSTATUSUPDATEMESSAGE = 2893;
     public static GAME2PLAYAGAINMESSAGE = 2552;
     public static GAME2GAMECHATMESSAGE = 584;
-    public static GAME2QUICKJOINMESSAGE = 6012;
-    public static GAME2LEAVELOBBYMESSAGE = 6013;
+    public static GAME2QUICKJOINMESSAGE = 1287;
+    public static GAME2LEAVELOBBYMESSAGE = 1451;
     public static GAME2EXITGAMEMESSAGE = 3482;
-    public static GAME2GETTOTALLEADERBOARD = 6027;
-    public static GAME2GETFRIENDSLEADERBOARD = 6028;
+    public static GAME2GETTOTALLEADERBOARD = 3990;
+    public static GAME2GETFRIENDSLEADERBOARD = 609;
     public static GAME2GETWEEKLYLEADERBOARD = 2215;
     public static GAME2GETWEEKLYFRIENDSLEADERBOARD = 1163;
 
     public static USER_SETTINGS_PRIVACY = 9415;
     public static REQUEST_OFFLINE_MESSAGES = 9416;
-    // Trigger habbicon (client -> server). 9417 to match emulator TriggerHabbiconEvent;
-    // 6010 is reserved by SnowWar EDIT_ROOM.
+    // Trigger habbicon (client -> server). 9417 to match emulator TriggerHabbiconEvent.
     public static TRIGGER_HABBICON = 1339;
     // AIR 13 avatar editor hot looks tab (client -> server). 9360 to match emulator GetHotLooksEvent.
     public static GET_HOT_LOOKS = 606;

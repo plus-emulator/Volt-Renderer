@@ -61,15 +61,6 @@
         "stability": "stable"
       },
       {
-        "name": "custom_gameplay_client",
-        "direction": "client_to_server",
-        "start": 6000,
-        "end": 6099,
-        "origin": "custom",
-        "feature": "custom_gameplay",
-        "stability": "stable"
-      },
-      {
         "name": "social_client",
         "direction": "client_to_server",
         "start": 7000,
@@ -139,24 +130,6 @@
         "end": 4999,
         "origin": "custom",
         "feature": "messenger",
-        "stability": "stable"
-      },
-      {
-        "name": "snowwar_server",
-        "direction": "server_to_client",
-        "start": 5000,
-        "end": 5099,
-        "origin": "custom",
-        "feature": "snowwar",
-        "stability": "stable"
-      },
-      {
-        "name": "custom_gameplay_server",
-        "direction": "server_to_client",
-        "start": 6000,
-        "end": 6099,
-        "origin": "custom",
-        "feature": "custom_gameplay",
         "stability": "stable"
       },
       {
@@ -10965,7 +10938,7 @@
     {
       "name": "GAME_CENTER_GAME_NOT_FOUND",
       "direction": "server_to_client",
-      "header": 65467,
+      "header": 3111,
       "java": {
         "symbol": "Game2GameNotFoundComposer",
         "className": "Game2GameNotFoundComposer",
@@ -17856,7 +17829,7 @@
     {
       "name": "GAME2GETTOTALLEADERBOARD",
       "direction": "client_to_server",
-      "header": 6027,
+      "header": 3990,
       "java": {
         "symbol": "SnowStormGetAllTimeLeaderboardEvent",
         "className": "SnowStormGetAllTimeLeaderboardEvent",
@@ -17898,7 +17871,7 @@
     {
       "name": "GAME2GETFRIENDSLEADERBOARD",
       "direction": "client_to_server",
-      "header": 6028,
+      "header": 609,
       "java": {
         "symbol": "SnowStormGetAllTimeFriendsLeaderboardEvent",
         "className": "SnowStormGetAllTimeFriendsLeaderboardEvent",
@@ -18034,7 +18007,7 @@
     {
       "name": "GAME2_PLAYER_REMATCHES",
       "direction": "server_to_client",
-      "header": 5029,
+      "header": 846,
       "java": {
         "symbol": "SnowStormUserRematchedComposer",
         "className": "SnowStormUserRematchedComposer",
@@ -19002,7 +18975,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5000,
+      "header": 414,
       "symbol": "GAME2_GAME_CREATED",
       "path": "packages/communication/src/messages/parser/game/directory/Game2GameCreatedMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19010,7 +18983,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5002,
+      "header": 667,
       "symbol": "GAME2_GAME_LONG_DATA",
       "path": "packages/communication/src/messages/parser/game/directory/Game2GameLongDataMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19018,7 +18991,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5004,
+      "header": 1523,
       "symbol": "GAME2_USER_JOINED_GAME",
       "path": "packages/communication/src/messages/parser/game/directory/Game2UserJoinedGameMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19026,7 +18999,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5009,
+      "header": 327,
       "symbol": "GAME2_GAME_STARTED",
       "path": "packages/communication/src/messages/parser/game/directory/Game2GameStartedMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19034,7 +19007,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5011,
+      "header": 2453,
       "symbol": "GAME2_ENTER_ARENA",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2EnterArenaMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19042,7 +19015,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5013,
+      "header": 2176,
       "symbol": "GAME2_ARENA_ENTERED",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2ArenaEnteredMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19050,7 +19023,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5014,
+      "header": 3038,
       "symbol": "GAME2_ENTER_ARENA_FAILED",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2EnterArenaFailedMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
@@ -19058,207 +19031,15 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5020,
+      "header": 1222,
       "symbol": "GAME2_STAGE_STILL_LOADING",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2StageStillLoadingMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
       "direction": "client_to_server",
-      "side": "java",
-      "header": 6010,
-      "symbol": "UNKNOWN_SNOWSTORM_6010",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormEditRoomEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6012,
-      "symbol": "SnowStormJoinQueueEvent",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormJoinQueueEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6013,
-      "symbol": "UNKNOWN_SNOWSTORM_6013",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormLeaveQueueEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6014,
-      "symbol": "UNKNOWN_SNOWSTORM_6014",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormExitEditorEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6015,
-      "symbol": "UNKNOWN_SNOWSTORM_6015",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormSelectArenaEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5001,
-      "symbol": "SnowStormQuePositionComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormQuePositionComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5003,
-      "symbol": "SnowStormStartLobbyCounterComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormStartLobbyCounterComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5006,
-      "symbol": "SnowStormGameEndedComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormGameEndedComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5010,
-      "symbol": "SnowStormGamesLeftComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormGamesLeftComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5018,
-      "symbol": "SnowStormIntializeGameArenaViewComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormIntializeGameArenaViewComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5024,
-      "symbol": "SnowStormOnStageRunningComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormOnStageRunningComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5028,
-      "symbol": "SnowStormGenericErrorComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormGenericErrorComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6000,
-      "symbol": "UNKNOWN_SNOWSTORM_6000",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormLoadStageReadyEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6003,
-      "symbol": "UNKNOWN_SNOWSTORM_6003",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormWalkEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6004,
-      "symbol": "UNKNOWN_SNOWSTORM_6004",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormThrowAtLocationEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6005,
-      "symbol": "UNKNOWN_SNOWSTORM_6005",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormThrowAtPlayerEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6006,
-      "symbol": "UNKNOWN_SNOWSTORM_6006",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormCreateSnowballEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
-      "side": "java",
-      "header": 6011,
-      "symbol": "UNKNOWN_SNOWSTORM_6011",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/snowwar/SnowStormSaveEditorEvent.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5007,
-      "symbol": "SnowStormLobbyTeamsComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormLobbyTeamsComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5012,
-      "symbol": "SnowStormGamesInformationComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormGamesInformationComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5015,
-      "symbol": "SnowStormGameStatusComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormGameStatusComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5016,
-      "symbol": "SnowStormFullGameStatusComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormFullGameStatusComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5021,
-      "symbol": "SnowStormLevelDataComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormLevelDataComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "server_to_client",
-      "side": "java",
-      "header": 5022,
-      "symbol": "SnowStormOnGameEndingComposer",
-      "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/snowwar/SnowStormOnGameEndingComposer.java",
-      "reason": "Legacy Java SnowWar endpoint; its former TypeScript implementation was removed. Current Game2 packets have separate registrations and payloads."
-    },
-    {
-      "direction": "client_to_server",
       "side": "typescript",
-      "header": 6003,
+      "header": 3787,
       "symbol": "GAME2SETUSERMOVETARGETMESSAGE",
       "path": "packages/communication/src/messages/outgoing/game/ingame/Game2SetUserMoveTargetMessageComposer.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19266,7 +19047,7 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
-      "header": 6004,
+      "header": 2078,
       "symbol": "GAME2THROWSNOWBALLATPOSITIONMESSAGE",
       "path": "packages/communication/src/messages/outgoing/game/ingame/Game2ThrowSnowballAtPositionMessageComposer.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19274,7 +19055,7 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
-      "header": 6005,
+      "header": 1898,
       "symbol": "GAME2THROWSNOWBALLATHUMANMESSAGE",
       "path": "packages/communication/src/messages/outgoing/game/ingame/Game2ThrowSnowballAtHumanMessageComposer.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19282,7 +19063,7 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
-      "header": 6006,
+      "header": 3528,
       "symbol": "GAME2MAKESNOWBALLMESSAGE",
       "path": "packages/communication/src/messages/outgoing/game/ingame/Game2MakeSnowballMessageComposer.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19290,7 +19071,7 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
-      "header": 6012,
+      "header": 1287,
       "symbol": "GAME2QUICKJOINMESSAGE",
       "path": "packages/communication/src/messages/outgoing/game/directory/Game2QuickJoinMessageComposer.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19298,7 +19079,7 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
-      "header": 6013,
+      "header": 1451,
       "symbol": "GAME2LEAVELOBBYMESSAGE",
       "path": "packages/communication/src/messages/outgoing/game/directory/Game2LeaveLobbyMessageComposer.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19314,7 +19095,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5003,
+      "header": 3245,
       "symbol": "GAME2_START_COUNTER",
       "path": "packages/communication/src/messages/parser/game/directory/Game2StartCounterMessageParser.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19322,7 +19103,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5015,
+      "header": 1276,
       "symbol": "GAME2_GAME_STATUS",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2GameStatusMessageParser.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19330,7 +19111,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5016,
+      "header": 1234,
       "symbol": "GAME2_FULL_GAME_STATUS",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2FullGameStatusMessageParser.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19338,7 +19119,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5018,
+      "header": 1612,
       "symbol": "GAME2_STAGE_LOAD",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2StageLoadMessageParser.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19346,7 +19127,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5022,
+      "header": 3869,
       "symbol": "GAME2_GAME_ENDING",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2GameEndingMessageParser.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -19354,7 +19135,7 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5024,
+      "header": 3439,
       "symbol": "GAME2_STAGE_RUNNING",
       "path": "packages/communication/src/messages/parser/game/snowwar/Game2StageRunningMessageParser.ts",
       "reason": "Current AIR Game2 endpoint. The removed legacy SnowWar implementation is not a verified payload counterpart; its Java endpoint remains separately classified."
@@ -25537,7 +25318,7 @@
     {
       "name": "GAME2_STAGE_STARTING",
       "direction": "server_to_client",
-      "header": 5017,
+      "header": 1304,
       "java": {
         "symbol": "SnowStormOnStageStartComposer",
         "className": "SnowStormOnStageStartComposer",
@@ -25553,7 +25334,7 @@
     {
       "name": "GAME2_REJOIN_PREVIOUS_ROOM",
       "direction": "server_to_client",
-      "header": 5019,
+      "header": 1853,
       "java": {
         "symbol": "SnowStormRejoinPreviousRoomComposer",
         "className": "SnowStormRejoinPreviousRoomComposer",
@@ -25569,7 +25350,7 @@
     {
       "name": "GAME2_GAME_CHAT",
       "direction": "server_to_client",
-      "header": 5023,
+      "header": 2834,
       "java": {
         "symbol": "SnowStormUserChatMessageComposer",
         "className": "SnowStormUserChatMessageComposer",
@@ -25585,7 +25366,7 @@
     {
       "name": "GAME2_STAGE_ENDING",
       "direction": "server_to_client",
-      "header": 5025,
+      "header": 2392,
       "java": {
         "symbol": "SnowStormOnStageEndingComposer",
         "className": "SnowStormOnStageEndingComposer",
@@ -25601,7 +25382,7 @@
     {
       "name": "GAME2_PLAYER_EXITED_GAME_ARENA",
       "direction": "server_to_client",
-      "header": 5027,
+      "header": 3480,
       "java": {
         "symbol": "SnowStormOnPlayerExitedArenaComposer",
         "className": "SnowStormOnPlayerExitedArenaComposer",
@@ -25794,7 +25575,7 @@
       {"direction":"server_to_client","header":301,"sourceClass":"class_3132","sourcePath":"decompiled/scripts/package_132/class_3132.as","sourceSha256":"d42b2da4091e3910b20b603f470b35d6da1ae0241a2b105c57453254accdb0e0","mapLine":1562,"reportedName":"Expression","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ActionComposer"],"typescript":["UNIT_EXPRESSION"]}},
       {"direction":"server_to_client","header":319,"sourceClass":"class_2161","sourcePath":"decompiled/scripts/package_20/class_2161.as","sourceSha256":"de4861d196e409c4feadee9dfc29adb643ced625b31a89c6268a6ad7f95e75f5","mapLine":1599,"reportedName":"ConsoleMessageHistory","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":324,"sourceClass":"class_3184","sourcePath":"decompiled/scripts/package_52/class_3184.as","sourceSha256":"f0a561a1ae30e0547f8719074a0f1c1267e9114b5c91e498f953823cf3d7c7a7","mapLine":1605,"reportedName":"RoomRating","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomRatingComposer"],"typescript":["ROOM_SCORE"]}},
-      {"direction":"server_to_client","header":327,"sourceClass":"class_3502","sourcePath":"decompiled/scripts/package_96/class_3502.as","sourceSha256":"2afcd239e163f0353930f75c214c8bfcc06c4af62108525e77a3f2c862e82fab","mapLine":1611,"reportedName":"Game2GameStarted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":327,"sourceClass":"class_3502","sourcePath":"decompiled/scripts/package_96/class_3502.as","sourceSha256":"2afcd239e163f0353930f75c214c8bfcc06c4af62108525e77a3f2c862e82fab","mapLine":1611,"reportedName":"Game2GameStarted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameStartedComposer"],"typescript":["GAME2_GAME_STARTED"]}},
       {"direction":"server_to_client","header":334,"sourceClass":"class_2880","sourcePath":"decompiled/scripts/package_54/class_2880.as","sourceSha256":"3856afc77add0bcdcb8db8a53e2499898189e5a3332e81d9a8285f84dff198cc","mapLine":1626,"reportedName":"LoginFailedHotelClosed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":348,"sourceClass":"class_3636","sourcePath":"decompiled/scripts/package_49/class_3636.as","sourceSha256":"0182c069396632d5ea868788422082cfd9016bc61120623aee7f4d6157e2e2a6","mapLine":1651,"reportedName":"QuestCompleted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["QuestCompletedComposer"],"typescript":["QUEST_COMPLETED"]}},
       {"direction":"server_to_client","header":352,"sourceClass":"class_3012","sourcePath":"decompiled/scripts/package_65/class_3012.as","sourceSha256":"5449c47b593f6a27e5818cfa328d510e8a4d8d7111c341b967ca0c8006563e6b","mapLine":1660,"reportedName":"NftRewardItemClaimResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -25808,7 +25589,7 @@
       {"direction":"server_to_client","header":390,"sourceClass":"class_3875","sourcePath":"decompiled/scripts/package_227/class_3875.as","sourceSha256":"07bcfbce63820850d63dacb5078dc9ebf923262af33b05caebe7ce0b941c8f94","mapLine":1728,"reportedName":"CommunityVoteReceived","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":394,"sourceClass":"class_2045","sourcePath":"decompiled/scripts/package_44/class_2045.as","sourceSha256":"42f8703a9a1024a677683c7a81d85b36efd14e066f39ff7b41ae331e32bb45bc","mapLine":1730,"reportedName":"RoomReady","namingSource":"Sulek","canonicalName":"RoomReady","canonicalStatus":"semantic-verified","localBindings":{"csharp":["RoomReadyComposer"],"typescript":["ROOM_MODEL_NAME"]}},
       {"direction":"server_to_client","header":404,"sourceClass":"class_2268","sourcePath":"decompiled/scripts/package_32/class_2268.as","sourceSha256":"bda2d7a08f145c883120abb9d5d81b9159a8f1a0555e726964190ce0669d8ebd","mapLine":1747,"reportedName":"CallForHelpDisabledNotify","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MODERATION_REPORT_DISABLED"]}},
-      {"direction":"server_to_client","header":414,"sourceClass":"class_2659","sourcePath":"decompiled/scripts/package_96/class_2659.as","sourceSha256":"58942407adc1eeb1d7ce7b756f4c628edc5a266323fa83cf4dd02c27927b5403","mapLine":1748,"reportedName":"Game2GameCreated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":414,"sourceClass":"class_2659","sourcePath":"decompiled/scripts/package_96/class_2659.as","sourceSha256":"58942407adc1eeb1d7ce7b756f4c628edc5a266323fa83cf4dd02c27927b5403","mapLine":1748,"reportedName":"Game2GameCreated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameCreatedComposer"],"typescript":["GAME2_GAME_CREATED"]}},
       {"direction":"server_to_client","header":418,"sourceClass":"class_3775","sourcePath":"decompiled/scripts/package_102/class_3775.as","sourceSha256":"0140189c22e406431859500e2153f9886c248ffbad7f86d1dec2d6a7ad039c76","mapLine":1749,"reportedName":"YoutubeDisplayVideo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetYouTubeVideoComposer"],"typescript":["YOUTUBE_DISPLAY_VIDEO"]}},
       {"direction":"server_to_client","header":425,"sourceClass":"class_3826","sourcePath":"decompiled/scripts/package_102/class_3826.as","sourceSha256":"2261fa49f07194f216aa020eb07ff5cb1e906f05d26b28a34c2736418bc3273f","mapLine":1750,"reportedName":"OneWayDoorStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["UpdateFreezeLivesComposer"],"typescript":["FURNITURE_STATE"]}},
       {"direction":"server_to_client","header":428,"sourceClass":"class_2900","sourcePath":"decompiled/scripts/package_44/class_2900.as","sourceSha256":"eed00cd332dd048e556841620cc543210ca6351031960658346ba7af5849369d","mapLine":1751,"reportedName":"RoomForward","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomForwardComposer"],"typescript":["ROOM_FORWARD"]}},
@@ -25842,7 +25623,7 @@
       {"direction":"server_to_client","header":630,"sourceClass":"class_3462","sourcePath":"decompiled/scripts/package_86/class_3462.as","sourceSha256":"dc6c5d411db78f6ac362bf2547c591abb57ae1d96d270b3159de9cd64a18e1e0","mapLine":1782,"reportedName":"JukeboxSongDisks","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["JukeboxPlaylistComposer"],"typescript":["JUKEBOX_SONG_DISKS"]}},
       {"direction":"server_to_client","header":637,"sourceClass":"class_3913","sourcePath":"decompiled/scripts/package_141/class_3913.as","sourceSha256":"623b6d4391fc38dd9e92e57bea2ff6a42ff5fb5ed9c0fd90afc71d83dc5fccbf","mapLine":1783,"reportedName":"TradingClose","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["TradingClosedComposer"],"typescript":["TRADE_CLOSED"]}},
       {"direction":"server_to_client","header":657,"sourceClass":"class_2218","sourcePath":"decompiled/scripts/package_20/class_2218.as","sourceSha256":"e5198501f4754e181f817c48265ddfe83ad8ac18de5c6237581b843c317c4309","mapLine":1784,"reportedName":"RoomInviteError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MESSENGER_INVITE_ERROR"]}},
-      {"direction":"server_to_client","header":667,"sourceClass":"class_3655","sourcePath":"decompiled/scripts/package_96/class_3655.as","sourceSha256":"720d1e5753300556f79f9269df1251d3b0c2c39ec38eaddd4e86470d31bd761b","mapLine":1786,"reportedName":"Game2GameLongData","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":667,"sourceClass":"class_3655","sourcePath":"decompiled/scripts/package_96/class_3655.as","sourceSha256":"720d1e5753300556f79f9269df1251d3b0c2c39ec38eaddd4e86470d31bd761b","mapLine":1786,"reportedName":"Game2GameLongData","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameLongDataComposer"],"typescript":["GAME2_GAME_LONG_DATA"]}},
       {"direction":"server_to_client","header":670,"sourceClass":"class_2650","sourcePath":"decompiled/scripts/package_147/class_2650.as","sourceSha256":"32732d5d74cb88c48598656d7c5e3c2799a612aa516a5e276a59d984c00c678d","mapLine":1787,"reportedName":"FriendFurniCancelLock","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":682,"sourceClass":"class_3560","sourcePath":"decompiled/scripts/package_65/class_3560.as","sourceSha256":"b94dcfbfd96efdc40205bd07683e55c8989de922a81dcc96ebdbb7259eef5ac2","mapLine":1788,"reportedName":"NftTransferFee","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":690,"sourceClass":"class_3878","sourcePath":"decompiled/scripts/package_50/class_3878.as","sourceSha256":"305e3fe343e71984aec137b5583f3f2e26c4bb0440c611f0a93496bd57968525","mapLine":1790,"reportedName":"IssueDeleted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ISSUE_DELETED"]}},
@@ -25870,7 +25651,7 @@
       {"direction":"server_to_client","header":838,"sourceClass":"class_3760","sourcePath":"decompiled/scripts/package_50/class_3760.as","sourceSha256":"2a486b5227095e2c48ca88b16faf1b8848364473319351a57113a679b929ae0a","mapLine":1814,"reportedName":"IssueInfo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ModeratorSupportTicketComposer"],"typescript":["ISSUE_INFO"]}},
       {"direction":"server_to_client","header":841,"sourceClass":"class_3051","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3051.as","sourceSha256":"72a3506d297fc1edb41ba22ffadc3c3b626c80ff5704892f075f7e6218a195ae","mapLine":1816,"reportedName":"WiredFurniAddon","namingSource":"Sulek","canonicalName":"WiredFurniAddon","canonicalStatus":"semantic-verified","localBindings":{"csharp":["WiredAddonConfigComposer"],"typescript":["WIRED_ADDON"]}},
       {"direction":"server_to_client","header":843,"sourceClass":"class_1807","sourcePath":"decompiled/scripts/package_20/class_1807.as","sourceSha256":"63a6ae3f62c8261866ee8d0eaced94765accf3d965d2448214b946d38508a013","mapLine":1817,"reportedName":"NewFriendRequest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["NewBuddyRequestComposer"],"typescript":["MESSENGER_REQUEST"]}},
-      {"direction":"server_to_client","header":846,"sourceClass":"class_3263","sourcePath":"decompiled/scripts/package_77/class_3263.as","sourceSha256":"0033deb305fe0ea8ae8ca433a13435dfdfb26c8bfc00331a36ddd6f1879f94ae","mapLine":1818,"reportedName":"Game2PlayerRematches","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":846,"sourceClass":"class_3263","sourcePath":"decompiled/scripts/package_77/class_3263.as","sourceSha256":"0033deb305fe0ea8ae8ca433a13435dfdfb26c8bfc00331a36ddd6f1879f94ae","mapLine":1818,"reportedName":"Game2PlayerRematches","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2PlayerRematchesComposer"],"typescript":["GAME2_PLAYER_REMATCHES"]}},
       {"direction":"server_to_client","header":848,"sourceClass":"class_2060","sourcePath":"decompiled/scripts/package_38/class_2060.as","sourceSha256":"b71458d7d91e345e98e45e2549e4632b3de8bea71e719587337be6b0ed53b6a6","mapLine":1819,"reportedName":"MarketplaceCancelOfferResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["MarketplaceCancelOfferResultComposer"],"typescript":["MARKETPLACE_CANCEL_SALE"]}},
       {"direction":"server_to_client","header":853,"sourceClass":"class_2291","sourcePath":"decompiled/scripts/package_5/class_2291.as","sourceSha256":"f1d5cdcdbe4acc4eb5c0e09058cc9ad1ebbfffe0327558a28e64c41f8444fdcb","mapLine":1820,"reportedName":"BundleDiscountRuleset","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CatalogItemDiscountComposer"],"typescript":["BUNDLE_DISCOUNT_RULESET"]}},
       {"direction":"server_to_client","header":895,"sourceClass":"class_3389","sourcePath":"decompiled/scripts/package_91/class_3389.as","sourceSha256":"6d925dc1a0f0798bc2f850d5b70086cf87556b850119bf9c5a5c95e275bccf7b","mapLine":1822,"reportedName":"FurniListRemoveMultiple","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -25923,19 +25704,19 @@
       {"direction":"server_to_client","header":1212,"sourceClass":"class_3036","sourcePath":"decompiled/scripts/package_11/class_3036.as","sourceSha256":"03260d279381814ccb9cfb5c5957f09292fc8d8aa88862129ac37cfb49e554ed","mapLine":1256,"reportedName":"PetStatusUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PET_STATUS"]}},
       {"direction":"server_to_client","header":1215,"sourceClass":"class_2903","sourcePath":"decompiled/scripts/package_177/class_2903.as","sourceSha256":"5338594b52e183f83ca9e2fec4b02b25f3b7f6869a394e38b1a44ba1b14dad4c","mapLine":1257,"reportedName":"HasClaimedProductResponse","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["HAS_CLAIMED_PRODUCT_RESPONSE"]}},
       {"direction":"server_to_client","header":1221,"sourceClass":"class_3368","sourcePath":"decompiled/scripts/package_52/class_3368.as","sourceSha256":"7d0c820f833a6a3df2958b5d78b62b4a476f96fcad923baaefb41a05e813ea7d","mapLine":1258,"reportedName":"CategoriesWithVisitorCount","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CATEGORIES_WITH_VISITOR_COUNT"]}},
-      {"direction":"server_to_client","header":1222,"sourceClass":"class_2782","sourcePath":"decompiled/scripts/package_77/class_2782.as","sourceSha256":"1cadde54a4c7565fca25914f31afc2d6328a0e97202fe87a492b1a1359dfc19c","mapLine":1259,"reportedName":"Game2StageStillLoading","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1222,"sourceClass":"class_2782","sourcePath":"decompiled/scripts/package_77/class_2782.as","sourceSha256":"1cadde54a4c7565fca25914f31afc2d6328a0e97202fe87a492b1a1359dfc19c","mapLine":1259,"reportedName":"Game2StageStillLoading","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2StageStillLoadingComposer"],"typescript":["GAME2_STAGE_STILL_LOADING"]}},
       {"direction":"server_to_client","header":1232,"sourceClass":"class_3108","sourcePath":"decompiled/scripts/package_145/class_3108.as","sourceSha256":"b5527f1c62336737bbde146b3f612f8086c1d4d9246bec4cf84b4f7e8992a122","mapLine":1260,"reportedName":"NewUserExperienceNotComplete","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["NEW_USER_EXPERIENCE_NOT_COMPLETE"]}},
-      {"direction":"server_to_client","header":1234,"sourceClass":"class_2934","sourcePath":"decompiled/scripts/package_182/class_2934.as","sourceSha256":"a111ee4480d22c1ad93613adc0d5f0ca2bdeebe04985ca40eba65de7b78669bd","mapLine":1261,"reportedName":"Game2FullGameStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1234,"sourceClass":"class_2934","sourcePath":"decompiled/scripts/package_182/class_2934.as","sourceSha256":"a111ee4480d22c1ad93613adc0d5f0ca2bdeebe04985ca40eba65de7b78669bd","mapLine":1261,"reportedName":"Game2FullGameStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2FullGameStatusComposer"],"typescript":["GAME2_FULL_GAME_STATUS"]}},
       {"direction":"server_to_client","header":1238,"sourceClass":"class_3807","sourcePath":"decompiled/scripts/package_64/class_3807.as","sourceSha256":"c405d5c55417c4a9109c1d3d554d884c7e303c2e4003bfa421f2d90cd2c19d11","mapLine":1262,"reportedName":"SlideObjectBundle","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SlideObjectBundleComposer"],"typescript":["ROOM_ROLLING"]}},
       {"direction":"server_to_client","header":1246,"sourceClass":"class_1876","sourcePath":"decompiled/scripts/package_32/class_1876.as","sourceSha256":"dd796b7dc08c9e6de17b6c7b45b20ee072bdee2534cc45b28507b6c2621c80f2","mapLine":1263,"reportedName":"CallForHelpPendingCallsDeleted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CFH_PENDING_CALLS_DELETED"]}},
       {"direction":"server_to_client","header":1249,"sourceClass":"class_2439","sourcePath":"decompiled/scripts/package_5/class_2439.as","sourceSha256":"41a1a790440d3c18e396edf3e7a1a220de3a9a57ab4ade4a5f09890ece9c331c","mapLine":1264,"reportedName":"ClubGiftSelected","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ClubGiftReceivedComposer"],"typescript":["CLUB_GIFT_SELECTED"]}},
       {"direction":"server_to_client","header":1256,"sourceClass":"class_2571","sourcePath":"decompiled/scripts/package_52/class_2571.as","sourceSha256":"45b235731b6cac2a16dbd1abeefc7f0cceeb8ee56ee51d0f4201ca496c510bbc","mapLine":1265,"reportedName":"PopularRoomTagsResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PopularRoomTagsResultComposer"],"typescript":["ROOM_POPULAR_TAGS_RESULT"]}},
       {"direction":"server_to_client","header":1259,"sourceClass":"class_3156","sourcePath":"decompiled/scripts/package_44/class_3156.as","sourceSha256":"7d19ad063cb682e6efe2a35a1998e706c1598ea3db5c9bcac2896925abc593f4","mapLine":1266,"reportedName":"OpenConnection","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["OpenConnectionComposer"],"typescript":["ROOM_ENTER"]}},
       {"direction":"server_to_client","header":1262,"sourceClass":"class_3814","sourcePath":"decompiled/scripts/package_11/class_3814.as","sourceSha256":"e6929457dc8f7a797d158c177b073b1930f4c17831fd6b960e9980ca7321978a","mapLine":1267,"reportedName":"PetCommands","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PetTrainingPanelComposer"],"typescript":["PET_TRAINING_PANEL"]}},
-      {"direction":"server_to_client","header":1276,"sourceClass":"class_3528","sourcePath":"decompiled/scripts/package_182/class_3528.as","sourceSha256":"819184d782edb91da425060c9cbf10269c3d7041f97998cd13bb99e5b2fe0161","mapLine":1269,"reportedName":"Game2GameStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1276,"sourceClass":"class_3528","sourcePath":"decompiled/scripts/package_182/class_3528.as","sourceSha256":"819184d782edb91da425060c9cbf10269c3d7041f97998cd13bb99e5b2fe0161","mapLine":1269,"reportedName":"Game2GameStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameStatusComposer"],"typescript":["GAME2_GAME_STATUS"]}},
       {"direction":"server_to_client","header":1279,"sourceClass":"class_2501","sourcePath":"decompiled/scripts/package_52/class_2501.as","sourceSha256":"db5b6e85ea60ae050b1d7039fc53d4a85085ba1ad96379e479afb4b9455ae37b","mapLine":1270,"reportedName":"UserFlatCats","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["UserFlatCatsComposer"],"typescript":["NAVIGATOR_CATEGORIES"]}},
       {"direction":"server_to_client","header":1288,"sourceClass":"class_1867","sourcePath":"decompiled/scripts/package_20/class_1867.as","sourceSha256":"6b98d3e1c0e1fde81787f1b454b6da33ae4f7fbb7a49488ce1d20103e150f2b5","mapLine":1271,"reportedName":"MessengerError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["MessengerErrorComposer"],"typescript":["MESSENGER_MESSAGE_ERROR"]}},
-      {"direction":"server_to_client","header":1304,"sourceClass":"class_2244","sourcePath":"decompiled/scripts/package_77/class_2244.as","sourceSha256":"4dbe09f0e0e151f7b33e4f520c21ef55de0ea6b714684dfccb28a46cc63936da","mapLine":1272,"reportedName":"Game2StageStarting","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1304,"sourceClass":"class_2244","sourcePath":"decompiled/scripts/package_77/class_2244.as","sourceSha256":"4dbe09f0e0e151f7b33e4f520c21ef55de0ea6b714684dfccb28a46cc63936da","mapLine":1272,"reportedName":"Game2StageStarting","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2StageStartingComposer"],"typescript":["GAME2_STAGE_STARTING"]}},
       {"direction":"server_to_client","header":1307,"sourceClass":"class_3085","sourcePath":"decompiled/scripts/package_101/class_3085.as","sourceSha256":"5bef0298479d981830dffc8b7c8a4621951a53bf51947225ae8b926ccb8b1a3e","mapLine":1273,"reportedName":"NoOwnedRoomsAlert","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":1309,"sourceClass":"class_3527","sourcePath":"decompiled/scripts/package_101/class_3527.as","sourceSha256":"31ba5686cc15eb3463c4fc667da735961038b07399efd72d37ea728d928bf26c","mapLine":1274,"reportedName":"SecondsUntil","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["COMPETITION_SECONDS_UNTIL"]}},
       {"direction":"server_to_client","header":1315,"sourceClass":"class_2231","sourcePath":"decompiled/scripts/package_9/class_2231.as","sourceSha256":"12f44213c1058c44ed6396ae3846be9e83393df7a01d7184d299a69337322ed2","mapLine":1275,"reportedName":"GuildMembers","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GroupMembersComposer"],"typescript":["GROUP_MEMBERS"]}},
@@ -25975,7 +25756,7 @@
       {"direction":"server_to_client","header":1503,"sourceClass":"class_2024","sourcePath":"decompiled/scripts/package_51/class_2024.as","sourceSha256":"9028deec8f604df8e1806f03f340a8570bbe3ea774154eb553a62491ea4340ea","mapLine":1312,"reportedName":"RecyclerStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RecyclerStatusComposer"],"typescript":["RECYCLER_STATUS"]}},
       {"direction":"server_to_client","header":1510,"sourceClass":"class_3009","sourcePath":"decompiled/scripts/package_159/class_3009.as","sourceSha256":"3880272d9a6c9c0ad426350adf9da985956c4777811d4583d98d6da423955831","mapLine":1313,"reportedName":"PostThread","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ThreadCreatedComposer"],"typescript":["GROUP_FORUM_POST_THREAD"]}},
       {"direction":"server_to_client","header":1515,"sourceClass":"class_3628","sourcePath":"decompiled/scripts/package_185/class_3628.as","sourceSha256":"901615ec8e4f2e4f32e484cdf44835abb197a87f1b5658170ebbb2d9175ca6d1","mapLine":1314,"reportedName":"CameraStorageUrl","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CameraStorageUrlComposer"],"typescript":["CAMERA_STORAGE_URL"]}},
-      {"direction":"server_to_client","header":1523,"sourceClass":"class_3701","sourcePath":"decompiled/scripts/package_96/class_3701.as","sourceSha256":"0a108891ffb73508ca168a73de4db043ed2677e5581d775be3987dba3cbb6b77","mapLine":1315,"reportedName":"Game2UserJoinedGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1523,"sourceClass":"class_3701","sourcePath":"decompiled/scripts/package_96/class_3701.as","sourceSha256":"0a108891ffb73508ca168a73de4db043ed2677e5581d775be3987dba3cbb6b77","mapLine":1315,"reportedName":"Game2UserJoinedGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2UserJoinedGameComposer"],"typescript":["GAME2_USER_JOINED_GAME"]}},
       {"direction":"server_to_client","header":1524,"sourceClass":"class_2170","sourcePath":"decompiled/scripts/package_19/class_2170.as","sourceSha256":"164b00e726180e926499c0aaecebadb90eded28798d3d337441ab7d4e08dc7b2","mapLine":1316,"reportedName":"ChangeUserNameResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["UpdateUsernameComposer"],"typescript":["USER_CHANGE_NAME"]}},
       {"direction":"server_to_client","header":1540,"sourceClass":"class_2940","sourcePath":"decompiled/scripts/package_183/class_2940.as","sourceSha256":"e4a7462a8363a1ce6def4244bbd43e982cdee8b1066d65876457d99d4428c3d0","mapLine":1317,"reportedName":"RaidProtectionSettingsResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":1547,"sourceClass":"SnowWarGameTokensMessageEvent","sourcePath":"decompiled/scripts/package_5/SnowWarGameTokensMessageEvent.as","sourceSha256":"634942552c0a9311a7215c5174970b363f3f9504ffd15b9d7977f1707d9432e2","mapLine":1318,"reportedName":"SnowWarGameTokens","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SnowWarGameTokensComposer"],"typescript":["SNOWWAR_GAME_TOKENS"]}},
@@ -25987,7 +25768,7 @@
       {"direction":"server_to_client","header":1592,"sourceClass":"class_2614","sourcePath":"decompiled/scripts/package_102/class_2614.as","sourceSha256":"93476fed6a3fa33efc05b37c3460d20f5fd09b281f894a6915d47e726c2ff2ca","mapLine":1324,"reportedName":"FurniRentOrBuyoutOffer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["RENTABLE_FURNI_RENT_OR_BUYOUT_OFFER"]}},
       {"direction":"server_to_client","header":1596,"sourceClass":"class_1810","sourcePath":"decompiled/scripts/package_9/class_1810.as","sourceSha256":"6da8daf3d421b225fa50f1830fc1109a93f9080a23f024a0ea6eb0c0fb11baf4","mapLine":1325,"reportedName":"GuildMemberMgmtFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GUILD_MEMBER_MGMT_FAILED"]}},
       {"direction":"server_to_client","header":1598,"sourceClass":"class_2689","sourcePath":"decompiled/scripts/package_65/class_2689.as","sourceSha256":"2e30c9c8616d69721fccfcb3c5981adaf2b71ecb32624585c92d0a3a4b119e1f","mapLine":1326,"reportedName":"NftCollectionsScore","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"server_to_client","header":1612,"sourceClass":"class_2459","sourcePath":"decompiled/scripts/package_77/class_2459.as","sourceSha256":"1979f47e6352e945c40f58b07fe3d98277a469479a89344bfca3dad877c0764e","mapLine":1327,"reportedName":"Game2StageLoad","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1612,"sourceClass":"class_2459","sourcePath":"decompiled/scripts/package_77/class_2459.as","sourceSha256":"1979f47e6352e945c40f58b07fe3d98277a469479a89344bfca3dad877c0764e","mapLine":1327,"reportedName":"Game2StageLoad","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2StageLoadComposer"],"typescript":["GAME2_STAGE_LOAD"]}},
       {"direction":"server_to_client","header":1613,"sourceClass":"class_1952","sourcePath":"decompiled/scripts/package_44/class_1952.as","sourceSha256":"869db51fd356196ac3be6eab14abdd5642da013e45b12587a671bde34b1c7c43","mapLine":1328,"reportedName":"CloseConnection","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CloseConnectionComposer"],"typescript":["DESKTOP_VIEW"]}},
       {"direction":"server_to_client","header":1616,"sourceClass":"class_3773","sourcePath":"decompiled/scripts/package_141/class_3773.as","sourceSha256":"19b8803136513bf9315e78258d66a15d3be0f7e28790d24495130b56ecb0e11b","mapLine":1329,"reportedName":"TradingOtherNotAllowed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["TRADE_OTHER_NOT_ALLOWED"]}},
       {"direction":"server_to_client","header":1617,"sourceClass":"class_3100","sourcePath":"decompiled/scripts/package_162/class_3100.as","sourceSha256":"ca78da2ba4b3d66ad06cf543ad105b1e96f64774e0c2b18203ec1d310226ac1f","mapLine":1330,"reportedName":"DailyTasksActiveList","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ACTIVE_DAILY_TASKS"]}},
@@ -26020,7 +25801,7 @@
       {"direction":"server_to_client","header":1829,"sourceClass":"class_3501","sourcePath":"decompiled/scripts/package_141/class_3501.as","sourceSha256":"c3269f754157019e9b3802164aa5894fb85a0c7d853859b52d008d840397be00","mapLine":1360,"reportedName":"TradeOpenFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["TradingErrorComposer"],"typescript":["TRADE_OPEN_FAILED"]}},
       {"direction":"server_to_client","header":1837,"sourceClass":"class_3485","sourcePath":"decompiled/scripts/package_141/class_3485.as","sourceSha256":"dee1def3c36f8fbe613587412b854aa124d381ec41642e22c8a154248839000e","mapLine":1361,"reportedName":"TradeSilverSet","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":1844,"sourceClass":"class_3576","sourcePath":"decompiled/scripts/package_159/class_3576.as","sourceSha256":"674a9c2bf221e149f2925eb4a1f269496e6fd8314468e3677625ed7d63f0303b","mapLine":1362,"reportedName":"ForumThreads","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ThreadsListDataComposer"],"typescript":["GROUP_FORUM_THREADS"]}},
-      {"direction":"server_to_client","header":1853,"sourceClass":"class_3556","sourcePath":"decompiled/scripts/package_77/class_3556.as","sourceSha256":"362ade63dd0dc51ecfa3853060aa7ab476177b2a01ca02947889948cfc1206a2","mapLine":1363,"reportedName":"Game2GameRejoin","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":1853,"sourceClass":"class_3556","sourcePath":"decompiled/scripts/package_77/class_3556.as","sourceSha256":"362ade63dd0dc51ecfa3853060aa7ab476177b2a01ca02947889948cfc1206a2","mapLine":1363,"reportedName":"Game2GameRejoin","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2RejoinPreviousRoomComposer"],"typescript":["GAME2_REJOIN_PREVIOUS_ROOM"]}},
       {"direction":"server_to_client","header":1868,"sourceClass":"class_3227","sourcePath":"decompiled/scripts/package_50/class_3227.as","sourceSha256":"059cd666b94059c2d596227d3a34460eb8aece273f1ea3dd77f3001fed558ec9","mapLine":1364,"reportedName":"ModeratorActionResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MODERATOR_ACTION_RESULT"]}},
       {"direction":"server_to_client","header":1873,"sourceClass":"class_3168","sourcePath":"decompiled/scripts/package_159/class_3168.as","sourceSha256":"bf76e0f5d1345195b45516a5cfa8be6cd30b2022a6476f84363a60a21236e871","mapLine":1365,"reportedName":"UpdateThread","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ThreadUpdatedComposer"],"typescript":["GROUP_FORUM_UPDATE_THREAD"]}},
       {"direction":"server_to_client","header":1880,"sourceClass":"class_3412","sourcePath":"decompiled/scripts/package_20/class_3412.as","sourceSha256":"6529e24c5a49e83b557b023d5b471cd041e6299887222e93ad5f0429704ebc8a","mapLine":1366,"reportedName":"FriendNotification","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FriendNotificationComposer"],"typescript":["MESSENGER_FRIEND_NOTIFICATION"]}},
@@ -26070,7 +25851,7 @@
       {"direction":"server_to_client","header":2156,"sourceClass":"class_3734","sourcePath":"decompiled/scripts/package_82/class_3734.as","sourceSha256":"93dbb83b5e0359c419379341ea06e879678855c744ec9c117a87c7e17a0dfa85","mapLine":1414,"reportedName":"_-oj","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2166,"sourceClass":"class_3682","sourcePath":"decompiled/scripts/package_147/class_3682.as","sourceSha256":"4a3bba7f0d59f726ac1614e9262223f8e4da99816530ef57fdd9bfb3bff43e64","mapLine":1415,"reportedName":"FriendFurniStartConfirmation","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FriendFurniStartConfirmationComposer"],"typescript":["LOVELOCK_FURNI_START"]}},
       {"direction":"server_to_client","header":2167,"sourceClass":"class_2771","sourcePath":"decompiled/scripts/package_50/class_2771.as","sourceSha256":"3aada8add60b6990b1427543d8b9378f7815e913367f4902cc160ef48f717e45","mapLine":1416,"reportedName":"ModeratorRoomInfo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ModeratorRoomInfoComposer"],"typescript":["MODTOOL_ROOM_INFO"]}},
-      {"direction":"server_to_client","header":2176,"sourceClass":"class_3818","sourcePath":"decompiled/scripts/package_77/class_3818.as","sourceSha256":"026df500ce2ff9705f9ce1b44c9a779851b5c8b047d560f642c89320998ca42c","mapLine":1417,"reportedName":"Game2ArenaEntered","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2176,"sourceClass":"class_3818","sourcePath":"decompiled/scripts/package_77/class_3818.as","sourceSha256":"026df500ce2ff9705f9ce1b44c9a779851b5c8b047d560f642c89320998ca42c","mapLine":1417,"reportedName":"Game2ArenaEntered","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2ArenaEnteredComposer"],"typescript":["GAME2_ARENA_ENTERED"]}},
       {"direction":"server_to_client","header":2177,"sourceClass":"class_3179","sourcePath":"decompiled/scripts/package_32/class_3179.as","sourceSha256":"864c564de2d468d1ca7e6775cc525ee823ea1258bb848a0dfa59c747748d7d0e","mapLine":1418,"reportedName":"GuideSessionMessage","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GUIDE_SESSION_MESSAGE"]}},
       {"direction":"server_to_client","header":2180,"sourceClass":"class_3767","sourcePath":"decompiled/scripts/package_216/class_3767.as","sourceSha256":"7fd6e6270eeaf835096f4b3c8fda1fedc7781f41525aa884d3866eb200c40389","mapLine":1419,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2182,"sourceClass":"class_2288","sourcePath":"decompiled/scripts/package_65/class_2288.as","sourceSha256":"2a90b8758e8f0ad8e0acc44583e31f07e84825d9d65a5f949aa5b36ff1aa9bb5","mapLine":1420,"reportedName":"SilverBalance","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26115,14 +25896,14 @@
       {"direction":"server_to_client","header":2382,"sourceClass":"class_2495","sourcePath":"decompiled/scripts/package_64/class_2495.as","sourceSha256":"3865cfae3dc73b750770f918d9b44dcbe0f688869c6adc0a69adfcdfb3d108c6","mapLine":1462,"reportedName":"ObjectAdd","namingSource":"Sulek","canonicalName":"ObjectAdd","canonicalStatus":"semantic-verified","localBindings":{"csharp":["ObjectAddComposer"],"typescript":["FURNITURE_FLOOR_ADD"]}},
       {"direction":"server_to_client","header":2385,"sourceClass":"class_2794","sourcePath":"decompiled/scripts/package_52/class_2794.as","sourceSha256":"47ed119f12dbcbccb2d96a9fbd1c095445dc09aa627e69df488265ad08177831","mapLine":1463,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2388,"sourceClass":"class_3432","sourcePath":"decompiled/scripts/package_87/class_3432.as","sourceSha256":"a36cb9e4bb36c85c857e0c276b2ef60a460dac879b99f2f02ffdc241323a77e6","mapLine":1464,"reportedName":"PetAddedToInventory","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["USER_PET_ADD"]}},
-      {"direction":"server_to_client","header":2392,"sourceClass":"class_3480","sourcePath":"decompiled/scripts/package_77/class_3480.as","sourceSha256":"23cba1e41f248d949c0b97a2d0e505435c4ed1518065d532d7274611ea408e32","mapLine":1465,"reportedName":"Game2StageEnding","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2392,"sourceClass":"class_3480","sourcePath":"decompiled/scripts/package_77/class_3480.as","sourceSha256":"23cba1e41f248d949c0b97a2d0e505435c4ed1518065d532d7274611ea408e32","mapLine":1465,"reportedName":"Game2StageEnding","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2StageEndingComposer"],"typescript":["GAME2_STAGE_ENDING"]}},
       {"direction":"server_to_client","header":2405,"sourceClass":"class_3137","sourcePath":"decompiled/scripts/package_50/class_3137.as","sourceSha256":"6ded5aa5af905a62c237b9b56dfe7e346590d647786c3a019f3c38ed3d9a50a3","mapLine":1466,"reportedName":"ModeratorCaution","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MODERATION_CAUTION"]}},
       {"direction":"server_to_client","header":2419,"sourceClass":"class_3737","sourcePath":"decompiled/scripts/package_64/class_3737.as","sourceSha256":"a22b69669ee777f347d5ec5a74610ab6043c47f6cc0f8901db1e959d9fe03ffa","mapLine":1467,"reportedName":"ObjectRemoveMultiple","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["OBJECT_REMOVE_MULTIPLE"]}},
       {"direction":"server_to_client","header":2422,"sourceClass":"class_3586","sourcePath":"decompiled/scripts/package_32/class_3586.as","sourceSha256":"2a2fd0bdafb598263a8b7072921e4b86353fa30785fc439fd86cbbf5d9027ff4","mapLine":1468,"reportedName":"GuideSessionError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GUIDE_SESSION_ERROR"]}},
       {"direction":"server_to_client","header":2425,"sourceClass":"class_1798","sourcePath":"decompiled/scripts/package_17/class_1798.as","sourceSha256":"75e487bf42cec94c34870cb3bc3e111b928d9fd7a5311a8d879d1dfacbec3e67","mapLine":1469,"reportedName":"MyCfhReportStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2438,"sourceClass":"class_2038","sourcePath":"decompiled/scripts/package_56/class_2038.as","sourceSha256":"4a07d4a059a8c5bca41e06d906c3efdfa9b971bd4fa29625a5267ceb7fe6e0e7","mapLine":1470,"reportedName":"UserPurchasableChatStyles","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2451,"sourceClass":"class_3374","sourcePath":"decompiled/scripts/package_111/class_3374.as","sourceSha256":"ac7990ac26ff6d423cf5c628870f92fbd235c3a9bca8a3b6950cc378e915462f","mapLine":1472,"reportedName":"AvatarEffectAdded","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AvatarEffectAddedComposer"],"typescript":["USER_EFFECT_LIST_ADD"]}},
-      {"direction":"server_to_client","header":2453,"sourceClass":"class_3035","sourcePath":"decompiled/scripts/package_77/class_3035.as","sourceSha256":"b6f321e1915679b88c6c8b4831407d4b9953840abe48762f950031787ed7aa01","mapLine":1473,"reportedName":"Game2EnterArena","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2453,"sourceClass":"class_3035","sourcePath":"decompiled/scripts/package_77/class_3035.as","sourceSha256":"b6f321e1915679b88c6c8b4831407d4b9953840abe48762f950031787ed7aa01","mapLine":1473,"reportedName":"Game2EnterArena","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2EnterArenaComposer"],"typescript":["GAME2_ENTER_ARENA"]}},
       {"direction":"server_to_client","header":2471,"sourceClass":"class_3526","sourcePath":"decompiled/scripts/package_185/class_3526.as","sourceSha256":"d75501e3e8710bb80774cc5b43e30b481f4dae90a425f05a61f4c479af4d6aa4","mapLine":1474,"reportedName":"InitCamera","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["InitCameraComposer"],"typescript":["INIT_CAMERA"]}},
       {"direction":"server_to_client","header":2472,"sourceClass":"class_2512","sourcePath":"decompiled/scripts/package_38/class_2512.as","sourceSha256":"9d060143cd665c7ae0d7c20056f50288d83de90269bc92b4b4ac0ae23e5c75bb","mapLine":1475,"reportedName":"MarketplaceCanMakeOfferResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["MarketplaceCanMakeOfferResultComposer"],"typescript":["MARKETPLACE_SELL_ITEM"]}},
       {"direction":"server_to_client","header":2496,"sourceClass":"class_3639","sourcePath":"decompiled/scripts/package_44/class_3639.as","sourceSha256":"3c0b45a98cb5288007886856378c249bbc0a85a8c4547a3df0c0c4b9862e22aa","mapLine":1476,"reportedName":"YouAreNotSpectator","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["YOU_ARE_NOT_SPECTATOR"]}},
@@ -26179,7 +25960,7 @@
       {"direction":"server_to_client","header":2812,"sourceClass":"class_2701","sourcePath":"decompiled/scripts/package_106/class_2701.as","sourceSha256":"90cc9d31e3750b7fbd87d3d9be1a6fde369426af20cca15f66c8889d554f3f23","mapLine":1530,"reportedName":"CraftingRecipe","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CraftingRecipeComposer"],"typescript":["CRAFTING_RECIPE"]}},
       {"direction":"server_to_client","header":2817,"sourceClass":"class_3700","sourcePath":"decompiled/scripts/package_216/class_3700.as","sourceSha256":"d47bb7cfcb78a4e71f8b21e6e78b55edebe6477a74f54bdb205fa1d01304938e","mapLine":1531,"reportedName":"IncomeRewardClaimResponse","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":2830,"sourceClass":"class_1947","sourcePath":"decompiled/scripts/package_9/class_1947.as","sourceSha256":"63ddc4c6aeb49131505a97da80826b2b0eafffbf04dc87add6c7905f7657d728","mapLine":1532,"reportedName":"GroupDetailsChanged","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SetGroupIdComposer"],"typescript":["GROUP_DETAILS_CHANGED"]}},
-      {"direction":"server_to_client","header":2834,"sourceClass":"class_2950","sourcePath":"decompiled/scripts/package_77/class_2950.as","sourceSha256":"661ff519bd161e5f3c5880da4f3327dc0c83f21879bbc7703a6d68cf631d35ae","mapLine":1533,"reportedName":"Game2GameChatFromPlayer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2834,"sourceClass":"class_2950","sourcePath":"decompiled/scripts/package_77/class_2950.as","sourceSha256":"661ff519bd161e5f3c5880da4f3327dc0c83f21879bbc7703a6d68cf631d35ae","mapLine":1533,"reportedName":"Game2GameChatFromPlayer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameChatComposer"],"typescript":["GAME2_GAME_CHAT"]}},
       {"direction":"server_to_client","header":2839,"sourceClass":"class_3608","sourcePath":"decompiled/scripts/package_215/class_3608.as","sourceSha256":"c724161b06f6af05e2554f352802f5324716f587c00c36cc2e24a072dfac014e","mapLine":1534,"reportedName":"PhoneCollectionState","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PHONE_COLLECTION_STATE"]}},
       {"direction":"server_to_client","header":2854,"sourceClass":"class_3019","sourcePath":"decompiled/scripts/package_191/class_3019.as","sourceSha256":"68c4ec3fffcb4ad82a5801bc773538596177b4a2989beb8a65dc155558bb50d3","mapLine":1535,"reportedName":"TreasureHuntUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["TREASURE_HUNT_UPDATE"]}},
       {"direction":"server_to_client","header":2856,"sourceClass":"class_2700","sourcePath":"decompiled/scripts/package_116/class_2700.as","sourceSha256":"aece1392668ac955ee4c2fe878a688ff1f3a0d8b01193c957a8c4c46b814ac03","mapLine":1536,"reportedName":"WiredSetUserPermanentVariableResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
@@ -26212,7 +25993,7 @@
       {"direction":"server_to_client","header":3032,"sourceClass":"class_1784","sourcePath":"decompiled/scripts/package_9/class_1784.as","sourceSha256":"53ba6a413f67eb6efdcd78a9905e9d22ab3e86c37d71f494849321aca44fd68c","mapLine":1568,"reportedName":"GuildMembershipUpdated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GroupMemberUpdatedComposer"],"typescript":["GROUP_MEMBER"]}},
       {"direction":"server_to_client","header":3033,"sourceClass":"class_3281","sourcePath":"decompiled/scripts/package_32/class_3281.as","sourceSha256":"f93e95a8585c2a6995adf5dbef47a80f9747ce39074db842ee1fe5d4cae4c4eb","mapLine":1569,"reportedName":"ChatReviewSessionStarted","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CHAT_REVIEW_SESSION_STARTED"]}},
       {"direction":"server_to_client","header":3035,"sourceClass":"class_1908","sourcePath":"decompiled/scripts/package_20/class_1908.as","sourceSha256":"3e30be376b83c71c05ab7e5e2097c364b90d347cbd6cc9a44a7d74463eab73bd","mapLine":1570,"reportedName":"FriendListUpdate","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FriendListUpdateComposer"],"typescript":["MESSENGER_UPDATE"]}},
-      {"direction":"server_to_client","header":3038,"sourceClass":"class_2989","sourcePath":"decompiled/scripts/package_77/class_2989.as","sourceSha256":"adbecb91e4671f93eb2dd57f967156fc83909461caee55664de683414f4a30b7","mapLine":1571,"reportedName":"Game2EnterArenaFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3038,"sourceClass":"class_2989","sourcePath":"decompiled/scripts/package_77/class_2989.as","sourceSha256":"adbecb91e4671f93eb2dd57f967156fc83909461caee55664de683414f4a30b7","mapLine":1571,"reportedName":"Game2EnterArenaFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2EnterArenaFailedComposer"],"typescript":["GAME2_ENTER_ARENA_FAILED"]}},
       {"direction":"server_to_client","header":3046,"sourceClass":"class_2138","sourcePath":"decompiled/scripts/package_64/class_2138.as","sourceSha256":"d34deb83b988cbd98de1e1977ea6e80a09f9366e34acdcf6437ac54cd349bc5f","mapLine":1572,"reportedName":"Users","namingSource":"Sulek","canonicalName":"Users","canonicalStatus":"semantic-verified","localBindings":{"csharp":["UsersComposer"],"typescript":["UNIT"]}},
       {"direction":"server_to_client","header":3065,"sourceClass":"class_3805","sourcePath":"decompiled/scripts/package_65/class_3805.as","sourceSha256":"bf508aca3101bffb03a3b7e0a2fc1b778e8731599ddb4be8ba8cb374917e0ba6","mapLine":1573,"reportedName":"NftClaims","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":3070,"sourceClass":"class_2682","sourcePath":"decompiled/scripts/package_151/class_2682.as","sourceSha256":"4aee6473fc03a3a7ccb4b32eac58179caee626898d82e40081ae0d70629eef91","mapLine":1574,"reportedName":"YouAreOwner","namingSource":"Sulek","canonicalName":"YouAreOwner","canonicalStatus":"semantic-verified","localBindings":{"csharp":["YouAreOwnerComposer"],"typescript":["ROOM_RIGHTS_OWNER"]}},
@@ -26223,7 +26004,7 @@
       {"direction":"server_to_client","header":3097,"sourceClass":"class_2040","sourcePath":"decompiled/scripts/package_1/class_2040.as","sourceSha256":"85ef7693c8d98f8af9533521c889c0a602bbdd727b334f252071e5092dd5117a","mapLine":1579,"reportedName":"AuthenticationOK","namingSource":"Sulek","canonicalName":"AuthenticationOK","canonicalStatus":"semantic-verified","localBindings":{"csharp":["AuthenticationOkComposer"],"typescript":["AUTHENTICATED"]}},
       {"direction":"server_to_client","header":3101,"sourceClass":"class_2716","sourcePath":"decompiled/scripts/package_102/class_2716.as","sourceSha256":"3cca18921c3a2ec9ee884e39dc424884b4d14ca39474bf458e73536c6e38a70c","mapLine":1580,"reportedName":"GuildFurniContextMenuInfo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GroupFurniSettingsComposer"],"typescript":["FURNITURE_GROUP_CONTEXT_MENU_INFO"]}},
       {"direction":"server_to_client","header":3105,"sourceClass":"class_3212","sourcePath":"decompiled/scripts/package_102/class_3212.as","sourceSha256":"1282743bc7fd8cc11fb359dcd3a867abb7f41ea349824c5f0084fad837c1c3a0","mapLine":1581,"reportedName":"YoutubeControlVideo","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["YOUTUBE_CONTROL_VIDEO"]}},
-      {"direction":"server_to_client","header":3111,"sourceClass":"Game2GameNotFoundMessageEvent","sourcePath":"decompiled/scripts/package_96/Game2GameNotFoundMessageEvent.as","sourceSha256":"716e799468fcfed0da2ca275e5e3a5f1ab63422b3c4aa828aee41b42b05d6100","mapLine":1582,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3111,"sourceClass":"Game2GameNotFoundMessageEvent","sourcePath":"decompiled/scripts/package_96/Game2GameNotFoundMessageEvent.as","sourceSha256":"716e799468fcfed0da2ca275e5e3a5f1ab63422b3c4aa828aee41b42b05d6100","mapLine":1582,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameNotFoundComposer"],"typescript":["GAME_CENTER_GAME_NOT_FOUND"]}},
       {"direction":"server_to_client","header":3122,"sourceClass":"class_1809","sourcePath":"decompiled/scripts/package_21/class_1809.as","sourceSha256":"6a97066396a5c669e7a0e7efe169e279a14acd6840b3c454e3fa542bfdcdbc5d","mapLine":1583,"reportedName":"Interstitial","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["INTERSTITIAL_MESSAGE"]}},
       {"direction":"server_to_client","header":3143,"sourceClass":"class_2183","sourcePath":"decompiled/scripts/package_5/class_2183.as","sourceSha256":"73bb4eb45da9f2d9b850654e9507bab36d533d23e0ec7be211a1bed82fe7fa80","mapLine":1584,"reportedName":"CatalogPage","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CatalogPageComposer"],"typescript":["CATALOG_PAGE"]}},
       {"direction":"server_to_client","header":3147,"sourceClass":"class_2034","sourcePath":"decompiled/scripts/package_54/class_2034.as","sourceSha256":"5e767e07f6e747a5231dc5dd2383d37827fc70dc156aa09fcdcc8c87e96b12c7","mapLine":1585,"reportedName":"AvailabilityStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AvailabilityStatusComposer"],"typescript":["AVAILABILITY_STATUS"]}},
@@ -26246,7 +26027,7 @@
       {"direction":"server_to_client","header":3232,"sourceClass":"class_2006","sourcePath":"decompiled/scripts/package_5/class_2006.as","sourceSha256":"6c157f92c93ff293afb740c7a91a21efa5c9b0dcc3a0fc2387f62e7e80ec4aca","mapLine":1603,"reportedName":"LtdRaffleResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CATALOG_LTD_RAFFLE_RESULT"]}},
       {"direction":"server_to_client","header":3237,"sourceClass":"class_1786","sourcePath":"decompiled/scripts/package_11/class_1786.as","sourceSha256":"f386d46dae6eec67c43a5c3b3141d2d9c12027eefb4a59a7c83ce74ca99606bf","mapLine":1604,"reportedName":"PetRespectFailed","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PET_RESPECT_FAILED"]}},
       {"direction":"server_to_client","header":3241,"sourceClass":"class_2628","sourcePath":"decompiled/scripts/package_17/class_2628.as","sourceSha256":"56818d0061ab4b9cddcc0c92ca5cabc38c052ca1b84446dee39200a92173fc12","mapLine":1606,"reportedName":"CfhSanction","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CFH_SANCTION"]}},
-      {"direction":"server_to_client","header":3245,"sourceClass":"Game2StartCounterMessageEvent","sourcePath":"decompiled/scripts/package_96/Game2StartCounterMessageEvent.as","sourceSha256":"ec724c0c6592c3de99a52993d7dd77e2fcb7aa28d29b010e8235764d2f3618ab","mapLine":1607,"reportedName":"Game2StartCounter","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3245,"sourceClass":"Game2StartCounterMessageEvent","sourcePath":"decompiled/scripts/package_96/Game2StartCounterMessageEvent.as","sourceSha256":"ec724c0c6592c3de99a52993d7dd77e2fcb7aa28d29b010e8235764d2f3618ab","mapLine":1607,"reportedName":"Game2StartCounter","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2StartCounterComposer"],"typescript":["GAME2_START_COUNTER"]}},
       {"direction":"server_to_client","header":3248,"sourceClass":"class_2382","sourcePath":"decompiled/scripts/package_5/class_2382.as","sourceSha256":"602d390c6befa0f85610e73d2dce9f570042c7d1daa4a6afd4ddad1d402576e1","mapLine":1608,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":3255,"sourceClass":"class_2871","sourcePath":"decompiled/scripts/package_64/class_2871.as","sourceSha256":"0fb62437d9164c4f6297066f2014cd7a3a008bcf2124c1801d78e8c2f5c84a81","mapLine":1609,"reportedName":"RoomProperty","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomPropertyComposer"],"typescript":["ROOM_PAINT"]}},
       {"direction":"server_to_client","header":3266,"sourceClass":"class_1962","sourcePath":"decompiled/scripts/package_17/class_1962.as","sourceSha256":"d0e8dfc4c8f974adb90e2d211e0bea545b02bb74c3acbd415380a18565eafcf2","mapLine":1610,"reportedName":"CfhTopicsInit","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["CfhTopicsInitComposer"],"typescript":["CFH_TOPICS"]}},
@@ -26280,7 +26061,7 @@
       {"direction":"server_to_client","header":3425,"sourceClass":"class_3509","sourcePath":"decompiled/scripts/package_52/class_3509.as","sourceSha256":"62a7809df01cf44ccdeea9b247095eb9b63a6c2332da6b38acba1e0fdf971a5d","mapLine":1640,"reportedName":"OfficialRooms","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["OFFICIAL_ROOMS"]}},
       {"direction":"server_to_client","header":3426,"sourceClass":"class_2861","sourcePath":"decompiled/scripts/package_32/class_2861.as","sourceSha256":"28946c98fe6aa0135fe5213c239d93ebe51bd5d2323457168b8eb7a4c973e59e","mapLine":1641,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"server_to_client","header":3438,"sourceClass":"class_2675","sourcePath":"decompiled/scripts/package_137/class_2675.as","sourceSha256":"7244e024370a4dc69d630c7be6bbe6a8d171bcd65c6311e21ff3552243b19219","mapLine":1642,"reportedName":"TalentLevelUp","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["TalentLevelUpComposer"],"typescript":["TALENT_TRACK_LEVEL_UP"]}},
-      {"direction":"server_to_client","header":3439,"sourceClass":"class_3510","sourcePath":"decompiled/scripts/package_77/class_3510.as","sourceSha256":"99b95bb5ed0c2442415e905247a2b87cd19ac721234050477ea9618b9fbb2550","mapLine":1643,"reportedName":"Game2StageRunning","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3439,"sourceClass":"class_3510","sourcePath":"decompiled/scripts/package_77/class_3510.as","sourceSha256":"99b95bb5ed0c2442415e905247a2b87cd19ac721234050477ea9618b9fbb2550","mapLine":1643,"reportedName":"Game2StageRunning","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2StageRunningComposer"],"typescript":["GAME2_STAGE_RUNNING"]}},
       {"direction":"server_to_client","header":3442,"sourceClass":"class_2615","sourcePath":"decompiled/scripts/package_49/class_2615.as","sourceSha256":"f8b18e893b49c61a7bebae3527b25ee303392199f6465d3698155def742a1041","mapLine":1644,"reportedName":"SeasonalQuests","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["SEASONAL_QUESTS"]}},
       {"direction":"server_to_client","header":3443,"sourceClass":"class_2028","sourcePath":"decompiled/scripts/package_53/class_2028.as","sourceSha256":"4d3c2ccb0f28aff20b741944b1409812be19cda1cc8392532189c477c436afb8","mapLine":1645,"reportedName":"HabboActivityPointNotification","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["HabboActivityPointNotificationComposer"],"typescript":["ACTIVITY_POINT_NOTIFICATION"]}},
       {"direction":"server_to_client","header":3450,"sourceClass":"class_2775","sourcePath":"decompiled/scripts/package_111/class_2775.as","sourceSha256":"660bf2944b295520654560bdc49033d2a32e018d038614ae38dfb77fd9daab62","mapLine":1646,"reportedName":"AvatarEffects","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AvatarEffectsComposer"],"typescript":["USER_EFFECTS"]}},
@@ -26288,7 +26069,7 @@
       {"direction":"server_to_client","header":3458,"sourceClass":"class_3771","sourcePath":"decompiled/scripts/package_64/class_3771.as","sourceSha256":"15c260264d023bfc7467c4497e2feed77a6d519b1f8081c62be944ddad7464ef","mapLine":1648,"reportedName":"ObjectUpdate","namingSource":"Sulek","canonicalName":"ObjectUpdate","canonicalStatus":"semantic-verified","localBindings":{"csharp":["ObjectUpdateComposer"],"typescript":["FURNITURE_FLOOR_UPDATE"]}},
       {"direction":"server_to_client","header":3459,"sourceClass":"Game2TotalGroupLeaderboardEvent","sourcePath":"decompiled/scripts/package_109/Game2TotalGroupLeaderboardEvent.as","sourceSha256":"6aa9049632d1663aa8cfb080f11902a1d4bc4164fa40d742869a293355f17de8","mapLine":1649,"reportedName":"Game2TotalGroupLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2TotalGroupLeaderboardComposer"],"typescript":["GAME2_TOTAL_GROUP_LEADERBOARD"]}},
       {"direction":"server_to_client","header":3461,"sourceClass":"class_2787","sourcePath":"decompiled/scripts/package_121/class_2787.as","sourceSha256":"1a71a3ada45e48eacc020a968b8435dc3528a0f452690a66af54baff902abe53","mapLine":1650,"reportedName":"WiredMenuError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"server_to_client","header":3480,"sourceClass":"class_2412","sourcePath":"decompiled/scripts/package_77/class_2412.as","sourceSha256":"ccf8696f8f275c1d4b53ccecf5c5a53f2a684ceea78ee1d850151d0abacf36d1","mapLine":1652,"reportedName":"Game2PlayerExitedGameArena","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3480,"sourceClass":"class_2412","sourcePath":"decompiled/scripts/package_77/class_2412.as","sourceSha256":"ccf8696f8f275c1d4b53ccecf5c5a53f2a684ceea78ee1d850151d0abacf36d1","mapLine":1652,"reportedName":"Game2PlayerExitedGameArena","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2PlayerExitedGameArenaComposer"],"typescript":["GAME2_PLAYER_EXITED_GAME_ARENA"]}},
       {"direction":"server_to_client","header":3485,"sourceClass":"class_3143","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/incoming/userdefinedroomevents/class_3143.as","sourceSha256":"1577a09fef9854772eac1726c842d562ce5a4b911c6a67fb37c7d31574c5f462","mapLine":1653,"reportedName":"WiredFurniTrigger","namingSource":"Sulek","canonicalName":"WiredFurniTrigger","canonicalStatus":"semantic-verified","localBindings":{"csharp":["WiredTriggeRconfigComposer"],"typescript":["WIRED_TRIGGER"]}},
       {"direction":"server_to_client","header":3486,"sourceClass":"Game2FriendsLeaderboardEvent","sourcePath":"decompiled/scripts/package_109/Game2FriendsLeaderboardEvent.as","sourceSha256":"89b43d6caf6fce716197102b9d4956d0097392a70e6b45013c6c7df1ccb6abf3","mapLine":1654,"reportedName":"Game2FriendsLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2FriendsLeaderboardComposer"],"typescript":["GAME2_FRIENDS_LEADERBOARD"]}},
       {"direction":"server_to_client","header":3491,"sourceClass":"class_2925","sourcePath":"decompiled/scripts/package_2/class_2925.as","sourceSha256":"19d5ae56d7c4418749bfea453fe85e09928a26bed46b94bf7b6cff586661cfb5","mapLine":1655,"reportedName":"RoomSettingsSaveError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ROOM_SETTINGS_SAVE_ERROR"]}},
@@ -26348,7 +26129,7 @@
       {"direction":"server_to_client","header":3856,"sourceClass":"class_2764","sourcePath":"decompiled/scripts/package_9/class_2764.as","sourceSha256":"678fec94b873216326fc9e6c79dcfda6cfdbcbd5d10a20408834cc11adf57088","mapLine":1719,"reportedName":"HabboGroupBadges","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["HabboGroupBadgesComposer"],"typescript":["GROUP_BADGES"]}},
       {"direction":"server_to_client","header":3861,"sourceClass":"class_2319","sourcePath":"decompiled/scripts/package_53/class_2319.as","sourceSha256":"0f98da5b2415aad97a9ce985de4eaa9a9bcd2bac054c18697afc537d0f86ca14","mapLine":1720,"reportedName":"ActivityPoints","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ActivityPointsComposer"],"typescript":["USER_CURRENCY"]}},
       {"direction":"server_to_client","header":3865,"sourceClass":"class_2999","sourcePath":"decompiled/scripts/package_2/class_2999.as","sourceSha256":"968657be0cd062c2ea910c3c83e44e80150f4caf9951a724315957375dab033b","mapLine":1721,"reportedName":"RoomSettingsData","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RoomSettingsDataComposer"],"typescript":["ROOM_SETTINGS"]}},
-      {"direction":"server_to_client","header":3869,"sourceClass":"class_2758","sourcePath":"decompiled/scripts/package_77/class_2758.as","sourceSha256":"441fa929ab44f003198f956677e6fef6775734f3a05cec989c77724e0393bd91","mapLine":1722,"reportedName":"Game2GameEnding","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":3869,"sourceClass":"class_2758","sourcePath":"decompiled/scripts/package_77/class_2758.as","sourceSha256":"441fa929ab44f003198f956677e6fef6775734f3a05cec989c77724e0393bd91","mapLine":1722,"reportedName":"Game2GameEnding","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GameEndingComposer"],"typescript":["GAME2_GAME_ENDING"]}},
       {"direction":"server_to_client","header":3871,"sourceClass":"class_2224","sourcePath":"decompiled/scripts/package_38/class_2224.as","sourceSha256":"c1054f8f4c05e7ac997bf22d38efe2ca8a5a245356c40f7bf2d74359cf3a21ed","mapLine":1723,"reportedName":"MarketplaceClearOwnHistoryResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MARKETPLACE_CLEAR_OWN_HISTORY_RESULT"]}},
       {"direction":"server_to_client","header":3872,"sourceClass":"class_3303","sourcePath":"decompiled/scripts/package_154/class_3303.as","sourceSha256":"c96fbbf2b53265e9c67bde77d0b206f1f423bac4f4fdbc6ff90b4efeab96a1ab","mapLine":1724,"reportedName":"RewardTrackClaimResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["RewardTrackClaimResultComposer"],"typescript":["REWARD_TRACK_CLAIM_RESULT"]}},
       {"direction":"server_to_client","header":3885,"sourceClass":"class_2834","sourcePath":"decompiled/scripts/package_87/class_2834.as","sourceSha256":"fd646c751ea89e0715ccc7170f8e66d83771f7e288dc670e8f0fc14d672ef40d","mapLine":1725,"reportedName":"ConfirmBreedingResult","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PET_CONFIRM_BREEDING_RESULT"]}},
@@ -26437,7 +26218,7 @@
       {"direction":"client_to_server","header":597,"sourceClass":"class_2239","sourcePath":"decompiled/scripts/package_61/class_2239.as","sourceSha256":"3cd4f1bc8a7506f92c08b464108795601fba170700e15414e5086cae57c4cd27","mapLine":1156,"reportedName":"GetInterstitial","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_INTERSTITIAL"]}},
       {"direction":"client_to_server","header":604,"sourceClass":"class_2917","sourcePath":"decompiled/scripts/package_179/class_2917.as","sourceSha256":"995e9edec853bb26c39fbd0420b205c1ce88db78a12d041e4f56d71399ca6fe5","mapLine":1157,"reportedName":"GetDiscordPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["DISCORD_PREFERENCES"]}},
       {"direction":"client_to_server","header":606,"sourceClass":"class_2535","sourcePath":"decompiled/scripts/package_126/class_2535.as","sourceSha256":"b58418de991ec072fad2d4303e812983c1f8b9879c85fa518b124104fa37a5de","mapLine":1158,"reportedName":"GetHotLooks","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_HOT_LOOKS"]}},
-      {"direction":"client_to_server","header":609,"sourceClass":"Game2GetFriendsLeaderboardComposer","sourcePath":"decompiled/scripts/package_90/Game2GetFriendsLeaderboardComposer.as","sourceSha256":"5dd7d2cac6311c5a7689139f8907f78b5b507b1532c72bc450635f3d09933131","mapLine":1159,"reportedName":"Game2GetFriendsLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":609,"sourceClass":"Game2GetFriendsLeaderboardComposer","sourcePath":"decompiled/scripts/package_90/Game2GetFriendsLeaderboardComposer.as","sourceSha256":"5dd7d2cac6311c5a7689139f8907f78b5b507b1532c72bc450635f3d09933131","mapLine":1159,"reportedName":"Game2GetFriendsLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GetFriendsLeaderboardEvent"],"typescript":["GAME2GETFRIENDSLEADERBOARD"]}},
       {"direction":"client_to_server","header":614,"sourceClass":"class_2676","sourcePath":"decompiled/scripts/package_103/class_2676.as","sourceSha256":"ff757f7208f1b8ee68b4ff9b90aa2f73af1ebed4eb6cbbb5182e158266ac75ec","mapLine":1160,"reportedName":"ModerateThread","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["DeleteGroupThreadEvent"],"typescript":["FORUM_MODERATE_THREAD"]}},
       {"direction":"client_to_server","header":633,"sourceClass":"class_2166","sourcePath":"decompiled/scripts/package_26/class_2166.as","sourceSha256":"803934f71ba919d0e52ec676de89e9c3f942326ae416fd565c18766f551d5ace","mapLine":1162,"reportedName":"GetGuestRoom","namingSource":"Sulek","canonicalName":"GetGuestRoom","canonicalStatus":"semantic-verified","localBindings":{"csharp":["GetGuestRoomEvent"],"typescript":["GET_GUEST_ROOM"]}},
       {"direction":"client_to_server","header":639,"sourceClass":"class_3151","sourcePath":"decompiled/scripts/package_103/class_3151.as","sourceSha256":"786eed9c77384824bffb205cc20f5acde34eced79acdfe96edf1f72ac781c859","mapLine":1163,"reportedName":"PostMessage","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["PostGroupContentEvent"],"typescript":["FORUM_POST_MESSAGE"]}},
@@ -26536,7 +26317,7 @@
       {"direction":"client_to_server","header":1271,"sourceClass":"class_2695","sourcePath":"decompiled/scripts/package_26/class_2695.as","sourceSha256":"09839dc5cee75fc493c8fe5d6563f4854f53271093947a9526d80cf1c3174020","mapLine":667,"reportedName":"ForwardToARandomPromotedRoom","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["FORWARD_TO_RANDOM_PROMOTED_ROOM"]}},
       {"direction":"client_to_server","header":1279,"sourceClass":"class_3571","sourcePath":"decompiled/scripts/package_25/class_3571.as","sourceSha256":"6a7ae5350f0f7292628211d0fa6d7571728d089bb22f086b49af7f22863239df","mapLine":668,"reportedName":"RemoveAdminRightsFromMember","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["TakeAdminRightsEvent"],"typescript":["GROUP_ADMIN_REMOVE"]}},
       {"direction":"client_to_server","header":1281,"sourceClass":"class_2669","sourcePath":"decompiled/scripts/package_124/class_2669.as","sourceSha256":"097658d50da414d9cf0a3a4e11b1dacec4239b310d1e9e1a8a7b7e6d2a308458","mapLine":669,"reportedName":"AmbassadorAlert","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["AmbassadorAlertEvent"],"typescript":["ROOM_AMBASSADOR_ALERT"]}},
-      {"direction":"client_to_server","header":1287,"sourceClass":"class_2136","sourcePath":"decompiled/scripts/package_63/class_2136.as","sourceSha256":"1b2807a7de8615a0087f4974d11b3388f58312433b1135f768d3a2dacc7a165d","mapLine":670,"reportedName":"Game2QuickJoinGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1287,"sourceClass":"class_2136","sourcePath":"decompiled/scripts/package_63/class_2136.as","sourceSha256":"1b2807a7de8615a0087f4974d11b3388f58312433b1135f768d3a2dacc7a165d","mapLine":670,"reportedName":"Game2QuickJoinGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2QuickJoinEvent"],"typescript":["GAME2QUICKJOINMESSAGE"]}},
       {"direction":"client_to_server","header":1293,"sourceClass":"class_2121","sourcePath":"decompiled/scripts/package_62/class_2121.as","sourceSha256":"7338edfef23d63d10658e77b0ac7ad4fc10953555955983205ede5d757b817ec","mapLine":671,"reportedName":"SetNewNavigatorWindowPreferences","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1297,"sourceClass":"class_3727","sourcePath":"decompiled/scripts/package_129/class_3727.as","sourceSha256":"6358c8ddfd3838b2617f046715335b7839775d09ee06e71a35a3d0ac64b720e1","mapLine":672,"reportedName":"_-42T","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1301,"sourceClass":"class_2558","sourcePath":"decompiled/scripts/package_128/class_2558.as","sourceSha256":"c1bb21db95b79e28f818725b42ca2059e9d2b530001270170d8149aa9b956eba","mapLine":673,"reportedName":"GetOccupiedTiles","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetOccupiedTilesEvent"],"typescript":["GET_OCCUPIED_TILES"]}},
@@ -26561,7 +26342,7 @@
       {"direction":"client_to_server","header":1422,"sourceClass":"class_2521","sourcePath":"decompiled/scripts/package_16/class_2521.as","sourceSha256":"da215b4e1e1c58342f8b65205f2aa3e685e0ce9d38a27e6e2e1e416c9a79d9b2","mapLine":695,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1427,"sourceClass":"class_2284","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/quest/class_2284.as","sourceSha256":"8e03ce59e58bc5dd12d31f53fef634530301994757e4ae92643cdacc7f6109fa","mapLine":696,"reportedName":"FriendRequestQuestComplete","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["FRIEND_REQUEST_QUEST_COMPLETE"]}},
       {"direction":"client_to_server","header":1434,"sourceClass":"GetNftCreditsMessageComposer","sourcePath":"decompiled/scripts/package_34/GetNftCreditsMessageComposer.as","sourceSha256":"3483bafa02264dae330fd1962bb81233c0ca7aa1efff7596d5caccd13ab26582","mapLine":697,"reportedName":"GetNftCredits","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"client_to_server","header":1451,"sourceClass":"class_3573","sourcePath":"decompiled/scripts/package_63/class_3573.as","sourceSha256":"d1ae72ba7146f5c18b66971712b9d9eb5f158284db1db8fefb29b570ed74ff72","mapLine":698,"reportedName":"Game2LeaveGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1451,"sourceClass":"class_3573","sourcePath":"decompiled/scripts/package_63/class_3573.as","sourceSha256":"d1ae72ba7146f5c18b66971712b9d9eb5f158284db1db8fefb29b570ed74ff72","mapLine":698,"reportedName":"Game2LeaveGame","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2LeaveLobbyEvent"],"typescript":["GAME2LEAVELOBBYMESSAGE"]}},
       {"direction":"client_to_server","header":1467,"sourceClass":"class_3384","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/userdefinedroomevents/wiredmenu/class_3384.as","sourceSha256":"d399c79e2a7518013dbfe5c42eeca5dc945464844963acb54f543cfc14812222","mapLine":699,"reportedName":"WiredGetAllVariablesHash","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredAllVariablesRequestEvent"],"typescript":["WIRED_ALL_VARIABLES_REQUEST"]}},
       {"direction":"client_to_server","header":1468,"sourceClass":"class_3465","sourcePath":"decompiled/scripts/package_124/class_3465.as","sourceSha256":"ed9c750468393e34db0e4b76fda7da59db2fa93cccd744222472373ed3c3f3b7","mapLine":700,"reportedName":"UnmuteUser","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1469,"sourceClass":"class_2525","sourcePath":"decompiled/scripts/package_125/class_2525.as","sourceSha256":"49a80f7f3e4a7d775ca6c96929a4bd51e356cbe50809b553deea96523c0b60d9","mapLine":701,"reportedName":"GetResolutionAchievements","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ACHIEVEMENT_RESOLUTION_OPEN"]}},
@@ -26632,7 +26413,7 @@
       {"direction":"client_to_server","header":1871,"sourceClass":"class_2932","sourcePath":"decompiled/scripts/package_181/class_2932.as","sourceSha256":"d58b1991095e442c47b25f88179413ddcc3fb184bca1d1546fa61e637cc118b3","mapLine":769,"reportedName":"ProgressTreasureHunt","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1874,"sourceClass":"class_3390","sourcePath":"decompiled/scripts/package_36/class_3390.as","sourceSha256":"82030077833a2c851e6a2d9c87b6bd714d7f550215c1d48258310b76d9352947","mapLine":770,"reportedName":"AppealCfh","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":1891,"sourceClass":"class_2849","sourcePath":"decompiled/scripts/package_144/class_2849.as","sourceSha256":"ecfe7362c259f51bf28a6c59c82fc6bb6df8f9d5b05699e20107d91d2c1aaa48","mapLine":771,"reportedName":"TryPhoneNumber","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["TRY_PHONE_NUMBER"]}},
-      {"direction":"client_to_server","header":1898,"sourceClass":"Game2ThrowSnowballAtHumanMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2ThrowSnowballAtHumanMessageComposer.as","sourceSha256":"98f1414b9c5f70c9a33c90f44177f817837ee1fb168947ef9bf18b2022720ef6","mapLine":772,"reportedName":"Game2ThrowSnowballAtHuman","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":1898,"sourceClass":"Game2ThrowSnowballAtHumanMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2ThrowSnowballAtHumanMessageComposer.as","sourceSha256":"98f1414b9c5f70c9a33c90f44177f817837ee1fb168947ef9bf18b2022720ef6","mapLine":772,"reportedName":"Game2ThrowSnowballAtHuman","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2ThrowSnowballAtHumanEvent"],"typescript":["GAME2THROWSNOWBALLATHUMANMESSAGE"]}},
       {"direction":"client_to_server","header":1902,"sourceClass":"class_2432","sourcePath":"decompiled/scripts/package_16/class_2432.as","sourceSha256":"17ea8bb0a5e4083ae8b681fdd56861addd299f6833066cc94df5aa93183409cf","mapLine":773,"reportedName":"GetClubGift","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetClubGiftInfoEvent"],"typescript":["GET_CLUB_GIFT_INFO"]}},
       {"direction":"client_to_server","header":1915,"sourceClass":"class_2126","sourcePath":"decompiled/scripts/package_8/class_2126.as","sourceSha256":"bb70485867117f4601bb1fe927702bf2aca7f3f9f2d642b5a6b033db16692401","mapLine":774,"reportedName":"GetFriendRequests","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetFriendRequestsEvent"],"typescript":["GET_FRIEND_REQUESTS"]}},
       {"direction":"client_to_server","header":1917,"sourceClass":"class_2902","sourcePath":"decompiled/scripts/package_8/class_2902.as","sourceSha256":"fc4162642ca42eeb22e0478399bf3aa6f52861e8e13e5e1f9257e636d65b181d","mapLine":775,"reportedName":"VisitUser","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["VISIT_USER"]}},
@@ -26661,7 +26442,7 @@
       {"direction":"client_to_server","header":2065,"sourceClass":"class_1790","sourcePath":"decompiled/scripts/package_13/class_1790.as","sourceSha256":"63ea3910c9be49737d6849636f7c7b60df9754a8aba81b438f84d90a956983ee","mapLine":800,"reportedName":"NftStorePurchase","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":2066,"sourceClass":"class_2744","sourcePath":"decompiled/scripts/package_26/class_2744.as","sourceSha256":"cf60af5e5a39f9856f65d15ab6e71c5c4dd3c3f5ad4879c0ab06e7f524450388","mapLine":801,"reportedName":"MyFrequentRoomHistorySearch","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["MY_FREQUENT_ROOM_HISTORY_SEARCH"]}},
       {"direction":"client_to_server","header":2074,"sourceClass":"class_3654","sourcePath":"decompiled/scripts/package_36/class_3654.as","sourceSha256":"f541e0a818c19898169f794af65f6a467a9f4cbb18a063a73d5333b8df9877f8","mapLine":802,"reportedName":"CallForHelpFromIM","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CALL_FOR_HELP_FROM_IM"]}},
-      {"direction":"client_to_server","header":2078,"sourceClass":"Game2ThrowSnowballAtPositionMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2ThrowSnowballAtPositionMessageComposer.as","sourceSha256":"027515f1b35d34f04824140eca998ed329064047e60d1a47c1e82dd0ff558471","mapLine":803,"reportedName":"Game2ThrowSnowballAtPosition","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":2078,"sourceClass":"Game2ThrowSnowballAtPositionMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2ThrowSnowballAtPositionMessageComposer.as","sourceSha256":"027515f1b35d34f04824140eca998ed329064047e60d1a47c1e82dd0ff558471","mapLine":803,"reportedName":"Game2ThrowSnowballAtPosition","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2ThrowSnowballAtPositionEvent"],"typescript":["GAME2THROWSNOWBALLATPOSITIONMESSAGE"]}},
       {"direction":"client_to_server","header":2082,"sourceClass":"class_2417","sourcePath":"decompiled/scripts/package_103/class_2417.as","sourceSha256":"c8ab4b862f4546686a29ef4d41b6d747dcc93b496b921e2591cf997d849ce2e3","mapLine":804,"reportedName":"GetMessages","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetThreadDataEvent"],"typescript":["GET_FORUM_MESSAGES"]}},
       {"direction":"client_to_server","header":2085,"sourceClass":"class_3441","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/quest/class_3441.as","sourceSha256":"43deed4154166b537da4b36a8ff329ae892ae74d98cf2192d99bcc305eeb34d5","mapLine":805,"reportedName":"GetDailyQuest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_DAILY_QUEST"]}},
       {"direction":"client_to_server","header":2097,"sourceClass":"class_2750","sourcePath":"decompiled/scripts/package_25/class_2750.as","sourceSha256":"b12dcd7482c51f1d38c0f416c121d8bc3e585a4e671e5a08be55a6d4ac1755ab","mapLine":806,"reportedName":"DeactivateGuild","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["DeleteGroupEvent"],"typescript":["GROUP_DELETE"]}},
@@ -26889,7 +26670,7 @@
       {"direction":"client_to_server","header":3518,"sourceClass":"class_2909","sourcePath":"decompiled/scripts/package_40/class_2909.as","sourceSha256":"0010e984d91572e8601639d1f72a8ed653e98e3d09f225c0065968db1d186407","mapLine":1046,"reportedName":"BreedPets","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["PETS_BREED"]}},
       {"direction":"client_to_server","header":3520,"sourceClass":"class_2547","sourcePath":"decompiled/scripts/package_103/class_2547.as","sourceSha256":"47d61037c88146de2c13c395dba37d271bb9779825a57ac21eade0e375dd363e","mapLine":1047,"reportedName":"GetThread","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetForumThreadEvent"],"typescript":["GET_FORUM_THREAD"]}},
       {"direction":"client_to_server","header":3522,"sourceClass":"class_2746","sourcePath":"decompiled/scripts/package_36/class_2746.as","sourceSha256":"b1cdc03adee5e862af45077e41fa532b11f46487a832312870a9a906a20ac6ab","mapLine":1048,"reportedName":null,"namingSource":null,"canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
-      {"direction":"client_to_server","header":3528,"sourceClass":"Game2MakeSnowballMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2MakeSnowballMessageComposer.as","sourceSha256":"c0f12b096927669864e32a74ac9a8cf0f5666fc793980e997b2d2d06cf4475f4","mapLine":1049,"reportedName":"Game2MakeSnowball","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3528,"sourceClass":"Game2MakeSnowballMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2MakeSnowballMessageComposer.as","sourceSha256":"c0f12b096927669864e32a74ac9a8cf0f5666fc793980e997b2d2d06cf4475f4","mapLine":1049,"reportedName":"Game2MakeSnowball","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2MakeSnowballEvent"],"typescript":["GAME2MAKESNOWBALLMESSAGE"]}},
       {"direction":"client_to_server","header":3532,"sourceClass":"class_2074","sourcePath":"decompiled/scripts/package_23/class_2074.as","sourceSha256":"41cd03db7736684fa031c4469498e8603cf5792f4a4a029bd8870850c5ce3127","mapLine":1050,"reportedName":"GetRecyclerStatus","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetRecyclerStatusEvent"],"typescript":["RECYCLER_STATUS"]}},
       {"direction":"client_to_server","header":3540,"sourceClass":"class_3677","sourcePath":"decompiled/scripts/package_66/class_3677.as","sourceSha256":"f224f9fb9c0c7db689bdde2e39b88690e3bea9684102c375885ed62945c804f2","mapLine":1051,"reportedName":"UseWallItem","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["UseWallItemEvent"],"typescript":["FURNITURE_WALL_MULTISTATE"]}},
       {"direction":"client_to_server","header":3551,"sourceClass":"class_2727","sourcePath":"decompiled/scripts/package_72/class_2727.as","sourceSha256":"49cf068fbe41a9249dd16ea7789d51a0a4fb006e5863531af8fd6c266ae12073","mapLine":1053,"reportedName":"GetTalentTrack","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetTalentTrackEvent"],"typescript":["HELPER_TALENT_TRACK"]}},
@@ -26930,7 +26711,7 @@
       {"direction":"client_to_server","header":3760,"sourceClass":"class_2093","sourcePath":"decompiled/scripts/package_13/class_2093.as","sourceSha256":"53ccc2de78489dd4e52390109affd5a4adbb3bbccbb9365759b692299ddf2c6d","mapLine":1090,"reportedName":"PurchaseMintToken","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
       {"direction":"client_to_server","header":3763,"sourceClass":"class_3585","sourcePath":"decompiled/scripts/package_8/class_3585.as","sourceSha256":"9c5f2e29eb505aacc1794248b635e13dca23e5537bcbd2f8e4ce845d5857d6b4","mapLine":1091,"reportedName":"SendRoomInvite","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SendRoomInviteEvent"],"typescript":["SEND_ROOM_INVITE"]}},
       {"direction":"client_to_server","header":3782,"sourceClass":"class_2400","sourcePath":"decompiled/scripts/package_95/class_2400.as","sourceSha256":"90a136a36224d487cefec3de341214e267c355b99ecbe4d5f7c2b366c1fb94c8","mapLine":1092,"reportedName":"WithdrawItemsFromChest","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ChestWithdrawFurniEvent"],"typescript":["CHEST_WITHDRAW_FURNI"]}},
-      {"direction":"client_to_server","header":3787,"sourceClass":"Game2SetUserMoveTargetMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2SetUserMoveTargetMessageComposer.as","sourceSha256":"40c8654d09f270c1425a437aaf21f96e78b50402afa5c86ac8f25ecef5fcd61d","mapLine":1093,"reportedName":"Game2SetUserMoveTarget","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3787,"sourceClass":"Game2SetUserMoveTargetMessageComposer","sourcePath":"decompiled/scripts/package_85/Game2SetUserMoveTargetMessageComposer.as","sourceSha256":"40c8654d09f270c1425a437aaf21f96e78b50402afa5c86ac8f25ecef5fcd61d","mapLine":1093,"reportedName":"Game2SetUserMoveTarget","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2SetUserMoveTargetEvent"],"typescript":["GAME2SETUSERMOVETARGETMESSAGE"]}},
       {"direction":"client_to_server","header":3789,"sourceClass":"class_2859","sourcePath":"decompiled/scripts/package_36/class_2859.as","sourceSha256":"4a51c7cdda3bfe520145208837cf9a5a7d80103913aacf728e6c9259e5fd7fa0","mapLine":1094,"reportedName":"ChatReviewGuideDetached","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CHAT_REVIEW_GUIDE_DETACHED"]}},
       {"direction":"client_to_server","header":3797,"sourceClass":"class_3324","sourcePath":"decompiled/scripts/package_97/class_3324.as","sourceSha256":"f197dead21f99c0a4a68606e45428aec48ed5218a68911873f6d1793a6547f69","mapLine":1095,"reportedName":"ChangePosture","namingSource":"Sulek","canonicalName":"ChangePosture","canonicalStatus":"semantic-verified","localBindings":{"csharp":["SitEvent"],"typescript":["UNIT_POSTURE"]}},
       {"direction":"client_to_server","header":3801,"sourceClass":"class_3699","sourcePath":"decompiled/scripts/package_128/class_3699.as","sourceSha256":"91598f9bf5b529c58de3d9b26a67e21de1d8044a79d9ad1fe1b67bdb7ed548c4","mapLine":1096,"reportedName":"GetRoomEntryTile","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetRoomEntryTileEvent"],"typescript":["GET_ROOM_ENTRY_TILE"]}},
@@ -26965,7 +26746,7 @@
       {"direction":"client_to_server","header":3963,"sourceClass":"class_3267","sourcePath":"decompiled/scripts/com/sulake/habbo/communication/messages/outgoing/userdefinedroomevents/class_3267.as","sourceSha256":"0a89581a44df2a224bd98b98a55d460b961f7aa50e26de8b740166536bee76e6","mapLine":1126,"reportedName":"UpdateAddon","namingSource":"Sulek","canonicalName":"UpdateAddon","canonicalStatus":"semantic-verified","localBindings":{"csharp":["SaveWiredAddonConfigEvent"],"typescript":["WIRED_ADDON_SAVE"]}},
       {"direction":"client_to_server","header":3967,"sourceClass":"class_2866","sourcePath":"decompiled/scripts/package_168/class_2866.as","sourceSha256":"f9230e37ade9f01e3e4cd63c374339983d7f6588732e42f81edb5420a59c0d58","mapLine":1127,"reportedName":"CommandBot","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["SaveBotActionEvent"],"typescript":["BOT_SKILL_SAVE"]}},
       {"direction":"client_to_server","header":3976,"sourceClass":"GetSnowWarGameTokensOfferComposer","sourcePath":"decompiled/scripts/package_16/GetSnowWarGameTokensOfferComposer.as","sourceSha256":"23701499c23fcdb1f4334ca1bcc964a28480b126ffad355ebfea959e7b8d891b","mapLine":1129,"reportedName":"GetSnowWarGameTokensOffer","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["GetSnowWarGameTokensOfferEvent"],"typescript":["GET_SNOWWAR_GAME_TOKENS_OFFER"]}},
-      {"direction":"client_to_server","header":3990,"sourceClass":"Game2GetTotalLeaderboardComposer","sourcePath":"decompiled/scripts/package_90/Game2GetTotalLeaderboardComposer.as","sourceSha256":"409aa7b7d3ed63066d385dd69ec841712b3c2f0114544b1e004f7f3fe8583438","mapLine":1130,"reportedName":"Game2GetTotalLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"client_to_server","header":3990,"sourceClass":"Game2GetTotalLeaderboardComposer","sourcePath":"decompiled/scripts/package_90/Game2GetTotalLeaderboardComposer.as","sourceSha256":"409aa7b7d3ed63066d385dd69ec841712b3c2f0114544b1e004f7f3fe8583438","mapLine":1130,"reportedName":"Game2GetTotalLeaderboard","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["Game2GetTotalLeaderboardEvent"],"typescript":["GAME2GETTOTALLEADERBOARD"]}},
       {"direction":"client_to_server","header":4000,"sourceClass":"class_3487","sourcePath":"decompiled/scripts/package_3/class_3487.as","sourceSha256":"85dfe3b34fa3602838c93f9780d38b517b4f368f51c44eb020076742c715970b","mapLine":1131,"reportedName":"ClientHello","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["ClientHelloEvent"],"typescript":["RELEASE_VERSION"]}},
       {"direction":"client_to_server","header":4100,"sourceClass":"class_1820","sourcePath":"decompiled/scripts/package_24/class_1820.as","sourceSha256":"6be42c85d6a65552cd4d54204d1e03043f9a9acc199ce0fd814f6f271177a665","mapLine":1133,"reportedName":"GetDailyTasks","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["GET_DAILY_TASKS"]}},
       {"direction":"client_to_server","header":4101,"sourceClass":"class_2568","sourcePath":"decompiled/scripts/package_24/class_2568.as","sourceSha256":"c31e385270dca64fba46ba5561e47a116a3514d4d4484f0f6a80e7627231138b","mapLine":1134,"reportedName":"ClaimDailyTask","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CLAIM_DAILY_TASK"]}}
