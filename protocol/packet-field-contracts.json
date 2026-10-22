@@ -19927,49 +19927,9 @@
     {
       "direction": "client_to_server",
       "side": "typescript",
-      "header": 3070,
-      "symbol": "GET_MINT_TOKEN_OFFERS",
-      "path": "packages/communication/src/messages/outgoing/collectibles/GetMintTokenOffersMessageComposer.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "client_to_server",
-      "side": "typescript",
-      "header": 2050,
-      "symbol": "GET_COLLECTIBLE_MINT_TOKENS",
-      "path": "packages/communication/src/messages/outgoing/collectibles/GetCollectibleMintTokensMessageComposer.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "client_to_server",
-      "side": "typescript",
-      "header": 3760,
-      "symbol": "PURCHASE_MINT_TOKENS",
-      "path": "packages/communication/src/messages/outgoing/collectibles/PurchaseMintTokensMessageComposer.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "client_to_server",
-      "side": "typescript",
       "header": 1663,
       "symbol": "MINT_COLLECTIBLE",
       "path": "packages/communication/src/messages/outgoing/collectibles/MintCollectibleMessageComposer.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "client_to_server",
-      "side": "typescript",
-      "header": 3678,
-      "symbol": "GET_NFT_TRANSFER_FEE",
-      "path": "packages/communication/src/messages/outgoing/collectibles/GetNftTransferFeeMessageComposer.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "client_to_server",
-      "side": "typescript",
-      "header": 1589,
-      "symbol": "TRANSFER_NFTS",
-      "path": "packages/communication/src/messages/outgoing/collectibles/TransferNftsMessageComposer.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
@@ -20071,41 +20031,9 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 2636,
-      "symbol": "MINT_TOKEN_OFFERS",
-      "path": "packages/communication/src/messages/parser/collectibles/MintTokenOffersMessageParser.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
-      "header": 768,
-      "symbol": "COLLECTIBLE_MINT_TOKENS",
-      "path": "packages/communication/src/messages/parser/collectibles/CollectibleMintTokensMessageParser.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
       "header": 1072,
       "symbol": "MINT_COLLECTIBLE_RESULT",
       "path": "packages/communication/src/messages/parser/collectibles/MintCollectibleResultMessageParser.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
-      "header": 682,
-      "symbol": "NFT_TRANSFER_FEE",
-      "path": "packages/communication/src/messages/parser/collectibles/NftTransferFeeMessageParser.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
-      "header": 2056,
-      "symbol": "NFT_TRANSFER_RESULT",
-      "path": "packages/communication/src/messages/parser/collectibles/NftTransferResultMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
@@ -20122,14 +20050,6 @@
       "header": 3539,
       "symbol": "NFT_CLAIM_RESULT",
       "path": "packages/communication/src/messages/parser/collectibles/NftClaimResultMessageParser.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
-      "header": 2182,
-      "symbol": "SILVER_BALANCE",
-      "path": "packages/communication/src/messages/parser/collectibles/SilverBalanceMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
