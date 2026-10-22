@@ -4,7 +4,8 @@ import { GetAvatarRenderManager } from '@volt/avatar';
 import { AdvancedMap } from '@volt/utils';
 import { Sprite, Texture } from 'pixi.js';
 import { RoomObjectSpriteVisualization } from '../RoomObjectSpriteVisualization';
-import { WiredHighlightFilterCache } from '../WiredHighlightFilters';
+import { usesWiredHighlightCompositeSilhouette, WiredHighlightFilterCache } from '../WiredHighlightFilters';
+import { WiredHighlightSilhouette } from '../WiredHighlightSilhouette';
 import { HalfSizeTextureCache } from '../HalfSizeTexture';
 import { AvatarCompositeBudget } from './AvatarCompositeBudget';
 import { AvatarVisualizationData } from './AvatarVisualizationData';
@@ -71,6 +72,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
     private _wiredVisibility: number;
     private _wiredClickThrough: boolean;
     private _wiredHighlight: WiredHighlightFilterCache;
+    private _wiredHighlightSilhouette: WiredHighlightSilhouette;
+    private _additionalSprites: IRoomObjectSprite[];
     private _dance: number;
     private _effect: number;
     private _carryObject: number;
@@ -138,6 +141,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         this._wiredVisibility = 1;
         this._wiredClickThrough = false;
         this._wiredHighlight = new WiredHighlightFilterCache();
+        this._wiredHighlightSilhouette = new WiredHighlightSilhouette();
+        this._additionalSprites = [ this._wiredHighlightSilhouette.sprite ];
         this._dance = 0;
         this._effect = 0;
         this._carryObject = 0;
@@ -200,6 +205,8 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
             this._additions.clear();
         }
+
+        this._wiredHighlightSilhouette.dispose();
 
         this._shadow = null;
         this._disposed = true;
@@ -562,7 +569,13 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                 }
             }
 
+            this.updateWiredHighlightSprites();
         }
+    }
+
+    public get additionalSprites(): IRoomObjectSprite[]
+    {
+        return this._additionalSprites;
     }
 
     private createAvatarImage(scale: number, effectId: number): IAvatarImage
@@ -1068,15 +1081,45 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         return (needsUpdate || cosmeticUpdate);
     }
 
-    // Wired transparency, click-through and highlight apply to the avatar body sprite (AIR AvatarVisualization L530-545, L1546-1600).
+    // Wired transparency and click-through apply to the avatar body sprite (AIR AvatarVisualization L530-545).
     private applyWiredEffects(sprite: IRoomObjectSprite, placeholder: boolean): void
     {
         sprite.alpha = (placeholder ? 150 : 255) * this._wiredVisibility;
         sprite.alphaTolerance = this._wiredClickThrough ? AlphaTolerance.MATCH_NOTHING : AlphaTolerance.MATCH_OPAQUE_PIXELS;
+    }
 
-        const highlightFilters = this._wiredHighlight.filters;
+    // Body and effect sprites, not the shadow or additions (AIR AvatarVisualization L1584-1614).
+    private updateWiredHighlightSprites(): void
+    {
+        const composite = usesWiredHighlightCompositeSilhouette(this._wiredHighlight.type);
+        const filters = this._wiredHighlight.filters;
+        const sources: IRoomObjectSprite[] = [];
 
-        if((sprite.filters || null) !== highlightFilters) sprite.filters = highlightFilters;
+        for(let index = 0; index < this._extraSpritesStartIndex; index++)
+        {
+            if(index === AvatarVisualization.SHADOW_LAYER_ID) continue;
+
+            const sprite = this.getSprite(index);
+
+            if(!sprite) continue;
+
+            const spriteFilters = ((composite || (sprite.blendMode === 'add')) ? null : filters);
+
+            if((sprite.filters || null) !== spriteFilters) sprite.filters = spriteFilters;
+
+            if(sprite.visible && sprite.texture && !sprite.texture.destroyed && sprite.texture.source && (sprite.alpha > 0) && (sprite.blendMode !== 'add')) sources.push(sprite);
+        }
+
+        if(!composite)
+        {
+            this._wiredHighlightSilhouette.clear(true);
+
+            return;
+        }
+
+        const body = this.getSprite(AvatarVisualization.SPRITE_INDEX_AVATAR);
+
+        this._wiredHighlightSilhouette.update(sources, filters, (body ? body.alpha : 0), this.object.type, this._direction, true);
     }
 
     protected setDirection(direction: number): void
