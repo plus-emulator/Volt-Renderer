@@ -1,16 +1,14 @@
 # Volt Renderer
 
-Volt Renderer is the engine behind [Volt](https://github.com/plus-emulator/Volt). It draws rooms, avatars and furniture, and it talks to the [PlusEMU](https://github.com/plus-emulator/PlusEMU) server. It is a library, not an app.
+Volt Renderer is the rendering and networking library behind [Volt](https://github.com/plus-emulator/Volt). It renders rooms, avatars and furniture, and implements the packet protocol of [PlusEMU](https://github.com/plus-emulator/PlusEMU). Volt Renderer began as a fork of Nitro Renderer and is now developed independently.
 
-It started as a fork of [Nitro Renderer](https://github.com/billsonnn/nitro-renderer) and is developed on its own.
-
-Full guides are on the documentation site: <https://docs.plusemu.dev/getting-started/volt-client/>
+Documentation: <https://docs.plusemu.dev/getting-started/volt-client/>
 
 ## Setup
 
-A hotel owner does not install the renderer on its own. Every [Volt release](https://github.com/plus-emulator/Volt/releases) already contains it.
+The renderer is bundled into every [Volt release](https://github.com/plus-emulator/Volt/releases). Install it separately only to develop Volt.
 
-To work on Volt from source, put the renderer next to Volt:
+To develop from source, clone both repositories side by side:
 
 ```sh
 git clone https://github.com/plus-emulator/Volt.git
@@ -30,11 +28,13 @@ git pull
 yarn install
 ```
 
-Then build Volt again. Update PlusEMU and the renderer together, because their packet versions must match.
+Then rebuild Volt. Update PlusEMU and the renderer together; their protocol versions must match.
 
-## Packet version
+## Protocol version
 
-The renderer says hello to the server with the Habbo AIR build `WIN63-202610201032-107964540` (`ClientHelloMessageComposer.BUILD`). Custom Volt packets still work. This does not mean the renderer works with the native AIR client.
+The client handshake advertises Habbo AIR build `WIN63-202610201032-107964540` (`ClientHelloMessageComposer.BUILD`).
+
+Volt-specific protocol extensions are supported alongside the AIR packet set. The build string does not imply compatibility with the native AIR client.
 
 ## More
 
