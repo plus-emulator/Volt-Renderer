@@ -1,135 +1,47 @@
 # Volt Renderer
 
-Volt originated as a fork of [Nitro React](https://github.com/billsonnn/nitro-react) and its companion [Nitro Renderer](https://github.com/billsonnn/nitro-renderer) and is completely independently developed and has no further ties to Billsonnn / Nitro.
+Volt Renderer is the engine behind [Volt](https://github.com/plus-emulator/Volt). It draws rooms, avatars and furniture, and it talks to the [PlusEMU](https://github.com/plus-emulator/PlusEMU) server. It is a library, not an app.
 
-## Releases
+It started as a fork of [Nitro Renderer](https://github.com/billsonnn/nitro-renderer) and is developed on its own.
 
-Every push to `main`, including a merged pull request, tests, compiles and builds the renderer, then publishes a GitHub release tagged `renderer-v<package version>-<short sha>`. The release includes `volt-renderer.zip` containing `dist/`, plus GitHub's source archives.
+Full guides are on the documentation site: <https://docs.plusemu.dev/getting-started/volt-client/>
 
-Release runs queue instead of replacing pending merges (up to GitHub's 100-run queue limit). Assets upload to a draft before publication; rerunning a failed workflow resumes the draft, and an already published tag is left unchanged. Upstream-sync merges explicitly dispatch the workflow for the merged commit. To retry manually, run **Build & Publish Renderer Release** on `main`; the optional `commit` input selects the exact commit to rebuild.
+## Setup
 
-## Installation
+A hotel owner does not install the renderer on its own. Every [Volt release](https://github.com/plus-emulator/Volt/releases) already contains it.
 
-npm
+To work on Volt from source, put the renderer next to Volt:
 
-```
-npm install @volt/renderer
-```
-
-yarn
-
-```
-yarn add @volt/renderer
+```sh
+git clone https://github.com/plus-emulator/Volt.git
+git clone https://github.com/plus-emulator/Volt-Renderer.git
+corepack enable
+(cd Volt-Renderer && yarn install)
+(cd Volt && yarn install)
 ```
 
-## Packet revision
+Volt reads the renderer from `../Volt-Renderer`. See [Set up the Volt client](https://docs.plusemu.dev/getting-started/volt-client/#build-from-source).
 
-The packet constants and Hello build use `WIN63-202609161723-93809945`.
-Update PlusEMU and the renderer together. Custom Volt packets remain supported;
-this does not imply native AIR client compatibility.
+## Update
 
-## JSON / JSONC configuration parser
-
-Every configuration file and gamedata file loaded by the renderer (figuredata,
-furnidata, productdata, effectmap, avatar actions, etc.) goes through
-`@volt/utils` → `JsonParser.ts`. The parser supports three modes, selected at
-the **host build time** through the compile-time constant `__NITRO_JSON_MODE__`:
-
-| Mode     | Behaviour                                                                 |
-|----------|---------------------------------------------------------------------------|
-| `legacy` | Strict `JSON.parse` only. Comments / trailing commas raise a clear error. |
-| `jsonc`  | Strip comments/trailing commas, then use native `JSON.parse`.             |
-| `auto`   | Try strict JSON first, fall back to JSONC. Default when the flag is unset.|
-
-URL hints are still honoured: files ending in `.jsonc` (or served with a
-`application/jsonc` content-type) always go through JSONC, regardless of mode.
-
-### Wiring the flag into a host
-
-The renderer does **not** ship its own build for the flag — the host application
-(typically [Octane](https://github.com/duckietm/Octane.git)) defines it via
-its bundler. Example with Vite:
-
-```js
-// vite.config.mjs in the host
-export default defineConfig({
-    define: {
-        __NITRO_JSON_MODE__: JSON.stringify('jsonc')   // or 'legacy' / 'auto'
-    }
-});
+```sh
+cd Volt-Renderer
+git pull
+yarn install
 ```
 
-If the constant is not defined the parser falls back to `auto`. Removed parser
-mode values are not mapped; single-quoted strings and unquoted keys must be converted.
+Then build Volt again. Update PlusEMU and the renderer together, because their packet versions must match.
 
-### Using the parser directly
+## Packet version
 
-```ts
-import { parseConfigJson, fetchConfigJson } from '@volt/utils';
+The renderer says hello to the server with the Habbo AIR build `WIN63-202610201032-107964540` (`ClientHelloMessageComposer.BUILD`). Custom Volt packets still work. This does not mean the renderer works with the native AIR client.
 
-const data  = parseConfigJson<MyConfig>(rawText, '/configuration/ui-config.json');
-const data2 = await fetchConfigJson<MyConfig>('/configuration/ui-config.jsonc');
-```
+## More
 
-Errors carry the source URL and, in `legacy` mode, a hint about switching to
-JSONC — making misconfigurations easy to diagnose in production logs.
+- [JSON and JSONC parser](docs/json-parser.md)
+- [Split game data loader](docs/gamedata-loader.md)
+- [Contributing](CONTRIBUTING.md)
 
-## Split-aware gamedata loader
+## Licence
 
-`@volt/utils` also exports `loadGamedata`, the loader that backs every
-gamedata consumer in the renderer (FurnitureDataLoader, ProductDataLoader,
-EffectAssetDownloadManager, AvatarRenderManager, LocalizationManager). It
-accepts either a **single-file URL** (legacy) or a **directory URL** (split
-mode) — detected automatically by the trailing slash.
-
-### Directory layout
-
-```
-<gamedata-dir>/
-  manifest.jsonc            # OPTIONAL — { "tiers": ["core", "custom", "seasonal"] }
-  core/
-    manifest.jsonc          # REQUIRED — { "files": ["a.jsonc", "b.jsonc", ...] }
-    a.jsonc
-    b.jsonc
-  custom/                   # OPTIONAL tier
-    manifest.jsonc
-    overrides.jsonc
-  seasonal/                 # OPTIONAL tier
-    manifest.jsonc
-    xmas.jsonc
-```
-
-If the directory `manifest.jsonc` is absent, the loader falls back to the
-default tier order `core → custom → seasonal`. Each tier is skipped silently
-if its `manifest.jsonc` is missing.
-
-### Merge semantics
-
-`mergeGamedata(a, b)` (also exported) implements the rules below; tiers and
-files within a tier are merged in order, with later layers overriding
-earlier ones:
-
-| Combination                              | Result                                       |
-|------------------------------------------|----------------------------------------------|
-| Two plain objects                        | recursive merge, key by key                  |
-| Two arrays of objects sharing an id key  | merged by id (later overrides earlier)       |
-| Two arrays without an id key             | concatenated                                 |
-| Anything else                            | later value wins                             |
-
-Recognised id keys (in priority order): `id`, `classname`, `name`. Pass
-`mergeArrayIdKeys` in the options object to extend or override them.
-
-### Programmatic usage
-
-```ts
-import { loadGamedata, mergeGamedata } from '@volt/utils';
-
-// host code never needs to care whether the URL is split or not
-const furnidata = await loadGamedata('https://example.com/gamedata/furnidata/');
-
-// merge ad-hoc if you load tiers manually
-const merged = mergeGamedata(coreData, customData);
-```
-
-A CLI splitter for legacy single-file gamedata lives in the Volt client
-repo at `scripts/split-gamedata.mjs` — see the Volt README for usage.
+[GPL-3.0](LICENSE).
