@@ -476,6 +476,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                     if(sprite)
                     {
                         sprite.alphaTolerance = AlphaTolerance.MATCH_NOTHING;
+                        sprite.alpha = this.wiredAlpha(255);
                         sprite.visible = true;
 
                         const layerData = this._avatarImage.getLayerData(spriteData);
@@ -1081,10 +1082,14 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         return (needsUpdate || cosmeticUpdate);
     }
 
-    // Wired transparency and click-through apply to the avatar body sprite (AIR AvatarVisualization L530-545).
+    private wiredAlpha(base: number): number
+    {
+        return base * this._wiredVisibility;
+    }
+
     private applyWiredEffects(sprite: IRoomObjectSprite, placeholder: boolean): void
     {
-        sprite.alpha = (placeholder ? 150 : 255) * this._wiredVisibility;
+        sprite.alpha = this.wiredAlpha(placeholder ? 150 : 255);
         sprite.alphaTolerance = this._wiredClickThrough ? AlphaTolerance.MATCH_NOTHING : AlphaTolerance.MATCH_OPAQUE_PIXELS;
     }
 
@@ -1352,7 +1357,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
                     sprite.texture = this._shadow.texture;
                     sprite.offsetX = offsetX;
                     sprite.offsetY = offsetY;
-                    sprite.alpha = 50;
+                    sprite.alpha = this.wiredAlpha(50);
                     sprite.relativeDepth = 1;
                 }
                 else
