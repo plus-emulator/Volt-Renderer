@@ -258,12 +258,12 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
                 if((sprite && this._avatarImage) && this._avatarImage.isPlaceholder())
                 {
-                    sprite.alpha = 150;
+                    sprite.alpha = this.wiredAlpha(150);
                 }
 
                 else if(sprite)
                 {
-                    sprite.alpha = 255;
+                    sprite.alpha = this.wiredAlpha(255);
                 }
             }
 
