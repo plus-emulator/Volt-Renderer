@@ -27,12 +27,12 @@ describe('native contract editor AIR protocol', () =>
     it('registers all five source-confirmed October12 messages without replacing transaction packets', () =>
     {
         const messages = new VoltMessages();
-        expect(messages.events.get(3218)).toBe(WiredContractOpenEvent);
-        expect(messages.events.get(2309)).toBe(WiredContractContentsEvent);
-        expect(messages.events.get(1085)).toBe(WiredContractUpdateResultEvent);
-        expect(messages.composers.get(1764)).toBe(GetWiredContractContentsComposer);
-        expect(messages.composers.get(1005)).toBe(UpdateWiredContractComposer);
-        expect(messages.events.has(2881)).toBe(true);
+        expect(messages.events.get(1644)).toBe(WiredContractOpenEvent);
+        expect(messages.events.get(2882)).toBe(WiredContractContentsEvent);
+        expect(messages.events.get(2931)).toBe(WiredContractUpdateResultEvent);
+        expect(messages.composers.get(343)).toBe(GetWiredContractContentsComposer);
+        expect(messages.composers.get(1732)).toBe(UpdateWiredContractComposer);
+        expect(messages.events.has(932)).toBe(true);
         expect(new GetWiredContractContentsComposer(42).getMessageArray()).toEqual([42]);
     });
     it('writes exact short/byte widths and the poster-bearing furniture tuple', () =>
