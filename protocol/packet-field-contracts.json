@@ -19514,6 +19514,30 @@
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 441,
+      "symbol": "WIRED_GET_ERROR_LOGS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredGetErrorLogsComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 1714,
+      "symbol": "WIRED_CLEAR_ERROR_LOGS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredClearErrorLogsComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3349,
+      "symbol": "WIRED_ERROR_LOGS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredErrorLogsParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
       "direction": "server_to_client",
       "side": "typescript",
       "header": 876,
