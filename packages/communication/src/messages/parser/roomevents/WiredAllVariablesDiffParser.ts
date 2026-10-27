@@ -45,7 +45,7 @@ export class WiredAllVariablesDiffParser implements IMessageParser
                 removed.push(id);
             }
             const added: IWiredVariableDiffEntry[] = [];
-            const totalUpdated = readNativeCatalogCount(wrapper, 100);
+            const totalUpdated = readNativeCatalogCount(wrapper, 143360);
             for(let index = 0; index < totalUpdated; index++)
             {
                 const entryHash = wrapper.readInt();
