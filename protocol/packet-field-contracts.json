@@ -20145,7 +20145,7 @@
     {
       "name": "USER_SETTINGS_ONLINE_INDICATOR",
       "direction": "client_to_server",
-      "header": 65383,
+      "header": 1917,
       "java": {
         "symbol": "SaveOnlineIndicatorPreferenceEvent",
         "className": "SaveOnlineIndicatorPreferenceEvent",
@@ -20849,7 +20849,7 @@
     {
       "name": "USER_SETTINGS_CHAT_PREFERENCES",
       "direction": "client_to_server",
-      "header": 65451,
+      "header": 2359,
       "java": {
         "symbol": "SaveChatPreferencesEvent",
         "className": "SaveChatPreferencesEvent",

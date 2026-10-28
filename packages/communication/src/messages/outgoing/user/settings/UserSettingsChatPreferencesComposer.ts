@@ -1,9 +1,9 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Official AIR 13 chat preferences composer (header 2506): a leading boolean the official client
- * always sends as false, then chat mode (0 free flow / 1 line by line), bubble width
- * (0 wide / 1 normal / 2 thin) and scroll speed (0 fast / 1 normal / 2 slow).
+ * Chat preferences: a leading boolean the official client always sends as false, then chat mode
+ * (0 free flow / 1 line by line), bubble width (0 wide / 1 normal / 2 thin) and scroll speed
+ * (0 fast / 1 normal / 2 slow).
  */
 export class UserSettingsChatPreferencesComposer implements IMessageComposer<[boolean, number, number, number]>
 {

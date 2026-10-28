@@ -1,8 +1,7 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Official AIR 13 friend-online notification preference composer (header 818):
- * 0 everyone, 1 users in my relationship status, 2 nobody.
+ * Friend-online notification preference: 0 everyone, 1 users in my relationship status, 2 nobody.
  */
 export class UserSettingsOnlineIndicatorComposer implements IMessageComposer<ConstructorParameters<typeof UserSettingsOnlineIndicatorComposer>>
 {
