@@ -53,3 +53,9 @@ export * from './WiredUserVisualizationStateEvent';
 export * from './WiredContractOpenEvent';
 export * from './WiredContractContentsEvent';
 export * from './WiredContractUpdateResultEvent';
+
+export * from './WiredAllVariableHoldersEvent';
+export * from './WiredUserVariablesListEvent';
+export * from './WiredUserPermanentVariablesEvent';
+export * from './WiredSetUserPermanentVariableResultEvent';
+export * from './WiredMenuErrorEvent';

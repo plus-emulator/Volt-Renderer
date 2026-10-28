@@ -693,4 +693,9 @@ export class IncomingHeader
     public static EMERALD_BALANCE = 1071; // package_65/class_2098
     public static NFT_REWARD_BOX_STATE = 3099; // package_65/class_3660
     public static NFT_REWARD_BOX_RESULT = 2966; // package_65/class_3166
+    public static WIRED_ALL_VARIABLE_HOLDERS = 1596;
+    public static WIRED_USER_VARIABLES_LIST = 3704;
+    public static WIRED_USER_PERMANENT_VARIABLES = 3853;
+    public static WIRED_SET_USER_PERMANENT_VARIABLE_RESULT = 3359;
+    public static WIRED_MENU_ERROR = 770;
 }
