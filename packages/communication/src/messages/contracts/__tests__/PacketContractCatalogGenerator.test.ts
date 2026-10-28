@@ -10,7 +10,7 @@ describe('packet contract catalog generator', () =>
         const inventory = generator.typescriptInventory();
 
         expect(inventory.length).toBeGreaterThan(900);
-        expect(inventory.some(packet => packet.header === 2725)).toBe(true);
+        expect(inventory.some(packet => packet.header === 3682)).toBe(true);
         expect(inventory.some(packet => packet.fields.length > 0)).toBe(true);
         expect(inventory.some(packet => packet.unsupportedReason)).toBe(true);
 
