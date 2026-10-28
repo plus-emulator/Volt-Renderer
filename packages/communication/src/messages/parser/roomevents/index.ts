@@ -43,6 +43,7 @@ export * from './WiredVariableHoldersPage64Parser';
 export * from './WiredVariableInspectionDataParser';
 export * from './WiredVariablesForObjectParser';
 export * from './WiredRoomStatsParser';
+export * from './WiredErrorLogsParser';
 
 export * from './WiredNativeVariableData';
 export * from './WiredFurniTransparencyParser';

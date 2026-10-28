@@ -1,3 +1,4 @@
+import { WiredClearErrorLogsComposer, WiredErrorLogsEvent, WiredGetErrorLogsComposer } from './messages';
 import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
 import { BuildersClubFurniCountMessageEvent, BuildersClubPlacementWarningMessageEvent, BuildersClubPlaceRoomItemMessageComposer, BuildersClubPlaceWallItemMessageComposer, BuildersClubSubscriptionStatusMessageEvent } from './messages';
 import { ClaimProductMessageComposer, ClaimProductResultMessageEvent, HasClaimedProductMessageComposer, HasClaimedProductResponseMessageEvent } from './messages';
@@ -637,6 +638,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.WIRED_VARIABLE_INSPECTION_DATA, WiredVariableInspectionDataEvent);
         this._events.set(IncomingHeader.WIRED_VARIABLES_FOR_OBJECT, WiredVariablesForObjectEvent);
         this._events.set(IncomingHeader.WIRED_ROOM_STATS, WiredRoomStatsEvent);
+        this._events.set(IncomingHeader.WIRED_ERROR_LOGS, WiredErrorLogsEvent);
         this._events.set(IncomingHeader.WIRED_USER_VARIABLES_DATA_64, WiredUserVariablesData64Event);
         this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_64, WiredVariableHolders64Event);
         this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_PAGE_64, WiredVariableHoldersPage64Event);
@@ -1377,6 +1379,8 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_GET_VARIABLES_FOR_OBJECT, WiredGetVariablesForObjectComposer);
         this._composers.set(OutgoingHeader.WIRED_SET_OBJECT_VARIABLE_VALUE, WiredSetObjectVariableValueComposer);
         this._composers.set(OutgoingHeader.WIRED_GET_ROOM_STATS, WiredGetRoomStatsComposer);
+        this._composers.set(OutgoingHeader.WIRED_GET_ERROR_LOGS, WiredGetErrorLogsComposer);
+        this._composers.set(OutgoingHeader.WIRED_CLEAR_ERROR_LOGS, WiredClearErrorLogsComposer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_UPDATE_64, WiredUserVariableUpdate64Composer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLE_MANAGE_64, WiredUserVariableManage64Composer);
         this._composers.set(OutgoingHeader.WIRED_USER_VARIABLES_REQUEST, WiredUserVariablesRequestComposer);

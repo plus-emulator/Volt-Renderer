@@ -3,6 +3,7 @@ export class IncomingHeader
     public static WIRED_VARIABLE_INSPECTION_DATA = 9483;
     public static WIRED_VARIABLES_FOR_OBJECT = 876;
     public static WIRED_ROOM_STATS = 1014;
+    public static WIRED_ERROR_LOGS = 3349;
     public static WIRED_USER_VARIABLES_DATA_64 = 9480;
     public static WIRED_VARIABLE_HOLDERS_64 = 9481;
     public static WIRED_VARIABLE_HOLDERS_PAGE_64 = 9482;
