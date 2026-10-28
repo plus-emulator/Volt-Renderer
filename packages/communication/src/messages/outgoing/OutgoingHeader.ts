@@ -340,7 +340,7 @@ export class OutgoingHeader
     // AIR 13 wired leftovers, all on their official ids.
     public static WIRED_USER_SELECTED = 65439;
     public static WIRED_MENU_PERMISSIONS_SAVE = 65465;
-    public static WIRED_ROOM_STATE_ACTION = 65425;
+    public static WIRED_ROOM_UPDATE = 817;
     public static WIRED_ROOM_LOGS_PAGE = 2114;
     public static WIRED_VARIABLE_HOLDERS_PAGE = 65307;
     public static WIRED_VARIABLE_HOLDERS_REQUEST = 65441;
