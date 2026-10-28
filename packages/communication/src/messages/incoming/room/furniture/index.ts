@@ -29,7 +29,7 @@ export * from './WelcomeGiftStatusEvent';
 export * from './floor';
 export * from './wall';
 export * from './youtube';
-export * from './WiredChestRoomLogsEvent';
+export * from './WiredTransactionLogListEvent';
 export * from './ChestNotificationEvent';
 export * from './ChestUpgradeResultEvent';
 export * from './WiredChestTransactionDetailsEvent';

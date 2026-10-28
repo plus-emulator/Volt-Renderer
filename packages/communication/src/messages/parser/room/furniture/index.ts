@@ -32,7 +32,7 @@ export * from './FurnitureMetadataParser';
 export * from './floor';
 export * from './wall';
 export * from './youtube';
-export * from './WiredChestRoomLogsMessageParser';
+export * from './WiredTransactionLogListMessageParser';
 export * from './ChestNotificationMessageParser';
 export * from './ChestUpgradeResultMessageParser';
 export * from './WiredChestTransactionDetailsMessageParser';
