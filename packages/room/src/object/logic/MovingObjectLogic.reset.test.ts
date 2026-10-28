@@ -1,12 +1,12 @@
-import { IRoomObjectController, IRoomObjectModel, IVector3D, RoomObjectVariable } from '@volt/api';
+import { IRoomObjectController, IRoomObjectModel, IVector3D } from '@volt/api';
 import { Vector3d } from '@volt/utils';
 import { describe, expect, it } from 'vitest';
 import { ObjectMoveUpdateMessage, RoomObjectUpdateMessage } from '../../messages';
 import { MovingObjectLogic } from './MovingObjectLogic';
 
-const setup = (values: Record<string, number> = {}) =>
+const setup = () =>
 {
-    const store = new Map<string, number>(Object.entries(values));
+    const store = new Map<string, number>();
     const model = {
         store,
         getValue: (key: string) => store.get(key),
@@ -34,7 +34,7 @@ describe('MovingObjectLogic plain location updates', () =>
 {
     it('stops a slide when the furni is put somewhere else', () =>
     {
-        const { logic, location, model } = setup({ [RoomObjectVariable.FURNITURE_MOVE_STYLE]: 2 });
+        const { logic, location } = setup();
 
         logic.processUpdateMessage(new ObjectMoveUpdateMessage(new Vector3d(0, 0, 0), new Vector3d(4, 0, 0), null, true, 500));
         logic.update(266);
@@ -48,8 +48,6 @@ describe('MovingObjectLogic plain location updates', () =>
             expect(location.x).toBe(7);
             expect(location.y).toBe(3);
         }
-
-        expect(model.store.get(RoomObjectVariable.FURNITURE_MOVE_STYLE)).toBe(0);
     });
 
     it('lets a slide finish when the update is for where it ends', () =>

@@ -18898,14 +18898,6 @@
     {
       "direction": "server_to_client",
       "side": "typescript",
-      "header": 5110,
-      "symbol": "WIRED_FURNI_MOVE_STYLE",
-      "path": "packages/communication/src/messages/parser/roomevents/WiredFurniMoveStyleParser.ts",
-      "reason": "Header is registered only by the Volt Renderer packet registry"
-    },
-    {
-      "direction": "server_to_client",
-      "side": "typescript",
       "header": 5111,
       "symbol": "WIRED_ARRAY_INSPECTION_DATA",
       "path": "packages/communication/src/messages/parser/roomevents/WiredArrayInspectionDataParser.ts",
