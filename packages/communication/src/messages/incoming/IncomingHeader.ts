@@ -319,7 +319,6 @@ export class IncomingHeader
     public static WIRED_USER_VARIABLES_DATA = 5103;
     public static WIRED_FURNI_RUNTIME_STATE = 5108;
     public static WIRED_FURNI_OPACITY = 5109;
-    public static WIRED_FURNI_MOVE_STYLE = 5110;
     public static WIRED_ARRAY_INSPECTION_DATA = 5111;
     // AIR 13 wired leftovers. WiredClickUserResponse takes a custom id.
     public static WIRED_ENVIRONMENT = 2929;

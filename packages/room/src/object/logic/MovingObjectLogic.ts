@@ -1,13 +1,10 @@
-import { IRoomObjectController, IRoomObjectModel, IRoomObjectUpdateMessage, IVector3D, RoomObjectVariable } from '@volt/api';
+import { IRoomObjectController, IRoomObjectUpdateMessage, IVector3D, RoomObjectVariable } from '@volt/api';
 import { GetTickerTime, Vector3d } from '@volt/utils';
 import { ObjectMoveUpdateMessage } from '../../messages';
 import { RoomObjectLogicBase } from './RoomObjectLogicBase';
 
 export class MovingObjectLogic extends RoomObjectLogicBase
 {
-    /** Habbo's jump strength, from the wired move-style hint (packet 5110). */
-    public static readonly STYLE_JUMP = 7;
-
     public static DEFAULT_UPDATE_INTERVAL: number = 500;
     private static LOCATION_EPSILON: number = 0.01;
     private static TEMP_VECTOR: Vector3d = new Vector3d();
@@ -38,8 +35,6 @@ export class MovingObjectLogic extends RoomObjectLogicBase
     private _queuedMoveMessages: ObjectMoveUpdateMessage[];
     private _lastSlideArrivalTime: number;
     private _estimatedSlidePeriod: number;
-    private _hopping: boolean;
-    private _landing: Vector3d;
 
     constructor()
     {
@@ -57,8 +52,6 @@ export class MovingObjectLogic extends RoomObjectLogicBase
         this._queuedMoveMessages = [];
         this._lastSlideArrivalTime = 0;
         this._estimatedSlidePeriod = 0;
-        this._hopping = false;
-        this._landing = null;
     }
 
     public dispose(): void
@@ -116,16 +109,15 @@ export class MovingObjectLogic extends RoomObjectLogicBase
                 vector.assign(this._followObject.getLocation());
                 vector.add(this._followOffset);
             }
-            else if((this._locationDelta.length > 0) || this._hopping)
+            else if(this._locationDelta.length > 0)
             {
                 const progress = difference / this._updateInterval;
 
                 vector.assign(this._locationDelta);
-                vector.multiply(this._canonicalWired ? progress : this.easeProgress(progress, model));
+                vector.multiply(progress);
                 vector.add(this._location);
-                vector.z += this._canonicalWired
-                    ? (this._canonicalCurve / 100) * (this._locationDelta.length / 4) * 4 * progress * (1 - progress)
-                    : MovingObjectLogic.jumpLift(progress, model);
+
+                if(this._canonicalWired) vector.z += (this._canonicalCurve / 100) * (this._locationDelta.length / 4) * 4 * progress * (1 - progress);
             }
             else
             {
@@ -148,24 +140,7 @@ export class MovingObjectLogic extends RoomObjectLogicBase
                 this._locationDelta.x = 0;
                 this._locationDelta.y = 0;
                 this._locationDelta.z = 0;
-                this._hopping = false;
                 completedInterpolation = true;
-
-                // An animation that flew past its target, or fell short of it, lands where the furni is.
-                if(this._landing)
-                {
-                    this._location.assign(this._landing);
-                    this._landing = null;
-
-                    vector.assign(this._location);
-
-                    if(locationOffset) vector.add(locationOffset);
-
-                    this.object.setLocation(vector);
-                }
-
-                // A chained hop still to come was sent with the same hint; it keeps it.
-                if(!this._canonicalWired && !this._queuedMoveMessages.length) this.clearMoveStyle();
             }
         }
 
@@ -264,7 +239,6 @@ export class MovingObjectLogic extends RoomObjectLogicBase
 
             // Anywhere else the furni was put there: stop the old move, or it is drawn past its tile.
             this.resetInterpolationState();
-            this.clearMoveStyle();
         }
 
         super.processUpdateMessage(message);
@@ -325,29 +299,12 @@ export class MovingObjectLogic extends RoomObjectLogicBase
     {
         if(this._queuedMoveMessages.length) return this._queuedMoveMessages[this._queuedMoveMessages.length - 1].targetLocation;
 
-        if(this._landing) return this._landing;
-
         const end = new Vector3d();
 
         end.assign(this._location);
         end.add(this._locationDelta);
 
         return end;
-    }
-
-    private clearMoveStyle(): void
-    {
-        const model = this.object && this.object.model;
-
-        if(!model) return;
-
-        if(model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_STYLE) > 0)
-        {
-            model.setValue(RoomObjectVariable.FURNITURE_MOVE_STYLE, 0);
-            model.setValue(RoomObjectVariable.FURNITURE_MOVE_STYLE_INTENSITY, 0);
-        }
-
-        if(model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_OVERSHOOT)) model.setValue(RoomObjectVariable.FURNITURE_MOVE_OVERSHOOT, 0);
     }
 
     private shouldApplyInstantMoveMessage(message: ObjectMoveUpdateMessage): boolean
@@ -420,7 +377,6 @@ export class MovingObjectLogic extends RoomObjectLogicBase
 
         this._locationDelta.assign(message.targetLocation);
         this._locationDelta.subtract(this._location);
-        this.applyTrajectory(message.targetLocation);
 
         if(this._followObject)
         {
@@ -455,55 +411,15 @@ export class MovingObjectLogic extends RoomObjectLogicBase
         }
     }
 
-    /**
-     * The projectile hint's overshoot stretches the flight past its target (or cuts it short) at the
-     * same speed, landing on the target when it ends; a jump with nowhere to go hops on the spot.
-     */
-    private applyTrajectory(targetLocation: IVector3D): void
-    {
-        this._hopping = false;
-        this._landing = null;
-
-        const model = this.object && this.object.model;
-
-        if(!model || this._followObject) return;
-
-        const factor = MovingObjectLogic.overshootFactor(this._locationDelta.x, this._locationDelta.y, model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_OVERSHOOT) ?? 0);
-
-        if(factor !== 1)
-        {
-            this._landing = new Vector3d(targetLocation.x, targetLocation.y, targetLocation.z);
-            this._locationDelta.x *= factor;
-            this._locationDelta.y *= factor;
-            this.updateInterval = Math.round(this._updateInterval * factor);
-        }
-
-        if((this._locationDelta.length === 0) && (model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_STYLE) === MovingObjectLogic.STYLE_JUMP)) this._hopping = true;
-    }
-
-    /** How much longer a flight gets for an overshoot of this many tiles: 1 leaves it alone. */
-    public static overshootFactor(dx: number, dy: number, overshootTiles: number): number
-    {
-        if(!overshootTiles || !Number.isFinite(overshootTiles)) return 1;
-
-        const distance = Math.max(Math.abs(dx), Math.abs(dy));
-
-        if(distance <= 0) return 1;
-
-        return Math.max(0, (distance + overshootTiles) / distance);
-    }
-
     private isAnimating(): boolean
     {
-        return (this._locationDelta.length > 0) || this._hopping || !!this._landing;
+        return this._locationDelta.length > 0;
     }
 
     private resetInterpolationState(): void
     {
         this._canonicalWired = null;
         this._canonicalCurve = 0;
-        this._hopping = false;
-        this._landing = null;
         this._locationDelta.x = 0;
         this._locationDelta.y = 0;
         this._locationDelta.z = 0;
@@ -582,70 +498,6 @@ export class MovingObjectLogic extends RoomObjectLogicBase
         return (Math.abs(first.x - second.x) <= MovingObjectLogic.LOCATION_EPSILON)
             && (Math.abs(first.y - second.y) <= MovingObjectLogic.LOCATION_EPSILON)
             && (Math.abs(first.z - second.z) <= MovingObjectLogic.LOCATION_EPSILON);
-    }
-
-    private easeProgress(progress: number, model: IRoomObjectModel): number
-    {
-        if(!model) return progress;
-
-        const style = model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_STYLE);
-
-        if(!style || (style <= 0)) return progress;
-
-        const intensity = Math.max(0, Math.min(100, (model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_STYLE_INTENSITY) ?? 100))) / 100;
-        const t = Math.max(0, Math.min(1, progress));
-        const styled = MovingObjectLogic.applyMoveStyle(t, style);
-
-        return t + ((styled - t) * intensity);
-    }
-
-    /**
-     * Habbo's jump strength (style 7): the object hops to its tile in a parabola that peaks halfway,
-     * a strength of 100 lifting it one tile height; a negative strength dips it instead.
-     */
-    public static jumpLift(progress: number, model: IRoomObjectModel): number
-    {
-        if(!model || (model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_STYLE) !== MovingObjectLogic.STYLE_JUMP)) return 0;
-
-        const strength = (model.getValue<number>(RoomObjectVariable.FURNITURE_MOVE_STYLE_INTENSITY) ?? 0);
-        const t = Math.max(0, Math.min(1, progress));
-
-        return (strength / 100) * 4 * t * (1 - t);
-    }
-
-    private static applyMoveStyle(t: number, style: number): number
-    {
-        switch(style)
-        {
-            case 1: // ease in
-                return t * t;
-            case 2: // ease out
-                return 1 - ((1 - t) * (1 - t));
-            case 3: // ease in/out
-                return (t < 0.5) ? (2 * t * t) : (1 - (Math.pow((-2 * t) + 2, 2) / 2));
-            case 4: // bounce (ease-out bounce)
-                return MovingObjectLogic.easeOutBounce(t);
-            case 5: { // elastic (ease-out elastic)
-                if((t === 0) || (t === 1)) return t;
-                const c4 = (2 * Math.PI) / 3;
-                return (Math.pow(2, -10 * t) * Math.sin(((t * 10) - 0.75) * c4)) + 1;
-            }
-            case 6: // drop: accelerate down, land with a small bounce
-                return (t < 0.7) ? ((t / 0.7) * (t / 0.7) * 0.98) : (0.98 + (0.02 * MovingObjectLogic.easeOutBounce((t - 0.7) / 0.3)));
-            default:
-                return t;
-        }
-    }
-
-    private static easeOutBounce(t: number): number
-    {
-        const n1 = 7.5625;
-        const d1 = 2.75;
-
-        if(t < (1 / d1)) return n1 * t * t;
-        if(t < (2 / d1)) return (n1 * (t -= (1.5 / d1)) * t) + 0.75;
-        if(t < (2.5 / d1)) return (n1 * (t -= (2.25 / d1)) * t) + 0.9375;
-        return (n1 * (t -= (2.625 / d1)) * t) + 0.984375;
     }
 
     protected getLocationOffset(): IVector3D

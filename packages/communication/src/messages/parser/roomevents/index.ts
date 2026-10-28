@@ -6,7 +6,6 @@ export * from './WiredEnvironmentParser';
 export * from './WiredPermissionsParser';
 export * from './WiredFurniActionParser';
 export * from './WiredFurniConditionParser';
-export * from './WiredFurniMoveStyleParser';
 export * from './WiredFurniOpacityParser';
 export * from './WiredFurniRuntimeStateParser';
 export * from './WiredFurniTriggerParser';
