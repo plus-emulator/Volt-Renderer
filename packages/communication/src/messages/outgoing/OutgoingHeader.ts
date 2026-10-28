@@ -130,10 +130,10 @@ export class OutgoingHeader
     public static WIRED_TRADE_OFFER_ITEMS = 1882; // package_186/class_2914
     public static WIRED_TRADE_ACCEPT = 3369; // package_186/class_3351
     public static WIRED_TRADE_CANCEL = 3390; // package_186/class_3217
-    // CHEST_REQUEST_LOG, WIRED_CHEST_ROOM_LOGS and WIRED_CHEST_TRANSACTION_DETAILS are Volt-only ids; the AIR transaction
-    // log messages (121709: 3922, 88, 1697) are not ported yet because PlusEMU has no transaction log store.
+    // CHEST_REQUEST_LOG and WIRED_CHEST_TRANSACTION_DETAILS are Volt-only ids.
+    public static WIRED_TRANSACTION_GET_ROOM_LOGS = 3320;
+    public static WIRED_TRANSACTION_GET_CHEST_LOGS = 3451;
     public static CHEST_REQUEST_LOG = 9318;
-    public static WIRED_CHEST_ROOM_LOGS = 9328;
     // 9330-9333 belong to the Trax editor; the chests tab continues at 9334.
     public static WIRED_CHEST_TRANSACTION_DETAILS = 9334;
     public static ITEM_DIMMER_TOGGLE = 3638;

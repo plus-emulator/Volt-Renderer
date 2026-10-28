@@ -8944,43 +8944,6 @@
       ]
     },
     {
-      "name": "WIRED_CHEST_ROOM_LOGS",
-      "direction": "client_to_server",
-      "header": 9328,
-      "java": {
-        "symbol": "WiredChestRoomLogsEvent",
-        "className": "WiredChestRoomLogsEvent",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/rooms/items/WiredChestRoomLogsEvent.java"
-      },
-      "typescript": {
-        "symbol": "WIRED_CHEST_ROOM_LOGS",
-        "className": "WiredChestRoomLogsComposer",
-        "path": "packages/communication/src/messages/outgoing/room/furniture/chest/WiredChestRoomLogsComposer.ts"
-      },
-      "fields": [
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "amount"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "page"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "filter"
-        },
-        {
-          "kind": "scalar",
-          "type": "int",
-          "name": "chestId"
-        }
-      ]
-    },
-    {
       "name": "WIRED_CHEST_LOCK",
       "direction": "client_to_server",
       "header": 3787,
@@ -19538,6 +19501,30 @@
       "reason": "Header is registered only by the Volt Renderer packet registry"
     },
     {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3320,
+      "symbol": "WIRED_TRANSACTION_GET_ROOM_LOGS",
+      "path": "packages/communication/src/messages/outgoing/room/furniture/chest/WiredTransactionGetRoomLogsComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3451,
+      "symbol": "WIRED_TRANSACTION_GET_CHEST_LOGS",
+      "path": "packages/communication/src/messages/outgoing/room/furniture/chest/WiredTransactionGetChestLogsComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3312,
+      "symbol": "WIRED_TRANSACTION_LOG_LIST",
+      "path": "packages/communication/src/messages/parser/room/furniture/WiredTransactionLogListMessageParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
       "direction": "server_to_client",
       "side": "typescript",
       "header": 876,
@@ -25018,22 +25005,6 @@
         "path": "packages/communication/src/messages/parser/room/furniture/ChestFurniUpdateMessageParser.ts"
       },
       "reason": "TypeScript analyzer: data-dependent loops and delegated ChestStorage rows; wire is int chestId, int n, int[n] removedIds, int m, ChestStorage[m] (AIR WIN63-202610121709 id 518, package_112/class_3289)"
-    },
-    {
-      "name": "WIRED_CHEST_ROOM_LOGS",
-      "direction": "server_to_client",
-      "header": 9328,
-      "java": {
-        "symbol": "WiredChestRoomLogsComposer",
-        "className": "WiredChestRoomLogsComposer",
-        "path": "Emulator/src/main/java/com/eu/habbo/messages/outgoing/rooms/items/WiredChestRoomLogsComposer.java"
-      },
-      "typescript": {
-        "symbol": "WIRED_CHEST_ROOM_LOGS",
-        "className": "WiredChestRoomLogsMessageParser",
-        "path": "packages/communication/src/messages/parser/room/furniture/WiredChestRoomLogsMessageParser.ts"
-      },
-      "reason": "Java analyzer: Data-dependent packet operations in ForEachStmt inside composeInternal; TypeScript analyzer: Data-dependent packet operations in ForStatement inside parse"
     },
     {
       "name": "WIRED_CHEST_TRANSACTION_DETAILS",

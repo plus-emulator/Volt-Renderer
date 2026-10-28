@@ -106,10 +106,9 @@ export class IncomingHeader
     public static GUILD_MEMBER_MGMT_FAILED = 1885;
     public static ITEM_DIMMER_SETTINGS = 1466;
     public static BUILD_HEIGHT_AVAILABLE = 9350;
-    // CHEST_LOG, WIRED_CHEST_ROOM_LOGS, WIRED_CHEST_TRANSACTION_DETAILS and CHEST_NOTIFICATION are Volt-only ids; the AIR
-    // transaction log messages (121709: 3189, 1831) are not ported yet because PlusEMU has no transaction log store.
+    // CHEST_LOG, WIRED_CHEST_TRANSACTION_DETAILS and CHEST_NOTIFICATION are Volt-only ids.
+    public static WIRED_TRANSACTION_LOG_LIST = 3312;
     public static CHEST_LOG = 9319;
-    public static WIRED_CHEST_ROOM_LOGS = 9328;
     public static WIRED_CHEST_TRANSACTION_DETAILS = 9330;
     public static CHEST_NOTIFICATION = 9336;
     // Wired chests and wired transactions.
