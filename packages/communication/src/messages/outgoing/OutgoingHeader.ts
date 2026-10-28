@@ -305,10 +305,10 @@ export class OutgoingHeader
     public static USER_SETTINGS_INVITES = 2674;
     public static USER_SETTINGS_OLD_CHAT = 65476;
     public static USER_SETTINGS_VOLUME = 781;
-    // Official AIR 13 ids (client -> server): chat mode/bubble width/scroll speed, friend-online
-    // notification preference and the wired menu preferences (wired whisper switch).
-    public static USER_SETTINGS_CHAT_PREFERENCES = 65451;
-    public static USER_SETTINGS_ONLINE_INDICATOR = 65383;
+    // Chat mode/bubble width/scroll speed, friend-online notification preference and the
+    // wired menu preferences (wired whisper switch).
+    public static USER_SETTINGS_CHAT_PREFERENCES = 2359;
+    public static USER_SETTINGS_ONLINE_INDICATOR = 1917;
     public static WIRED_MENU_SETTINGS_SAVE = 2865;
     public static USER_SUBSCRIPTION = 2396;
     public static GET_WARDROBE = 873;
