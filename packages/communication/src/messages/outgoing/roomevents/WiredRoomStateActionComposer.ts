@@ -1,8 +1,8 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Official AIR 13 wired settings room-state buttons: `false` reloads the room's
- * wired configuration from storage, `true` rolls it back to the last saved state.
+ * The Room state buttons of the Wired menu: `false` reloads the room and everyone re-enters it,
+ * `true` also puts every furni back to its place and state from the last room load.
  */
 export class WiredRoomStateActionComposer implements IMessageComposer<ConstructorParameters<typeof WiredRoomStateActionComposer>>
 {

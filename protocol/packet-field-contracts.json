@@ -7661,16 +7661,16 @@
       ]
     },
     {
-      "name": "WIRED_ROOM_STATE_ACTION",
+      "name": "WIRED_ROOM_UPDATE",
       "direction": "client_to_server",
-      "header": 65425,
+      "header": 817,
       "java": {
         "symbol": "WiredRoomStateActionEvent",
         "className": "WiredRoomStateActionEvent",
         "path": "Emulator/src/main/java/com/eu/habbo/messages/incoming/wired/WiredRoomStateActionEvent.java"
       },
       "typescript": {
-        "symbol": "WIRED_ROOM_STATE_ACTION",
+        "symbol": "WIRED_ROOM_UPDATE",
         "className": "WiredRoomStateActionComposer",
         "path": "packages/communication/src/messages/outgoing/roomevents/WiredRoomStateActionComposer.ts"
       },

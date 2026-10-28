@@ -1389,7 +1389,7 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_ARRAY_INSPECTION_UPDATE, WiredArrayInspectionUpdateComposer);
         this._composers.set(OutgoingHeader.WIRED_USER_SELECTED, WiredUserSelectedComposer);
         this._composers.set(OutgoingHeader.WIRED_MENU_PERMISSIONS_SAVE, WiredMenuPermissionsSaveComposer);
-        this._composers.set(OutgoingHeader.WIRED_ROOM_STATE_ACTION, WiredRoomStateActionComposer);
+        this._composers.set(OutgoingHeader.WIRED_ROOM_UPDATE, WiredRoomStateActionComposer);
         this._composers.set(OutgoingHeader.WIRED_ROOM_LOGS_PAGE, WiredRoomLogsPageComposer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_PAGE, WiredVariableHoldersPageComposer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_REQUEST, WiredVariableHoldersRequestComposer);
