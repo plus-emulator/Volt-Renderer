@@ -309,7 +309,7 @@ export class OutgoingHeader
     // notification preference and the wired menu preferences (wired whisper switch).
     public static USER_SETTINGS_CHAT_PREFERENCES = 65451;
     public static USER_SETTINGS_ONLINE_INDICATOR = 65383;
-    public static WIRED_MENU_SETTINGS_SAVE = 65477;
+    public static WIRED_MENU_SETTINGS_SAVE = 2865;
     public static USER_SUBSCRIPTION = 2396;
     public static GET_WARDROBE = 873;
     public static SAVE_WARDROBE_OUTFIT = 1085;
