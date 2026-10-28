@@ -20193,7 +20193,7 @@
     {
       "name": "WIRED_MENU_SETTINGS_SAVE",
       "direction": "client_to_server",
-      "header": 65477,
+      "header": 2865,
       "java": {
         "symbol": "SaveWiredMenuSettingsEvent",
         "className": "SaveWiredMenuSettingsEvent",

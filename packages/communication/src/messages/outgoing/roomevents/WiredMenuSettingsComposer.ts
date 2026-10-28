@@ -1,7 +1,7 @@
 import { IMessageComposer } from '@volt/api';
 
 /**
- * Official AIR 13 wired menu preferences composer (header 1226, WiredMenuController.sendPreferences):
+ * Wired menu account preferences (WiredMenuController.sendPreferences):
  * menu button, inspect button, play-test mode, a reserved int (always 0), wired whisper disabled,
  * show all notifications and the ui style name.
  */
