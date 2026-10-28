@@ -66,3 +66,10 @@ export * from './WiredContractData';
 export * from './WiredContractOpenParser';
 export * from './WiredContractContentsParser';
 export * from './WiredContractUpdateResultParser';
+
+export * from './WiredVariableStorageParameter';
+export * from './WiredAllVariableHoldersParser';
+export * from './WiredUserVariablesListParser';
+export * from './WiredUserPermanentVariablesParser';
+export * from './WiredSetUserPermanentVariableResultParser';
+export * from './WiredMenuErrorParser';

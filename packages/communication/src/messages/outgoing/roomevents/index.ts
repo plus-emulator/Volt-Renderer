@@ -52,3 +52,9 @@ export * from './WiredLabelSaveRegionComposer';
 
 export * from './GetWiredContractContentsComposer';
 export * from './UpdateWiredContractComposer';
+
+export * from './WiredGetAllVariableHoldersComposer';
+export * from './WiredDeleteAllVariableHoldersComposer';
+export * from './WiredGetVariableOwnersPageComposer';
+export * from './WiredGetUserPermanentVariablesComposer';
+export * from './WiredSetUserPermanentVariableComposer';

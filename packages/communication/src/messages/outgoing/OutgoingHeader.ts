@@ -673,4 +673,9 @@ export class OutgoingHeader
     public static GET_NFT_CLAIMS = 1352; // package_13/class_3512
     public static CLAIM_NFT_REWARDS = 501; // package_13/class_2763
     public static OPEN_NFT_REWARD_BOX = 1897; // package_13/class_3063
+    public static WIRED_GET_ALL_VARIABLE_HOLDERS = 791;
+    public static WIRED_DELETE_ALL_VARIABLE_HOLDERS = 3612;
+    public static WIRED_GET_VARIABLE_OWNERS_PAGE = 2579;
+    public static WIRED_GET_USER_PERMANENT_VARIABLES = 2120;
+    public static WIRED_SET_USER_PERMANENT_VARIABLE = 2482;
 }

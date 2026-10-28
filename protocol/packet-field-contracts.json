@@ -19880,6 +19880,86 @@
       "symbol": "NFT_REWARD_BOX_RESULT",
       "path": "packages/communication/src/messages/parser/collectibles/NftRewardBoxResultMessageParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 791,
+      "symbol": "WIRED_GET_ALL_VARIABLE_HOLDERS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredGetAllVariableHoldersComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 3612,
+      "symbol": "WIRED_DELETE_ALL_VARIABLE_HOLDERS",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredDeleteAllVariableHoldersComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2579,
+      "symbol": "WIRED_GET_VARIABLE_OWNERS_PAGE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredGetVariableOwnersPageComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2120,
+      "symbol": "WIRED_GET_USER_PERMANENT_VARIABLES",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredGetUserPermanentVariablesComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 2482,
+      "symbol": "WIRED_SET_USER_PERMANENT_VARIABLE",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredSetUserPermanentVariableComposer.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 1596,
+      "symbol": "WIRED_ALL_VARIABLE_HOLDERS",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredAllVariableHoldersParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3704,
+      "symbol": "WIRED_USER_VARIABLES_LIST",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredUserVariablesListParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3853,
+      "symbol": "WIRED_USER_PERMANENT_VARIABLES",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredUserPermanentVariablesParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 3359,
+      "symbol": "WIRED_SET_USER_PERMANENT_VARIABLE_RESULT",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredSetUserPermanentVariableResultParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 770,
+      "symbol": "WIRED_MENU_ERROR",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredMenuErrorParser.ts",
+      "reason": "Header is registered only by the Volt Renderer packet registry"
     }
   ],
   "exemptions": [

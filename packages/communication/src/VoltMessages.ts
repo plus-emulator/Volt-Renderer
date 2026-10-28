@@ -45,6 +45,7 @@ import { EarningsCenterEvent, EarningsClaimResultEvent, IncomeRewardNotification
 import { ActiveDailyTasksMessageEvent, ClaimDailyTaskMessageComposer, ClaimRewardTrackPrizeMessageComposer, DailyTaskUpdatedMessageEvent, DailyTasksAddedMessageEvent, DeleteRewardTrackEntityMessageComposer, GetDailyTasksMessageComposer, GetRewardTrackAdminDataMessageComposer, GetRewardTracksMessageComposer, PurchaseRewardTrackPremiumMessageComposer, RewardTrackAdminDataMessageEvent, RewardTrackAdminResultMessageEvent, RewardTrackClaimResultMessageEvent, RewardTrackFurniSearchResultMessageEvent, RewardTrackTextsMessageEvent, RewardTrackPremiumPurchaseResultMessageEvent, RewardTrackProgressMessageEvent, RewardTracksMessageEvent, SaveRewardTrackMessageComposer, SaveRewardTrackPrizeMessageComposer, SaveRewardTrackTaskMessageComposer, SaveRewardTrackTextsMessageComposer, SearchRewardTrackFurniMessageComposer } from './messages';
 import { TreasureHuntFirstWinnerMessageEvent, TreasureHuntFailMessageEvent, TreasureHuntUpdateMessageEvent } from './messages';
 import { SelfDonationResultMessageEvent, SelfDonationMessageComposer } from './messages';
+import { WiredAllVariableHoldersEvent, WiredDeleteAllVariableHoldersComposer, WiredGetAllVariableHoldersComposer, WiredGetUserPermanentVariablesComposer, WiredGetVariableOwnersPageComposer, WiredMenuErrorEvent, WiredSetUserPermanentVariableComposer, WiredSetUserPermanentVariableResultEvent, WiredUserPermanentVariablesEvent, WiredUserVariablesListEvent } from './messages';
 export class VoltMessages implements IMessageConfiguration
 {
     private _events: Map<number, Function>;
@@ -654,6 +655,11 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.WIRED_LOG_PAGE, WiredLogPageEvent);
         this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS_PAGE, WiredVariableHoldersPageEvent);
         this._events.set(IncomingHeader.WIRED_VARIABLE_HOLDERS, WiredVariableHoldersEvent);
+        this._events.set(IncomingHeader.WIRED_ALL_VARIABLE_HOLDERS, WiredAllVariableHoldersEvent);
+        this._events.set(IncomingHeader.WIRED_USER_VARIABLES_LIST, WiredUserVariablesListEvent);
+        this._events.set(IncomingHeader.WIRED_USER_PERMANENT_VARIABLES, WiredUserPermanentVariablesEvent);
+        this._events.set(IncomingHeader.WIRED_SET_USER_PERMANENT_VARIABLE_RESULT, WiredSetUserPermanentVariableResultEvent);
+        this._events.set(IncomingHeader.WIRED_MENU_ERROR, WiredMenuErrorEvent);
         this._events.set(IncomingHeader.WIRED_ALL_VARIABLES_HASH, WiredAllVariablesHashEvent);
         this._events.set(IncomingHeader.WIRED_ALL_VARIABLES_DIFF, WiredAllVariablesDiffEvent);
         this._events.set(IncomingHeader.WIRED_VARIABLE_FX_CONFIGS, WiredVariableFxConfigsEvent);
@@ -1397,6 +1403,11 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_ROOM_LOGS_PAGE, WiredRoomLogsPageComposer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_PAGE, WiredVariableHoldersPageComposer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HOLDERS_REQUEST, WiredVariableHoldersRequestComposer);
+        this._composers.set(OutgoingHeader.WIRED_GET_ALL_VARIABLE_HOLDERS, WiredGetAllVariableHoldersComposer);
+        this._composers.set(OutgoingHeader.WIRED_DELETE_ALL_VARIABLE_HOLDERS, WiredDeleteAllVariableHoldersComposer);
+        this._composers.set(OutgoingHeader.WIRED_GET_VARIABLE_OWNERS_PAGE, WiredGetVariableOwnersPageComposer);
+        this._composers.set(OutgoingHeader.WIRED_GET_USER_PERMANENT_VARIABLES, WiredGetUserPermanentVariablesComposer);
+        this._composers.set(OutgoingHeader.WIRED_SET_USER_PERMANENT_VARIABLE, WiredSetUserPermanentVariableComposer);
         this._composers.set(OutgoingHeader.WIRED_VARIABLE_HASHES, WiredVariableHashesComposer);
         this._composers.set(OutgoingHeader.WIRED_ALL_VARIABLES_REQUEST, WiredAllVariablesRequestComposer);
         this._composers.set(OutgoingHeader.WIRED_GENERATE_WEB_API_KEY, WiredGenerateWebApiKeyComposer);
