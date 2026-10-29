@@ -4,9 +4,9 @@ export class WiredVariableHoldersPage64Composer implements IMessageComposer<(num
 {
     private _data: (number | string)[];
 
-    constructor(variableId: string, page: number, pageSize: number, userTypeFilter: number, sortTypeFilter: number)
+    constructor(variableId: string, page: number, pageSize: number, sortTypeFilter: number, userTypeFilter: number)
     {
-        this._data = [ 1, variableId, page, pageSize, userTypeFilter, sortTypeFilter ];
+        this._data = [ 1, variableId, page, pageSize, sortTypeFilter, userTypeFilter ];
     }
 
     public getMessageArray(): (number | string)[]
