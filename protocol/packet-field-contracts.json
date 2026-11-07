@@ -4738,6 +4738,11 @@
           "kind": "scalar",
           "type": "boolean",
           "name": "combineUniques"
+        },
+        {
+          "kind": "scalar",
+          "type": "int",
+          "name": "offerType"
         }
       ]
     },
