@@ -19,7 +19,7 @@ import { WIRED_TRADE_REQUIREMENT_ANY_COINS, WIRED_TRADE_REQUIREMENT_RULES, WIRED
 import { WiredTransactionFailMessageParser } from './WiredTransactionFailMessageParser';
 import { WIRED_TRANSACTION_SUCCESS_DEPOSIT, WIRED_TRANSACTION_SUCCESS_REWARD, WiredTransactionSuccessMessageParser } from './WiredTransactionSuccessMessageParser';
 
-// Ids: AIR WIN63-202610271147-806594867. Field orders: the WIN63-202610131318-860371703 classes
+// Ids: AIR WIN63-202611041140-327405090. Field orders: the WIN63-202610131318-860371703 classes
 // named in PlusEMU reviews/chest-protocol-map.md.
 
 const hex = (buffer: ArrayBuffer) => Array.from(new Uint8Array(buffer), byte => byte.toString(16).padStart(2, '0')).join('');
@@ -83,15 +83,15 @@ describe('wired chest AIR protocol (build 202610201032 ids)', () =>
     {
         const messages = new VoltMessages();
         const outgoing: [number, unknown][] = [
-            [2038, ChestOpenComposer], [2599, ChestCloseComposer], [2299, ChestStartDepositComposer], [3567, ChestWithdrawAllComposer],
-            [1589, ChestWithdrawFurniComposer], [2073, ChestWithdrawCoinsComposer], [2976, ChestSaveSettingsComposer],
-            [785, ChestSaveOptionsComposer], [1274, ChestSaveNotificationsComposer], [361, ChestUpgradeCapacityComposer],
-            [3787, WiredChestLockComposer], [1882, WiredTradeOfferItemsComposer], [3369, WiredTradeAcceptComposer], [3390, WiredTradeCancelComposer]
+            [1502, ChestOpenComposer], [3644, ChestCloseComposer], [3353, ChestStartDepositComposer], [2489, ChestWithdrawAllComposer],
+            [3495, ChestWithdrawFurniComposer], [1703, ChestWithdrawCoinsComposer], [374, ChestSaveSettingsComposer],
+            [2202, ChestSaveOptionsComposer], [3109, ChestSaveNotificationsComposer], [2044, ChestUpgradeCapacityComposer],
+            [2712, WiredChestLockComposer], [642, WiredTradeOfferItemsComposer], [1039, WiredTradeAcceptComposer], [402, WiredTradeCancelComposer]
         ];
         const incoming: [number, unknown][] = [
-            [3315, ChestOpenEvent], [1453, ChestSettingsUpdatedEvent], [2439, ChestUpgradeResultEvent], [1016, ChestCoinsEvent],
-            [3110, ChestFurniChunkEvent], [3829, ChestFurniUpdateEvent], [180, WiredTransactionFailEvent], [270, WiredTransactionSuccessEvent],
-            [2537, WiredTradeErrorEvent], [932, WiredTradeOpenEvent], [790, WiredTradeItemsEvent], [3357, WiredTradeCancelledEvent], [3813, WiredTradeCompletedEvent]
+            [880, ChestOpenEvent], [1616, ChestSettingsUpdatedEvent], [2, ChestUpgradeResultEvent], [1864, ChestCoinsEvent],
+            [1094, ChestFurniChunkEvent], [2619, ChestFurniUpdateEvent], [2906, WiredTransactionFailEvent], [3682, WiredTransactionSuccessEvent],
+            [563, WiredTradeErrorEvent], [512, WiredTradeOpenEvent], [1713, WiredTradeItemsEvent], [3561, WiredTradeCancelledEvent], [1412, WiredTradeCompletedEvent]
         ];
 
         for(const [header, composer] of outgoing) expect(messages.composers.get(header), `outgoing ${ header }`).toBe(composer);
