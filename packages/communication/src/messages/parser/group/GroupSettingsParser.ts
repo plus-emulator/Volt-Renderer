@@ -38,12 +38,14 @@ export class GroupSettingsParser implements IMessageParser
     {
         if(!wrapper) return false;
 
-        const hasRoomData = wrapper.readInt();
+        const roomCount = wrapper.readInt();
+        const roomNames = new Map<number, string>();
 
-        if(hasRoomData === 1)
+        for(let i = 0; i < roomCount; i++)
         {
-            this._roomId = wrapper.readInt();
-            this._roomName = wrapper.readString();
+            const roomId = wrapper.readInt();
+
+            roomNames.set(roomId, wrapper.readString());
             wrapper.readBoolean();
         }
 
@@ -53,7 +55,8 @@ export class GroupSettingsParser implements IMessageParser
         this._title = wrapper.readString();
         this._description = wrapper.readString();
 
-        wrapper.readInt();
+        this._roomId = wrapper.readInt();
+        this._roomName = roomNames.get(this._roomId) ?? null;
 
         this._colorA = wrapper.readInt();
         this._colorB = wrapper.readInt();
@@ -72,11 +75,6 @@ export class GroupSettingsParser implements IMessageParser
             part.key = wrapper.readInt();
             part.color = wrapper.readInt();
             part.position = wrapper.readInt();
-
-            if(part.key === 0)
-            {
-                part.position = 4;
-            }
 
             this._badgeParts.set(i, part);
         }
