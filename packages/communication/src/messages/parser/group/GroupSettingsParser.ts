@@ -73,11 +73,6 @@ export class GroupSettingsParser implements IMessageParser
             part.color = wrapper.readInt();
             part.position = wrapper.readInt();
 
-            if(part.key === 0)
-            {
-                part.position = 4;
-            }
-
             this._badgeParts.set(i, part);
         }
 
