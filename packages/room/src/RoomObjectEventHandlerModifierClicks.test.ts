@@ -364,10 +364,10 @@ describe('modifyRoomObject result', () =>
 
 describe('AIR outgoing headers', () =>
 {
-    it('uses the WIN63-202611041140-327405090 MovePet 545 and MoveEntityInFlat 833', () =>
+    it('uses the WIN63-202611201617-120873662 MovePet 3468 and MoveEntityInFlat 2046', () =>
     {
-        expect(OutgoingHeader.PET_MOVE).toBe(545);
-        expect(OutgoingHeader.MOVE_ENTITY_IN_FLAT).toBe(833);
+        expect(OutgoingHeader.PET_MOVE).toBe(3468);
+        expect(OutgoingHeader.MOVE_ENTITY_IN_FLAT).toBe(2046);
     });
 });
 
