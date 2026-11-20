@@ -399,9 +399,9 @@ export class BadgeImageManager
 
         if(!data) return;
 
-        data.bases.forEach((names, id) => this._groupBases.set(id, names.map(val => val.replace('.png', '').replace('.gif', ''))));
+        data.bases.forEach((names, id) => this._groupBases.set(data.baseCodeIds.get(id) ?? id, names.map(val => val.replace('.png', '').replace('.gif', ''))));
 
-        data.symbols.forEach((names, id) => this._groupSymbols.set(id, names.map(val => val.replace('.png', '').replace('.gif', ''))));
+        data.symbols.forEach((names, id) => this._groupSymbols.set(data.symbolCodeIds.get(id) ?? id, names.map(val => val.replace('.png', '').replace('.gif', ''))));
 
         this._groupPartColors = data.partColors;
         this._readyToGenerateGroupBadges = true;

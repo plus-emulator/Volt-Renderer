@@ -7,6 +7,8 @@ export class GroupBadgePartsParser implements IMessageParser
     private _partColors: Map<number, string>;
     private _colorsA: Map<number, string>;
     private _colorsB: Map<number, string>;
+    private _baseCodeIds: Map<number, number>;
+    private _symbolCodeIds: Map<number, number>;
 
     flush(): boolean
     {
@@ -15,6 +17,8 @@ export class GroupBadgePartsParser implements IMessageParser
         this._partColors = new Map();
         this._colorsA = new Map();
         this._colorsB = new Map();
+        this._baseCodeIds = new Map();
+        this._symbolCodeIds = new Map();
 
         return true;
     }
@@ -79,7 +83,26 @@ export class GroupBadgePartsParser implements IMessageParser
             this._colorsB.set(id, color);
             colorsBCount--;
         }
+
+        if(!wrapper.bytesAvailable) return true;
+
+        this.readCodeIds(wrapper, [...this._bases.keys()], this._baseCodeIds);
+        this.readCodeIds(wrapper, [...this._symbols.keys()], this._symbolCodeIds);
+
         return true;
+    }
+
+    /** Parts are listed by editor id. Their badge code ids follow in the same order. */
+    private readCodeIds(wrapper: IMessageDataWrapper, editorIds: number[], codeIds: Map<number, number>): void
+    {
+        const count = wrapper.readInt();
+
+        for(let i = 0; i < count; i++)
+        {
+            const codeId = wrapper.readInt();
+
+            if(i < editorIds.length) codeIds.set(editorIds[i], codeId);
+        }
     }
 
     public get bases(): Map<number, string[]>
@@ -90,6 +113,18 @@ export class GroupBadgePartsParser implements IMessageParser
     public get symbols(): Map<number, string[]>
     {
         return this._symbols;
+    }
+
+    /** Editor id to badge code id for each base; empty when the server sends no code ids. */
+    public get baseCodeIds(): Map<number, number>
+    {
+        return this._baseCodeIds;
+    }
+
+    /** Editor id to badge code id for each symbol; empty when the server sends no code ids. */
+    public get symbolCodeIds(): Map<number, number>
+    {
+        return this._symbolCodeIds;
     }
 
     public get partColors(): Map<number, string>
