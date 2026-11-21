@@ -19980,6 +19980,22 @@
       "symbol": "WIRED_MENU_ERROR",
       "path": "packages/communication/src/messages/parser/roomevents/WiredMenuErrorParser.ts",
       "reason": "Header is registered only by the Volt Renderer packet registry"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 10301,
+      "symbol": "GROUP_INVITATION",
+      "path": "packages/communication/src/messages/parser/group/GroupInvitationParser.ts",
+      "reason": "Plus id from UnreleasedHabboHeaders for a teased Habbo feature that no Habbo client has shipped yet; the PlusEMU companion has no verified field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 10302,
+      "symbol": "GROUP_INVITATION_REPLY",
+      "path": "packages/communication/src/messages/outgoing/group/GroupInvitationReplyComposer.ts",
+      "reason": "Plus id from UnreleasedHabboHeaders for a teased Habbo feature that no Habbo client has shipped yet; the PlusEMU companion has no verified field contract yet"
     }
   ],
   "exemptions": [

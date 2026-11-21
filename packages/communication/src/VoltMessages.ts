@@ -46,6 +46,7 @@ import { ActiveDailyTasksMessageEvent, ClaimDailyTaskMessageComposer, ClaimRewar
 import { TreasureHuntFirstWinnerMessageEvent, TreasureHuntFailMessageEvent, TreasureHuntUpdateMessageEvent } from './messages';
 import { SelfDonationResultMessageEvent, SelfDonationMessageComposer } from './messages';
 import { WiredAllVariableHoldersEvent, WiredDeleteAllVariableHoldersComposer, WiredGetAllVariableHoldersComposer, WiredGetUserPermanentVariablesComposer, WiredGetVariableOwnersPageComposer, WiredMenuErrorEvent, WiredSetUserPermanentVariableComposer, WiredSetUserPermanentVariableResultEvent, WiredUserPermanentVariablesEvent, WiredUserVariablesListEvent } from './messages';
+import { GroupInvitationEvent, GroupInvitationReplyComposer } from './messages';
 export class VoltMessages implements IMessageConfiguration
 {
     private _events: Map<number, Function>;
@@ -280,6 +281,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.GROUP_MEMBERSHIP_REQUESTED, GroupMembershipRequestedMessageEvent);
         this._events.set(IncomingHeader.GROUP_DETAILS_CHANGED, GroupDetailsChangedMessageEvent);
         this._events.set(IncomingHeader.GROUP_HABBO_JOIN_FAILED, HabboGroupJoinFailedMessageEvent);
+        this._events.set(IncomingHeader.GROUP_INVITATION, GroupInvitationEvent);
 
         // GROUP FORUMS
         this._events.set(IncomingHeader.GROUP_FORUM_DATA, ForumDataMessageEvent);
@@ -1113,6 +1115,7 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.GROUP_BADGES, GetHabboGroupBadgesMessageComposer);
         this._composers.set(OutgoingHeader.APPROVE_ALL_MEMBERSHIP_REQUESTS, ApproveAllMembershipRequestsMessageComposer);
         this._composers.set(OutgoingHeader.GROUP_UNBLOCK_MEMBER, UnblockGroupMemberMessageComposer);
+        this._composers.set(OutgoingHeader.GROUP_INVITATION_REPLY, GroupInvitationReplyComposer);
 
         // NAVIGATOR
         this._composers.set(OutgoingHeader.ROOM_FAVORITE, AddFavouriteRoomMessageComposer);

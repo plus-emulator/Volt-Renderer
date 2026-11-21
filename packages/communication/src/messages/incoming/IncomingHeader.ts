@@ -1,3 +1,5 @@
+import { UnreleasedHabboHeaders } from '../UnreleasedHabboHeaders';
+
 export class IncomingHeader
 {
     public static WIRED_VARIABLE_INSPECTION_DATA = 9483;
@@ -102,6 +104,7 @@ export class IncomingHeader
     public static GROUP_MEMBERSHIP_REQUESTED = 2795;
     public static GROUP_DETAILS_CHANGED = 949;
     public static GROUP_HABBO_JOIN_FAILED = 929;
+    public static GROUP_INVITATION = UnreleasedHabboHeaders.GROUP_INVITATION;
     public static GUILD_EDIT_FAILED = 794;
     public static GUILD_MEMBER_MGMT_FAILED = 1181;
     public static ITEM_DIMMER_SETTINGS = 2660;

@@ -55,8 +55,9 @@ export class TypeScriptPacketRegistry
 
     public static discover(root: string): TypeScriptPacketRegistry
     {
-        const incoming = parseHeaders(join(root, 'messages/incoming/IncomingHeader.ts'), 'IncomingHeader');
-        const outgoing = parseHeaders(join(root, 'messages/outgoing/OutgoingHeader.ts'), 'OutgoingHeader');
+        const unreleased = parseConstants(join(root, 'messages/UnreleasedHabboHeaders.ts'), 'UnreleasedHabboHeaders');
+        const incoming = parseHeaders(join(root, 'messages/incoming/IncomingHeader.ts'), 'IncomingHeader', unreleased);
+        const outgoing = parseHeaders(join(root, 'messages/outgoing/OutgoingHeader.ts'), 'OutgoingHeader', unreleased);
         const eventSources = indexClasses(join(root, 'messages/incoming'));
         const parserSources = indexClasses(join(root, 'messages/parser'));
         const composerSources = indexClasses(join(root, 'messages/outgoing'));
@@ -133,7 +134,29 @@ export class TypeScriptPacketRegistry
     }
 }
 
-const parseHeaders = (path: string, owner: string): HeaderTable =>
+/** Numeric static fields of one class, so a header table can point at a shared constants class. */
+const parseConstants = (path: string, owner: string): ReadonlyMap<string, number> =>
+{
+    const values = new Map<string, number>();
+    if(!existsSync(path)) return values;
+    visit(parse(path), node =>
+    {
+        if(!ts.isPropertyDeclaration(node) || !node.initializer || !ts.isIdentifier(node.name)) return;
+        if(!ts.isClassDeclaration(node.parent) || node.parent.name?.text !== owner) return;
+        const value = integer(node.initializer);
+        if(value !== undefined) values.set(node.name.text, value);
+    });
+    return values;
+};
+
+const constantReference = (expression: ts.Expression, owner: string, constants: ReadonlyMap<string, number>): number | undefined =>
+{
+    if(!ts.isPropertyAccessExpression(expression) || !ts.isIdentifier(expression.expression)
+        || expression.expression.text !== owner) return undefined;
+    return constants.get(expression.name.text);
+};
+
+const parseHeaders = (path: string, owner: string, unreleased: ReadonlyMap<string, number> = new Map()): HeaderTable =>
 {
     const source = parse(path);
     const expressions = new Map<string, ts.Expression>();
@@ -151,7 +174,9 @@ const parseHeaders = (path: string, owner: string): HeaderTable =>
         {
             if(values.has(symbol)) continue;
             const reference = aliasReference(expression, owner);
-            const value = integer(expression) ?? (reference ? values.get(reference) : undefined);
+            const value = integer(expression)
+                ?? constantReference(expression, 'UnreleasedHabboHeaders', unreleased)
+                ?? (reference ? values.get(reference) : undefined);
             if(value !== undefined)
             {
                 values.set(symbol, value);

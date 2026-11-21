@@ -1,3 +1,5 @@
+import { UnreleasedHabboHeaders } from '../UnreleasedHabboHeaders';
+
 export class OutgoingHeader
 {
     public static WIRED_VARIABLE_INSPECTION_REQUEST = 10112;
@@ -104,6 +106,7 @@ export class OutgoingHeader
     public static GROUP_SAVE_PREFERENCES = 1916;
     public static GROUP_BADGES = 513;
     public static GROUP_UNBLOCK_MEMBER = 2341;
+    public static GROUP_INVITATION_REPLY = UnreleasedHabboHeaders.GROUP_INVITATION_REPLY;
     public static GET_BADGE_POINTS_LIMITS = 1909;
     public static REQUESTABADGE = 1183;
     public static GETISBADGEREQUESTFULFILLED = 1992;
