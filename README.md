@@ -32,7 +32,7 @@ Then rebuild Volt. Update PlusEMU and the renderer together; their protocol vers
 
 ## Protocol version
 
-The client handshake advertises Habbo AIR build `WIN63-202611041140-327405090` (`ClientHelloMessageComposer.BUILD`).
+The client handshake advertises Habbo AIR build `WIN63-202611201617-120873662` (`ClientHelloMessageComposer.BUILD`).
 
 Volt-specific protocol extensions are supported alongside the AIR packet set. The build string does not imply compatibility with the native AIR client.
 

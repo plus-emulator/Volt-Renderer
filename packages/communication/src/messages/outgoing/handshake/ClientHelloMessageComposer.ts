@@ -2,7 +2,7 @@ import { ClientDeviceCategoryEnum, ClientPlatformEnum, IMessageComposer } from '
 
 export class ClientHelloMessageComposer implements IMessageComposer<ConstructorParameters<typeof ClientHelloMessageComposer>>
 {
-    public static readonly BUILD = 'WIN63-202611041140-327405090';
+    public static readonly BUILD = 'WIN63-202611201617-120873662';
 
     private _data: ConstructorParameters<typeof ClientHelloMessageComposer>;
 
