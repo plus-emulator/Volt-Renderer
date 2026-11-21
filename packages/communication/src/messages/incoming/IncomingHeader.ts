@@ -674,6 +674,7 @@ export class IncomingHeader
     public static WIRED_LINK_OPERATION_RESULT = 3980;
     public static WIRED_LINK_CONNECTIONS = 3931;
     public static WIRED_LINK_NETWORK_INVALIDATED = 3668;
+    public static WIRED_CONTEXT_MENU = UnreleasedHabboHeaders.WIRED_CONTEXT_MENU;
     public static WIRED_USER_HIGHLIGHT = 622;
     public static WIRED_FURNI_VISUALIZATION_STATE = 1151;
     public static WIRED_USER_VISUALIZATION_STATE = 1171;

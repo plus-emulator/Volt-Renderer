@@ -72,3 +72,4 @@ export * from './WiredUserVariablesListParser';
 export * from './WiredUserPermanentVariablesParser';
 export * from './WiredSetUserPermanentVariableResultParser';
 export * from './WiredMenuErrorParser';
+export * from './WiredContextMenuParser';

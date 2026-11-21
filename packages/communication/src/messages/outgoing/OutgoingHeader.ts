@@ -661,6 +661,8 @@ export class OutgoingHeader
     public static WIRED_LINK_RENAME_NETWORK = 570;
     public static WIRED_LINK_DELETE_NETWORK = 2217;
     public static WIRED_LINK_GET_CONNECTIONS = 620;
+    public static GET_WIRED_CONTEXT_MENU = UnreleasedHabboHeaders.GET_WIRED_CONTEXT_MENU;
+    public static WIRED_CONTEXT_MENU_CLICK = UnreleasedHabboHeaders.WIRED_CONTEXT_MENU_CLICK;
     public static WIRED_CONTRACT_GET_CONTENTS = 361; // package_193/class_3858
     public static WIRED_CONTRACT_UPDATE = 1431; // package_193/class_3002
     public static GET_COLLECTIBLE_WALLET_ADDRESSES = 2649; // package_13/class_3081

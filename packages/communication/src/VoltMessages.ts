@@ -47,6 +47,7 @@ import { TreasureHuntFirstWinnerMessageEvent, TreasureHuntFailMessageEvent, Trea
 import { SelfDonationResultMessageEvent, SelfDonationMessageComposer } from './messages';
 import { WiredAllVariableHoldersEvent, WiredDeleteAllVariableHoldersComposer, WiredGetAllVariableHoldersComposer, WiredGetUserPermanentVariablesComposer, WiredGetVariableOwnersPageComposer, WiredMenuErrorEvent, WiredSetUserPermanentVariableComposer, WiredSetUserPermanentVariableResultEvent, WiredUserPermanentVariablesEvent, WiredUserVariablesListEvent } from './messages';
 import { GroupInvitationEvent, GroupInvitationReplyComposer } from './messages';
+import { GetWiredContextMenuComposer, WiredContextMenuClickComposer, WiredContextMenuEvent } from './messages';
 export class VoltMessages implements IMessageConfiguration
 {
     private _events: Map<number, Function>;
@@ -680,6 +681,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.WIRED_LINK_OPERATION_RESULT, WiredLinkOperationResultEvent);
         this._events.set(IncomingHeader.WIRED_LINK_CONNECTIONS, WiredLinkConnectionsEvent);
         this._events.set(IncomingHeader.WIRED_LINK_NETWORK_INVALIDATED, WiredLinkNetworkInvalidatedEvent);
+        this._events.set(IncomingHeader.WIRED_CONTEXT_MENU, WiredContextMenuEvent);
         this._events.set(IncomingHeader.WIRED_USER_HIGHLIGHT, WiredUserHighlightEvent);
         this._events.set(IncomingHeader.WIRED_FURNI_VISUALIZATION_STATE, WiredFurniVisualizationStateEvent);
         this._events.set(IncomingHeader.WIRED_USER_VISUALIZATION_STATE, WiredUserVisualizationStateEvent);
@@ -1425,6 +1427,8 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.WIRED_LINK_RENAME_NETWORK, WiredLinkRenameNetworkComposer);
         this._composers.set(OutgoingHeader.WIRED_LINK_DELETE_NETWORK, WiredLinkDeleteNetworkComposer);
         this._composers.set(OutgoingHeader.WIRED_LINK_GET_CONNECTIONS, WiredLinkGetConnectionsComposer);
+        this._composers.set(OutgoingHeader.GET_WIRED_CONTEXT_MENU, GetWiredContextMenuComposer);
+        this._composers.set(OutgoingHeader.WIRED_CONTEXT_MENU_CLICK, WiredContextMenuClickComposer);
         this._composers.set(OutgoingHeader.WIRED_OPEN, OpenMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_ACTION_SAVE, UpdateActionMessageComposer);
         this._composers.set(OutgoingHeader.WIRED_SELECTOR_SAVE, UpdateSelectorMessageComposer);

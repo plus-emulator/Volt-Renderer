@@ -58,3 +58,5 @@ export * from './WiredDeleteAllVariableHoldersComposer';
 export * from './WiredGetVariableOwnersPageComposer';
 export * from './WiredGetUserPermanentVariablesComposer';
 export * from './WiredSetUserPermanentVariableComposer';
+export * from './GetWiredContextMenuComposer';
+export * from './WiredContextMenuClickComposer';
