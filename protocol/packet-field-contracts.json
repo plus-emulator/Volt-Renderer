@@ -7,6 +7,24 @@
     },
     "ranges": [
       {
+        "name": "unreleased_habbo_client",
+        "direction": "client_to_server",
+        "start": 10300,
+        "end": 10399,
+        "origin": "custom",
+        "feature": "unreleased_habbo_features",
+        "stability": "experimental"
+      },
+      {
+        "name": "unreleased_habbo_server",
+        "direction": "server_to_client",
+        "start": 10300,
+        "end": 10399,
+        "origin": "custom",
+        "feature": "unreleased_habbo_features",
+        "stability": "experimental"
+      },
+      {
         "name": "client_extensions_client",
         "direction": "client_to_server",
         "start": 4080,
