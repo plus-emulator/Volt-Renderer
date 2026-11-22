@@ -1,4 +1,5 @@
 import { IMessageDataWrapper } from '@volt/api';
+import { UnreleasedHabboHeaders } from '../../UnreleasedHabboHeaders';
 import { IWiredVariableData, parseWiredVariableData } from './WiredVariableData';
 
 export function readWiredCount(wrapper: IMessageDataWrapper, maximum = 10000): number
@@ -36,7 +37,8 @@ export type WiredEditorContext =
     | { type: 5; variables: IWiredVariableData[] }
     | { type: 6; placeholders: { roomId: number; roomName: string; name: string }[] }
     | { type: 7; placeholderNames: string[]; capturerNames: string[] }
-    | { type: 8; overlayInstanceId: number; physicalTileX: number; physicalTileY: number; totalCandidateCount: number; choices: IWiredLeaderboardChoice[] };
+    | { type: 8; overlayInstanceId: number; physicalTileX: number; physicalTileY: number; totalCandidateCount: number; choices: IWiredLeaderboardChoice[] }
+    | { type: typeof UnreleasedHabboHeaders.WIRED_EDITOR_CONTEXT_BUTTON_IDS; buttonIds: string[] };
 
 /** `package_127.VariableLeaderboardChoice`. */
 export interface IWiredLeaderboardChoice
@@ -98,6 +100,8 @@ export function readWiredContexts(wrapper: IMessageDataWrapper): WiredEditorCont
                 }));
                 return { type, overlayInstanceId, physicalTileX, physicalTileY, totalCandidateCount, choices };
             }
+            case UnreleasedHabboHeaders.WIRED_EDITOR_CONTEXT_BUTTON_IDS:
+                return { type, buttonIds: Array.from({ length: readWiredCount(wrapper) }, () => wrapper.readString()) };
             default: throw new Error('Unsupported Wired context');
         }
     });

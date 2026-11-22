@@ -59,3 +59,4 @@ export * from './WiredUserVariablesListEvent';
 export * from './WiredUserPermanentVariablesEvent';
 export * from './WiredSetUserPermanentVariableResultEvent';
 export * from './WiredMenuErrorEvent';
+export * from './WiredContextMenuEvent';

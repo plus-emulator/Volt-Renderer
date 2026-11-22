@@ -20014,6 +20014,30 @@
       "symbol": "GROUP_INVITATION_REPLY",
       "path": "packages/communication/src/messages/outgoing/group/GroupInvitationReplyComposer.ts",
       "reason": "Plus id from UnreleasedHabboHeaders for a teased Habbo feature that no Habbo client has shipped yet; the PlusEMU companion has no verified field contract yet"
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 10300,
+      "symbol": "WIRED_CONTEXT_MENU",
+      "path": "packages/communication/src/messages/parser/roomevents/WiredContextMenuParser.ts",
+      "reason": "Plus id from UnreleasedHabboHeaders for a teased Habbo feature that no Habbo client has shipped yet; the PlusEMU companion has no verified field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 10300,
+      "symbol": "GET_WIRED_CONTEXT_MENU",
+      "path": "packages/communication/src/messages/outgoing/roomevents/GetWiredContextMenuComposer.ts",
+      "reason": "Plus id from UnreleasedHabboHeaders for a teased Habbo feature that no Habbo client has shipped yet; the PlusEMU companion has no verified field contract yet"
+    },
+    {
+      "direction": "client_to_server",
+      "side": "typescript",
+      "header": 10301,
+      "symbol": "WIRED_CONTEXT_MENU_CLICK",
+      "path": "packages/communication/src/messages/outgoing/roomevents/WiredContextMenuClickComposer.ts",
+      "reason": "Plus id from UnreleasedHabboHeaders for a teased Habbo feature that no Habbo client has shipped yet; the PlusEMU companion has no verified field contract yet"
     }
   ],
   "exemptions": [
