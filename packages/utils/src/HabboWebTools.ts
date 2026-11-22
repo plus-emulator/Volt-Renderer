@@ -45,7 +45,20 @@ export class HabboWebTools
 
     public static openWebPage(pageUrl: string): void
     {
-        window.open(pageUrl);
+        let url: URL;
+
+        try
+        {
+            url = new URL(pageUrl, window.location.href);
+        }
+        catch
+        {
+            return;
+        }
+
+        if((url.protocol !== 'http:') && (url.protocol !== 'https:')) return;
+
+        window.open(url.href, '_blank', 'noopener,noreferrer');
     }
 
     public static sendHeartBeat(): void
