@@ -8,6 +8,7 @@ export * from './GroupConfirmRemoveMemberComposer';
 export * from './GroupDeleteComposer';
 export * from './GroupFavoriteComposer';
 export * from './GroupInformationComposer';
+export * from './GroupInvitationReplyComposer';
 export * from './GroupJoinComposer';
 export * from './GroupMembersComposer';
 export * from './GroupMembershipAcceptComposer';

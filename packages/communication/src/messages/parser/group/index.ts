@@ -2,6 +2,7 @@ export * from './GroupBadgePartsParser';
 export * from './GroupBuyDataParser';
 export * from './GroupConfirmMemberRemoveParser';
 export * from './GroupInformationParser';
+export * from './GroupInvitationParser';
 export * from './GroupMembersParser';
 export * from './GroupPurchasedParser';
 export * from './GroupSettingsParser';
