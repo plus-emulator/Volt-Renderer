@@ -8,7 +8,7 @@ export class ConfigurationManager implements IConfigurationManager
     public static readonly GAMEDATA_VERSIONS_KEY = 'gamedata.versions';
 
     private _initialLoad: Promise<void> = null;
-    private _preloadedDocuments: Map<string, string> = new Map();
+    private _preloadedDocuments: Map<string, string | Record<string, unknown>> = new Map();
 
     constructor()
     {
@@ -32,12 +32,16 @@ export class ConfigurationManager implements IConfigurationManager
     }
 
     /**
-     * Supplies the text of a config.urls document the page already has (e.g. inlined into the entry
-     * HTML), so the next load parses it instead of fetching. Used once; a later reload fetches again.
+     * Supplies a config.urls document (text or already-parsed object) that the page already has
+     * (e.g. inlined into the entry HTML), so the next load uses it instead of fetching. Used once;
+     * a later reload fetches again.
      */
-    public preloadDocument(url: string, text: string): void
+    public preloadDocument(url: string, textOrObject: string | Record<string, unknown>): void
     {
-        if(url && (typeof text === 'string')) this._preloadedDocuments.set(url, text);
+        if(url && ((typeof textOrObject === 'string') || (textOrObject && typeof textOrObject === 'object')))
+        {
+            this._preloadedDocuments.set(url, textOrObject);
+        }
     }
 
     public async reloadConfiguration(): Promise<void>
@@ -65,6 +69,8 @@ export class ConfigurationManager implements IConfigurationManager
                 if(preloaded !== undefined)
                 {
                     this._preloadedDocuments.delete(url);
+
+                    if(typeof preloaded !== 'string') return preloaded;
 
                     try
                     {

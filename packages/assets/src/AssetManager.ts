@@ -5,6 +5,13 @@ import { AssetBundleFormat, GetAssetBundleFormat, GetAssetBundleUrl, isAssetBund
 import { assetImageFallbackUrl, isAssetJsonUrl } from './AssetJsonUrl';
 import { GraphicAssetCollection } from './GraphicAssetCollection';
 import { detectImageFormat, ImageLoadRequest, LoadedImageResource, loadImageResource } from './image';
+import avatarAdditionsAssetData from './assets/avatar_additions/avatar_additions.asset.json';
+import placeHolderAssetData from './assets/place_holder/place_holder.asset.json';
+import placeHolderPetAssetData from './assets/place_holder_pet/place_holder_pet.asset.json';
+import placeHolderWallAssetData from './assets/place_holder_wall/place_holder_wall.asset.json';
+import roomAssetData from './assets/room/room.asset.json';
+import selectionArrowAssetData from './assets/selection_arrow/selection_arrow.asset.json';
+import tileCursorAssetData from './assets/tile_cursor/tile_cursor.asset.json';
 
 export interface AssetManagerDependencies
 {
@@ -33,6 +40,7 @@ export class AssetManager implements IAssetManager
     private _collectionOrder: WeakMap<GraphicAssetCollection, number> = new WeakMap();
     private _nextCollectionOrder: number = 0;
     private _imageResources: Map<string, LoadedImageResource> = new Map();
+    private _inFlightDownloads: Map<string, Promise<boolean>> = new Map();
 
     constructor(private readonly _dependencies: AssetManagerDependencies = DEFAULT_DEPENDENCIES)
     {
@@ -138,6 +146,24 @@ export class AssetManager implements IAssetManager
 
     public async downloadAsset(url: string): Promise<boolean>
     {
+        if(!url?.length) return false;
+
+        const existing = this._inFlightDownloads.get(url);
+
+        if(existing) return existing;
+
+        const promise = this.performDownloadAsset(url).finally(() =>
+        {
+            if(this._inFlightDownloads.get(url) === promise) this._inFlightDownloads.delete(url);
+        });
+
+        this._inFlightDownloads.set(url, promise);
+
+        return promise;
+    }
+
+    private async performDownloadAsset(url: string): Promise<boolean>
+    {
         try
         {
             if(!url?.length) return false;
@@ -148,14 +174,15 @@ export class AssetManager implements IAssetManager
             {
                 // Only the configured format is fetched and read; the texture stays keyed by the requested URL.
                 const format = this._dependencies.bundleFormat();
-                const response = await this.fetchAsset(GetAssetBundleUrl(url, format));
+                const bundleUrl = GetAssetBundleUrl(url, format);
+                const buffer = await this.fetchBundleBuffer(bundleUrl);
                 const loadBundle = (format === 'hab') ? this._dependencies.loadHabBundle : this._dependencies.loadVoltBundle;
                 const decodedResources: LoadedImageResource[] = [];
 
                 try
                 {
                     const bundle = await loadBundle(
-                        await response.arrayBuffer(),
+                        buffer,
                         async (bytes, entryName) =>
                         {
                             const detected = detectImageFormat(new Uint8Array(bytes), undefined, entryName);
@@ -260,13 +287,45 @@ export class AssetManager implements IAssetManager
         }
     }
 
+    private async fetchBundleBuffer(url: string): Promise<ArrayBuffer>
+    {
+        if(this._dependencies.fetch === DEFAULT_DEPENDENCIES.fetch)
+        {
+            const dataCache = (globalThis as {
+                __voltPrefetchData?: Map<string, Promise<{ ok: boolean; status: number; buffer?: ArrayBuffer }>>;
+            }).__voltPrefetchData;
+            const prefetched = dataCache?.get(url);
+
+            if(prefetched)
+            {
+                dataCache.delete(url);
+
+                const entry = await prefetched;
+
+                if(!entry?.ok) throw new Error(`Failed to load "${ url }" - server returned HTTP ${ entry?.status ?? 'no response' }`);
+                if(entry.buffer) return entry.buffer;
+            }
+        }
+
+        const response = await this.fetchAsset(url);
+
+        return response.arrayBuffer();
+    }
+
     private async fetchAsset(url: string): Promise<Response>
     {
         let response: Response;
 
         try
         {
-            response = await this._dependencies.fetch(url);
+            const cache = (this._dependencies.fetch === DEFAULT_DEPENDENCIES.fetch)
+                ? (globalThis as { __voltPrefetchCache?: Map<string, Promise<Response>> }).__voltPrefetchCache
+                : undefined;
+            const prefetched = cache?.get(url);
+
+            if(prefetched) cache.delete(url);
+
+            response = await (prefetched ?? this._dependencies.fetch(url));
         }
         catch (error)
         {
@@ -290,8 +349,7 @@ export class AssetManager implements IAssetManager
 
     private async loadLocalRoom(): Promise<void>
     {
-        const roomDataModule = await import('./assets/room/room.asset.json');
-        const roomData = (roomDataModule.default ?? roomDataModule) as IAssetData;
+        const roomData = roomAssetData as unknown as IAssetData;
         const collection = this.createCollection(roomData, null) as GraphicAssetCollection;
         if(!collection) return;
 
@@ -299,7 +357,7 @@ export class AssetManager implements IAssetManager
         const roomImagesSub = import.meta.glob('./assets/room/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true });
         const merged = { ...roomImages, ...roomImagesSub };
 
-        await Promise.all(Object.keys(merged).map(async path =>
+        const loadEntry = async (path: string): Promise<void> =>
         {
             const mod = merged[path];
             const imageUrl = ((mod as { default?: string }).default ?? mod) as string;
@@ -323,9 +381,31 @@ export class AssetManager implements IAssetManager
                 this.setTexture(normalizedName, texture);
                 collection.textures.set(normalizedName, texture);
             }
-        }));
+        };
+
+        const eagerPaths: string[] = [];
+        const deferredPaths: string[] = [];
+
+        for(const path of Object.keys(merged))
+        {
+            const rawName = imageNameFromPath(path);
+
+            // Landscapes (40 PNGs) and 32px zoomed-out variants aren't needed to finish initial boot; warm them right after.
+            if(rawName.includes('landscape_') || rawName.endsWith('_32')) deferredPaths.push(path);
+            else eagerPaths.push(path);
+        }
+
+        await Promise.all(eagerPaths.map(loadEntry));
 
         collection.define(roomData);
+
+        if(deferredPaths.length)
+        {
+            setTimeout(() =>
+            {
+                void Promise.allSettled(deferredPaths.map(loadEntry)).then(() => collection.define(roomData));
+            }, 0);
+        }
     }
 
     private async loadLocalAsset(name: string): Promise<void>
@@ -335,22 +415,22 @@ export class AssetManager implements IAssetManager
         switch(name)
         {
             case 'place_holder':
-                dataModule = await import('./assets/place_holder/place_holder.asset.json');
+                dataModule = placeHolderAssetData as unknown as IAssetData;
                 break;
             case 'place_holder_wall':
-                dataModule = await import('./assets/place_holder_wall/place_holder_wall.asset.json');
+                dataModule = placeHolderWallAssetData as unknown as IAssetData;
                 break;
             case 'place_holder_pet':
-                dataModule = await import('./assets/place_holder_pet/place_holder_pet.asset.json');
+                dataModule = placeHolderPetAssetData as unknown as IAssetData;
                 break;
             case 'tile_cursor':
-                dataModule = await import('./assets/tile_cursor/tile_cursor.asset.json');
+                dataModule = tileCursorAssetData as unknown as IAssetData;
                 break;
             case 'selection_arrow':
-                dataModule = await import('./assets/selection_arrow/selection_arrow.asset.json');
+                dataModule = selectionArrowAssetData as unknown as IAssetData;
                 break;
             case 'avatar_additions':
-                dataModule = await import('./assets/avatar_additions/avatar_additions.asset.json');
+                dataModule = avatarAdditionsAssetData as unknown as IAssetData;
                 break;
             case 'floor_editor':
                 dataModule = await import('./assets/floor_editor/floor_editor.asset.json');
@@ -366,12 +446,35 @@ export class AssetManager implements IAssetManager
         const collection = this.createCollection(data, null) as GraphicAssetCollection;
         if(!collection) return;
 
-        const allImages = import.meta.glob('./assets/*/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true });
-        const prefix = `./assets/${ name }/images/`;
+        let images: Record<string, unknown>;
 
-        await Promise.all(Object.keys(allImages).filter(path => path.startsWith(prefix)).map(async path =>
+        if(name === 'group_badge')
         {
-            const mod = allImages[path];
+            images = (await import('./assets/group_badge/images')).images;
+        }
+        else if(name === 'floor_editor')
+        {
+            images = (await import('./assets/floor_editor/images')).images;
+        }
+        else
+        {
+            // Keep the ~19 KB of mandatory boot icons inline so RoomContentLoader avoids 18 late HTTP round-trips.
+            const allImages = {
+                ...import.meta.glob('./assets/place_holder/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true, query: '?inline' }),
+                ...import.meta.glob('./assets/place_holder_wall/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true, query: '?inline' }),
+                ...import.meta.glob('./assets/place_holder_pet/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true, query: '?inline' }),
+                ...import.meta.glob('./assets/tile_cursor/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true, query: '?inline' }),
+                ...import.meta.glob('./assets/selection_arrow/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true, query: '?inline' }),
+                ...import.meta.glob('./assets/avatar_additions/images/*.{png,jpg,jpeg,gif,webp,avif,svg,bmp}', { eager: true, query: '?inline' })
+            };
+            const prefix = `./assets/${ name }/images/`;
+
+            images = Object.fromEntries(Object.entries(allImages).filter(([path]) => path.startsWith(prefix)));
+        }
+
+        await Promise.all(Object.keys(images).map(async path =>
+        {
+            const mod = images[path];
             const imageUrl = ((mod as { default?: string }).default ?? mod) as string;
             const rawName = imageNameFromPath(path);
             const resource = await this._dependencies.loadImageResource({ source: imageUrl, allowAnimation: false });
@@ -400,7 +503,8 @@ export class AssetManager implements IAssetManager
         {
             spritesheet = new Spritesheet(texture, data.spritesheet);
 
-            await spritesheet.parse();
+            // Synchronous parse avoids PixiJS's 4ms-clamped setTimeout batching on large spritesheets during boot.
+            spritesheet.parseSync();
 
             spritesheet.textureSource.label = data.name ?? null;
         }

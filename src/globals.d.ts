@@ -13,5 +13,5 @@
  */
 interface ImportMeta
 {
-    glob: <T = { default: string }>(pattern: string, options?: { eager?: boolean; import?: string }) => Record<string, T>;
+    glob: <T = { default: string }>(pattern: string, options?: { eager?: boolean; import?: string; query?: string }) => Record<string, T>;
 }

@@ -93,7 +93,8 @@ export class SocketConnection implements IConnection
         this._sessionKey = null;
         this._pendingEncryptedSends = [];
 
-        this._socket = new WebSocket(socketUrl);
+        const early = this.takeEarlySocket(socketUrl, cryptoEnabled);
+        this._socket = early ? early.socket : new WebSocket(socketUrl);
         this._socket.binaryType = 'arraybuffer';
         this._onOpenCallback = () => this.onSocketOpened();
         this._onCloseCallback = (event: Event) => this.onSocketClosed(event as CloseEvent);
@@ -103,6 +104,67 @@ export class SocketConnection implements IConnection
         this._socket.addEventListener(WebSocketEventEnum.CONNECTION_CLOSED, this._onCloseCallback);
         this._socket.addEventListener(WebSocketEventEnum.CONNECTION_ERROR, this._onErrorCallback);
         this._socket.addEventListener(WebSocketEventEnum.CONNECTION_MESSAGE, this._onMessageCallback);
+
+        if(early)
+        {
+            const generation = this._socketGeneration;
+
+            queueMicrotask(() =>
+            {
+                if(generation !== this._socketGeneration || this._socket !== early.socket) return;
+
+                if(early.opened || early.socket.readyState === WebSocket.OPEN) this.onSocketOpened();
+
+                for(const msg of early.messages) this.onSocketMessage(msg);
+
+                if(early.errored) this.onSocketError();
+                if(early.closed) this.onSocketClosed(early.closed);
+            });
+        }
+    }
+
+    private takeEarlySocket(socketUrl: string, cryptoEnabled: boolean): {
+        url: string;
+        socket: WebSocket;
+        opened: boolean;
+        closed: CloseEvent | null;
+        errored: boolean;
+        messages: ArrayBuffer[];
+        detach: () => void;
+    } | null
+    {
+        const holder = globalThis as {
+            __voltEarlySocket?: {
+                url: string;
+                socket: WebSocket;
+                opened: boolean;
+                closed: CloseEvent | null;
+                errored: boolean;
+                messages: ArrayBuffer[];
+                detach: () => void;
+            };
+        };
+        const early = holder.__voltEarlySocket;
+
+        if(!early) return null;
+
+        delete holder.__voltEarlySocket;
+
+        if(cryptoEnabled || early.url !== socketUrl || early.closed || early.errored || early.socket.readyState > WebSocket.OPEN)
+        {
+            try
+            {
+                early.detach();
+                early.socket.close();
+            }
+            catch {}
+
+            return null;
+        }
+
+        early.detach();
+
+        return early;
     }
 
     private subtleCryptoAvailable(): boolean

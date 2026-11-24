@@ -172,13 +172,120 @@ export const parseConfigJsonFromResponse = async <T = any>(response: Response, s
     return parseConfigJson<T>(text, url);
 };
 
+interface PrefetchedJsonEntry
+{
+    ok: boolean;
+    status: number;
+    url?: string;
+    contentType?: string;
+    json?: unknown;
+    text?: string;
+}
+
+const takePrefetchedData = (url: string): Promise<PrefetchedJsonEntry> | null =>
+{
+    const cache = (globalThis as { __voltPrefetchData?: Map<string, Promise<PrefetchedJsonEntry>> }).__voltPrefetchData;
+
+    if(!cache) return null;
+
+    const pending = cache.get(url);
+
+    if(!pending) return null;
+
+    cache.delete(url);
+
+    return pending;
+};
+
+const takePrefetchedResponse = (url: string): Promise<Response> | null =>
+{
+    const cache = (globalThis as { __voltPrefetchCache?: Map<string, Promise<Response>> }).__voltPrefetchCache;
+
+    if(!cache) return null;
+
+    const pending = cache.get(url);
+
+    if(!pending) return null;
+
+    cache.delete(url);
+
+    return pending;
+};
+
 export const fetchConfigJson = async <T = any>(url: string, init?: RequestInit): Promise<T> =>
 {
+    if(!init)
+    {
+        const prefetchedData = takePrefetchedData(url);
+
+        if(prefetchedData)
+        {
+            let entry: PrefetchedJsonEntry;
+
+            try
+            {
+                entry = await prefetchedData;
+            }
+            catch (networkError)
+            {
+                throw new ConfigJsonError(
+                    `Network error fetching "${ url }" — ${ errorMessage(networkError) }`,
+                    'fetch',
+                    url,
+                    undefined,
+                    networkError
+                );
+            }
+
+            if(!entry || entry.status !== 200)
+            {
+                throw new ConfigJsonError(
+                    `Failed to fetch "${ url }" — server returned HTTP ${ entry?.status ?? 'no response' }`,
+                    'fetch',
+                    url,
+                    entry?.status
+                );
+            }
+
+            const resolvedUrl = url || entry.url || '';
+            const contentType = entry.contentType || '';
+
+            if(JSON5_MIME.test(contentType))
+            {
+                throw new ConfigJsonError(
+                    `Unsupported JSON5 content type for "${ resolvedUrl }" — serve JSON or JSONC instead`,
+                    'parse',
+                    resolvedUrl
+                );
+            }
+
+            if(entry.json !== undefined)
+            {
+                rejectJson5Source(resolvedUrl);
+
+                return entry.json as T;
+            }
+
+            if(typeof entry.text === 'string')
+            {
+                if(JSONC_MIME.test(contentType))
+                {
+                    rejectJson5Source(resolvedUrl);
+                    return parseJsoncWithError<T>(entry.text, resolvedUrl);
+                }
+
+                return parseConfigJson<T>(entry.text, resolvedUrl);
+            }
+        }
+    }
+
     let response: Response | undefined;
 
     try
     {
-        response = await fetch(url, init);
+        const prefetched = !init ? takePrefetchedResponse(url) : null;
+
+        response = await (prefetched ?? fetch(url, init));
     }
     catch (networkError)
     {

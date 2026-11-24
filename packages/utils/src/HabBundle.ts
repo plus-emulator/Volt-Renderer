@@ -8,6 +8,23 @@ const HAB_FLAGS = 1;
 const HAB_HEADER_LENGTH = 20;
 const HAB_MAX_INDEX_LENGTH = 64 * 1024 * 1024;
 const HAB_MAX_ENTRIES = 100000;
+const NATIVE_INFLATE_MIN_BYTES = 4096;
+
+const inflateBytes = async (stored: Uint8Array): Promise<Uint8Array> =>
+{
+    if((stored.byteLength >= NATIVE_INFLATE_MIN_BYTES) && (typeof DecompressionStream === 'function') && (typeof Response === 'function'))
+    {
+        try
+        {
+            const stream = new Response(stored as BodyInit).body?.pipeThrough(new DecompressionStream('deflate'));
+
+            if(stream) return new Uint8Array(await new Response(stream).arrayBuffer());
+        }
+        catch {}
+    }
+
+    return inflate(stored);
+};
 
 interface HabEntry
 {
@@ -64,17 +81,17 @@ export class HabBundle
 
         if(expectedLength !== bytes.byteLength) throw new Error(`HAB asset bundle length mismatch: expected ${ expectedLength }, received ${ bytes.byteLength }.`);
 
-        const indexBytes = inflate(bytes.subarray(HAB_HEADER_LENGTH, payloadStart));
+        const indexBytes = await inflateBytes(bytes.subarray(HAB_HEADER_LENGTH, payloadStart));
 
         if(indexBytes.byteLength !== indexOriginalLength) throw new Error(`HAB asset bundle index length mismatch: expected ${ indexOriginalLength }, decoded ${ indexBytes.byteLength }.`);
 
         const entries = readIndex(HabBundle.TEXT_DECODER.decode(indexBytes), payloadLength);
         const payload = bytes.subarray(payloadStart);
 
-        for(const entry of entries)
+        await Promise.all(entries.map(async entry =>
         {
             const stored = payload.subarray(entry.offset, entry.offset + entry.storedLength);
-            const data = (entry.compression === 'deflate') ? inflate(stored) : stored;
+            const data = (entry.compression === 'deflate') ? await inflateBytes(stored) : stored;
 
             if(data.byteLength !== entry.originalLength) throw new Error(`HAB entry "${ entry.name }" length mismatch: expected ${ entry.originalLength }, decoded ${ data.byteLength }.`);
 
@@ -86,7 +103,7 @@ export class HabBundle
             {
                 this._texture = await textureDecoder(ownBuffer(data), entry.name);
             }
-        }
+        }));
     }
 
     public get jsonFile(): object

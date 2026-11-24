@@ -5,7 +5,9 @@ import { GetTickerTime, VoltLogger } from '@volt/utils';
 import { VoltMessages } from './VoltMessages';
 import { SocketConnection } from './SocketConnection';
 import { AuthenticatedEvent, ClientHelloMessageComposer, ClientPingEvent, DisconnectReasonEvent, InfoRetrieveMessageComposer, PongMessageComposer, SSOTicketMessageComposer, UniqueIDMessageComposer } from './messages';
-import { Thumbmark } from '@thumbmarkjs/thumbmarkjs';
+
+const MACHINE_ID_STORAGE_KEY = 'volt.machineId';
+const MACHINE_ID_PATTERN = /^IID-[A-Za-z0-9_-]{8,128}$/;
 
 export class CommunicationManager implements ICommunicationManager
 {
@@ -24,13 +26,47 @@ export class CommunicationManager implements ICommunicationManager
     private _machineIdPromise: Promise<string> | null = null;
     private _initResolved: boolean = false;
 
-    private async generateMachineID(): Promise<string>
+    private readCachedMachineID(): string | null
     {
         try
         {
-            const result = await new Thumbmark().get();
+            const cached = globalThis.localStorage?.getItem(MACHINE_ID_STORAGE_KEY);
 
-            return result.thumbmark ? `IID-${result.thumbmark}` : 'FAILED';
+            return (cached && MACHINE_ID_PATTERN.test(cached)) ? cached : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private async generateMachineID(): Promise<string>
+    {
+        const cached = this.readCachedMachineID();
+
+        if(cached) return cached;
+
+        try
+        {
+            const { Thumbmark } = await import('@thumbmarkjs/thumbmarkjs');
+            // Use fast synchronous machine signals only: async probes (audio/webgl/canvas/fonts/webrtc/speech/permissions)
+            // add ~250-500ms on first visit and compete with Pixi WebGL init during boot.
+            const result = await new Thumbmark({ include: ['hardware', 'locales', 'math', 'screen', 'system'] }).get();
+
+            if(result.thumbmark)
+            {
+                const machineId = `IID-${result.thumbmark}`;
+
+                try
+                {
+                    globalThis.localStorage?.setItem(MACHINE_ID_STORAGE_KEY, machineId);
+                }
+                catch {}
+
+                return machineId;
+            }
+
+            return 'FAILED';
         }
         catch (error)
         {
@@ -61,6 +97,8 @@ export class CommunicationManager implements ICommunicationManager
 
     public async init(): Promise<void>
     {
+        if(this._machineIdPromise === null) this._machineIdPromise = this.generateMachineID();
+
         // Store callback for cleanup
         this._socketClosedCallback = () =>
         {
@@ -143,6 +181,9 @@ export class CommunicationManager implements ICommunicationManager
             this._connection.addMessageEvent(pingEvent);
             this._connection.addMessageEvent(authEvent);
             this._connection.addMessageEvent(disconnectEvent);
+
+            // Start resolving machineId alongside the WebSocket handshake instead of waiting for SOCKET_OPENED.
+            if(this._machineIdPromise === null) this._machineIdPromise = this.generateMachineID();
 
             this._connection.init(GetConfiguration().getValue<string>('socket.url'));
         });

@@ -49,7 +49,8 @@ export class EffectAssetDownloadManager
         this._libraryLoadedCallback = (event: AvatarRenderEffectLibraryEvent) => this.onLibraryLoaded(event);
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_EFFECT_DOWNLOADED, this._libraryLoadedCallback);
 
-        await this.processMissingLibraries();
+        // Mandatory dance effects are not needed before entering a room; warm them in the background.
+        void this.processMissingLibraries().catch(() => undefined);
     }
 
     public dispose(): void

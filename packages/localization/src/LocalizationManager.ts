@@ -11,7 +11,7 @@ export class LocalizationManager implements ILocalizationManager
 
     private static decodeValue(value: unknown): unknown
     {
-        return (typeof value === 'string') ? value.replace(LocalizationManager.LITERAL_NEWLINE, '\n') : value;
+        return (typeof value === 'string' && value.includes('\\n')) ? value.replace(LocalizationManager.LITERAL_NEWLINE, '\n') : value;
     }
 
     /**
@@ -29,7 +29,9 @@ export class LocalizationManager implements ILocalizationManager
     }
 
     private _definitions: Map<string, string> = new Map();
+    private _baseDocuments: Record<string, unknown>[] = [];
     private _overrideDefinitions: Map<string, string> = new Map();
+    private _furnitureResolver: ((key: string) => string | null) | null = null;
     private _parameters: Map<string, Map<string, string>> = new Map();
     private _badgePointLimits: Map<string, number> = new Map();
     private _romanNumerals: string[] = [ 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI', 'XXII', 'XXIII', 'XXIV', 'XXV', 'XXVI', 'XXVII', 'XXVIII', 'XXIX', 'XXX' ];
@@ -73,9 +75,31 @@ export class LocalizationManager implements ILocalizationManager
     {
         if(!data) return false;
 
-        for(const key in data) this._definitions.set(key, LocalizationManager.decodeValue(data[key]) as string);
+        // Retain parsed documents directly and decode keys lazily on lookup so boot skips 30k+ Map insertions.
+        this._baseDocuments.push(data);
 
         return true;
+    }
+
+    private lookupBaseDefinition(key: string): string | undefined
+    {
+        if(this._definitions.has(key)) return this._definitions.get(key);
+
+        for(let i = this._baseDocuments.length - 1; i >= 0; i--)
+        {
+            const doc = this._baseDocuments[i];
+
+            if(Object.prototype.hasOwnProperty.call(doc, key))
+            {
+                const decoded = LocalizationManager.decodeValue(doc[key]) as string;
+
+                this._definitions.set(key, decoded);
+
+                return decoded;
+            }
+        }
+
+        return undefined;
     }
 
     private onBadgePointLimitsEvent(event: BadgePointLimitsEvent): void
@@ -109,9 +133,27 @@ export class LocalizationManager implements ILocalizationManager
         return badge.getBadgeId;
     }
 
+    public setFurnitureResolver(resolver: ((key: string) => string | null) | null): void
+    {
+        this._furnitureResolver = resolver;
+    }
+
+    private resolveFurnitureValue(key: string): string | null
+    {
+        if(!this._furnitureResolver) return null;
+
+        if(!key.startsWith('roomItem.') && !key.startsWith('wallItem.')) return null;
+
+        const value = this._furnitureResolver(key);
+
+        if(value === null || value === undefined) return null;
+
+        return LocalizationManager.decodeValue(value) as string;
+    }
+
     public hasValue(key: string): boolean
     {
-        return (this._overrideDefinitions.has(key) || this._definitions.has(key));
+        return (this._overrideDefinitions.has(key) || (this.resolveFurnitureValue(key) !== null) || (this.lookupBaseDefinition(key) !== undefined));
     }
 
     public getValue(key: string, doParams: boolean = true): string
@@ -125,7 +167,7 @@ export class LocalizationManager implements ILocalizationManager
             for(const splitKey of keys) key = key.replace(splitKey, this.getValue(splitKey.slice(2, -1), doParams));
         }
 
-        let value = (this._overrideDefinitions.get(key) || this._definitions.get(key) || null);
+        let value = (this._overrideDefinitions.get(key) || this.resolveFurnitureValue(key) || this.lookupBaseDefinition(key) || null);
 
         if(!value)
         {

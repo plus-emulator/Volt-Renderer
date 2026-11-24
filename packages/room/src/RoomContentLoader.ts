@@ -21,9 +21,11 @@ export class RoomContentLoader implements IRoomContentLoader
     private static FLOOR_EDITOR: string = 'floor_editor';
     private static GROUP_BADGE: string = 'group_badge';
 
-    public static MANDATORY_LIBRARIES: string[] = [RoomContentLoader.PLACE_HOLDER, RoomContentLoader.PLACE_HOLDER_WALL, RoomContentLoader.PLACE_HOLDER_PET, RoomContentLoader.ROOM, RoomContentLoader.LANDSCAPE, RoomContentLoader.TILE_CURSOR, RoomContentLoader.SELECTION_ARROW, RoomContentLoader.AVATAR_ADDITIONS, RoomContentLoader.FLOOR_EDITOR, RoomContentLoader.GROUP_BADGE];
+    // Group badge parts load lazily in BadgeImageManager and floor_editor tiles are unused at boot.
+    public static MANDATORY_LIBRARIES: string[] = [RoomContentLoader.PLACE_HOLDER, RoomContentLoader.PLACE_HOLDER_WALL, RoomContentLoader.PLACE_HOLDER_PET, RoomContentLoader.ROOM, RoomContentLoader.LANDSCAPE, RoomContentLoader.TILE_CURSOR, RoomContentLoader.SELECTION_ARROW, RoomContentLoader.AVATAR_ADDITIONS];
 
     private _iconListener: IRoomContentListener;
+    private _mandatoryLoad: Promise<void> = null;
     private _images: Map<string, HTMLImageElement> = new Map();
 
     private _activeObjects: { [index: string]: number } = {};
@@ -41,13 +43,23 @@ export class RoomContentLoader implements IRoomContentLoader
 
     private _pendingContentTypes: string[] = [];
 
+    public preloadMandatoryLibraries(): Promise<void>
+    {
+        if(!this._mandatoryLoad)
+        {
+            this._mandatoryLoad = Promise.all(RoomContentLoader.MANDATORY_LIBRARIES.map(value => this.downloadAsset(value))).then(() => undefined);
+        }
+
+        return this._mandatoryLoad;
+    }
+
     public async init(): Promise<void>
     {
         this.processFurnitureData(GetSessionDataManager().getAllFurnitureData());
 
         for(const [index, name] of (GetConfiguration().getValue<string[]>('pet.types') ?? []).entries()) this._pets[name] = index;
 
-        await Promise.all(RoomContentLoader.MANDATORY_LIBRARIES.map(value => this.downloadAsset(value)));
+        await this.preloadMandatoryLibraries();
     }
 
     public processFurnitureData(furnitureData: IFurnitureData[]): void
