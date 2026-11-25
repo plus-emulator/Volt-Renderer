@@ -5,7 +5,9 @@ import { GetTickerTime, VoltLogger } from '@volt/utils';
 import { VoltMessages } from './VoltMessages';
 import { SocketConnection } from './SocketConnection';
 import { AuthenticatedEvent, ClientHelloMessageComposer, ClientPingEvent, DisconnectReasonEvent, InfoRetrieveMessageComposer, PongMessageComposer, SSOTicketMessageComposer, UniqueIDMessageComposer } from './messages';
-import { Thumbmark } from '@thumbmarkjs/thumbmarkjs';
+
+const MACHINE_ID_STORAGE_KEY = 'volt.machineId';
+const MACHINE_ID_PATTERN = /^IID-[A-Za-z0-9_-]{8,128}$/;
 
 export class CommunicationManager implements ICommunicationManager
 {
@@ -22,21 +24,121 @@ export class CommunicationManager implements ICommunicationManager
     private _socketReconnectedCallback: () => void = null;
 
     private _machineIdPromise: Promise<string> | null = null;
+    private _sentCachedMachineId: string | null = null;
+    private _machineIdVerifyTimer: ReturnType<typeof setTimeout> | null = null;
+    private _machineIdVerifyIdle: number | null = null;
     private _initResolved: boolean = false;
 
-    private async generateMachineID(): Promise<string>
+    private readCachedMachineID(): string | null
     {
         try
         {
+            const cached = globalThis.localStorage?.getItem(MACHINE_ID_STORAGE_KEY);
+
+            return (cached && MACHINE_ID_PATTERN.test(cached)) ? cached : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private async computeFreshMachineID(): Promise<string>
+    {
+        try
+        {
+            const { Thumbmark } = await import('@thumbmarkjs/thumbmarkjs');
             const result = await new Thumbmark().get();
 
-            return result.thumbmark ? `IID-${result.thumbmark}` : 'FAILED';
+            if(result.thumbmark)
+            {
+                const machineId = `IID-${result.thumbmark}`;
+
+                try
+                {
+                    globalThis.localStorage?.setItem(MACHINE_ID_STORAGE_KEY, machineId);
+                }
+                catch {}
+
+                return machineId;
+            }
+
+            return 'FAILED';
         }
         catch (error)
         {
             VoltLogger.warn('[CommunicationManager] Failed to generate machine ID', error);
 
             return 'FAILED';
+        }
+    }
+
+    private async generateMachineID(): Promise<string>
+    {
+        const cached = this.readCachedMachineID();
+
+        if(cached)
+        {
+            this._sentCachedMachineId = cached;
+
+            return cached;
+        }
+
+        this._sentCachedMachineId = null;
+
+        return this.computeFreshMachineID();
+    }
+
+    private cancelMachineIDVerification(): void
+    {
+        if(this._machineIdVerifyTimer !== null)
+        {
+            clearTimeout(this._machineIdVerifyTimer);
+            this._machineIdVerifyTimer = null;
+        }
+
+        if(this._machineIdVerifyIdle !== null)
+        {
+            const cancelIdle = (globalThis as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback;
+            cancelIdle?.(this._machineIdVerifyIdle);
+            this._machineIdVerifyIdle = null;
+        }
+    }
+
+    private scheduleMachineIDVerification(): void
+    {
+        const sentCached = this._sentCachedMachineId;
+
+        if(!sentCached) return;
+
+        this._sentCachedMachineId = null;
+        this.cancelMachineIDVerification();
+
+        // Recompute the full fingerprint when idle after boot and update the server if the cached ID was stale or edited.
+        const runVerification = () =>
+        {
+            this._machineIdVerifyTimer = null;
+            this._machineIdVerifyIdle = null;
+
+            void this.computeFreshMachineID().then(freshId =>
+            {
+                if(freshId && freshId !== 'FAILED' && freshId !== sentCached)
+                {
+                    this._machineIdPromise = Promise.resolve(freshId);
+                    this._connection?.send(new UniqueIDMessageComposer(freshId, '', ''));
+                }
+            });
+        };
+
+        const requestIdle = (globalThis as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback;
+
+        if(typeof requestIdle === 'function')
+        {
+            this._machineIdVerifyIdle = requestIdle(runVerification, { timeout: 5000 });
+        }
+        else
+        {
+            this._machineIdVerifyTimer = setTimeout(runVerification, 2500);
         }
     }
 
@@ -61,6 +163,8 @@ export class CommunicationManager implements ICommunicationManager
 
     public async init(): Promise<void>
     {
+        if(this._machineIdPromise === null) this._machineIdPromise = this.generateMachineID();
+
         // Store callback for cleanup
         this._socketClosedCallback = () =>
         {
@@ -120,6 +224,8 @@ export class CommunicationManager implements ICommunicationManager
 
                 event.connection.send(new InfoRetrieveMessageComposer());
 
+                if(!isReconnect) this.scheduleMachineIDVerification();
+
                 if(isReconnect)
                 {
                     VoltLogger.log('[CommunicationManager] Dispatching SOCKET_REAUTHENTICATED');
@@ -150,6 +256,8 @@ export class CommunicationManager implements ICommunicationManager
 
     public dispose(): void
     {
+        this.cancelMachineIDVerification();
+
         // Stop pong interval
         this.stopPong();
 

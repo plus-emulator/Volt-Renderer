@@ -2,7 +2,7 @@
 {
     init(): Promise<void>;
     reloadConfiguration(): Promise<void>;
-    preloadDocument(url: string, text: string): void;
+    preloadDocument(url: string, textOrObject: string | Record<string, unknown>): void;
     resetConfiguration(): void;
     parseConfiguration(data: { [index: string]: any }, overrides?: boolean): boolean;
     interpolate(value: string, regex?: RegExp): string;

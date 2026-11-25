@@ -148,10 +148,62 @@ export class SessionDataManager implements ISessionDataManager
         return this._userDataSnapshot;
     }
 
+    private _lazyFurnitureLocalization: boolean = false;
+
+    private resolveFurnitureLocalization(key: string): string | null
+    {
+        let isFloor = false;
+        let isName = false;
+        let idStr = '';
+
+        if(key.startsWith('roomItem.name.'))
+        {
+            isFloor = true;
+            isName = true;
+            idStr = key.slice(14);
+        }
+        else if(key.startsWith('roomItem.desc.'))
+        {
+            isFloor = true;
+            idStr = key.slice(14);
+        }
+        else if(key.startsWith('wallItem.name.'))
+        {
+            isName = true;
+            idStr = key.slice(14);
+        }
+        else if(key.startsWith('wallItem.desc.'))
+        {
+            idStr = key.slice(14);
+        }
+        else
+        {
+            return null;
+        }
+
+        const id = Number(idStr);
+
+        if(!Number.isInteger(id)) return null;
+
+        const item = isFloor ? this.getFloorItemData(id) : this.getWallItemData(id);
+
+        if(!item) return null;
+
+        return isName ? item.name : item.description;
+    }
+
     public async init(localizationReady?: Promise<void>): Promise<void>
     {
+        const localization = GetLocalizationManager();
+
+        if(typeof localization?.setFurnitureResolver === 'function')
+        {
+            localization.setFurnitureResolver(key => this.resolveFurnitureLocalization(key));
+            this._lazyFurnitureLocalization = true;
+        }
+
         await Promise.all([
-            this._furnitureData.init(true, localizationReady),
+            this._furnitureData.init(true, this._lazyFurnitureLocalization ? undefined : localizationReady, this._lazyFurnitureLocalization),
             this._productData.init(),
             this._badgeImageManager.init(),
             Promise.resolve(this._ignoredUsersManager.init()),
@@ -281,6 +333,14 @@ export class SessionDataManager implements ISessionDataManager
 
     public getAllFurnitureData(): IFurnitureData[]
     {
+        if(!this._floorItemOverrides.size && !this._wallItemOverrides.size)
+        {
+            return [
+                ...this._floorItems.values(),
+                ...this._wallItems.values()
+            ];
+        }
+
         return [
             ...Array.from(this._floorItems.values()).map(item => this.applyFurnitureOverrides(item, this._floorItemOverrides)),
             ...Array.from(this._wallItems.values()).map(item => this.applyFurnitureOverrides(item, this._wallItemOverrides))
@@ -294,7 +354,7 @@ export class SessionDataManager implements ISessionDataManager
     {
         if(!url || !url.length) return [];
 
-        const added = await this._furnitureData.mergeFromUrl(url);
+        const added = await this._furnitureData.mergeFromUrl(url, !this._lazyFurnitureLocalization);
 
         // Refresh the furni name/desc surfaces (catalog, inventory, infostand)
         // via the window event they actually listen to. SESSION_DATA_UPDATED only drives the userData
@@ -627,6 +687,8 @@ export class SessionDataManager implements ISessionDataManager
 
     private refreshFurnitureLocalizations(): void
     {
+        if(this._lazyFurnitureLocalization) return;
+
         const localizationManager = GetLocalizationManager();
 
         for(const item of this._floorItems.values())

@@ -1,5 +1,5 @@
 import { BumpTextureContentVersion } from './TextureContentVersion';
-import { AutoDetectOptions, Renderer, Texture, autoDetectRenderer } from 'pixi.js';
+import { AutoDetectOptions, Renderer, Texture, WebGLRenderer, autoDetectRenderer } from 'pixi.js';
 
 let renderer: Renderer = null;
 
@@ -97,7 +97,31 @@ const patchResizeSkip = (r: Renderer): void =>
 
 export const PrepareRenderer = async (options: Partial<AutoDetectOptions>): Promise<Renderer> =>
 {
-    renderer = await autoDetectRenderer(options);
+    if((options.preference === 'webgl') && (typeof document !== 'undefined'))
+    {
+        const glRenderer = new WebGLRenderer();
+
+        try
+        {
+            const glOptions = { ...options, ...options.webgl };
+
+            delete glOptions.webgl;
+            delete glOptions.webgpu;
+            delete glOptions.canvasOptions;
+
+            await glRenderer.init(glOptions);
+            renderer = glRenderer;
+        }
+        catch
+        {
+            try { glRenderer.destroy(); } catch {}
+            renderer = await autoDetectRenderer(options);
+        }
+    }
+    else
+    {
+        renderer = await autoDetectRenderer(options);
+    }
 
     const render = renderer.render.bind(renderer);
     renderer.render = ((options: any, ...args: any[]) =>

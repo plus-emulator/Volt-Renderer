@@ -14,5 +14,6 @@ export interface IAssetManager
     createCollection(data: IAssetData, spritesheet: Spritesheet): IGraphicAssetCollection;
     downloadAssets(urls: string[]): Promise<boolean>;
     downloadAsset(url: string): Promise<boolean>;
+    whenRoomAssetsReady?(): Promise<void>;
     readonly collections: Map<string, IGraphicAssetCollection>;
 }

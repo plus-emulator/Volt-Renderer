@@ -9,6 +9,8 @@ import { IRoomContentListener } from './IRoomContentListener';
 export interface IRoomContentLoader
 {
     init(): Promise<void>;
+    preloadMandatoryLibraries(): Promise<void>;
+    preloadLandscape?(): Promise<void>;
     processFurnitureData(furnitureData: IFurnitureData[]): void;
 	downloadAssetSync(type: string): void
     downloadAsset(type: string): Promise<void>;

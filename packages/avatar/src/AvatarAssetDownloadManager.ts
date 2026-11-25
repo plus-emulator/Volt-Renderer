@@ -1,4 +1,5 @@
 import { IAssetManager, IAvatarFigureContainer, IAvatarImageListener } from '@volt/api';
+import { GetAssetBundleUrl } from '@volt/assets';
 import { GetConfiguration } from '@volt/configuration';
 import { AvatarRenderLibraryEvent, GetEventDispatcher, VoltEvent, VoltEventType } from '@volt/events';
 import { loadGamedata } from '@volt/utils';
@@ -15,7 +16,7 @@ export class AvatarAssetDownloadManager
     private _figureListeners: Map<string, IAvatarImageListener[]> = new Map();
     private _incompleteFigures: Map<string, AvatarAssetDownloadLibrary[]> = new Map();
     private _currentDownloads: AvatarAssetDownloadLibrary[] = [];
-    private _libraryNames: string[] = [];
+    private _libraryNames: Set<string> = new Set();
     private _libraryLoadedCallback: (event: AvatarRenderLibraryEvent) => void = null;
 
     constructor(assets: IAssetManager, structure: AvatarStructure)
@@ -25,6 +26,8 @@ export class AvatarAssetDownloadManager
     }
 
     private static DEFAULT_MANDATORY_LIBS: string[] = ['hh_human_face'];
+    private static MANDATORY_LIBS_STORAGE_KEY: string = 'volt.boot.mandatoryAvatarLibs';
+    private static LIBRARY_NAME_PATTERN: RegExp = /^[A-Za-z0-9_-]{1,64}$/;
 
     public async init(): Promise<void>
     {
@@ -40,6 +43,9 @@ export class AvatarAssetDownloadManager
         const url = GetConfiguration().getValue<string>('avatar.figuremap.url');
 
         if(!url || !url.length) throw new Error('Missing "avatar.figuremap.url" in config — add the figure map URL to your renderer-config.json');
+
+        // Start downloading mandatory avatar bundles in parallel with FigureMap.json; processMissingLibraries awaits the exact ones resolved from the map.
+        this.startSpeculativeMandatoryDownloads();
 
         let responseData: any;
 
@@ -63,6 +69,44 @@ export class AvatarAssetDownloadManager
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_ASSET_DOWNLOADED, this._libraryLoadedCallback);
 
         await this.processMissingLibraries();
+    }
+
+    private startSpeculativeMandatoryDownloads(): void
+    {
+        if(!this._assets || !this._missingMandatoryLibs.length) return;
+
+        const downloadTemplate = GetConfiguration().getValue<string>('avatar.asset.url', '');
+
+        if(!downloadTemplate || /%revision%/i.test(downloadTemplate)) return;
+
+        const libs = new Set<string>();
+
+        try
+        {
+            const cached = JSON.parse(globalThis.localStorage?.getItem(AvatarAssetDownloadManager.MANDATORY_LIBS_STORAGE_KEY) || 'null');
+
+            if(Array.isArray(cached))
+            {
+                for(const entry of cached)
+                {
+                    if(typeof entry === 'string' && AvatarAssetDownloadManager.LIBRARY_NAME_PATTERN.test(entry)) libs.add(entry);
+                }
+            }
+        }
+        catch {}
+
+        if(!libs.size)
+        {
+            libs.add('hh_human_body');
+            libs.add('hh_human_item');
+        }
+
+        for(const lib of libs)
+        {
+            const assetUrl = GetAssetBundleUrl(downloadTemplate.replace(/%libname%/gi, lib));
+
+            void this._assets.downloadAsset(assetUrl).catch(() => false);
+        }
     }
 
     public dispose(): void
@@ -92,9 +136,9 @@ export class AvatarAssetDownloadManager
             const libraryName = (library.id as string);
             const revision = (library.revision || '');
 
-            if(this._libraryNames.indexOf(libraryName) >= 0) continue;
+            if(this._libraryNames.has(libraryName)) continue;
 
-            this._libraryNames.push(libraryName);
+            this._libraryNames.add(libraryName);
 
             const downloadLibrary = new AvatarAssetDownloadLibrary(libraryName, revision, downloadUrl, this._assets);
 
@@ -118,15 +162,32 @@ export class AvatarAssetDownloadManager
     private async processMissingLibraries(): Promise<void>
     {
         const promises: Promise<void>[] = [];
+        const libNames = new Set<string>();
 
         this._missingMandatoryLibs.forEach(value =>
         {
             const libraries = this._figureMap.get(value);
 
-            if(libraries) for(const library of libraries) promises.push(library.downloadAsset());
+            if(libraries)
+            {
+                for(const library of libraries)
+                {
+                    if(AvatarAssetDownloadManager.LIBRARY_NAME_PATTERN.test(library.libraryName)) libNames.add(library.libraryName);
+                    promises.push(library.downloadAsset());
+                }
+            }
         });
 
         this._missingMandatoryLibs = [];
+
+        if(libNames.size)
+        {
+            try
+            {
+                globalThis.localStorage?.setItem(AvatarAssetDownloadManager.MANDATORY_LIBS_STORAGE_KEY, JSON.stringify([...libNames]));
+            }
+            catch {}
+        }
 
         await Promise.all(promises);
     }
