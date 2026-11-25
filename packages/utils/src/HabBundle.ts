@@ -88,22 +88,33 @@ export class HabBundle
         const entries = readIndex(HabBundle.TEXT_DECODER.decode(indexBytes), payloadLength);
         const payload = bytes.subarray(payloadStart);
 
-        await Promise.all(entries.map(async entry =>
+        const decodedEntries = await Promise.all(entries.map(async entry =>
         {
             const stored = payload.subarray(entry.offset, entry.offset + entry.storedLength);
             const data = (entry.compression === 'deflate') ? await inflateBytes(stored) : stored;
 
             if(data.byteLength !== entry.originalLength) throw new Error(`HAB entry "${ entry.name }" length mismatch: expected ${ entry.originalLength }, decoded ${ data.byteLength }.`);
 
+            return { entry, data };
+        }));
+
+        // Parse JSON entries before decoding textures so a JSON error never leaks an allocated texture,
+        // and decode image entries in index order so multi-image bundles stay deterministic.
+        for(const { entry, data } of decodedEntries)
+        {
             if(entry.mimeType === 'application/json')
             {
                 this._jsonFile = JSON.parse(HabBundle.TEXT_DECODER.decode(data));
             }
-            else if(entry.mimeType.startsWith('image/'))
+        }
+
+        for(const { entry, data } of decodedEntries)
+        {
+            if(entry.mimeType.startsWith('image/'))
             {
                 this._texture = await textureDecoder(ownBuffer(data), entry.name);
             }
-        }));
+        }
     }
 
     public get jsonFile(): object

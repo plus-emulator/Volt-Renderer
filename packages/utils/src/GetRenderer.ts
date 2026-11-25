@@ -99,15 +99,22 @@ export const PrepareRenderer = async (options: Partial<AutoDetectOptions>): Prom
 {
     if((options.preference === 'webgl') && (typeof document !== 'undefined'))
     {
+        const glRenderer = new WebGLRenderer();
+
         try
         {
-            const glRenderer = new WebGLRenderer();
+            const glOptions = { ...options, ...options.webgl };
 
-            await glRenderer.init(options);
+            delete glOptions.webgl;
+            delete glOptions.webgpu;
+            delete glOptions.canvasOptions;
+
+            await glRenderer.init(glOptions);
             renderer = glRenderer;
         }
         catch
         {
+            try { glRenderer.destroy(); } catch {}
             renderer = await autoDetectRenderer(options);
         }
     }

@@ -29,6 +29,7 @@ export class LocalizationManager implements ILocalizationManager
     }
 
     private _definitions: Map<string, string> = new Map();
+    private _baseCache: Map<string, string> = new Map();
     private _baseDocuments: Record<string, unknown>[] = [];
     private _overrideDefinitions: Map<string, string> = new Map();
     private _furnitureResolver: ((key: string) => string | null) | null = null;
@@ -83,7 +84,7 @@ export class LocalizationManager implements ILocalizationManager
 
     private lookupBaseDefinition(key: string): string | undefined
     {
-        if(this._definitions.has(key)) return this._definitions.get(key);
+        if(this._baseCache.has(key)) return this._baseCache.get(key);
 
         for(let i = this._baseDocuments.length - 1; i >= 0; i--)
         {
@@ -93,7 +94,7 @@ export class LocalizationManager implements ILocalizationManager
             {
                 const decoded = LocalizationManager.decodeValue(doc[key]) as string;
 
-                this._definitions.set(key, decoded);
+                this._baseCache.set(key, decoded);
 
                 return decoded;
             }
@@ -153,7 +154,7 @@ export class LocalizationManager implements ILocalizationManager
 
     public hasValue(key: string): boolean
     {
-        return (this._overrideDefinitions.has(key) || (this.resolveFurnitureValue(key) !== null) || (this.lookupBaseDefinition(key) !== undefined));
+        return (this._overrideDefinitions.has(key) || this._definitions.has(key) || (this.resolveFurnitureValue(key) !== null) || (this.lookupBaseDefinition(key) !== undefined));
     }
 
     public getValue(key: string, doParams: boolean = true): string
@@ -167,7 +168,7 @@ export class LocalizationManager implements ILocalizationManager
             for(const splitKey of keys) key = key.replace(splitKey, this.getValue(splitKey.slice(2, -1), doParams));
         }
 
-        let value = (this._overrideDefinitions.get(key) || this.resolveFurnitureValue(key) || this.lookupBaseDefinition(key) || null);
+        let value = (this._overrideDefinitions.get(key) || this._definitions.get(key) || this.resolveFurnitureValue(key) || this.lookupBaseDefinition(key) || null);
 
         if(!value)
         {

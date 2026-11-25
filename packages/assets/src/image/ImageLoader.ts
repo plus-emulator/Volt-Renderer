@@ -112,21 +112,20 @@ const tryDecodeDataUrl = (source: string): { bytes: Uint8Array; contentType?: st
     if(commaIndex < 0) return null;
 
     const meta = source.slice(5, commaIndex);
-    const isBase64 = meta.endsWith(';base64');
-    const contentType = (isBase64 ? meta.slice(0, -7) : meta) || undefined;
+
+    if(!meta.endsWith(';base64')) return null;
+
+    const contentType = meta.slice(0, -7) || undefined;
     const payload = source.slice(commaIndex + 1);
 
-    if(isBase64)
+    try
     {
         return { bytes: decodeBase64(payload), contentType };
     }
-
-    const decoded = decodeURIComponent(payload);
-    const bytes = new Uint8Array(decoded.length);
-
-    for(let i = 0; i < decoded.length; i++) bytes[i] = decoded.charCodeAt(i) & 0xff;
-
-    return { bytes, contentType };
+    catch
+    {
+        return null;
+    }
 };
 
 const fetchImageBytes = async (source: string, dependencies: ImageLoaderDependencies): Promise<{ bytes: Uint8Array; contentType?: string }> =>

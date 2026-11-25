@@ -1,7 +1,7 @@
 import { IAssetManager, IAvatarEffectListener } from '@volt/api';
 import { GetConfiguration } from '@volt/configuration';
 import { AvatarRenderEffectLibraryEvent, GetEventDispatcher, VoltEvent, VoltEventType } from '@volt/events';
-import { loadGamedata } from '@volt/utils';
+import { VoltLogger, loadGamedata } from '@volt/utils';
 import { AvatarStructure } from './AvatarStructure';
 import { EffectAssetDownloadLibrary } from './EffectAssetDownloadLibrary';
 
@@ -50,7 +50,9 @@ export class EffectAssetDownloadManager
         GetEventDispatcher().addEventListener(VoltEventType.AVATAR_EFFECT_DOWNLOADED, this._libraryLoadedCallback);
 
         // Mandatory dance effects are not needed before entering a room; warm them in the background.
-        void this.processMissingLibraries().catch(() => undefined);
+        void this.processMissingLibraries()
+            .then(() => GetEventDispatcher().dispatchEvent(new VoltEvent(VoltEventType.AVATAR_EFFECT_LOADED)))
+            .catch(err => VoltLogger.warn('[EffectAssetDownloadManager] Failed to preload mandatory effects', err));
     }
 
     public dispose(): void

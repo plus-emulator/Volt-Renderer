@@ -1,5 +1,5 @@
-import { IAssetData, IAssetManager, IGraphicAsset, IGraphicAssetCollection } from '@volt/api';
-import { HabBundle, VoltBundle, VoltBundleTextureDecoder, parseConfigJsonFromResponse } from '@volt/utils';
+import { IAsset, IAssetData, IAssetManager, IGraphicAsset, IGraphicAssetCollection } from '@volt/api';
+import { HabBundle, VoltBundle, VoltBundleTextureDecoder, VoltLogger, parseConfigJsonFromResponse } from '@volt/utils';
 import { Spritesheet, SpritesheetData, Texture } from 'pixi.js';
 import { AssetBundleFormat, GetAssetBundleFormat, GetAssetBundleUrl, isAssetBundleUrl } from './AssetBundleFormat';
 import { assetImageFallbackUrl, isAssetJsonUrl } from './AssetJsonUrl';
@@ -41,6 +41,12 @@ export class AssetManager implements IAssetManager
     private _nextCollectionOrder: number = 0;
     private _imageResources: Map<string, LoadedImageResource> = new Map();
     private _inFlightDownloads: Map<string, Promise<boolean>> = new Map();
+    private _deferredRoomAssets: Promise<void> = Promise.resolve();
+
+    public whenRoomAssetsReady(): Promise<void>
+    {
+        return this._deferredRoomAssets;
+    }
 
     constructor(private readonly _dependencies: AssetManagerDependencies = DEFAULT_DEPENDENCIES)
     {
@@ -300,10 +306,13 @@ export class AssetManager implements IAssetManager
             {
                 dataCache.delete(url);
 
-                const entry = await prefetched;
+                try
+                {
+                    const entry = await prefetched;
 
-                if(!entry?.ok) throw new Error(`Failed to load "${ url }" - server returned HTTP ${ entry?.status ?? 'no response' }`);
-                if(entry.buffer) return entry.buffer;
+                    if(entry?.ok && entry.buffer) return entry.buffer;
+                }
+                catch {}
             }
         }
 
@@ -390,8 +399,9 @@ export class AssetManager implements IAssetManager
         {
             const rawName = imageNameFromPath(path);
 
-            // Landscapes (40 PNGs) and 32px zoomed-out variants aren't needed to finish initial boot; warm them right after.
-            if(rawName.includes('landscape_') || rawName.endsWith('_32')) deferredPaths.push(path);
+            // Landscapes (40 PNGs, up to 22 KB each) aren't needed to finish initial boot; warm them right after.
+            // Keep tiny inlined *_32 window/door masks eager so PlaneMaskManager initializes completely on first room creation.
+            if(rawName.includes('landscape_')) deferredPaths.push(path);
             else eagerPaths.push(path);
         }
 
@@ -401,10 +411,39 @@ export class AssetManager implements IAssetManager
 
         if(deferredPaths.length)
         {
-            setTimeout(() =>
+            this._deferredRoomAssets = new Promise<void>(resolve =>
             {
-                void Promise.allSettled(deferredPaths.map(loadEntry)).then(() => collection.define(roomData));
-            }, 0);
+                setTimeout(() =>
+                {
+                    void Promise.allSettled(deferredPaths.map(loadEntry))
+                        .then(results =>
+                        {
+                            for(let index = 0; index < results.length; index++)
+                            {
+                                const result = results[index];
+
+                                if(result.status === 'rejected')
+                                {
+                                    VoltLogger.warn(`[AssetManager] Failed to load deferred room asset "${ deferredPaths[index] }"`, result.reason);
+                                }
+                            }
+
+                            // Define only newly available assets so existing flipH door/window GraphicAssets are never replaced or recycled.
+                            const missingAssets: { [index: string]: IAsset } = {};
+
+                            for(const [assetName, assetDef] of Object.entries(roomData.assets || {}))
+                            {
+                                if(!collection.getAsset?.(assetName)) missingAssets[assetName] = assetDef;
+                            }
+
+                            if(Object.keys(missingAssets).length)
+                            {
+                                collection.define({ ...roomData, assets: missingAssets, palettes: undefined });
+                            }
+                        })
+                        .finally(resolve);
+                }, 0);
+            });
         }
     }
 

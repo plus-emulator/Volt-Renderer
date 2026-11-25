@@ -220,61 +220,49 @@ export const fetchConfigJson = async <T = any>(url: string, init?: RequestInit):
 
         if(prefetchedData)
         {
-            let entry: PrefetchedJsonEntry;
+            let entry: PrefetchedJsonEntry | null = null;
 
             try
             {
                 entry = await prefetchedData;
             }
-            catch (networkError)
+            catch
             {
-                throw new ConfigJsonError(
-                    `Network error fetching "${ url }" — ${ errorMessage(networkError) }`,
-                    'fetch',
-                    url,
-                    undefined,
-                    networkError
-                );
+                entry = null;
             }
 
-            if(!entry || entry.status !== 200)
+            // Fall back to a live fetch when an early prefetch failed or returned a non-200 status.
+            if(entry && entry.status === 200)
             {
-                throw new ConfigJsonError(
-                    `Failed to fetch "${ url }" — server returned HTTP ${ entry?.status ?? 'no response' }`,
-                    'fetch',
-                    url,
-                    entry?.status
-                );
-            }
+                const resolvedUrl = url || entry.url || '';
+                const contentType = entry.contentType || '';
 
-            const resolvedUrl = url || entry.url || '';
-            const contentType = entry.contentType || '';
-
-            if(JSON5_MIME.test(contentType))
-            {
-                throw new ConfigJsonError(
-                    `Unsupported JSON5 content type for "${ resolvedUrl }" — serve JSON or JSONC instead`,
-                    'parse',
-                    resolvedUrl
-                );
-            }
-
-            if(entry.json !== undefined)
-            {
-                rejectJson5Source(resolvedUrl);
-
-                return entry.json as T;
-            }
-
-            if(typeof entry.text === 'string')
-            {
-                if(JSONC_MIME.test(contentType))
+                if(JSON5_MIME.test(contentType))
                 {
-                    rejectJson5Source(resolvedUrl);
-                    return parseJsoncWithError<T>(entry.text, resolvedUrl);
+                    throw new ConfigJsonError(
+                        `Unsupported JSON5 content type for "${ resolvedUrl }" — serve JSON or JSONC instead`,
+                        'parse',
+                        resolvedUrl
+                    );
                 }
 
-                return parseConfigJson<T>(entry.text, resolvedUrl);
+                if(entry.json !== undefined)
+                {
+                    rejectJson5Source(resolvedUrl);
+
+                    return entry.json as T;
+                }
+
+                if(typeof entry.text === 'string')
+                {
+                    if(JSONC_MIME.test(contentType))
+                    {
+                        rejectJson5Source(resolvedUrl);
+                        return parseJsoncWithError<T>(entry.text, resolvedUrl);
+                    }
+
+                    return parseConfigJson<T>(entry.text, resolvedUrl);
+                }
             }
         }
     }

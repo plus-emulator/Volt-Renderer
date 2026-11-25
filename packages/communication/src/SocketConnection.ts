@@ -116,9 +116,6 @@ export class SocketConnection implements IConnection
                 if(early.opened || early.socket.readyState === WebSocket.OPEN) this.onSocketOpened();
 
                 for(const msg of early.messages) this.onSocketMessage(msg);
-
-                if(early.errored) this.onSocketError();
-                if(early.closed) this.onSocketClosed(early.closed);
             });
         }
     }
@@ -162,7 +159,11 @@ export class SocketConnection implements IConnection
             return null;
         }
 
-        early.detach();
+        try
+        {
+            early.detach();
+        }
+        catch {}
 
         return early;
     }

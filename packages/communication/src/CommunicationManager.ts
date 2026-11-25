@@ -24,6 +24,9 @@ export class CommunicationManager implements ICommunicationManager
     private _socketReconnectedCallback: () => void = null;
 
     private _machineIdPromise: Promise<string> | null = null;
+    private _sentCachedMachineId: string | null = null;
+    private _machineIdVerifyTimer: ReturnType<typeof setTimeout> | null = null;
+    private _machineIdVerifyIdle: number | null = null;
     private _initResolved: boolean = false;
 
     private readCachedMachineID(): string | null
@@ -40,18 +43,12 @@ export class CommunicationManager implements ICommunicationManager
         }
     }
 
-    private async generateMachineID(): Promise<string>
+    private async computeFreshMachineID(): Promise<string>
     {
-        const cached = this.readCachedMachineID();
-
-        if(cached) return cached;
-
         try
         {
             const { Thumbmark } = await import('@thumbmarkjs/thumbmarkjs');
-            // Use fast synchronous machine signals only: async probes (audio/webgl/canvas/fonts/webrtc/speech/permissions)
-            // add ~250-500ms on first visit and compete with Pixi WebGL init during boot.
-            const result = await new Thumbmark({ include: ['hardware', 'locales', 'math', 'screen', 'system'] }).get();
+            const result = await new Thumbmark().get();
 
             if(result.thumbmark)
             {
@@ -73,6 +70,75 @@ export class CommunicationManager implements ICommunicationManager
             VoltLogger.warn('[CommunicationManager] Failed to generate machine ID', error);
 
             return 'FAILED';
+        }
+    }
+
+    private async generateMachineID(): Promise<string>
+    {
+        const cached = this.readCachedMachineID();
+
+        if(cached)
+        {
+            this._sentCachedMachineId = cached;
+
+            return cached;
+        }
+
+        this._sentCachedMachineId = null;
+
+        return this.computeFreshMachineID();
+    }
+
+    private cancelMachineIDVerification(): void
+    {
+        if(this._machineIdVerifyTimer !== null)
+        {
+            clearTimeout(this._machineIdVerifyTimer);
+            this._machineIdVerifyTimer = null;
+        }
+
+        if(this._machineIdVerifyIdle !== null)
+        {
+            const cancelIdle = (globalThis as { cancelIdleCallback?: (id: number) => void }).cancelIdleCallback;
+            cancelIdle?.(this._machineIdVerifyIdle);
+            this._machineIdVerifyIdle = null;
+        }
+    }
+
+    private scheduleMachineIDVerification(): void
+    {
+        const sentCached = this._sentCachedMachineId;
+
+        if(!sentCached) return;
+
+        this._sentCachedMachineId = null;
+        this.cancelMachineIDVerification();
+
+        // Recompute the full fingerprint when idle after boot and update the server if the cached ID was stale or edited.
+        const runVerification = () =>
+        {
+            this._machineIdVerifyTimer = null;
+            this._machineIdVerifyIdle = null;
+
+            void this.computeFreshMachineID().then(freshId =>
+            {
+                if(freshId && freshId !== 'FAILED' && freshId !== sentCached)
+                {
+                    this._machineIdPromise = Promise.resolve(freshId);
+                    this._connection?.send(new UniqueIDMessageComposer(freshId, '', ''));
+                }
+            });
+        };
+
+        const requestIdle = (globalThis as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number }).requestIdleCallback;
+
+        if(typeof requestIdle === 'function')
+        {
+            this._machineIdVerifyIdle = requestIdle(runVerification, { timeout: 5000 });
+        }
+        else
+        {
+            this._machineIdVerifyTimer = setTimeout(runVerification, 2500);
         }
     }
 
@@ -158,6 +224,8 @@ export class CommunicationManager implements ICommunicationManager
 
                 event.connection.send(new InfoRetrieveMessageComposer());
 
+                if(!isReconnect) this.scheduleMachineIDVerification();
+
                 if(isReconnect)
                 {
                     VoltLogger.log('[CommunicationManager] Dispatching SOCKET_REAUTHENTICATED');
@@ -182,15 +250,14 @@ export class CommunicationManager implements ICommunicationManager
             this._connection.addMessageEvent(authEvent);
             this._connection.addMessageEvent(disconnectEvent);
 
-            // Start resolving machineId alongside the WebSocket handshake instead of waiting for SOCKET_OPENED.
-            if(this._machineIdPromise === null) this._machineIdPromise = this.generateMachineID();
-
             this._connection.init(GetConfiguration().getValue<string>('socket.url'));
         });
     }
 
     public dispose(): void
     {
+        this.cancelMachineIDVerification();
+
         // Stop pong interval
         this.stopPong();
 
