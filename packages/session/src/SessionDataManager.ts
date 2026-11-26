@@ -41,6 +41,8 @@ export class SessionDataManager implements ISessionDataManager
     private _rankName: string = '';
     private _rankBadge: string = '';
     private _noobnessLevel: number = -1;
+    private _mysteryBoxColor: string = '';
+    private _mysteryKeyColor: string = '';
     private _isEmailVerified: boolean = false;
 
     private _systemOpen: boolean = false;
@@ -567,7 +569,10 @@ export class SessionDataManager implements ISessionDataManager
 
         if(!parser) return;
 
-        GetEventDispatcher().dispatchEvent(new MysteryBoxKeysUpdateEvent(parser.boxColor, parser.keyColor));
+        this._mysteryBoxColor = parser.boxColor ?? '';
+        this._mysteryKeyColor = parser.keyColor ?? '';
+
+        GetEventDispatcher().dispatchEvent(new MysteryBoxKeysUpdateEvent(this._mysteryBoxColor, this._mysteryKeyColor));
     }
 
     private onNoobnessLevelMessageEvent(event: NoobnessLevelMessageEvent): void
@@ -1019,6 +1024,16 @@ export class SessionDataManager implements ISessionDataManager
     public get isRealNoob(): boolean
     {
         return (this._noobnessLevel === NoobnessLevelEnum.REAL_NOOB);
+    }
+
+    public get mysteryBoxColor(): string
+    {
+        return this._mysteryBoxColor;
+    }
+
+    public get mysteryKeyColor(): string
+    {
+        return this._mysteryKeyColor;
     }
 
     public get isSystemOpen(): boolean

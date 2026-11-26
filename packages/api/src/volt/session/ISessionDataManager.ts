@@ -58,6 +58,8 @@ export interface ISessionDataManager
     canChangeName: boolean;
     clubLevel: number;
     securityLevel: number;
+    mysteryBoxColor: string;
+    mysteryKeyColor: string;
     isAmbassador: boolean;
     isEmailVerified: boolean;
     isSafetyLocked: boolean;
