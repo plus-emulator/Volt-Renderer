@@ -115,7 +115,7 @@ export class ActionDefinition implements IActionDefinition
         return this._prevents.concat(this.getTypePrevents(type));
     }
 
-    private getTypePrevents(type: string): string[]
+    public getTypePrevents(type: string): string[]
     {
         if(!type) return [];
 
