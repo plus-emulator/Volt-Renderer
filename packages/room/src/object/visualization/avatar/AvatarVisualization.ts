@@ -217,11 +217,17 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
     {
         if(!this.object || !geometry || !this._data) return;
 
-        if(time < (this._lastUpdate + AvatarVisualization.UPDATE_TIME_INCREASER)) return;
+        // A model change (a new posture) shows in the same frame as the new location. Animation advances on its own 41 ms clock.
+        const animationTick = (time >= (this._lastUpdate + AvatarVisualization.UPDATE_TIME_INCREASER));
 
-        this._lastUpdate += AvatarVisualization.UPDATE_TIME_INCREASER;
+        if(!animationTick && (this.updateModelCounter === this.object.model?.updateCounter) && (geometry.scale === this._scale)) return;
 
-        if((this._lastUpdate + AvatarVisualization.UPDATE_TIME_INCREASER) < time) this._lastUpdate = (time - AvatarVisualization.UPDATE_TIME_INCREASER);
+        if(animationTick)
+        {
+            this._lastUpdate += AvatarVisualization.UPDATE_TIME_INCREASER;
+
+            if((this._lastUpdate + AvatarVisualization.UPDATE_TIME_INCREASER) < time) this._lastUpdate = (time - AvatarVisualization.UPDATE_TIME_INCREASER);
+        }
 
         const model = this.object.model;
         const scale = geometry.scale;
@@ -295,7 +301,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
             objectUpdate = this.updateObject(this.object, geometry, update);
         }
 
-        if(this._additions)
+        if(this._additions && animationTick)
         {
             let index = this._extraSpritesStartIndex;
 
@@ -306,7 +312,7 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
         }
 
         const update1 = (objectUpdate || updateModel || didScaleUpdate);
-        const update2 = ((this._isAnimating || (this._forcedAnimFrames > 0)) && update);
+        const update2 = ((this._isAnimating || (this._forcedAnimFrames > 0)) && update && animationTick);
         const structural = (this._turned || didScaleUpdate || otherUpdate || (updateModel && !this._cosmeticModelUpdate));
 
         this._turned = false;
@@ -315,8 +321,11 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
 
         if(update1 || update2 || (this._pendingRedraw && visible))
         {
-            this._forcedAnimFrames--;
-            this._updatesUntilFrameUpdate--;
+            if(animationTick)
+            {
+                this._forcedAnimFrames--;
+                this._updatesUntilFrameUpdate--;
+            }
 
             if(!((((this._updatesUntilFrameUpdate <= 0) || didScaleUpdate) || updateModel) || otherUpdate || this._pendingRedraw)) return;
 
@@ -578,6 +587,11 @@ export class AvatarVisualization extends RoomObjectSpriteVisualization implement
     public get additionalSprites(): IRoomObjectSprite[]
     {
         return this._additionalSprites;
+    }
+
+    public get updatesEveryFrame(): boolean
+    {
+        return true;
     }
 
     private createAvatarImage(scale: number, effectId: number): IAvatarImage

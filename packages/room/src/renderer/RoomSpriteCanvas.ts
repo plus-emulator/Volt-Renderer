@@ -565,7 +565,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             return 0;
         }
 
-        if(updateVisuals) visualization.update(this._geometry, time, (!sortableCache.isEmpty || update), (this._skipObjectUpdate && this._runningSlow), !sortableCache.isEmpty);
+        if(updateVisuals || visualization.updatesEveryFrame) visualization.update(this._geometry, time, (!sortableCache.isEmpty || update), (this._skipObjectUpdate && this._runningSlow), !sortableCache.isEmpty);
 
         if(locationCache.locationChanged) update = true;
 
