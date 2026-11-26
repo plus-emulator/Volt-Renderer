@@ -11,4 +11,6 @@ export interface IRoomObjectSpriteVisualization extends IRoomObjectGraphicVisual
     additionalSprites?: IRoomObjectSprite[];
     updateObjectCounter: number;
     updateModelCounter: number;
+    // The canvas calls `update` on every frame, not only on animation frames; the visualization keeps its own animation clock.
+    updatesEveryFrame?: boolean;
 }
