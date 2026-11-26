@@ -353,7 +353,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
         if(pts.length < 3)
         {
-            if(this._display.mask === this._boundaryMask) this._display.mask = this._mask ?? null;
+            if(this._display.mask === this._boundaryMask) this._display.mask = (this._usesMask ? this._mask : null);
 
             return;
         }
