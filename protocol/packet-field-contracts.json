@@ -1627,8 +1627,8 @@
       },
       "typescript": {
         "symbol": "GET_CRAFTABLE_PRODUCTS",
-        "className": "GetCraftingRecipeComposer",
-        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftingRecipeComposer.ts"
+        "className": "GetCraftableProductsComposer",
+        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftableProductsComposer.ts"
       },
       "fields": [
         {
@@ -2577,8 +2577,8 @@
       },
       "typescript": {
         "symbol": "GET_CRAFTING_RECIPE",
-        "className": "GetCraftableProductsComposer",
-        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftableProductsComposer.ts"
+        "className": "GetCraftingRecipeComposer",
+        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftingRecipeComposer.ts"
       },
       "fields": [
         {
