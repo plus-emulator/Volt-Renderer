@@ -1,5 +1,5 @@
-import { IAsset, IAssetData, IAssetManager, IGraphicAsset, IGraphicAssetCollection } from '@volt/api';
-import { HabBundle, VoltBundle, VoltBundleTextureDecoder, VoltLogger, parseConfigJsonFromResponse } from '@volt/utils';
+import { IAssetData, IAssetManager, IGraphicAsset, IGraphicAssetCollection } from '@volt/api';
+import { HabBundle, VoltBundle, VoltBundleTextureDecoder, parseConfigJsonFromResponse } from '@volt/utils';
 import { Spritesheet, SpritesheetData, Texture } from 'pixi.js';
 import { AssetBundleFormat, GetAssetBundleFormat, GetAssetBundleUrl, isAssetBundleUrl } from './AssetBundleFormat';
 import { assetImageFallbackUrl, isAssetJsonUrl } from './AssetJsonUrl';
@@ -41,11 +41,10 @@ export class AssetManager implements IAssetManager
     private _nextCollectionOrder: number = 0;
     private _imageResources: Map<string, LoadedImageResource> = new Map();
     private _inFlightDownloads: Map<string, Promise<boolean>> = new Map();
-    private _deferredRoomAssets: Promise<void> = Promise.resolve();
 
     public whenRoomAssetsReady(): Promise<void>
     {
-        return this._deferredRoomAssets;
+        return Promise.resolve();
     }
 
     constructor(private readonly _dependencies: AssetManagerDependencies = DEFAULT_DEPENDENCIES)
@@ -154,16 +153,17 @@ export class AssetManager implements IAssetManager
     {
         if(!url?.length) return false;
 
-        const existing = this._inFlightDownloads.get(url);
+        const downloadKey = isAssetBundleUrl(url) ? GetAssetBundleUrl(url, this._dependencies.bundleFormat()) : url;
+        const existing = this._inFlightDownloads.get(downloadKey);
 
         if(existing) return existing;
 
         const promise = this.performDownloadAsset(url).finally(() =>
         {
-            if(this._inFlightDownloads.get(url) === promise) this._inFlightDownloads.delete(url);
+            if(this._inFlightDownloads.get(downloadKey) === promise) this._inFlightDownloads.delete(downloadKey);
         });
 
-        this._inFlightDownloads.set(url, promise);
+        this._inFlightDownloads.set(downloadKey, promise);
 
         return promise;
     }
@@ -392,59 +392,9 @@ export class AssetManager implements IAssetManager
             }
         };
 
-        const eagerPaths: string[] = [];
-        const deferredPaths: string[] = [];
-
-        for(const path of Object.keys(merged))
-        {
-            const rawName = imageNameFromPath(path);
-
-            // Landscapes (40 PNGs, up to 22 KB each) aren't needed to finish initial boot; warm them right after.
-            // Keep tiny inlined *_32 window/door masks eager so PlaneMaskManager initializes completely on first room creation.
-            if(rawName.includes('landscape_')) deferredPaths.push(path);
-            else eagerPaths.push(path);
-        }
-
-        await Promise.all(eagerPaths.map(loadEntry));
+        await Promise.all(Object.keys(merged).map(loadEntry));
 
         collection.define(roomData);
-
-        if(deferredPaths.length)
-        {
-            this._deferredRoomAssets = new Promise<void>(resolve =>
-            {
-                setTimeout(() =>
-                {
-                    void Promise.allSettled(deferredPaths.map(loadEntry))
-                        .then(results =>
-                        {
-                            for(let index = 0; index < results.length; index++)
-                            {
-                                const result = results[index];
-
-                                if(result.status === 'rejected')
-                                {
-                                    VoltLogger.warn(`[AssetManager] Failed to load deferred room asset "${ deferredPaths[index] }"`, result.reason);
-                                }
-                            }
-
-                            // Define only newly available assets so existing flipH door/window GraphicAssets are never replaced or recycled.
-                            const missingAssets: { [index: string]: IAsset } = {};
-
-                            for(const [assetName, assetDef] of Object.entries(roomData.assets || {}))
-                            {
-                                if(!collection.getAsset?.(assetName)) missingAssets[assetName] = assetDef;
-                            }
-
-                            if(Object.keys(missingAssets).length)
-                            {
-                                collection.define({ ...roomData, assets: missingAssets, palettes: undefined });
-                            }
-                        })
-                        .finally(resolve);
-                }, 0);
-            });
-        }
     }
 
     private async loadLocalAsset(name: string): Promise<void>
