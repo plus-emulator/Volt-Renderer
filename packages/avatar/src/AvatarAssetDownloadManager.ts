@@ -1,5 +1,4 @@
 import { IAssetManager, IAvatarFigureContainer, IAvatarImageListener } from '@volt/api';
-import { GetAssetBundleUrl } from '@volt/assets';
 import { GetConfiguration } from '@volt/configuration';
 import { AvatarRenderLibraryEvent, GetEventDispatcher, VoltEvent, VoltEventType } from '@volt/events';
 import { loadGamedata } from '@volt/utils';
@@ -103,7 +102,7 @@ export class AvatarAssetDownloadManager
 
         for(const lib of libs)
         {
-            const assetUrl = GetAssetBundleUrl(downloadTemplate.replace(/%libname%/gi, lib));
+            const assetUrl = downloadTemplate.replace(/%libname%/gi, lib);
 
             void this._assets.downloadAsset(assetUrl).catch(() => false);
         }
