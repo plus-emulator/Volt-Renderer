@@ -541,7 +541,7 @@ export class IncomingHeader
     public static RESTORE_CLIENT = 2713;
     public static FIREWORK_CHARGE_DATA = 5210;
     public static NEW_USER_EXPERIENCE_NOT_COMPLETE = 841;
-    public static CONNECTION_ERROR = 65535;
+    public static CONNECTION_ERROR = 2960;
     public static ACCOUNT_SAFETY_LOCK_STATUS_CHANGE = 3465;
     public static PHONE_COLLECTION_STATE = 2831;
     public static PHONE_TRY_NUMBER_RESULT = 1561;
