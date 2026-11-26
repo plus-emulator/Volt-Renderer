@@ -1247,6 +1247,49 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
         return GetConfiguration().getValue<boolean>('room.camera.follow_user', true) ? 1000 : 0;
     }
 
+    private get trackAvatarMovement(): boolean
+    {
+        return GetConfiguration().getValue<boolean>('room.camera.track_movement', false);
+    }
+
+    private updateTouchRoomCamera(roomId: number, camera: RoomCamera, location: IVector3D): void
+    {
+        const canvas = this.getRoomInstanceRenderingCanvas(roomId, 1);
+
+        if(!canvas?.geometry || canvas.isFlipped) return;
+
+        const width = canvas.width / canvas.scale;
+        const height = canvas.height / canvas.scale;
+        const changed = !Vector3d.isEqual(camera.targetObjectLoc, location)
+            || camera.screenWd !== width || camera.screenHt !== height || camera.scale !== canvas.scale;
+
+        camera.targetObjectLoc = location;
+        camera.screenWd = width;
+        camera.screenHt = height;
+        camera.scale = canvas.scale;
+
+        if(!changed || this._activeRoomIsDragged || this._sessionDataManager.isCameraFollowDisabled || !this.cameraFollowDuration) return;
+
+        const point = this.getRoomObjectScreenLocation(roomId, camera.targetId, camera.targetCategory, 1);
+        const bounds = this.getCanvasBoundingRectangle(1);
+
+        if(!point || !bounds || bounds.width <= 1 || bounds.height <= 1) return;
+
+        // The avatar already moves between tiles each frame. Track its feet, leaving room for its head.
+        const desiredX = width / 2 - point.x;
+        const desiredY = Math.min(height * 0.7, height / 2 + canvas.geometry.scale * canvas.scale / 2) - point.y;
+        const dx = bounds.width <= width ? (width - bounds.width) / 2 - bounds.x : desiredX;
+        const dy = bounds.height <= height ? (height - bounds.height) / 2 - bounds.y : desiredY;
+        const x = Math.max(width * 0.15 - point.x, Math.min(width * 0.85 - point.x, dx));
+        const y = Math.max(Math.min(height * 0.65, canvas.geometry.scale * canvas.scale * 1.6) - point.y,
+            Math.min(height * 0.8 - point.y, dy));
+
+        const offset = new Point(Math.round(canvas.screenOffsetX + x), Math.round(canvas.screenOffsetY + y));
+
+        this.setRoomInstanceRenderingCanvasOffset(roomId, 1, offset);
+        camera.resetLocation(new Vector3d(-offset.x, -offset.y));
+    }
+
     private updateRoomCameras(time: number): void
     {
         for(const instanceData of this._roomInstanceDatas.values())
@@ -1265,7 +1308,11 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
             if(!location) continue;
 
-            if((instanceData.roomId !== this._activeRoomId) || !this._activeRoomIsDragged)
+            if(this.trackAvatarMovement)
+            {
+                if(instanceData.roomId === this._activeRoomId) this.updateTouchRoomCamera(instanceData.roomId, camera, location);
+            }
+            else if((instanceData.roomId !== this._activeRoomId) || !this._activeRoomIsDragged)
             {
                 this.updateRoomCamera(instanceData.roomId, 1, location, time);
             }
