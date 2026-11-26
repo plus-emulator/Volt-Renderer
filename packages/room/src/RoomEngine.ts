@@ -436,7 +436,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
             const displayObject = canvas.master;
 
-            if(displayObject)
+            if(displayObject && !this.getRenderingCanvasOverlay(canvas))
             {
                 const overlay = new Container();
 
