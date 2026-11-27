@@ -1,4 +1,5 @@
 import { IActiveActionData, IAssetManager } from '@volt/api';
+import { GetConfiguration } from '@volt/configuration';
 import { ActionDefinition } from './ActionDefinition';
 
 export class AvatarActionManager
@@ -6,6 +7,7 @@ export class AvatarActionManager
     private _assets: IAssetManager;
     private _actions: Map<string, ActionDefinition>;
     private _defaultAction: ActionDefinition;
+    private _badgeEffects: number[] = null;
 
     constructor(assets: IAssetManager, data: any)
     {
@@ -167,7 +169,11 @@ export class AvatarActionManager
 
             const localAction = this.getActionByState(action.actionType);
 
-            if(localAction) preventions = preventions.concat(localAction.getPrevents(action.actionParameter));
+            if(!localAction) continue;
+
+            preventions = preventions.concat(this.isBadgeEffect(action)
+                ? localAction.getTypePrevents(action.actionParameter)
+                : localAction.getPrevents(action.actionParameter));
         }
 
         for(const action of actions)
@@ -184,5 +190,15 @@ export class AvatarActionManager
         }
 
         return activeActions;
+    }
+
+    // A badge effect, such as the staff or ambassador sign, only draws above the head, so the avatar can still dance, blow a kiss or laugh.
+    private isBadgeEffect(action: IActiveActionData): boolean
+    {
+        if(action.actionType !== 'fx') return false;
+
+        if(!this._badgeEffects) this._badgeEffects = GetConfiguration().getValue<number[]>('avatar.effect.badge_ids', [102, 178]) ?? [];
+
+        return this._badgeEffects.includes(parseInt(action.actionParameter));
     }
 }
