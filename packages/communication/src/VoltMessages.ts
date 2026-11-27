@@ -1,3 +1,4 @@
+import { RoomWalkPreviewComposer, RoomWalkPreviewEvent } from './messages';
 import { WiredClearErrorLogsComposer, WiredErrorLogsEvent, WiredGetErrorLogsComposer } from './messages';
 import { WiredContractOpenEvent, WiredContractContentsEvent, WiredContractUpdateResultEvent, GetWiredContractContentsComposer, UpdateWiredContractComposer } from './messages';
 import { BuildersClubFurniCountMessageEvent, BuildersClubPlacementWarningMessageEvent, BuildersClubPlaceRoomItemMessageComposer, BuildersClubPlaceWallItemMessageComposer, BuildersClubSubscriptionStatusMessageEvent } from './messages';
@@ -619,6 +620,7 @@ export class VoltMessages implements IMessageConfiguration
         this._events.set(IncomingHeader.UNIT_IDLE, RoomUnitIdleEvent);
         this._events.set(IncomingHeader.UNIT_INFO, RoomUnitInfoEvent);
         this._events.set(IncomingHeader.UNIT_NUMBER, RoomUnitNumberEvent);
+        this._events.set(IncomingHeader.ROOM_WALK_PREVIEW, RoomWalkPreviewEvent);
         this._events.set(IncomingHeader.UNIT_REMOVE, RoomUnitRemoveEvent);
         this._events.set(IncomingHeader.UNIT_STATUS, RoomUnitStatusEvent);
         this._events.set(IncomingHeader.HAND_ITEM_RECEIVED, RoomUnitHandItemReceivedEvent);
@@ -1368,6 +1370,7 @@ export class VoltMessages implements IMessageConfiguration
         this._composers.set(OutgoingHeader.UNIT_LOOK, RoomUnitLookComposer);
         this._composers.set(OutgoingHeader.UNIT_SIGN, RoomUnitSignComposer);
         this._composers.set(OutgoingHeader.UNIT_POSTURE, RoomUnitPostureComposer);
+        this._composers.set(OutgoingHeader.ROOM_WALK_PREVIEW, RoomWalkPreviewComposer);
         this._composers.set(OutgoingHeader.UNIT_WALK, RoomUnitWalkComposer);
 
         // CHAT

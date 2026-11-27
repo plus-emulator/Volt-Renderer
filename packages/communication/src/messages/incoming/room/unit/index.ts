@@ -11,3 +11,4 @@ export * from './RoomUnitInfoEvent';
 export * from './RoomUnitNumberEvent';
 export * from './RoomUnitRemoveEvent';
 export * from './RoomUnitStatusEvent';
+export * from './RoomWalkPreviewEvent';

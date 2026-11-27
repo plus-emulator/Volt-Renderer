@@ -2,6 +2,7 @@ import { UnreleasedHabboHeaders } from '../UnreleasedHabboHeaders';
 
 export class OutgoingHeader
 {
+    public static ROOM_WALK_PREVIEW = 6298;
     public static WIRED_VARIABLE_INSPECTION_REQUEST = 10112;
     public static WIRED_GET_VARIABLES_FOR_OBJECT = 1177;
     public static WIRED_SET_OBJECT_VARIABLE_VALUE = 454;

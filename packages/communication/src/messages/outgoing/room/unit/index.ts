@@ -8,3 +8,4 @@ export * from './RoomUnitLookComposer';
 export * from './RoomUnitPostureComposer';
 export * from './RoomUnitSignComposer';
 export * from './RoomUnitWalkComposer';
+export * from './RoomWalkPreviewComposer';
