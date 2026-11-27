@@ -1633,8 +1633,8 @@
       "fields": [
         {
           "kind": "scalar",
-          "type": "string",
-          "name": "recipeName"
+          "type": "int",
+          "name": "objectId"
         }
       ]
     },
@@ -2583,8 +2583,8 @@
       "fields": [
         {
           "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
+          "type": "string",
+          "name": "recipeName"
         }
       ]
     },
