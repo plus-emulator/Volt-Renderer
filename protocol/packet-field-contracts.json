@@ -1627,14 +1627,14 @@
       },
       "typescript": {
         "symbol": "GET_CRAFTABLE_PRODUCTS",
-        "className": "GetCraftingRecipeComposer",
-        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftingRecipeComposer.ts"
+        "className": "GetCraftableProductsComposer",
+        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftableProductsComposer.ts"
       },
       "fields": [
         {
           "kind": "scalar",
-          "type": "string",
-          "name": "recipeName"
+          "type": "int",
+          "name": "objectId"
         }
       ]
     },
@@ -2577,14 +2577,14 @@
       },
       "typescript": {
         "symbol": "GET_CRAFTING_RECIPE",
-        "className": "GetCraftableProductsComposer",
-        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftableProductsComposer.ts"
+        "className": "GetCraftingRecipeComposer",
+        "path": "packages/communication/src/messages/outgoing/crafting/GetCraftingRecipeComposer.ts"
       },
       "fields": [
         {
           "kind": "scalar",
-          "type": "int",
-          "name": "itemId"
+          "type": "string",
+          "name": "recipeName"
         }
       ]
     },
@@ -11699,7 +11699,7 @@
     {
       "name": "CONNECTION_ERROR",
       "direction": "server_to_client",
-      "header": 65535,
+      "header": 2960,
       "java": {
         "symbol": "ConnectionErrorComposer",
         "className": "ConnectionErrorComposer",
@@ -26160,7 +26160,7 @@
       {"direction":"server_to_client","header":2936,"sourceClass":"class_2537","sourcePath":"decompiled/scripts/package_64/class_2537.as","sourceSha256":"e8d32a6c4219f979680d10a633027c6902d5c1a99fe4f401b7e1695f903cca62","mapLine":1573,"reportedName":"FurnitureAliases","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["FurnitureAliasesComposer"],"typescript":["FURNITURE_ALIASES"]}},
       {"direction":"server_to_client","header":2948,"sourceClass":"class_3795","sourcePath":"decompiled/scripts/package_192/class_3795.as","sourceSha256":"85914732b0fc288e836bc2dd39e932e7ff285da82ee371d569efd89b52d70120","mapLine":1574,"reportedName":"WiredTradeCancelled","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestTradeCancelledComposer"],"typescript":["WIRED_TRADE_CANCELLED"]}},
       {"direction":"server_to_client","header":2951,"sourceClass":"class_1869","sourcePath":"decompiled/scripts/package_20/class_1869.as","sourceSha256":"17f44887aaff6016b0655a7a944463554f29eb052833826b46b8e2ca7a1fa648","mapLine":1575,"reportedName":"MessengerError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["MessengerErrorComposer"],"typescript":["MESSENGER_MESSAGE_ERROR","MESSENGER_REQUEST_ERROR"]}},
-      {"direction":"server_to_client","header":2960,"sourceClass":"class_3726","sourcePath":"decompiled/scripts/package_222/class_3726.as","sourceSha256":"ed738f93703b9867a58327dde8139a530cb5e3bd66c162b8516acfe59fd3a57f","mapLine":1576,"reportedName":"ErrorReport","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":[]}},
+      {"direction":"server_to_client","header":2960,"sourceClass":"class_3726","sourcePath":"decompiled/scripts/package_222/class_3726.as","sourceSha256":"ed738f93703b9867a58327dde8139a530cb5e3bd66c162b8516acfe59fd3a57f","mapLine":1576,"reportedName":"ErrorReport","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["CONNECTION_ERROR"]}},
       {"direction":"server_to_client","header":2970,"sourceClass":"class_3535","sourcePath":"decompiled/scripts/package_1/class_3535.as","sourceSha256":"f9389604fad5631e9635528090966f47efb3227286a39e8ea79cf238438c7890","mapLine":1577,"reportedName":"InitDiffieHandshake","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["InitDiffieHandshakeComposer"],"typescript":["HANDSHAKE_INIT_DIFFIE"]}},
       {"direction":"server_to_client","header":2973,"sourceClass":"class_3767","sourcePath":"decompiled/scripts/package_21/class_3767.as","sourceSha256":"0602b5c6c5c2f55bf0d82c40c2fc187b149b4381c548523c9b15ddbbb4e678e3","mapLine":1578,"reportedName":"RoomAdError","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":[],"typescript":["ROOM_AD_ERROR"]}},
       {"direction":"server_to_client","header":2991,"sourceClass":"class_3263","sourcePath":"decompiled/scripts/package_112/class_3263.as","sourceSha256":"a5abca30eb4df150397690e14758e72023636cfb9b357b6d44f60364e554a86c","mapLine":1580,"reportedName":"ItemsChestContentsUpdated","namingSource":"Sulek","canonicalName":null,"canonicalStatus":"unknown","localBindings":{"csharp":["WiredChestFurniUpdateComposer"],"typescript":["CHEST_FURNI_UPDATE"]}},
