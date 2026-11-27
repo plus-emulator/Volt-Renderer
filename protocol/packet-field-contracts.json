@@ -18052,6 +18052,22 @@
   "unpaired": [
     {
       "direction": "client_to_server",
+      "side": "typescript",
+      "header": 6298,
+      "symbol": "ROOM_WALK_PREVIEW",
+      "path": "packages/communication/src/messages/outgoing/room/unit/RoomWalkPreviewComposer.ts",
+      "reason": "PlusEMU WalkPreviewEvent reads request ID, room ID, x and y as integers. This extension has no Java counterpart."
+    },
+    {
+      "direction": "server_to_client",
+      "side": "typescript",
+      "header": 5121,
+      "symbol": "ROOM_WALK_PREVIEW",
+      "path": "packages/communication/src/messages/parser/room/unit/RoomWalkPreviewParser.ts",
+      "reason": "PlusEMU WalkPreviewComposer sends seven integers for request ID, room ID, target x/y, origin x/y and route length, followed by integer tile pairs. A length of -1 means unavailable. This extension has no Java counterpart."
+    },
+    {
+      "direction": "client_to_server",
       "side": "java",
       "header": 1676,
       "symbol": "RequestFriendsEvent",
