@@ -573,18 +573,16 @@ export class RoomPreviewer
 
             if(displayObject && (this._backgroundColor !== null))
             {
-                let backgroundSprite = this._backgroundSprite;
-
-                if(!backgroundSprite)
+                if(!this._backgroundSprite)
                 {
-                    backgroundSprite = new Sprite(Texture.WHITE);
+                    this._backgroundSprite = new Sprite(Texture.WHITE);
 
-                    displayObject.addChildAt(backgroundSprite, 0);
+                    displayObject.addChildAt(this._backgroundSprite, 0);
                 }
 
-                backgroundSprite.width = width;
-                backgroundSprite.height = height;
-                backgroundSprite.tint = this._backgroundColor;
+                this._backgroundSprite.width = width;
+                this._backgroundSprite.height = height;
+                this._backgroundSprite.tint = this._backgroundColor;
             }
 
             this._roomEngine.setRoomInstanceRenderingCanvasMask(this._previewRoomId, RoomPreviewer.PREVIEW_CANVAS_ID, true);

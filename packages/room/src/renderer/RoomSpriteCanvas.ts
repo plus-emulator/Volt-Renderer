@@ -221,6 +221,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
         this._height = height;
     }
 
+    // The bounds mask must not replace the room boundary mask: a Graphics that stops being a mask renders as a white shape.
     public setMask(flag: boolean): void
     {
         if(flag && !this._usesMask)
@@ -231,7 +232,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             {
                 this._master.addChild(this._mask);
 
-                this._display.mask = this._mask;
+                if(!this._boundaryMask || this._display.mask !== this._boundaryMask) this._display.mask = this._mask;
             }
         }
 
@@ -243,7 +244,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
             {
                 this._master.removeChild(this._mask);
 
-                this._display.mask = null;
+                if(this._display.mask === this._mask) this._display.mask = null;
             }
         }
     }
@@ -352,7 +353,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
         if(pts.length < 3)
         {
-            if(this._display.mask === this._boundaryMask) this._display.mask = this._mask ?? null;
+            if(this._display.mask === this._boundaryMask) this._display.mask = (this._usesMask ? this._mask : null);
 
             return;
         }
@@ -1138,12 +1139,14 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
 
         this.render(-1, true);
 
+        const mask = this._display.mask;
+
         this._display.mask = null;
 
         const bounds = this._display.getBounds();
         const texture = TextureUtils.createAndWriteRenderTexture(this._display.width, this._display.height, this._display, new Matrix(1, 0, 0, 1, -(bounds.x), -(bounds.y)));
 
-        this._display.mask = this._mask;
+        this._display.mask = mask;
 
         this._noSpriteVisibilityChecking = false;
 
